@@ -11,7 +11,7 @@
 </head>
 
 <body>
-  <div class="login-container">
+  <div class="login-container" >
     <div class="login-header text-center">
       <i class="fas fa-user-circle fa-3x mb-3"></i>
       <h2>CheckMyStars</h2>
@@ -27,14 +27,14 @@
         <i class="fas fa-check-circle"></i> Connexion réussie !
       </div>
 
-      <form id="loginForm">
+      <form action="/connect/connexion.php" method="post" id="loginForm">
         <div class="form-floating mb-3">
-          <input type="email" class="form-control" id="email" placeholder="email" required>
+          <input type="email" class="form-control" id="email" name="email" placeholder="email" required>
           <label for="email"><i class="fas fa-envelope me-2"></i>Adresse email</label>
         </div>
 
         <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="password" placeholder="Mot de passe" required>
+          <input type="password" class="form-control" id="password" name="mdp" placeholder="Mot de passe" required>
           <label for="password"><i class="fas fa-lock me-2"></i>Mot de passe</label>
         </div>
 
