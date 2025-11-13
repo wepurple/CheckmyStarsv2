@@ -28,7 +28,12 @@
           <i class="fas fa-check-circle"></i> Connexion réussie !
         </div>
 
-        <form id="loginForm">
+
+
+
+
+
+        <form action="connect/connexion.php" method="POST" id="loginForm">
           <div class="form-floating mb-3">
             <input
               type="email"
@@ -36,9 +41,10 @@
               id="email"
               placeholder="name@example.com"
               required />
-            <label for="email"
-              ><i class="fas fa-envelope me-2"></i>Adresse email</label
-            >
+            <label for="email">
+                <i class="fas fa-envelope me-2"></i>
+                Adresse email
+            </label>
           </div>
 
           <div class="form-floating mb-3">
@@ -65,6 +71,11 @@
             <i class="fas fa-sign-in-alt me-2"></i>Se connecter
           </button>
         </form>
+
+
+
+
+
 
         <div class="divider">
           <span>OU</span>
