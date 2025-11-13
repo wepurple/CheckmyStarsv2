@@ -1,7 +1,7 @@
 <link href="../bootstrap 5.3/css/bootstrap.min.css" rel="stylesheet">
 <script src="../bootstrap 5.3/js/bootstrap.min.js"></script>
 
-    <nav class=" sticky-top navbar navbar-expand-lg bg-black nav-underline" data-bs-theme="dark">
+    <nav class=" sticky-top navbar navbar-expand-lg bg-primary nav-underline" data-bs-theme="dark">
 
         <div class="container-fluid">
 
