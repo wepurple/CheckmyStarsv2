@@ -2,9 +2,9 @@
 // Connection au serveur
 try { //try
 
-    $dns = 'mariadb:host=localhost;dbname=checkmystars'; //indication sur le SGBDR utilisé et le nom de la base de données qu'on souhaite utilisé
+    $dns = 'mysql:host=localhost;dbname=checkmystars'; //indication sur le SGBDR utilisé et le nom de la base de données qu'on souhaite utilisé
     $utilisateur = 'root'; //identifiant
-    $motDePasse = ''; //mot de passe
+    $motDePasse = 'password'; //mot de passe
 
     $connection = new PDO( $dns, $utilisateur, $motDePasse ); // connnexion à la base de données
     $connection->exec("USE checkmystars");
