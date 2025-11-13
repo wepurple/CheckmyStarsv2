@@ -48,9 +48,10 @@
               id="password"
               placeholder="Mot de passe"
               required />
-            <label for="password"
-              ><i class="fas fa-lock me-2"></i>Mot de passe</label
-            >
+            <label for="password">
+                <i class="fas fa-lock me-2"></i>
+                Mot de passe
+            </label>
           </div>
 
           <div class="form-check mb-3">
