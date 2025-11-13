@@ -1,0 +1,2 @@
+utilisateur : admin WAMP
+mdp : 
