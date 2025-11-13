@@ -11,7 +11,7 @@ try { //try
     $connection->query("SET NAMES utf8"); // utilisation de l'encodage utf8 pour les accents et autres
     
 } catch ( Exception $e ) { // capture de l'erreur si il y en a une
-    echo "Connection à MariaDB impossible : ", $e->getMessage(); // affichage de l'erreur survenue lors de l'échec à la connexion
+    echo "Connexion à MariaDB impossible : ", $e->getMessage(); // affichage de l'erreur survenue lors de l'échec à la connexion
 die(); // arrêt du code
 
 }
