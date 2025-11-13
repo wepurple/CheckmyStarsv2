@@ -9,11 +9,13 @@ if(!empty($_POST['email'] && !empty($_POST['mdp']))){ //à vérifier dans index.
 
     if(!verif_connexion($email, $mdp)){
             echo "<script>
-                    alert(\"Erreur de connexion, le email ou le mot de passe est incorrect\");
-                    window.location.href = '../formConnAdmin.php';
+                    alert(\"Erreur de connexion\");
                 </script>";
     }else{ 
-        $_SESSION['admin'] = $email;
+        //$_SESSION['admin'] = $email;
+        echo "<script>
+                    alert(\"Connexion réussie\");
+                </script>";
     }
     
 }
