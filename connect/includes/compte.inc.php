@@ -1,7 +1,9 @@
 <?php
 
+require('../../includes/mariadb.php');
+
 function verif_connexion($email, $mdp){
-        $stmt = get_db()->prepare('SELECT Email, MotPass FROM admin WHERE Email = :email');
+        $stmt = $connexion->prepare('SELECT Email, MotPass FROM admin WHERE Email = :email');
         $stmt->execute(['email' => $email]);
         $trouver = $stmt->fetch(PDO::FETCH_ASSOC); 
 
