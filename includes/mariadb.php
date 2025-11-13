@@ -2,7 +2,7 @@
 // Connection au serveur
 try { //try
 
-    $dns = 'mysql:host=localhost;dbname=checkmystars'; //indication sur le SGBDR utilisé et le nom de la base de données qu'on souhaite utilisé
+    $dns = 'mysql:host=localhost;port=3307;dbname=checkmystars'; //indication sur le SGBDR utilisé et le nom de la base de données qu'on souhaite utilisé
     $utilisateur = 'root'; //identifiant
     $motDePasse = 'password'; //mot de passe
 
