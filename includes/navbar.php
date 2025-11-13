@@ -19,16 +19,16 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                     <li class="nav-item">
-                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/blanche/index.php"){echo(' active" aria-current="page');} ?>" href="index.php">Accueil</a>
+                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/CheckMyStars/index.php"){echo(' active" aria-current="page');} ?>" href="index.php">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/blanche/formation.php"){echo(' active" aria-current="page');} ?>" href="formation.php">Formation</a>
+                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/CheckMyStars/formation.php"){echo(' active" aria-current="page');} ?>" href="formation.php">Formation</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/blanche/gallerie.php"){echo(' active" aria-current="page');} ?>" href="gallerie.php">Gallerie</a>
+                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/CheckMyStars/gallerie.php"){echo(' active" aria-current="page');} ?>" href="gallerie.php">Gallerie</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/blanche/contact.php"){echo(' active" aria-current="page');} ?>" href="contact.php">Me contacter</a>
+                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/CheckMyStars/contact.php"){echo(' active" aria-current="page');} ?>" href="contact.php">Me contacter</a>
                     </li>
 
                 </ul>
@@ -36,7 +36,7 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
                     <li class="nav-item">
-                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/blanche/login.php"){echo(' active" aria-current="page');} ?>" href="login.php">Se connecter</a>
+                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/CheckMyStars/login.php"){echo(' active" aria-current="page');} ?>" href="login.php">Déconnexion</a>
                     </li>
 
                 </ul>
