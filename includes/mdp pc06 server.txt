@@ -1,2 +1,2 @@
-utilisateur : admin WAMP
-mdp : 
+utilisateur : adminWAMP
+mdp : ep9ATgYuvZb%
