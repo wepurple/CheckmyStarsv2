@@ -8,12 +8,12 @@ if(!empty($_POST['email'] && !empty($_POST['mdp']))){ //à vérifier dans index.
     $mdp = $_POST['mdp'];
 
     if(!verif_connexion($email, $mdp)){
-            echo "<script>
+        echo    "<script>
                     alert(\"Erreur de connexion\");
                 </script>";
     }else{ 
         //$_SESSION['admin'] = $email;
-        echo "<script>
+        echo    "<script>
                     alert(\"Connexion réussie\");
                 </script>";
     }

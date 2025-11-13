@@ -11,10 +11,4 @@ function verif_connexion($email, $mdp){
             return false;
         }
     }
-
-
-
-
-
-
 ?>
