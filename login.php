@@ -6,7 +6,7 @@ $user = 'root';            // à adapter
 $pass = '';                // à adapter
 $charset = 'utf8mb4';
 
-$dsn = "mysql:host=$host;dbname=$db;charset=$charset"; //a voir ou mettre la base de donnée sql
+$dsn = "MariaDB:host=$host;dbname=$db;charset=$charset"; //à voir où mettre la base de donnée sql
 
 $options = [
    PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION, // exceptions
