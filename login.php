@@ -1,6 +1,6 @@
 <?php
 // config.php
-$host = 'localhost';
+$host = '172.20.33.9';
 $db   = 'secure_portal';   // à adapter
 $user = 'root';            // à adapter
 $pass = '';                // à adapter
@@ -22,4 +22,3 @@ catch (\PDOException $e)
     {
     die('Erreur : ' . $e->getMessage());
     }
-
