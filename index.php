@@ -45,7 +45,7 @@
 
       <div class="links text-center mt-3">
         <a href="#" onclick="forgotPassword(); return false;">Mot de passe oublié ?</a><br>
-        <a href="#" onclick="createAccount(); return false;">Créer un compte</a>
+        <a href="register.php" onclick="createAccount(); return false;">Créer un compte</a>
       </div>
 
     </div>
