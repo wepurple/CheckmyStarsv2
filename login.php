@@ -7,7 +7,6 @@
 
     $sql=("select * from personne where login = :login and MotPasse = :password");
     $requete = new Database();
-    $requete.getConnection();
 
     $requete.getConnection()->prepare($sql);
     $requete.getConnection()->bindValue(':login', $login);
