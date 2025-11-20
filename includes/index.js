@@ -4,27 +4,28 @@ function login() {
 
     //si les champs sont remplis et corrects, pour ne pas envoyer de requetes inutiles au serv
     checkMail = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/.test(email)
-    if (checkMail && password!=""){
-        let post = new FormData()
-        post.append("email", email)
-        post.append("password", password)
+    if (checkMail){
+        document.getElementById("email").classList.remove("is-invalid")
+        if(password!=""){
+            
+            let post = new FormData()
+            post.append("email", email)
+            post.append("password", password)
 
-        //console.log(email);
+            //console.log(email);
 
-        const request = new XMLHttpRequest()
-        request.open("POST", `login.php`, true)
-        request.send(post)
-        request.onreadystatechange = function(){
-            if (request.readyState === 4 && request.status === 200){
-                console.log(JSON.parse(request.responseText))
+            const request = new XMLHttpRequest()
+            request.open("POST", `login.php`, true)
+            request.send(post)
+            request.onreadystatechange = function(){
+                if (request.readyState === 4 && request.status === 200){
+                    console.log(JSON.parse(request.responseText))
+                }
             }
         }
-    }
-    else {
+    } else {
         if(!checkMail){
             document.getElementById("email").classList.add("is-invalid")
-        } else {
-            document.getElementById("email").classList.remove("is-invalid")
         }
     }
 }
