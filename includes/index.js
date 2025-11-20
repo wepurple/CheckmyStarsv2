@@ -22,7 +22,7 @@ function login() {
     }
     else {
         if(!checkMail){
-            document.getElementById("email").classList.add="is-invalid"
+            document.getElementById("email").classList.add("is-invalid")
         }
     }
 }
