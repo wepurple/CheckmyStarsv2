@@ -8,7 +8,7 @@ function login() {
     if (checkMail){
         document.getElementById("email").classList.remove("is-invalid")
         if(password!=""){
-            
+            document.getElementById("password").classList.remove("is-invalid")
             let post = new FormData()
             post.append("email", email)
             post.append("password", password)
