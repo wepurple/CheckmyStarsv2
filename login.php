@@ -8,7 +8,7 @@
     $sql="select * from personne where login = :login and MotPasse = :password";
     $db = new Database();
     $requete = $db->getConnection();
-    var_dump(gettype($requete));
+    $requete->checkType();
 
     $requete->prepare($sql);
     //$requete->bindValue(':login', $login, PDO::PARAM_STR);
