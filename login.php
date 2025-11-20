@@ -7,8 +7,8 @@
     $password = $_POST['password'];
 
     $sql=("select * from personne where login = :login and MotPasse = :password");
-    $connexion->bindParam($login, ':login');
-    $connexion->bindParam($password, ':password');
+    $connexion->bindValue($login, ':login');
+    $connexion->bindValue($password, ':password');
     $connexion->prepare();
 
 
