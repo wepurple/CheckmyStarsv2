@@ -1,5 +1,3 @@
-import * as jsp from "bootstrap 5.5/js/bootstrap.js"
-
 function login() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -24,11 +22,7 @@ function login() {
                     console.log(result)
 
                     if (!result){//si la co échoue
-                        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-                        var toastList = toastElList.map(function(toastEl) {
-                            return new bootstrap.Toast(toastEl)
-                        })
-                        toastList.forEach(toast => toast.show())
+                        
                     }
                 }
             }
