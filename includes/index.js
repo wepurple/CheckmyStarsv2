@@ -2,8 +2,9 @@ function login() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
 
-    //si les champs sont remplis et corrects, pour ne pas envoyer de requetes inutiles au serv
+    //regex pour le mail
     checkMail = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/.test(email)
+
     if (checkMail){
         document.getElementById("email").classList.remove("is-invalid")
         if(password!=""){
@@ -22,6 +23,8 @@ function login() {
                     console.log(JSON.parse(request.responseText))
                 }
             }
+        } else {
+            document.getElementById("password").classList.add("is-invalid")
         }
     } else {
         if(!checkMail){
