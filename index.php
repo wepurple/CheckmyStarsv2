@@ -25,10 +25,6 @@
         <span id="errorMessage"></span>
       </div>
 
-      <div class="alert alert-success d-none" id="successAlert">
-        <i class="fas fa-check-circle"></i> Connexion réussie !
-      </div>
-
       <form action="/connect/connexion.php" method="post" id="loginForm">
         <div class="form-floating mb-3">
           <input type="email" class="form-control" id="email" name="email" placeholder="email" required>
@@ -41,7 +37,8 @@
         </div>
 
         <button type="submit" class="btn btn-primary w-100">
-          <i class="fas fa-sign-in-alt me-2"></i>Se connecter
+          <i class="fas fa-sign-in-alt me-2"></i>
+          Se connecter
         </button>
       </form>
 

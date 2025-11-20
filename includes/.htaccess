@@ -1,4 +1,4 @@
 # Empêche tout accès via un navigateur aux fichiers de ce dossier comportant les extensions ci-dessous
-<FilesMatch "\.(php|png|xml|js|inc|env|css|bat|txt|json)$">
+<FilesMatch "\.(php|png|xml|inc|env|css|bat|txt|json)$">
     Require all denied
 </FilesMatch>
