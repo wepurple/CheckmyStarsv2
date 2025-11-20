@@ -1,16 +1,16 @@
 <?php
 
     require("includes/mariadb.php");
-    var_dump($_POST);
 
     $login = $_POST['email'];
     $password = $_POST['password'];
 
     $sql=("select * from personne where login = :login and MotPasse = :password");
-    $connexion->bindParam($login, ':login');
-    $connexion->bindParam($password, ':password');
-    $connexion->prepare();
+    $requete = $connexion->prepare($sql);
+    $requete->bindValue(':login', $login);
+    $requete->bindValue(':password', $password);
+    $requete->execute();
+    $result = $requete->fetch(PDO::FETCH_ASSOC);
 
-
-    echo(json_encode(["test"]));
+    echo(json_encode(array=("test"=>"a", "test2"=>"b")));
 ?>
