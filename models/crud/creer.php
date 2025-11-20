@@ -46,3 +46,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     http_response_code(405);
     echo json_encode(array("message" => "La methode n'est pas autorisé."));
 }
+
+/**
+* {
+*   "Nom" : "Kylian",
+*  "Prenom" : "Terence",
+* "Civilite" : "Monsieur",
+*    "Telephone" : "0791919191",
+*    "*Email" : "angel.dupont@example.com",
+*    "Adresse" : "14 rue du blazlal",
+*    "Complement" : "12",
+*    "CodePostal" : "45000",
+*    "Ville" : "Orléans",
+*    "Pays": "France",
+*    "Societe" : "TerenceInc",
+*    "Role" : "Client",
+*    "Login" : "angel",
+*    "MotPasse" : "angel"
+*}
+ */
