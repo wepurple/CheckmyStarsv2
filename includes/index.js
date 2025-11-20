@@ -6,7 +6,7 @@ function login() {
 
     const request = new XMLHttpRequest()
     request.open("POST", "login.php", true)
-    request.send(email, password)
+    request.send("email=email&password=password")
     request.onreadystatechange = function(){
         if (request.readyState === 4 && request.status === 200){
             console.log(JSON.parse(request.responseText))
