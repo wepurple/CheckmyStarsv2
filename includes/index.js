@@ -1,6 +1,7 @@
 function login() {
     //si les champs sont remplis et corrects, pour ne pas envoyer de requetes inutiles au serv
     checkMail = / /.test(document.getElementById("email"))
+    checkMail = true
     if (checkMail && document.getElementById("password")!=""){
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
