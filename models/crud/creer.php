@@ -40,7 +40,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         }
     } else {
         http_response_code(400);
-        echo json_encode(array("message" => "La methode n'est pas autorisé."));
+        echo json_encode(array("message" => "errorBozo."));
     }
 } else {
     http_response_code(405);
