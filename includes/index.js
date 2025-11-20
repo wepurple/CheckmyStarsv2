@@ -4,7 +4,6 @@ function login() {
 
     //si les champs sont remplis et corrects, pour ne pas envoyer de requetes inutiles au serv
     checkMail = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/.test(email)
-    console.log(checkMail)
     if (checkMail && password!=""){
         let post = new FormData()
         post.append("email", email)
@@ -23,7 +22,7 @@ function login() {
     }
     else {
         if(!checkMail){
-            document.getElementById("email").class="form-control is-invalid"
+            document.getElementById("email").classList.add="is-invalid"
         }
     }
 }
