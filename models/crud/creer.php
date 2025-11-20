@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $user->Societe = $data->Societe;
         $user->Role = $data->Role;
         $user->Login = $data->Login;
-        $user->MotDePasse = $data->MotDePasse;
+        $user->MotPasse = $data->MotPasse;
 
         if($user->creer()){
             http_response_code(201);

@@ -17,7 +17,7 @@ class User {
     public $Societe;
     public $Role;
     public $Login;
-    public $MotDePasse;
+    public $MotPasse;
 
     /**
      * Constructeur avec $db pour la connexion à la base de données
@@ -33,7 +33,7 @@ class User {
         * @return void
     */
     public function creer(){
-        $sql = "INSERT INTO " . $this->table . " SET Nom=:Nom, Prenom=:Prenom, Civilite=:Civilite, Telephone=:Telephone, Email=:Email, Adresse=:Adresse, Complement=:Complement, CodePostal=:CodePostal, Ville=:Ville, Pays=:Pays, Societe=:Societe, Role=:Role, Login=:Login, MotDePasse=:MotDePasse";
+        $sql = "INSERT INTO " . $this->table . " SET Nom=:Nom, Prenom=:Prenom, Civilite=:Civilite, Telephone=:Telephone, Email=:Email, Adresse=:Adresse, Complement=:Complement, CodePostal=:CodePostal, Ville=:Ville, Pays=:Pays, Societe=:Societe, Role=:Role, Login=:Login, MotPasse=:MotPasse";
         $query = $this->connexion->prepare($sql);
 
         $this->Nom=htmlspecialchars(strip_tags($this->Nom));
@@ -49,7 +49,7 @@ class User {
         $this->Societe=htmlspecialchars(strip_tags($this->Societe));
         $this->Role=htmlspecialchars(strip_tags($this->Role));
         $this->Login=htmlspecialchars(strip_tags($this->Login));
-        $this->MotDePasse=htmlspecialchars(strip_tags($this->MotDePasse));
+        $this->MotPasse=htmlspecialchars(strip_tags($this->MotPasse));
 
         $query->bindParam(":Nom", $this->Nom);
         $query->bindParam(":Prenom", $this->Prenom);
@@ -64,7 +64,7 @@ class User {
         $query->bindParam(":Societe", $this->Societe);
         $query->bindParam(":Role", $this->Role);
         $query->bindParam(":Login", $this->Login);
-        $query->bindParam(":MotDePasse", $this->MotDePasse);
+        $query->bindParam(":MotPasse", $this->MotPasse);
 
         if($query->execute()){
             return true;
