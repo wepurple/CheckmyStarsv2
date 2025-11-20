@@ -25,7 +25,7 @@
         <span id="errorMessage"></span>
       </div>
 
-      <form action="/connect/connexion.php" method="post" id="loginForm">
+      <form action="#" method="post" id="loginForm">
         <div class="form-floating mb-3">
             <input type="email" class="form-control" id="email" name="email" placeholder="email" value="jean.dupont@email.com" required>
             <label for="email">
