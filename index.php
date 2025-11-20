@@ -25,9 +25,9 @@
         <span id="errorMessage"></span>
       </div>
 
-      <form method="post" id="loginForm">
+      <form action="/connect/connexion.php" method="post" id="loginForm">
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="email" name="email" placeholder="email" value="jean.dupont@email.com" required>
+            <input type="email" class="form-control" id="email" name="email" placeholder="email" required>
             <label for="email">
                 <i class="fas fa-envelope me-2"></i>
                 Adresse email
@@ -35,7 +35,7 @@
         </div>
 
         <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="password" name="mdp" placeholder="Mot de passe" value="mdp123" required>
+          <input type="password" class="form-control" id="password" name="mdp" placeholder="Mot de passe" required>
           <label for="password"><i class="fas fa-lock me-2"></i>Mot de passe</label>
         </div>
 
