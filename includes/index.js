@@ -22,7 +22,11 @@ function login() {
                     console.log(result)
 
                     if (!result){//si la co échoue
-                        document.getElementById('livetoast').show
+                        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+                        var toastList = toastElList.map(function(toastEl) {
+                            return new bootstrap.Toast(toastEl)
+                        })
+                        toastList.forEach(toast => toast.show())
                     }
                 }
             }
