@@ -1,5 +1,7 @@
 function login() {
-    if (document.getElementById("email") && document.getElementById("password")!=""){ //si les champs sont remplis et corrects, pour ne pas envoyer de requetes inutiles au serv
+    //si les champs sont remplis et corrects, pour ne pas envoyer de requetes inutiles au serv
+    checkMail = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/.test(document.getElementById("email"))
+    if (checkMail && document.getElementById("password")!=""){
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
         let post = new FormData()
