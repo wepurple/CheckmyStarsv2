@@ -1,6 +1,7 @@
 <?php
 
     require("includes/mariadb.php");
+    var_dump($_REQUEST);
 
     $login = $_REQUEST['email'];
     $password = $_REQUEST['password'];
