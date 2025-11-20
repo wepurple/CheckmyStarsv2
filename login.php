@@ -2,8 +2,8 @@
 
     include("includes/mariadb.php");
 
-    $login = trim(htmlspecialchars($_POST['email']));
-    $password = trim(htmlspecialchars($_POST['password']));
+    $login = trim(strip_tags($_POST['email']));
+    $password = trim(strip_tags($_POST['password']));
 
     $sql="select * from personne where email = :login and MotPasse = :password";
     $db = new Database();

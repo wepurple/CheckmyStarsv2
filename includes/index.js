@@ -1,18 +1,20 @@
 function login() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
-    let post = new FormData()
-    post.append("email", email)
-    post.append("password", password)
+    if (document.getElementById("email") && document.getElementById("password")!=""){ //si les champs sont remplis et corrects, pour ne pas envoyer de requetes inutiles au serv
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+        let post = new FormData()
+        post.append("email", email)
+        post.append("password", password)
 
-    //console.log(email);
+        //console.log(email);
 
-    const request = new XMLHttpRequest()
-    request.open("POST", `login.php`, true)
-    request.send(post)
-    request.onreadystatechange = function(){
-        if (request.readyState === 4 && request.status === 200){
-            console.log(JSON.parse(request.responseText))
+        const request = new XMLHttpRequest()
+        request.open("POST", `login.php`, true)
+        request.send(post)
+        request.onreadystatechange = function(){
+            if (request.readyState === 4 && request.status === 200){
+                console.log(JSON.parse(request.responseText))
+            }
         }
     }
 }
