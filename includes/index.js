@@ -1,7 +1,8 @@
 function login() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    post = [email, password];
+    let post = new FormData()
+    post.append(email, password)
 
     //console.log(email);
 
