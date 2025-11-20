@@ -9,11 +9,11 @@
     $db = new Database();
 
     $requete = $db->getConnection()->prepare($sql);
-    $requete->bindValue(':login', $login, PDO::PARAM_STR);
-    $requete->bindValue(':password', $password, PDO::PARAM_STR);
+    $requete->bindValue(':login', $login);
+    $requete->bindValue(':password', $password);
     $requete->execute();
 
-    $result = $requete->fetchAll(PDO::FETCH_ASSOC);
+    $result = $requete->fetch(PDO::FETCH_ASSOC);
     var_dump($result);
 
     echo(json_encode(array("test"=>"a", "test2"=>"b")));
