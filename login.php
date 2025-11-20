@@ -7,10 +7,11 @@
     $password = $_POST['password'];
 
     $sql=("select * from personne where login = :login and MotPasse = :password");
-    $connexion->bindValue($login, ':login');
-    $connexion->bindValue($password, ':password');
-    $connexion->prepare();
-
+    $requete = $connexion->prepare($sql);
+    $requete->bindValue(':login', $login);
+    $requete->bindValue(':password', $password);
+    $requete->execute();
+    $result = $requete->fetch(PDO::FETCH_ASSOC);
 
     echo(json_encode(["test"]));
 ?>
