@@ -12,5 +12,5 @@
     $requete->execute();
     $result = $requete->fetch(PDO::FETCH_ASSOC);
 
-    echo(json_encode(array=("test"=>"a", "test2"=>"b")));
+    echo(json_encode(array("test"=>"a", "test2"=>"b")));
 ?>
