@@ -1,6 +1,6 @@
 function login() {
     //si les champs sont remplis et corrects, pour ne pas envoyer de requetes inutiles au serv
-    checkMail = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/.test(document.getElementById("email"))
+    checkMail = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/.test(document.getElementById("email").value)
     console.log(checkMail)
     if (checkMail && document.getElementById("password")!=""){
         const email = document.getElementById("email").value;
