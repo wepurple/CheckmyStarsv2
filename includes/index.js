@@ -23,6 +23,8 @@ function login() {
     else {
         if(!checkMail){
             document.getElementById("email").classList.add("is-invalid")
+        } else {
+            document.getElementById("email").classList.remove("is-invalid")
         }
     }
 }
