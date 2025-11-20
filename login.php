@@ -14,7 +14,6 @@
     $requete->execute();
 
     $result = $requete->fetch(PDO::FETCH_ASSOC);
-    var_dump($result);
 
-    echo(json_encode(array("test"=>"a", "test2"=>"b")));
+    echo(json_encode($result));
 ?>
