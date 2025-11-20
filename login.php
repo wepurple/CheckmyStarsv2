@@ -10,8 +10,8 @@
     $requete = $db->getConnection();
 
     $requete->prepare($sql);
-    $requete->bindValue(':login', $login);
-    $requete->bindValue(':password', $password);
+    $requete->bindValue(':login', $login, PDO::PARAM_STR);
+    $requete->bindValue(':password', $password, PDO::PARAM_STR);
     $requete->execute();
     $result = $requete->fetch(PDO::FETCH_ASSOC);
 
