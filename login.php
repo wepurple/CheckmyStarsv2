@@ -6,7 +6,8 @@
     $password = $_POST['password'];
 
     $sql=("select * from personne where login = :login and MotPasse = :password");
-    $requete = new Database();
+    $db = new Database();
+    $requete = $db.getConnection();
 
     $requete.getConnection()->prepare($sql);
     $requete.getConnection()->bindValue(':login', $login);
