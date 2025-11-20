@@ -7,8 +7,8 @@
     $password = $_REQUEST['password'];
 
     $sql=("select * from personne where login = :login and MotPasse = :password");
-    $connexion->bindParam(':login', $login);
-    $connexion->bindParam(':password', $password);
+    $connexion->bindParam($login, ':login');
+    $connexion->bindParam($password, ':password');
     $connexion->prepare();
 
 
