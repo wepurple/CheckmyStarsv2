@@ -3,13 +3,13 @@
     require("includes/mariadb.php");
     var_dump($_REQUEST);
 
-    $login = $_REQUEST['email'];
-    $password = $_REQUEST['password'];
+    $login = $_POST['email'];
+    $password = $_POST['password'];
 
     $sql=("select * from personne where login = :login and MotPasse = :password");
-    $connection->bindParam(':login', $login);
-    $connection->bindParam(':password', $password);
-    $connection->prepare();
+    $connexion->bindParam($login, ':login');
+    $connexion->bindParam($password, ':password');
+    $connexion->prepare();
 
 
     echo(json_encode(["test"]));
