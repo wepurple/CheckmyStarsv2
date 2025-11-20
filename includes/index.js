@@ -1,21 +1,36 @@
 function login() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    let post = new FormData()
-    post.append("email", email)
-    post.append("password", password)
 
-    //console.log(email);
+    //si les champs sont remplis et corrects, pour ne pas envoyer de requetes inutiles au serv
+    checkMail = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/.test(email)
+    if (checkMail){
+        document.getElementById("email").classList.remove("is-invalid")
+        if(password!=""){
+            
+            let post = new FormData()
+            post.append("email", email)
+            post.append("password", password)
 
-    const request = new XMLHttpRequest()
-    request.open("POST", `login.php`, true)
-    request.send(post)
-    request.onreadystatechange = function(){
-        if (request.readyState === 4 && request.status === 200){
-            console.log(JSON.parse(request.responseText))
+            //console.log(email);
+
+            const request = new XMLHttpRequest()
+            request.open("POST", `login.php`, true)
+            request.send(post)
+            request.onreadystatechange = function(){
+                if (request.readyState === 4 && request.status === 200){
+                    console.log(JSON.parse(request.responseText))
+                }
+            }
+        }
+    } else {
+        if(!checkMail){
+            document.getElementById("email").classList.add("is-invalid")
         }
     }
 }
+
+//jsp cque c'est mais jle laisse au cas où (mort à l'IA btw)
 
 //  <script>
 //       const loginForm = document.getElementById("loginForm");
