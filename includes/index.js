@@ -13,14 +13,17 @@ function login() {
             post.append("email", email)
             post.append("password", password)
 
-            //console.log(email);
-
             const request = new XMLHttpRequest()
             request.open("POST", `login.php`, true)
             request.send(post)
             request.onreadystatechange = function(){
                 if (request.readyState === 4 && request.status === 200){
-                    console.log(JSON.parse(request.responseText))
+                    result = JSON.parse(request.responseText)
+                    console.log(result)
+
+                    if (!result){//si la co échoue
+
+                    }
                 }
             }
         } else {
