@@ -39,7 +39,7 @@
           <label for="password"><i class="fas fa-lock me-2"></i>Mot de passe</label>
         </div>
 
-            <button onclick="login()" class="btn btn-primary w-100">
+            <button type="button" onclick="login()" class="btn btn-primary w-100">
                 <i class="fas fa-sign-in-alt me-2"></i>
                 Se connecter
             </button>
