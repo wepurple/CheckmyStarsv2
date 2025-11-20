@@ -13,7 +13,7 @@
     $requete->bindValue(':password', $password, PDO::PARAM_STR);
     $requete->execute();
 
-    $result = $requete->fetch(PDO::FETCH_ASSOC);
+    $result = $requete->fetchAll(PDO::FETCH_ASSOC);
     var_dump($result);
 
     echo(json_encode(array("test"=>"a", "test2"=>"b")));
