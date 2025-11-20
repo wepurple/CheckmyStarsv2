@@ -17,6 +17,8 @@ function login() {
     }
 }
 
+//jsp cque c'est mais jle laisse au cas où (mort à l'IA btw)
+
 //  <script>
 //       const loginForm = document.getElementById("loginForm");
 //       const errorAlert = document.getElementById("errorAlert");
