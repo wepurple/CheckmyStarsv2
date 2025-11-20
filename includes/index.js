@@ -22,6 +22,9 @@ function login() {
         }
     }
     else {
+        if(!checkMail){
+            document.getElementById("email").class="form-control is-invalid"
+        }
     }
 }
 
