@@ -1,6 +1,6 @@
 function login() {
     //si les champs sont remplis et corrects, pour ne pas envoyer de requetes inutiles au serv
-    checkMail = /^[a-zA-Z0–9._%+-]+@[a-zA-Z0–9.-]+\.[a-zA-Z]{2,}$/.test(document.getElementById("email"))
+    checkMail = / /.test(document.getElementById("email"))
     if (checkMail && document.getElementById("password")!=""){
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
