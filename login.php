@@ -1,13 +1,13 @@
 <?php
 
-    require("includes/mariadb.php");
+    include("includes/mariadb.php");
 
     $login = $_POST['email'];
     $password = $_POST['password'];
 
     $sql=("select * from personne where login = :login and MotPasse = :password");
     $db = new Database();
-    $requete = $db.getConnection();
+    $requete = $db->getConnection();
 
     $requete.getConnection()->prepare($sql);
     $requete.getConnection()->bindValue(':login', $login);
