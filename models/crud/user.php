@@ -14,7 +14,6 @@ class User {
     public $CodePostal;
     public $Ville;
     public $Pays;
-    public $DateEnregistrement;
     public $Societe;
     public $Role;
     public $Login;
@@ -34,7 +33,7 @@ class User {
         * @return void
     */
     public function creer(){
-        $sql = "INSERT INTO " . $this->table . " SET Nom=:Nom, Prenom=:Prenom, Civilite=:Civilite, Telephone=:Telephone, Email=:Email, Adresse=:Adresse, Complement=:Complement, CodePostal=:CodePostal, Ville=:Ville, Pays=:Pays, DateEnregistrement=:DateEnregistrement, Societe=:Societe, Role=:Role, Login=:Login, MotDePasse=:MotDePasse";
+        $sql = "INSERT INTO " . $this->table . " SET Nom=:Nom, Prenom=:Prenom, Civilite=:Civilite, Telephone=:Telephone, Email=:Email, Adresse=:Adresse, Complement=:Complement, CodePostal=:CodePostal, Ville=:Ville, Pays=:Pays, Societe=:Societe, Role=:Role, Login=:Login, MotDePasse=:MotDePasse";
         $query = $this->connexion->prepare($sql);
 
         $this->Nom=htmlspecialchars(strip_tags($this->Nom));
@@ -47,7 +46,6 @@ class User {
         $this->CodePostal=htmlspecialchars(strip_tags($this->CodePostal));
         $this->Ville=htmlspecialchars(strip_tags($this->Ville));
         $this->Pays=htmlspecialchars(strip_tags($this->Pays));
-        $this->DateEnregistrement=htmlspecialchars(strip_tags($this->DateEnregistrement));
         $this->Societe=htmlspecialchars(strip_tags($this->Societe));
         $this->Role=htmlspecialchars(strip_tags($this->Role));
         $this->Login=htmlspecialchars(strip_tags($this->Login));
@@ -63,7 +61,6 @@ class User {
         $query->bindParam(":CodePostal", $this->CodePostal);
         $query->bindParam(":Ville", $this->Ville); 
         $query->bindParam(":Pays", $this->Pays);
-        $query->bindParam(":DateEnregistrement", $this->DateEnregistrement);
         $query->bindParam(":Societe", $this->Societe);
         $query->bindParam(":Role", $this->Role);
         $query->bindParam(":Login", $this->Login);
