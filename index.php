@@ -27,8 +27,11 @@
 
       <form action="/connect/connexion.php" method="post" id="loginForm">
         <div class="form-floating mb-3">
-          <input type="email" class="form-control" id="email" name="email" placeholder="email" required>
-          <label for="email"><i class="fas fa-envelope me-2"></i>Adresse email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="email" required>
+            <label for="email">
+                <i class="fas fa-envelope me-2"></i>
+                Adresse email
+            </label>
         </div>
 
         <div class="form-floating mb-3">
@@ -36,10 +39,10 @@
           <label for="password"><i class="fas fa-lock me-2"></i>Mot de passe</label>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100">
-          <i class="fas fa-sign-in-alt me-2"></i>
-          Se connecter
-        </button>
+            <button onclick="login()" class="btn btn-primary w-100">
+                <i class="fas fa-sign-in-alt me-2"></i>
+                Se connecter
+            </button>
       </form>
 
       <div class="links text-center mt-3">

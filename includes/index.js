@@ -1,3 +1,19 @@
+function login() {
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+    //console.log(email);
+
+    const request = new XMLHttpRequest()
+    request.open("POST", "login.php", true)
+    request.send(email, password)
+    request.onreadystatechange = function(){
+        if (request.readyState === 4 && request.status === 200){
+            console.log(JSON.parse(request.responseText))
+        }
+    }
+}
+
 //  <script>
 //       const loginForm = document.getElementById("loginForm");
 //       const errorAlert = document.getElementById("errorAlert");
