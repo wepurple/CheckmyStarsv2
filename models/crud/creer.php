@@ -14,7 +14,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $user = new User($db);
     $data = json_decode(file_get_contents("php://input"));
 
-    if (!empty($data->Nom) && !empty($data->Prenom) && !empty($data->Civilite) && !empty($data->Telephone) && !empty($data->Email) && !empty($data->Adresse) && !empty($data->Complement) && !empty($data->CodePostal) && !empty($data->Ville) && !empty($data->Pays) && !empty($data->Societe) && !empty($data->Role) && !empty($data->Login) && !empty($data->MotDePasse)) {
+    if (!empty($data->Nom) && !empty($data->Prenom) && !empty($data->Civilite) && !empty($data->Telephone) && !empty($data->Email) && !empty($data->Adresse) && !empty($data->Complement) && !empty($data->CodePostal) && !empty($data->Ville) && !empty($data->Pays) && !empty($data->Societe) && !empty($data->Role) && !empty($data->Login) && !empty($data->MotPasse)) {
         
         $user->Nom = $data->Nom;
         $user->Prenom = $data->Prenom;
