@@ -19,10 +19,21 @@ function login() {
             request.onreadystatechange = function(){
                 if (request.readyState === 4 && request.status === 200){
                     result = JSON.parse(request.responseText)
-                    console.log(result)
+                    
+                    //définition des toast en objets js
+                    const toastElList = document.querySelectorAll('.toast')
+                    const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl))
 
-                    if (!result){//si la co échoue
-                        
+                    if (!result){//si l'identification échoue
+                        document.getElementById('motif').textContent = "Identifiants Incorrects"
+                        document.getElementById('titreToast').textContent = "Échec de la connexion"
+                        toastList[0].show()
+                    } else if(Object.keys(result)[0]=="0"){//si il y a une erreur sql
+                        document.getElementById('titreToast').textContent = "Échec MariaDB"
+                        document.getElementById('motif').textContent = result[1]
+                        toastList[0].show()
+                    } else {//si l'identification réussit
+                        console.log("Connexion réussie !!")
                     }
                 }
             }

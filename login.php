@@ -8,12 +8,20 @@
     $sql="select * from personne where email = :login and MotPasse = :password";
     $db = new Database();
 
-    $requete = $db->getConnection()->prepare($sql);
-    $requete->bindValue(':login', $login);
-    $requete->bindValue(':password', $password);
-    $requete->execute();
+    $requete = $db->getConnection();
+    //var_dump($requete);
+    if(!is_array($requete)){
+        $requete = $requete->prepare($sql);
+        $requete->bindValue(':login', $login);
+        $requete->bindValue(':password', $password);
+        $requete->execute();
 
-    $result = $requete->fetch(PDO::FETCH_ASSOC);
+        $result = $requete->fetch(PDO::FETCH_ASSOC);
 
-    echo(json_encode($result));
+        echo(json_encode($result));
+    } else {
+        echo(json_encode($requete));
+
+    }
+
 ?>

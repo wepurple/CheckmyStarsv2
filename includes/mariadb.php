@@ -15,7 +15,7 @@
                 $this->connexion->exec("USE checkmystars");
                 $this->connexion->query("SET NAMES utf8");
             } catch (PDOException $e) {
-                echo "Erreur de connexion : " . $e->getMessage();
+                $this->connexion = (array('0'=>false, '1' => mb_convert_encoding($e->getMessage(), "UTF-8")));
             }
             return $this->connexion;
         }

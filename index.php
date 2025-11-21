@@ -8,11 +8,30 @@
   <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="bootstrap 5.3/css/style.css">
+  <script src="bootstrap 5.3/js/bootstrap.js"></script>
   <script src="includes/index.js"></script>
   <link rel="icon" type="image/x-icon" href="pictures/logo.png">
 </head>
 
 <body>
+
+    <!-- toast -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="liveToast" class="toast text-bg-warning" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-warning">
+                <img src="" class="rounded me-2" alt="">
+                <strong class="me-auto" id="titreToast">
+                        Échec de la connexion
+                </strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="motif">
+                Identifiants incorrects
+            </div>
+        </div>
+    </div>
+    <!-- end toast -->
+
   <div class="login-container" >
     <div class="login-header text-center">
       <i class="fas fa-user-circle fa-3x mb-3"></i>
@@ -52,15 +71,6 @@
 
     </div>
 
-    <!-- toast -->
-    <div class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body">
-                Connexion échouée
-            </div>
-            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-        </div>
-    </div>
 
   </div>
 </body>
