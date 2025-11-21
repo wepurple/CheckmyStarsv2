@@ -15,7 +15,7 @@
 <body>
 
     <!-- toast -->
-    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div class="toast-container position-fixed top-0 end-0 p-3">
         <div id="liveToast" class="toast text-bg-warning" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header bg-warning">
                 <img src="" class="rounded me-2" alt="">
@@ -45,7 +45,7 @@
 
       <form id="loginForm">
         <div class="form-floating mb-3">
-            <input type="email" class="form-control" id="email" name="email" placeholder="email" value="jean.dupont@email.com" required>
+            <input autofocus type="email" class="form-control" id="email" name="email" placeholder="email" value="jean.dupont@email.com" required>
             <label for="email">
                 <i class="fas fa-envelope me-2"></i>
                 Adresse email
