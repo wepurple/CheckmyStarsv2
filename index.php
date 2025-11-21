@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="bootstrap 5.3/css/style.css">
   <script src="bootstrap 5.3/js/bootstrap.js"></script>
-  <script src="includes/index.js"></script>
   <link rel="icon" type="image/x-icon" href="pictures/logo.png">
 </head>
 
@@ -58,7 +57,7 @@
           <label for="password"><i class="fas fa-lock me-2"></i>Mot de passe</label>
         </div>
 
-            <button type="button" onclick="login()" class="btn btn-primary w-100">
+            <button type="button" onclick="login()" class="btn btn-primary w-100" id="valider">
                 <i class="fas fa-sign-in-alt me-2"></i>
                 Se connecter
             </button>
@@ -73,5 +72,7 @@
 
 
   </div>
+  
+  <script src="includes/index.js"></script>
 </body>
 </html>

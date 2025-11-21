@@ -1,3 +1,18 @@
+//déclencheurs qui appuient sur le bouton une fois la touche entrée pressée
+document.getElementById("password").addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    document.getElementById("valider").click();
+  }
+});
+document.getElementById("email").addEventListener("keypress", function(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    document.getElementById("valider").click();
+  }
+});
+
+
 function login() {
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
@@ -28,6 +43,8 @@ function login() {
                         document.getElementById('motif').textContent = "Identifiants Incorrects"
                         document.getElementById('titreToast').textContent = "Échec de la connexion"
                         toastList[0].show()
+                        document.getElementById('password').value = ""
+                        document.getElementById('password').focus()
                     } else if(Object.keys(result)[0]=="0"){//si il y a une erreur sql
                         document.getElementById('titreToast').textContent = "Échec MariaDB"
                         document.getElementById('motif').textContent = result[1]
