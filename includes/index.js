@@ -56,10 +56,12 @@ function login() {
             }
         } else {
             document.getElementById("password").classList.add("is-invalid")
+            document.getElementById('password').focus()
         }
     } else {
         if(!checkMail){
             document.getElementById("email").classList.add("is-invalid")
+            document.getElementById('email').focus()
         }
     }
 }
