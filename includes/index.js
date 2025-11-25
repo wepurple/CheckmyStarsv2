@@ -35,7 +35,7 @@ function login() {
                 if (request.readyState === 4 && request.status === 200){
                     result = JSON.parse(request.responseText)
                     
-                    //définition des toast en objets js
+                    //définition des toast en objets js en les récupérant sur la page
                     const toastElList = document.querySelectorAll('.toast')
                     const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl))
 
