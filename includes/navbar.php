@@ -1,12 +1,12 @@
-<link href="../bootstrap 5.3/css/bootstrap.min.css" rel="stylesheet">
-<script src="../bootstrap 5.3/js/bootstrap.min.js"></script>
+<link href="/CheckMyStars/bootstrap 5.3/css/bootstrap.min.css" rel="stylesheet">
+<script src="/CheckMyStars/bootstrap 5.3/js/bootstrap.min.js"></script>
 
     <nav class=" sticky-top navbar navbar-expand-lg bg-primary nav-underline" data-bs-theme="dark">
 
         <div class="container-fluid">
 
             <a class="navbar-brand" href="/index/">
-                <img src="../pictures/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+                <img src="/CheckMyStars/pictures/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
                 CheckMyStars
             </a>
 
@@ -19,7 +19,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                     <li class="nav-item">
-                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/CheckMyStars/index.php"){echo(' active" aria-current="page');} ?>" href="index.php">Accueil</a>
+                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/CheckMyStars/admin.php"){echo(' active" aria-current="page');} ?>" href="admin.php">Accueil</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/CheckMyStars/formation.php"){echo(' active" aria-current="page');} ?>" href="formation.php">Formation</a>
@@ -36,7 +36,7 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
                     <li class="nav-item">
-                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/CheckMyStars/login.php"){echo(' active" aria-current="page');} ?>" href="login.php">Déconnexion</a>
+                        <a class="nav-link" href="deco.php">Déconnexion</a>
                     </li>
 
                 </ul>

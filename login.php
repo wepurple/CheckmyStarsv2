@@ -1,4 +1,5 @@
 <?php
+    session_start();
 
     include("includes/mariadb.php");
 
@@ -18,7 +19,11 @@
 
         $result = $requete->fetch(PDO::FETCH_ASSOC);
 
-        echo(json_encode($result));
+        //var_dump($result);
+        if ($result){
+            $_SESSION = array("ID"=>$result["IdPersonne"], "Nom"=>$result["Nom"], "Prenom"=>$result["Prenom"], "Role"=>$result["Role"]);
+        }
+            echo(json_encode($result));
     } else {
         echo(json_encode($requete));
 
