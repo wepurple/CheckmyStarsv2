@@ -21,7 +21,7 @@
 
         //var_dump($result);
         if ($result){
-            $_SESSION = array("ID"=>$result["IdPersonne"], "Nom"=>$result["Nom"], "Prenom"=>$result["Prenom"], "Role"=>$result["Role"]);
+            $_SESSION = array("ID"=>$result["IdPersonne"], "Nom"=>$result["Nom"], "Prenom"=>$result["Prenom"], "Role"=>$result["Role"], "Login"=>$result['Login']);
         }
             echo(json_encode($result));
     } else {
