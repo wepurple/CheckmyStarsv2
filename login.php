@@ -34,7 +34,7 @@
             $requete->bindValue(':login', $login);
             $requete->bindValue(':password', $password);
             $requete->execute();
-            if($requete->fetch(PDO::FETCH_ASSOC)){$inspecteur = true;}else{$inspecteur=false};
+            if($requete->fetch(PDO::FETCH_ASSOC)){$inspecteur = true;}else{$inspecteur=false;};
 
             $_SESSION = array(
                 "ID"=>$result["Utilisateur_ID"],
