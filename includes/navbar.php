@@ -35,9 +35,9 @@
 
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
-                    <li class="nav-item">
+                    <<div class="container-fluid">>
                         <span class="nav-text">Connecté en tant que <?php if(isset($_SESSION['Login'])){echo($_SESSION['Login']);} ?></span>
-                    </li>
+                    </div>
 
                     <li class="nav-item">
                         <a class="nav-link" href="deco.php">Déconnexion</a>
