@@ -17,8 +17,6 @@ class User {
     public $Ville;
     public $Pays;
     public $Societe;
-    public $Role;
-    public $Login;
     public $MotPasse;
 
     /**
