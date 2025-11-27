@@ -1,7 +1,8 @@
 <?php
 class User {
     private $connexion;
-    private $table = "personne";
+    private $table = "utilisateurs";
+    private $table2 = "adresses";
 
     public $IdPersonne;
     public $Nom;
@@ -9,7 +10,8 @@ class User {
     public $Civilite;
     public $Telephone;
     public $Email;
-    public $Adresse;
+    public $AdresseNum;
+    public $AdresseNom;
     public $Complement;
     public $CodePostal;
     public $Ville;
@@ -32,6 +34,30 @@ class User {
          *
         * @return void
     */
+    public function creerAdresse(){
+        $sql = "INSERT INTO " . $this->table2 . " SET AdressePostale_NumeroRue=:AdresseNum, AdressePostale_Complement=:Complement, AdressePostale_CodePostal=:CodePostal, AdressePostale_NomRue=:AdresseNom, AdressePostale_Ville=:Ville, AdressePostale_Pays=:Pays";
+        $query = $this->connexion->prepare($sql);
+
+        $this->AdresseNum=htmlspecialchars(strip_tags($this->AdresseNum));
+        $this->Complement=htmlspecialchars(strip_tags($this->Complement));  
+        $this->CodePostal=htmlspecialchars(strip_tags($this->CodePostal));
+        $this->AdresseNom=htmlspecialchars(strip_tags($this->AdresseNom));
+        $this->Ville=htmlspecialchars(strip_tags($this->Ville));
+        $this->Pays=htmlspecialchars(strip_tags($this->Pays));
+
+        $query->bindParam(":AdresseNum", $this->AdresseNum);
+        $query->bindParam(":Complement", $this->Complement);
+        $query->bindParam(":CodePostal", $this->CodePostal);
+        $query->bindParam(":AdresseNom", $this->AdresseNom);
+        $query->bindParam(":Ville", $this->Ville);
+        $query->bindParam(":Pays", $this->Pays);
+
+        if($query->execute()){
+            return true;
+        }
+        return false;
+    }
+
     public function creer(){
         $sql = "INSERT INTO " . $this->table . " SET Nom=:Nom, Prenom=:Prenom, Civilite=:Civilite, Telephone=:Telephone, Email=:Email, Adresse=:Adresse, Complement=:Complement, CodePostal=:CodePostal, Ville=:Ville, Pays=:Pays, Societe=:Societe, Role=:Role, Login=:Login, MotPasse=:MotPasse";
         $query = $this->connexion->prepare($sql);
@@ -67,14 +93,14 @@ class User {
         $query->bindParam(":MotPasse", $this->MotPasse);
 
         if($query->execute()){
-            return true;03.
+            return true;
 
         }
         return false;
     }
 
     public function afficherUtilisateur(){
-        $sql = "SELECT * FROM ". $this->table ." u INNER JOIN ". $this2->table2 ." a ON u.AdressePostale_ID = a.AdressePostale_ID;";
+        $sql = "SELECT * FROM ". $this->table ." u INNER JOIN ". $this->table2 ." a ON u.AdressePostale_ID = a.AdressePostale_ID;";
         $query = $this->connexion->prepare($sql);
         $query->execute();
         $row= $query->fetch(PDO::FETCH_ASSOC);

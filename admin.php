@@ -5,14 +5,14 @@
     if(!isset($_SESSION['Role'])){
         header('Location: deco.php');
         die();
-    } else if($_SESSION['Role']!="Administrateur"){
+    } else if(!$_SESSION['Role']['Administrateur']){
         header('Location: deco.php');
         die();
     }
 
     require("./includes/navbar.php");
 
-    
+
 
     var_dump($_SESSION);
 ?>
