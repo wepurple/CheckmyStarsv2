@@ -27,7 +27,9 @@
                 "Prenom"=>$result["Prenom"],
                 "Role"=>$result["Role"],
                 "Login"=>$result['Login'],
-                
+                "Telephone"=>$result['Telephone'],
+                "Email"=>$result['Email'],
+                "Civilite"=>$result['Civilite']
             );
         }
             echo(json_encode($result));
