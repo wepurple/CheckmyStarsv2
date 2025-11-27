@@ -40,7 +40,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         }
     } else {
         http_response_code(400);
-        echo json_encode(array("message" => "errorBozo."));
+        echo json_encode(array("message" => "Erreur, les données entre ne sont pas valide."));
     }
 } else {
     http_response_code(405);

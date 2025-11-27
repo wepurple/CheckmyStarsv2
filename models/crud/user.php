@@ -1,7 +1,8 @@
 <?php
 class User {
     private $connexion;
-    private $table = "personne";
+    private $table = "utilisateurs";
+    private $table2 = "adressespostales";
 
     public $IdPersonne;
     public $Nom;
@@ -33,6 +34,9 @@ class User {
         * @return void
     */
     public function creer(){
+        
+
+
         $sql = "INSERT INTO " . $this->table . " SET Nom=:Nom, Prenom=:Prenom, Civilite=:Civilite, Telephone=:Telephone, Email=:Email, Adresse=:Adresse, Complement=:Complement, CodePostal=:CodePostal, Ville=:Ville, Pays=:Pays, Societe=:Societe, Role=:Role, Login=:Login, MotPasse=:MotPasse";
         $query = $this->connexion->prepare($sql);
 
