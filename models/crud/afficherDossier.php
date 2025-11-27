@@ -13,7 +13,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     $db = $database->getConnection();
     $user = new User($db);
     $data = json_decode(file_get_contents("php://input"));
-    $stmt = $user->lire();
+    $stmt = $user->afficherClient();
 
         if($stmt->rowCount() > 0){
         $tableauClient = [];
@@ -29,11 +29,11 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
                 "Telephone" => $Telephone,
                 "Email" => $Email,
                 "Adresse" => $Adresse,
-                "Complement" => $EComplementail,
+                "Complement" => $Complement,
                 "CodePostal" => $CodePostal,
                 "Ville" => $Ville,
                 "Pays" => $Pays,
-                "Societenom" => $Societenom,
+                "Societenom" => $Societe,
                 "Role" => $Role,
             ];
             $tableauClient['produits'][] = $liste;
