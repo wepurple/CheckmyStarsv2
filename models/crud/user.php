@@ -91,7 +91,6 @@ class User {
         $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID;";
         $query = $this->connexion->prepare($sql);
         $query->execute();
-        $row= $query->fetch(PDO::FETCH_ASSOC);
         $query->bindParam(":IdPersonne", $this->IdPersonne);
         $query->bindParam(":Nom", $this->Nom);
         $query->bindParam(":Prenom", $this->Prenom);
