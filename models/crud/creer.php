@@ -37,19 +37,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if($user->creer()){
                 http_response_code(201);
                 echo json_encode(array("message" => "Utilisateur créé avec succès."));
+            } else {
+                http_response_code(503);
+                echo json_encode(array("message" => "Impossible de créer l'utilisateur."));
             }
         } else {
             http_response_code(503);
             echo json_encode(array("message" => "Impossible de créer l'adresse."));
         }
-
-        #if($user->creer()){
-            #http_response_code(201);
-            #echo json_encode(array("message" => "Utilisateur créé avec succès."));
-        #} else {
-            #http_response_code(503);
-            #echo json_encode(array("message" => "Impossible de créer l'utilisateur."));
-        #}
     } else {
         http_response_code(400);
         echo json_encode(array("message" => "Erreur, les données entre ne sont pas valide."));
@@ -59,21 +54,20 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     echo json_encode(array("message" => "La methode n'est pas autorisé."));
 }
 
-/**
-* {
-*   "Nom" : "Kylian",
-*  "Prenom" : "Terence",
-* "Civilite" : "Monsieur",
-*    "Telephone" : "0791919191",
-*    "Email" : "angel.dupont@example.com",
-*    "Adresse" : "14 rue du blazlal",
-*    "Complement" : "12",
-*    "CodePostal" : "45000",
-*    "Ville" : "Orléans",
-*    "Pays": "France",
-*    "Societe" : "TerenceInc",
-*    "Role" : "Client",
-*    "Login" : "angel",
-*    "MotPasse" : "angel"
-*}
+/*
+ {
+    "Nom" : "tg",
+    "Prenom" : "tg",
+    "Civilite" : "Monsieur",
+    "Telephone" : "0791919191",
+    "Email" : "inspesdect.dupont@example.com",
+    "AdresseNum" : "14",
+    "AdresseNom" : "rue du bazouzou",
+    "Complement" : "12",
+    "CodePostal" : "45000",
+    "Ville" : "Orléans",
+    "Pays": "France",
+    "Societe" : "TerenceInc",
+    "MotPasse" : "mdr"
+}
  */
