@@ -3,7 +3,6 @@ class User {
     private $connexion;
     private $table = "utilisateurs";
     private $table2 = "adressesPostales";
-
     public $IdPersonne;
     public $Nom;
     public $Prenom;
@@ -111,5 +110,16 @@ class User {
         $this->AdressePostale_Pays=$row['AdressePostale_Pays'];
 
         return $query;
+    }
+
+    public function supprimerUtilisateur(){
+        $sql = "DELETE FROM ".$this->table." WHERE id =? ";
+        $query = $this->connexion->prepare($sql);
+        $this->id=htmlspecialchars(strip_tags($this->IdPersonne));
+        $query->bindParam(1, $this->IdPersonne);
+        if($query->execute()){
+        return true;
+        }
+        return false;
     }
 }
