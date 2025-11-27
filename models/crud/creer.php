@@ -28,8 +28,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $user->Ville = $data->Ville;
         $user->Pays = $data->Pays;
         $user->Societe = $data->Societe;
-        $user->Role = $data->Role;
-        $user->Login = $data->Login;
         $user->MotPasse = $data->MotPasse;
         
         $idAdresse = $user->creerAdresse();
