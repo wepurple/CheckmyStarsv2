@@ -115,7 +115,7 @@ class User {
     public function supprimerUtilisateur(){
         $sql = "DELETE FROM ".$this->table." WHERE id =? ";
         $query = $this->connexion->prepare($sql);
-        $this->id=htmlspecialchars(strip_tags($this->IdPersonne));
+        $this->IdPersonne=htmlspecialchars(strip_tags($this->IdPersonne));
         $query->bindParam(1, $this->IdPersonne);
         if($query->execute()){
         return true;
