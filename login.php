@@ -22,12 +22,12 @@
         //var_dump($result);
         if ($result){
             $_SESSION = array(
-                "ID"=>$result["utilisateur_ID"],
+                "ID"=>$result["Utilisateur_ID"],
                 "Nom"=>$result["Utilisateur_Nom"],
                 "Prenom"=>$result["Utilisateur_Prenom"],
                 "Role"=>[],
                 "Telephone"=>$result['Utilisateur_Telephone'],
-                "Email"=>$result['Utilisateur_mail'],
+                "Email"=>$result['Utilisateur_Mail'],
                 "Civilite"=>$result['Utilisateur_Civilite']
             );
         }
