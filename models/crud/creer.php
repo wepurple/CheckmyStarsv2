@@ -14,14 +14,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $user = new User($db);
     $data = json_decode(file_get_contents("php://input"));
 
-    if (!empty($data->Nom) && !empty($data->Prenom) && !empty($data->Civilite) && !empty($data->Telephone) && !empty($data->Email) && !empty($data->Adresse) && !empty($data->Complement) && !empty($data->CodePostal) && !empty($data->Ville) && !empty($data->Pays) && !empty($data->Societe) && !empty($data->Role)) {
+    if (!empty($data->Nom) && !empty($data->Prenom) && !empty($data->Civilite) && !empty($data->Telephone) && !empty($data->Email) && !empty($data->AdresseNum) && !empty($data->AdresseNom) && !empty($data->Complement) && !empty($data->CodePostal) && !empty($data->Ville) && !empty($data->Pays) && !empty($data->Societe) && !empty($data->Role)) {
         
         $user->Nom = $data->Nom;
         $user->Prenom = $data->Prenom;
         $user->Civilite = $data->Civilite;
         $user->Telephone = $data->Telephone;
         $user->Email = $data->Email;
-        $user->Adresse = $data->Adresse;
+        $user->AdresseNum = $data->AdresseNum;
+        $user->AdresseNom = $data->AdresseNom;
         $user->Complement = $data->Complement;
         $user->CodePostal = $data->CodePostal;
         $user->Ville = $data->Ville;
@@ -31,13 +32,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $user->Login = $data->Login;
         $user->MotPasse = $data->MotPasse;
 
-        if($user->creer()){
+        if($user->creerAdresse()){
             http_response_code(201);
-            echo json_encode(array("message" => "Utilisateur créé avec succès."));
+            echo json_encode(array("message" => "Adresse créée avec succès."));
         } else {
             http_response_code(503);
-            echo json_encode(array("message" => "Impossible de créer l'utilisateur."));
+            echo json_encode(array("message" => "Impossible de créer l'adresse."));
         }
+
+        #if($user->creer()){
+            #http_response_code(201);
+            #echo json_encode(array("message" => "Utilisateur créé avec succès."));
+        #} else {
+            #http_response_code(503);
+            #echo json_encode(array("message" => "Impossible de créer l'utilisateur."));
+        #}
     } else {
         http_response_code(400);
         echo json_encode(array("message" => "Erreur, les données entre ne sont pas valide."));
