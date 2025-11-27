@@ -14,7 +14,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $user = new User($db);
     $data = json_decode(file_get_contents("php://input"));
 
-    if (!empty($data->Nom) && !empty($data->Prenom) && !empty($data->Civilite) && !empty($data->Telephone) && !empty($data->Email) && !empty($data->AdresseNum) && !empty($data->AdresseNom) && !empty($data->Complement) && !empty($data->CodePostal) && !empty($data->Ville) && !empty($data->Pays) && !empty($data->Societe) && !empty($data->Role)) {
+    if (!empty($data->Nom) && !empty($data->Prenom) && !empty($data->Civilite) && !empty($data->Telephone) && !empty($data->Email) && !empty($data->AdresseNum) && !empty($data->AdresseNom) && !empty($data->Complement) && !empty($data->CodePostal) && !empty($data->Ville) && !empty($data->Pays) && !empty($data->Societe) && !empty($data->MotPasse)) {
         
         $user->Nom = $data->Nom;
         $user->Prenom = $data->Prenom;
@@ -28,17 +28,16 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $user->Ville = $data->Ville;
         $user->Pays = $data->Pays;
         $user->Societe = $data->Societe;
-        $user->Role = $data->Role;
-        $user->Login = $data->Login;
         $user->MotPasse = $data->MotPasse;
+        
         $idAdresse = $user->creerAdresse();
-        if($user->creerAdresse()){
-            http_response_code(201);
-            
-            echo json_encode([
-                "message" => "Adresse créée avec succès.",
-                "idAdresse" => $idAdresse
-            ]);
+        $user->idAdresse = $idAdresse;
+
+        if ($idAdresse) {
+            if($user->creer()){
+                http_response_code(201);
+                echo json_encode(array("message" => "Utilisateur créé avec succès."));
+            }
         } else {
             http_response_code(503);
             echo json_encode(array("message" => "Impossible de créer l'adresse."));

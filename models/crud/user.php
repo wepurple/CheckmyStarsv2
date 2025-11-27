@@ -3,7 +3,6 @@ class User {
     private $connexion;
     private $table = "utilisateurs";
     private $table2 = "adressesPostales";
-
     public $IdPersonne;
     public $Nom;
     public $Prenom;
@@ -17,9 +16,9 @@ class User {
     public $Ville;
     public $Pays;
     public $Societe;
-    public $Role;
-    public $Login;
     public $MotPasse;
+    public $Signature;
+    public $idAdresse;
 
     /**
      * Constructeur avec $db pour la connexion à la base de données
@@ -60,7 +59,7 @@ class User {
     }
 
     public function creer(){
-        $sql = "INSERT INTO " . $this->table . " SET Nom=:Nom, Prenom=:Prenom, Civilite=:Civilite, Telephone=:Telephone, Email=:Email, Adresse=:Adresse, Complement=:Complement, CodePostal=:CodePostal, Ville=:Ville, Pays=:Pays, Societe=:Societe, Role=:Role, Login=:Login, MotPasse=:MotPasse";
+        $sql = "INSERT INTO " . $this->table . " SET Utilisateur_Nom=:Nom, Utilisateur_Prenom=:Prenom, Utilisateur_Civilite=:Civilite, Utilisateur_Telephone=:Telephone, Utilisateur_Mail=:Email, Utilisateur_Societe=:Societe, Utilisateur_Password=:MotPasse, AdressePostale_ID=:AdressePostale_ID";
         $query = $this->connexion->prepare($sql);
 
         $this->Nom=htmlspecialchars(strip_tags($this->Nom));
@@ -68,30 +67,18 @@ class User {
         $this->Civilite=htmlspecialchars(strip_tags($this->Civilite));
         $this->Telephone=htmlspecialchars(strip_tags($this->Telephone));
         $this->Email=htmlspecialchars(strip_tags($this->Email));
-        $this->Adresse=htmlspecialchars(strip_tags($this->Adresse));
-        $this->Complement=htmlspecialchars(strip_tags($this->Complement));
-        $this->CodePostal=htmlspecialchars(strip_tags($this->CodePostal));
-        $this->Ville=htmlspecialchars(strip_tags($this->Ville));
-        $this->Pays=htmlspecialchars(strip_tags($this->Pays));
         $this->Societe=htmlspecialchars(strip_tags($this->Societe));
-        $this->Role=htmlspecialchars(strip_tags($this->Role));
-        $this->Login=htmlspecialchars(strip_tags($this->Login));
         $this->MotPasse=htmlspecialchars(strip_tags($this->MotPasse));
+        $this->idAdresse=htmlspecialchars(strip_tags($this->idAdresse));
 
         $query->bindParam(":Nom", $this->Nom);
         $query->bindParam(":Prenom", $this->Prenom);
         $query->bindParam(":Civilite", $this->Civilite);
         $query->bindParam(":Telephone", $this->Telephone);
         $query->bindParam(":Email", $this->Email);
-        $query->bindParam(":Adresse", $this->Adresse);
-        $query->bindParam(":Complement", $this->Complement);
-        $query->bindParam(":CodePostal", $this->CodePostal);
-        $query->bindParam(":Ville", $this->Ville); 
-        $query->bindParam(":Pays", $this->Pays);
         $query->bindParam(":Societe", $this->Societe);
-        $query->bindParam(":Role", $this->Role);
-        $query->bindParam(":Login", $this->Login);
         $query->bindParam(":MotPasse", $this->MotPasse);
+        $query->bindParam(":AdressePostale_ID", $this->idAdresse);
 
         if($query->execute()){
             return true;
@@ -104,21 +91,33 @@ class User {
         $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID;";
         $query = $this->connexion->prepare($sql);
         $query->execute();
-        $row= $query->fetch(PDO::FETCH_ASSOC);
-        $this->Utilisateur_ID=$row['Utilisateur_ID'];
-        $this->Utilisateur_Nom=$row['Utilisateur_Nom'];
-        $this->Utilisateur_Prenom=$row['Utilisateur_Prenom'];
-        $this->Utilisateur_Civilite=$row['Utilisateur_Civilite'];
-        $this->Utilisateur_Telephone=$row['Utilisateur_Telephone'];
-        $this->Utilisateur_Mail=$row['Utilisateur_Mail'];
-        $this->Utilisateur_Signature=$row['Utilisateur_Signature'];
-        $this->AdressePostale_NumeroRue=$row['AdressePostale_NumeroRue'];
-        $this->AdressePostale_Complement=$row['AdressePostale_Complement'];
-        $this->AdressePostale_CodePostal=$row['AdressePostale_CodePostal'];
-        $this->AdressePostale_NomRue=$row['AdressePostale_NomRue'];
-        $this->AdressePostale_Ville=$row['AdressePostale_Ville'];
-        $this->AdressePostale_Pays=$row['AdressePostale_Pays'];
+        $query->bindParam(":IdPersonne", $this->IdPersonne);
+        $query->bindParam(":Nom", $this->Nom);
+        $query->bindParam(":Prenom", $this->Prenom);
+        $query->bindParam(":Civilite", $this->Civilite);
+        $query->bindParam(":Telephone", $this->Telephone);
+        $query->bindParam(":Email", $this->Email);
+        $query->bindParam(":AdresseNum", $this->AdresseNum);
+        $query->bindParam(":AdresseNom", $this->AdresseNom);
+        $query->bindParam(":Complement", $this->Complement);
+        $query->bindParam(":CodePostal", $this->CodePostal);
+        $query->bindParam(":Ville", $this->Ville);
+        $query->bindParam(":Pays", $this->Pays);
+        $query->bindParam(":Societe", $this->Societe);
+        $query->bindParam(":MotPasse", $this->MotPasse);
+        $query->bindParam(":Signature", $this->Signature);
 
         return $query;
+    }
+
+    public function supprimerUtilisateur(){
+        $sql = "DELETE FROM ".$this->table." WHERE id =?";
+        $query = $this->connexion->prepare($sql);
+        $this->IdPersonne=htmlspecialchars(strip_tags($this->IdPersonne));
+        $query->bindParam(1, $this->IdPersonne);
+        if($query->execute()){
+        return true;
+        }
+        return false;
     }
 }
