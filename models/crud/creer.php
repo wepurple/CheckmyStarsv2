@@ -32,7 +32,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $user->Login = $data->Login;
         $user->MotPasse = $data->MotPasse;
         $idAdresse = $user->creerAdresse();
-        if($user->creerAdresse()){
+
+        if ($idAdresse) {
             http_response_code(201);
             
             echo json_encode([
