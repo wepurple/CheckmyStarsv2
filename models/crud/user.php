@@ -60,7 +60,7 @@ class User {
     }
 
     public function creer(){
-        $sql = "INSERT INTO " . $this->table . " SET Utilisateur_Nom=:Nom, Utilisateur_Prenom=:Prenom, Utilisateur_Civilite=:Civilite, Utilisateur_Telephone=:Telephone, Utilisateur_Mail=:Email, AdressePostale_ID=:AdressePostale_ID, Utilisateur_Societe=:Societe, Role=:Role, Login=:Login, MotPasse=:MotPasse";
+        $sql = "INSERT INTO " . $this->table . " SET Utilisateur_Nom=:Nom, Utilisateur_Prenom=:Prenom, Utilisateur_Civilite=:Civilite, Utilisateur_Telephone=:Telephone, Utilisateur_Mail=:Email, Utilisateur_Societe=:Societe, Utilisateur_Password=:MotPasse";
         $query = $this->connexion->prepare($sql);
 
         $this->Nom=htmlspecialchars(strip_tags($this->Nom));
@@ -74,8 +74,6 @@ class User {
         $this->Ville=htmlspecialchars(strip_tags($this->Ville));
         $this->Pays=htmlspecialchars(strip_tags($this->Pays));
         $this->Societe=htmlspecialchars(strip_tags($this->Societe));
-        $this->Role=htmlspecialchars(strip_tags($this->Role));
-        $this->Login=htmlspecialchars(strip_tags($this->Login));
         $this->MotPasse=htmlspecialchars(strip_tags($this->MotPasse));
 
         $query->bindParam(":Nom", $this->Nom);
@@ -89,8 +87,6 @@ class User {
         $query->bindParam(":Ville", $this->Ville); 
         $query->bindParam(":Pays", $this->Pays);
         $query->bindParam(":Societe", $this->Societe);
-        $query->bindParam(":Role", $this->Role);
-        $query->bindParam(":Login", $this->Login);
         $query->bindParam(":MotPasse", $this->MotPasse);
 
         if($query->execute()){
