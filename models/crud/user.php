@@ -1,8 +1,7 @@
 <?php
 class User {
     private $connexion;
-    private $table = "utilisateurs";
-    private $table2 = "adressespostales";
+    private $table = "personne";
 
     public $IdPersonne;
     public $Nom;
@@ -34,9 +33,6 @@ class User {
         * @return void
     */
     public function creer(){
-        
-
-
         $sql = "INSERT INTO " . $this->table . " SET Nom=:Nom, Prenom=:Prenom, Civilite=:Civilite, Telephone=:Telephone, Email=:Email, Adresse=:Adresse, Complement=:Complement, CodePostal=:CodePostal, Ville=:Ville, Pays=:Pays, Societe=:Societe, Role=:Role, Login=:Login, MotPasse=:MotPasse";
         $query = $this->connexion->prepare($sql);
 
@@ -74,26 +70,5 @@ class User {
             return true;
         }
         return false;
-    }
-
-    public function afficherClient(){
-        $sql = "SELECT * FROM ". $this->table." WHERE Role = 'Client';";
-        $query = $this->connexion->prepare($sql);
-        $query->execute();
-        $row= $query->fetch(PDO::FETCH_ASSOC);
-        $this->IdPersonne=$row['IdPersonne'];
-        $this->Nom=$row['Nom'];
-        $this->Prenom=$row['Prenom'];
-        $this->Civilite=$row['Civilite'];
-        $this->Telephone=$row['Telephone'];
-        $this->Email=$row['Email'];
-        $this->Adresse=$row['Adresse'];
-        $this->Complement=$row['Complement'];
-        $this->CodePostal=$row['CodePostal'];
-        $this->Ville=$row['Ville'];
-        $this->Pays=$row['Pays'];
-        $this->Societe=$row['Societe'];
-        $this->Role=$row['Role'];
-        return $query;
     }
 }
