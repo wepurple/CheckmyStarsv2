@@ -22,14 +22,13 @@
         //var_dump($result);
         if ($result){
             $_SESSION = array(
-                "ID"=>$result["IdPersonne"],
-                "Nom"=>$result["Nom"],
-                "Prenom"=>$result["Prenom"],
-                "Role"=>$result["Role"],
-                "Login"=>$result['Login'],
-                "Telephone"=>$result['Telephone'],
-                "Email"=>$result['Email'],
-                "Civilite"=>$result['Civilite']
+                "ID"=>$result["utilisateur_ID"],
+                "Nom"=>$result["Utilisateur_Nom"],
+                "Prenom"=>$result["Utilisateur_Prenom"],
+                "Role"=>[],
+                "Telephone"=>$result['Utilisateur_Telephone'],
+                "Email"=>$result['Utilisateur_mail'],
+                "Civilite"=>$result['Utilisateur_Civilite']
             );
         }
             echo(json_encode($result));
