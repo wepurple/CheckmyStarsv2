@@ -17,7 +17,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 
         if($stmt->rowCount() > 0){
         $tableauClient = [];
-        $tableauClient['client'] = [];
+        $tableauClient['utilisateur'] = [];
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
 
@@ -36,7 +36,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
                 "AdressePostale_Ville" => $AdressePostale_Ville,
                 "AdressePostale_Pays" => $AdressePostale_Pays,
             ];
-            $tableauClient['produits'][] = $liste;
+            $tableauClient['utilisateur'][] = $liste;
         }
         http_response_code(200);
         echo json_encode($tableauClient);
