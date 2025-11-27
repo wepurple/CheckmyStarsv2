@@ -90,5 +90,6 @@ class User {
         $this->Pays=$row['Pays'];
         $this->Societenom=$row['Societe'];
         $this->Role=$row['Role'];
+        return $query;
     }
 }
