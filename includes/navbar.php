@@ -33,7 +33,7 @@
 
                 </ul>
 
-                <div class="navbar-nav ms-min mb-2 mb-lg-0">
+                <div class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <span class="nav-text">Connecté en tant que <?php if(isset($_SESSION['Login'])){echo($_SESSION['Login']);} ?></span>
                 </div>
 
