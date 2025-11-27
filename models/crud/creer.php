@@ -31,7 +31,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $user->MotPasse = $data->MotPasse;
         
         $idAdresse = $user->creerAdresse();
-        $user->idAdresse = $data->idAdresse;
+        $user->idAdresse = $idAdresse;
 
         if ($idAdresse) {
             if($user->creer()){

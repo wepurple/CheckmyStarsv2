@@ -18,6 +18,7 @@ class User {
     public $Societe;
     public $MotPasse;
     public $Signature;
+    public $idAdresse;
 
     /**
      * Constructeur avec $db pour la connexion à la base de données
