@@ -6,7 +6,7 @@
     $login = trim(strip_tags($_POST['email']));
     $password = trim(strip_tags($_POST['password']));
 
-    $sql="select * from personne where email = :login and MotPasse = :password";
+    $sql="select * from utilisateurs where utilisateur_mail = :login and utilisateur_password = :password";
     $db = new Database();
 
     $requete = $db->getConnection();
