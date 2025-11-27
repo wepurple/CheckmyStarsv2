@@ -60,7 +60,7 @@ class User {
     }
 
     public function creer(){
-        $sql = "INSERT INTO " . $this->table . " SET Nom=:Nom, Prenom=:Prenom, Civilite=:Civilite, Telephone=:Telephone, Email=:Email, Adresse=:Adresse, Complement=:Complement, CodePostal=:CodePostal, Ville=:Ville, Pays=:Pays, Societe=:Societe, Role=:Role, Login=:Login, MotPasse=:MotPasse";
+        $sql = "INSERT INTO " . $this->table . " SET Utilisateur_Nom=:Nom, Utilisateur_Prenom=:Prenom, Utilisateur_Civilite=:Civilite, Utilisateur_Telephone=:Telephone, Utilisateur_Mail=:Email, AdressePostale_ID=:AdressePostale_ID, Utilisateur_Societe=:Societe, Role=:Role, Login=:Login, MotPasse=:MotPasse";
         $query = $this->connexion->prepare($sql);
 
         $this->Nom=htmlspecialchars(strip_tags($this->Nom));
@@ -106,7 +106,7 @@ class User {
         $query->execute();
         $row= $query->fetch(PDO::FETCH_ASSOC);
         $this->Utilisateur_ID=$row['Utilisateur_ID'];
-        $query->bindParam(":Nom", $this->Nom);
+        $this->Utilisateur_Nom=$row['Utilisateur_Nom'];
         $this->Utilisateur_Prenom=$row['Utilisateur_Prenom'];
         $this->Utilisateur_Civilite=$row['Utilisateur_Civilite'];
         $this->Utilisateur_Telephone=$row['Utilisateur_Telephone'];
