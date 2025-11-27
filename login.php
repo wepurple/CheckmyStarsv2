@@ -23,6 +23,7 @@
         if ($result){
             //on va voir dans les tables .administrateurs et .inspecteurs si l'utilisateur détient les rôles concernés
             $sql = "select * from administrateurs where Utilisateur_ID = :id";
+            $requete = $db->getConnection();
             $requete = $requete->prepare($sql);
             $requete->bindValue(':login', $login);
             $requete->bindValue(':password', $password);
@@ -30,6 +31,7 @@
             if($requete->fetch(PDO::FETCH_ASSOC)){$admin = true;}else{$admin = false;}
             
             $sql = "select * from inspecteurs where Utilisateur_ID = :id";
+            $requete = $db->getConnection();
             $requete = $requete->prepare($sql);
             $requete->bindValue(':login', $login);
             $requete->bindValue(':password', $password);
