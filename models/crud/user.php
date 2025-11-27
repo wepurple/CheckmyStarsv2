@@ -2,7 +2,7 @@
 class User {
     private $connexion;
     private $table = "utilisateurs";
-    private $table2 = "adresses";
+    private $table2 = "adressesPostales";
 
     public $IdPersonne;
     public $Nom;
@@ -53,6 +53,7 @@ class User {
         $query->bindParam(":Pays", $this->Pays);
 
         if($query->execute()){
+            return $this->connexion->lastInsertId();
             return true;
         }
         return false;
