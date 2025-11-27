@@ -18,6 +18,7 @@ class User {
     public $Pays;
     public $Societe;
     public $MotPasse;
+    public $Signature;
 
     /**
      * Constructeur avec $db pour la connexion à la base de données
@@ -94,6 +95,7 @@ class User {
         $query = $this->connexion->prepare($sql);
         $query->execute();
         $row= $query->fetch(PDO::FETCH_ASSOC);
+<<<<<<< HEAD
         $this->Utilisateur_ID=$row['Utilisateur_ID'];
         $this->Utilisateur_Nom=$row['Utilisateur_Nom'];
         $this->Utilisateur_Prenom=$row['Utilisateur_Prenom'];
@@ -107,6 +109,21 @@ class User {
         $this->AdressePostale_NomRue=$row['AdressePostale_NomRue'];
         $this->AdressePostale_Ville=$row['AdressePostale_Ville'];
         $this->AdressePostale_Pays=$row['AdressePostale_Pays'];
+=======
+        $query->bindParam(":IdPersonne", $this->IdPersonne);
+        $query->bindParam(":Nom", $this->Nom);
+        $query->bindParam(":Prenom", $this->Prenom);
+        $query->bindParam(":Civilite", $this->Civilite);
+        $query->bindParam(":Telephone", $this->Telephone);
+        $query->bindParam(":Email", $this->Email);
+        $query->bindParam(":Signature", $this->Signature);
+        $query->bindParam(":AdresseNum", $this->AdresseNum);
+        $query->bindParam(":Complement", $this->Complement);
+        $query->bindParam(":CodePostal", $this->CodePostal);
+        $query->bindParam(":AdresseNom", $this->AdresseNom);
+        $query->bindParam(":Ville", $this->Ville);
+        $query->bindParam(":Pays", $this->Pays);
+>>>>>>> a20ce8e7ce2153e927f8516d51241e31544907b6
 
         return $query;
     }
