@@ -88,7 +88,7 @@ class User {
         $this->CodePostal=$row['CodePostal'];
         $this->Ville=$row['Ville'];
         $this->Pays=$row['Pays'];
-        $this->Societenom=$row['Societe'];
+        $this->Societe=$row['Societe'];
         $this->Role=$row['Role'];
         return $query;
     }
