@@ -67,29 +67,31 @@ class User {
         $query->bindParam(":MotPasse", $this->MotPasse);
 
         if($query->execute()){
-            return true;
+            return true;03.
+
         }
         return false;
     }
 
-    public function afficherClient(){
-        $sql = "SELECT * FROM ". $this->table." WHERE Role = 'Client';";
+    public function afficherUtilisateur(){
+        $sql = "SELECT * FROM ". $this->table ." u INNER JOIN ". $this2->table2 ." a ON u.AdressePostale_ID = a.AdressePostale_ID;";
         $query = $this->connexion->prepare($sql);
         $query->execute();
         $row= $query->fetch(PDO::FETCH_ASSOC);
-        $this->IdPersonne=$row['IdPersonne'];
-        $this->Nom=$row['Nom'];
-        $this->Prenom=$row['Prenom'];
-        $this->Civilite=$row['Civilite'];
-        $this->Telephone=$row['Telephone'];
-        $this->Email=$row['Email'];
-        $this->Adresse=$row['Adresse'];
-        $this->Complement=$row['Complement'];
-        $this->CodePostal=$row['CodePostal'];
-        $this->Ville=$row['Ville'];
-        $this->Pays=$row['Pays'];
-        $this->Societe=$row['Societe'];
-        $this->Role=$row['Role'];
+        $this->Utilisateur_ID=$row['Utilisateur_ID'];
+        $this->Utilisateur_Nom=$row['Utilisateur_Nom'];
+        $this->Utilisateur_Prenom=$row['Utilisateur_Prenom'];
+        $this->Utilisateur_Civilite=$row['Utilisateur_Civilite'];
+        $this->Utilisateur_Telephone=$row['Utilisateur_Telephone'];
+        $this->Utilisateur_Mail=$row['Utilisateur_Mail'];
+        $this->Utilisateur_Signature=$row['Utilisateur_Signature'];
+        $this->AdressePostale_NumeroRue=$row['AdressePostale_NumeroRue'];
+        $this->AdressePostale_Complement=$row['AdressePostale_Complement'];
+        $this->AdressePostale_CodePostal=$row['AdressePostale_CodePostal'];
+        $this->AdressePostale_NomRue=$row['AdressePostale_NomRue'];
+        $this->AdressePostale_Ville=$row['AdressePostale_Ville'];
+        $this->AdressePostale_Pays=$row['AdressePostale_Pays'];
+
         return $query;
     }
 }
