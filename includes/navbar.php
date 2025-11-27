@@ -2,8 +2,8 @@
 
     <div class="container-fluid">
 
-        <a class="navbar-brand" href="/index/">
-            <img src="/CheckMyStars/pictures/logo.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+        <a class="navbar-brand" href="">
+            <img src="/CheckMyStars/pictures/logosm.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
             CheckMyStars
         </a>
 
@@ -22,10 +22,10 @@
                     <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/checkmystars/gestion_inspecteurs.php"){echo(' active" aria-current="page');} ?>" href="gestion_inspecteurs.php">Gestion des inspecteurs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/checkmystars/gallerie.php"){echo(' active" aria-current="page');} ?>" href="gallerie.php">Gallerie</a>
+                    <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/checkmystars/lorem.php"){echo(' active" aria-current="page');} ?>" href="lorem.php">lorem</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/checkmystars/contact.php"){echo(' active" aria-current="page');} ?>" href="contact.php">Me contacter</a>
+                    <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/checkmystars/ipsum.php"){echo(' active" aria-current="page');} ?>" href="ipsum.php">ipsum</a>
                 </li>
 
             </ul>
