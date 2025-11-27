@@ -34,6 +34,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         if($user->creerAdresse()){
             http_response_code(201);
+            $idAdresse = $user->creerAdresse();
             echo json_encode([
                 "message" => "Adresse créée avec succès.",
                 "idAdresse" => $idAdresse
