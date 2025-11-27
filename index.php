@@ -45,7 +45,7 @@
 
       <form id="loginForm">
         <div class="form-floating mb-3">
-            <input autofocus type="email" class="form-control" id="email" name="email" placeholder="email" value="jean.dupont@email.com" required>
+            <input autofocus type="email" class="form-control" id="email" name="email" placeholder="email" value="marie.dupont@mail.com" required>
             <label for="email">
                 <i class="fas fa-envelope me-2"></i>
                 Adresse email
@@ -53,7 +53,7 @@
         </div>
 
         <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="password" name="mdp" placeholder="Mot de passe" value="mdp123" required>
+          <input type="password" class="form-control" id="password" name="mdp" placeholder="Mot de passe" value="pass123" required>
           <label for="password"><i class="fas fa-lock me-2"></i>Mot de passe</label>
         </div>
 
