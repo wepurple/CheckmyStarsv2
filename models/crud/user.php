@@ -2,7 +2,7 @@
 class User {
     private $connexion;
     private $table = "utilisateurs";
-    private $table2 = "adresses";
+    private $table2 = "adressesPostales";
 
     public $IdPersonne;
     public $Nom;
