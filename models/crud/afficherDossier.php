@@ -29,11 +29,11 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
                 "Telephone" => $Telephone,
                 "Email" => $Email,
                 "Adresse" => $Adresse,
-                "Complement" => $Complementail,
+                "Complement" => $Complemen,
                 "CodePostal" => $CodePostal,
                 "Ville" => $Ville,
                 "Pays" => $Pays,
-                "Societenom" => $Societenom,
+                "Societenom" => $Societe,
                 "Role" => $Role,
             ];
             $tableauClient['produits'][] = $liste;
