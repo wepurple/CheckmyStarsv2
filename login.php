@@ -21,11 +21,29 @@
 
         //var_dump($result);
         if ($result){
+            //on va voir dans les tables .administrateurs et .inspecteurs si l'utilisateur détient les rôles concernés
+            $sql = "select * from administrateurs where Utilisateur_ID = :id";
+            $requete = $requete->prepare($sql);
+            $requete->bindValue(':login', $login);
+            $requete->bindValue(':password', $password);
+            $requete->execute();
+            if($requete->fetch(PDO::FETCH_ASSOC)){$admin = true;}else{$admin = false};
+            
+            $sql = "select * from inspecteurs where Utilisateur_ID = :id";
+            $requete = $requete->prepare($sql);
+            $requete->bindValue(':login', $login);
+            $requete->bindValue(':password', $password);
+            $requete->execute();
+            if($requete->fetch(PDO::FETCH_ASSOC)){$inspecteur = true;}else{$inspecteur=false};
+
             $_SESSION = array(
                 "ID"=>$result["Utilisateur_ID"],
                 "Nom"=>$result["Utilisateur_Nom"],
                 "Prenom"=>$result["Utilisateur_Prenom"],
-                "Role"=>[],
+                "Role"=>array(
+                    "Administrateur"=>$admin,
+                    "Instepcteur"=>$inspecteur
+                ),
                 "Telephone"=>$result['Utilisateur_Telephone'],
                 "Email"=>$result['Utilisateur_Mail'],
                 "Civilite"=>$result['Utilisateur_Civilite']
