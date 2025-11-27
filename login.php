@@ -27,7 +27,7 @@
             $requete->bindValue(':login', $login);
             $requete->bindValue(':password', $password);
             $requete->execute();
-            if($requete->fetch(PDO::FETCH_ASSOC)){$admin = true;}else{$admin = false};
+            if($requete->fetch(PDO::FETCH_ASSOC)){$admin = true;}else{$admin = false;};
             
             $sql = "select * from inspecteurs where Utilisateur_ID = :id";
             $requete = $requete->prepare($sql);
