@@ -25,16 +25,14 @@
             $sql = "select * from administrateurs where Utilisateur_ID = :id";
             $requete = $db->getConnection();
             $requete = $requete->prepare($sql);
-            $requete->bindValue(':login', $login);
-            $requete->bindValue(':password', $password);
+            $requete->bindValue(':id', $result["Utilisateur_ID"]);
             $requete->execute();
             if($requete->fetch(PDO::FETCH_ASSOC)){$admin = true;}else{$admin = false;}
             
             $sql = "select * from inspecteurs where Utilisateur_ID = :id";
             $requete = $db->getConnection();
             $requete = $requete->prepare($sql);
-            $requete->bindValue(':login', $login);
-            $requete->bindValue(':password', $password);
+            $requete->bindValue(':id', $result["Utilisateur_ID"]);
             $requete->execute();
             if($requete->fetch(PDO::FETCH_ASSOC)){$inspecteur = true;}else{$inspecteur=false;}
 
