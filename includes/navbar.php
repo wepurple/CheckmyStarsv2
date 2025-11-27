@@ -22,13 +22,13 @@
                         <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/checkmystars/admin.php"){echo(' active" aria-current="page');} ?>" href="admin.php">Accueil</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/CheckMyStars/formation.php"){echo(' active" aria-current="page');} ?>" href="formation.php">Formation</a>
+                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/checkmystars/formation.php"){echo(' active" aria-current="page');} ?>" href="formation.php">Formation</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/CheckMyStars/gallerie.php"){echo(' active" aria-current="page');} ?>" href="gallerie.php">Gallerie</a>
+                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/checkmystars/gallerie.php"){echo(' active" aria-current="page');} ?>" href="gallerie.php">Gallerie</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/CheckMyStars/contact.php"){echo(' active" aria-current="page');} ?>" href="contact.php">Me contacter</a>
+                        <a class="nav-link<?php if($_SERVER["PHP_SELF"] == "/checkmystars/contact.php"){echo(' active" aria-current="page');} ?>" href="contact.php">Me contacter</a>
                     </li>
 
                 </ul>
