@@ -10,7 +10,7 @@ if(!isset($_SESSION['Role'])){
     die();
 }
 
-var_dump($_SESSION);
+//var_dump($_SESSION);
 ?>
 
 <!DOCTYPE html>
