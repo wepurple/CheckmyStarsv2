@@ -2,7 +2,7 @@
 class User {
     private $connexion;
     private $table = "utilisateurs";
-    private $table2 = "adresses";
+    private $table2 = "adressesPostales";
 
     public $IdPersonne;
     public $Nom;
@@ -94,7 +94,30 @@ class User {
 
         if($query->execute()){
             return true;
+
         }
         return false;
+    }
+
+    public function afficherUtilisateur(){
+        $sql = "SELECT * FROM ". $this->table ." u INNER JOIN ". $this->table2 ." a ON u.AdressePostale_ID = a.AdressePostale_ID;";
+        $query = $this->connexion->prepare($sql);
+        $query->execute();
+        $row= $query->fetch(PDO::FETCH_ASSOC);
+        $this->Utilisateur_ID=$row['Utilisateur_ID'];
+        $this->Utilisateur_Nom=$row['Utilisateur_Nom'];
+        $this->Utilisateur_Prenom=$row['Utilisateur_Prenom'];
+        $this->Utilisateur_Civilite=$row['Utilisateur_Civilite'];
+        $this->Utilisateur_Telephone=$row['Utilisateur_Telephone'];
+        $this->Utilisateur_Mail=$row['Utilisateur_Mail'];
+        $this->Utilisateur_Signature=$row['Utilisateur_Signature'];
+        $this->AdressePostale_NumeroRue=$row['AdressePostale_NumeroRue'];
+        $this->AdressePostale_Complement=$row['AdressePostale_Complement'];
+        $this->AdressePostale_CodePostal=$row['AdressePostale_CodePostal'];
+        $this->AdressePostale_NomRue=$row['AdressePostale_NomRue'];
+        $this->AdressePostale_Ville=$row['AdressePostale_Ville'];
+        $this->AdressePostale_Pays=$row['AdressePostale_Pays'];
+
+        return $query;
     }
 }
