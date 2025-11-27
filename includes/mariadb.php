@@ -5,7 +5,7 @@
         private $connexion;
         private $dns = 'mysql:host=localhost;port=3307;dbname=checkmystars';
         private $utilisateur = 'root';
-        private $motDePasse = 'password';
+        private $motDePasse = 'passwod';
 
         public function getConnection() {
             $this->connexion = null;
