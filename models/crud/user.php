@@ -107,9 +107,9 @@ class User {
         $row= $query->fetch(PDO::FETCH_ASSOC);
         $this->Utilisateur_ID=$row['Utilisateur_ID'];
         $query->bindParam(":Nom", $this->Nom);
-        $this->Utilisateur_Prenom=$row['Utilisateur_Prenom'];
-        $this->Utilisateur_Civilite=$row['Utilisateur_Civilite'];
-        $this->Utilisateur_Telephone=$row['Utilisateur_Telephone'];
+        $query->bindParam(":Prenom", $this->Prenom);
+        $query->bindParam(":Civilite", $this->Civilite);
+        $query->bindParam(":Telephone", $this->Telephone);
         $this->Utilisateur_Mail=$row['Utilisateur_Mail'];
         $this->Utilisateur_Signature=$row['Utilisateur_Signature'];
         $this->AdressePostale_NumeroRue=$row['AdressePostale_NumeroRue'];
