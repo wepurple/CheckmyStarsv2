@@ -7,7 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     include_once '../../includes/mariadb.php';
-    include_once '../crud/User.php';
+    include_once '../crud/user.php';
 
     $database = new Database();
     $db = $database->getConnection();
@@ -53,7 +53,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 *  "Prenom" : "Terence",
 * "Civilite" : "Monsieur",
 *    "Telephone" : "0791919191",
-*    "*Email" : "angel.dupont@example.com",
+*    "Email" : "angel.dupont@example.com",
 *    "Adresse" : "14 rue du blazlal",
 *    "Complement" : "12",
 *    "CodePostal" : "45000",
