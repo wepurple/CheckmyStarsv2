@@ -20,7 +20,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
         $tableauClient['utilisateur'] = [];
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
-
+ 
             $liste = [
                 "Utilisateur_ID" => $Utilisateur_ID,
                 "Utilisateur_Nom" => $Utilisateur_Nom,
