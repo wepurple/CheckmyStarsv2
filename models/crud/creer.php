@@ -31,10 +31,10 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $user->Role = $data->Role;
         $user->Login = $data->Login;
         $user->MotPasse = $data->MotPasse;
-
+        $idAdresse = $user->creerAdresse();
         if($user->creerAdresse()){
             http_response_code(201);
-            $idAdresse = $user->creerAdresse();
+            
             echo json_encode([
                 "message" => "Adresse créée avec succès.",
                 "idAdresse" => $idAdresse
