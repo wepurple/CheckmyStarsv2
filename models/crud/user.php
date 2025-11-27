@@ -97,15 +97,13 @@ class User {
         $query->bindParam(":Civilite", $this->Civilite);
         $query->bindParam(":Telephone", $this->Telephone);
         $query->bindParam(":Email", $this->Email);
+        $query->bindParam(":Signature", $this->Signature);
         $query->bindParam(":AdresseNum", $this->AdresseNum);
-        $query->bindParam(":AdresseNom", $this->AdresseNom);
         $query->bindParam(":Complement", $this->Complement);
         $query->bindParam(":CodePostal", $this->CodePostal);
+        $query->bindParam(":AdresseNom", $this->AdresseNom);
         $query->bindParam(":Ville", $this->Ville);
         $query->bindParam(":Pays", $this->Pays);
-        $query->bindParam(":Societe", $this->Societe);
-        $query->bindParam(":MotPasse", $this->MotPasse);
-        $query->bindParam(":Signature", $this->Signature);
 
         return $query;
     }
