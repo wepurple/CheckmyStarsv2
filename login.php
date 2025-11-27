@@ -6,7 +6,7 @@
     $login = trim(strip_tags($_POST['email']));
     $password = trim(strip_tags($_POST['password']));
 
-    $sql="select * from personne where email = :login and MotPasse = :password";
+    $sql="select * from utilisateurs where utilisateur_mail = :login and utilisateur_password = :password";
     $db = new Database();
 
     $requete = $db->getConnection();
@@ -21,15 +21,32 @@
 
         //var_dump($result);
         if ($result){
+            //on va voir dans les tables .administrateurs et .inspecteurs si l'utilisateur détient les rôles concernés
+            $sql = "select * from administrateurs where Utilisateur_ID = :id";
+            $requete = $db->getConnection();
+            $requete = $requete->prepare($sql);
+            $requete->bindValue(':id', $result["Utilisateur_ID"]);
+            $requete->execute();
+            if($requete->fetch(PDO::FETCH_ASSOC)){$admin = true;}else{$admin = false;}
+            
+            $sql = "select * from inspecteurs where Utilisateur_ID = :id";
+            $requete = $db->getConnection();
+            $requete = $requete->prepare($sql);
+            $requete->bindValue(':id', $result["Utilisateur_ID"]);
+            $requete->execute();
+            if($requete->fetch(PDO::FETCH_ASSOC)){$inspecteur = true;}else{$inspecteur=false;}
+
             $_SESSION = array(
-                "ID"=>$result["IdPersonne"],
-                "Nom"=>$result["Nom"],
-                "Prenom"=>$result["Prenom"],
-                "Role"=>$result["Role"],
-                "Login"=>$result['Login'],
-                "Telephone"=>$result['Telephone'],
-                "Email"=>$result['Email'],
-                "Civilite"=>$result['Civilite']
+                "ID"=>$result["Utilisateur_ID"],
+                "Nom"=>$result["Utilisateur_Nom"],
+                "Prenom"=>$result["Utilisateur_Prenom"],
+                "Role"=>array(
+                    "Administrateur"=>$admin,
+                    "Instepcteur"=>$inspecteur
+                ),
+                "Telephone"=>$result['Utilisateur_Telephone'],
+                "Email"=>$result['Utilisateur_Mail'],
+                "Civilite"=>$result['Utilisateur_Civilite']
             );
         }
             echo(json_encode($result));
