@@ -34,7 +34,7 @@
                 </ul>
 
                 <div class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <span class="nav-text">Connecté en tant que <?php if(isset($_SESSION['Prenom'])){ echo($_SESSION['Prenom'] . " " . $_SESSION['Nom']); } ?></span>
+                    <span class="nav-text">Connecté<?php if(isset($_SESSION['Prenom']) && isset($_SESSION['Nom'])){ echo(" en tant que " . $_SESSION['Prenom'] . " " . $_SESSION['Nom']); } ?></span>
                 </div>
 
                 <ul class="navbar-nav ms-2 mb-2 mb-lg-0">
