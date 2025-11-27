@@ -79,11 +79,6 @@ class User {
         $query->bindParam(":Civilite", $this->Civilite);
         $query->bindParam(":Telephone", $this->Telephone);
         $query->bindParam(":Email", $this->Email);
-        $query->bindParam(":Adresse", $this->Adresse);
-        $query->bindParam(":Complement", $this->Complement);
-        $query->bindParam(":CodePostal", $this->CodePostal);
-        $query->bindParam(":Ville", $this->Ville); 
-        $query->bindParam(":Pays", $this->Pays);
         $query->bindParam(":Societe", $this->Societe);
         $query->bindParam(":MotPasse", $this->MotPasse);
 
