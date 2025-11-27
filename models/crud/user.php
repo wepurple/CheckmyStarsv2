@@ -53,6 +53,7 @@ class User {
         $query->bindParam(":Pays", $this->Pays);
 
         if($query->execute()){
+            return $this->connexion->lastInsertId();
             return true;
         }
         return false;
