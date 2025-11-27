@@ -18,6 +18,7 @@ class User {
     public $Societe;
     public $MotPasse;
     public $Signature;
+    public $idAdresse;
 
     /**
      * Constructeur avec $db pour la connexion à la base de données
@@ -33,7 +34,7 @@ class User {
         * @return void
     */
     public function creerAdresse(){
-        $sql = "INSERT INTO " . $this->table2 . " SET AdressePostale_NumeroRue=:AdresseNum, AdressePostale_Complement=:Complement, AdressePostale_CodePostal=:CodePostal, AdressePostale_NomRue=:AdresseNom, AdressePostale_Ville=:Ville, AdressePostale_Pays=:Pays";
+        $sql = "INSERT INTO " . $this->table2 . " SET AdressePostale_NumeroRue=:AdresseNum, AdressePostale_Complement=:Complement, AdressePostale_CodePostal=:CodePostal, AdressePostale_NomRue=:AdresseNom, AdressePostale_Ville=:Ville, AdressePostale_Pays=:Pays, AdressePostale_ID=:AdressePostale_ID";
         $query = $this->connexion->prepare($sql);
 
         $this->AdresseNum=htmlspecialchars(strip_tags($this->AdresseNum));
@@ -66,14 +67,9 @@ class User {
         $this->Civilite=htmlspecialchars(strip_tags($this->Civilite));
         $this->Telephone=htmlspecialchars(strip_tags($this->Telephone));
         $this->Email=htmlspecialchars(strip_tags($this->Email));
-        $this->AdresseNum=htmlspecialchars(strip_tags($this->AdresseNum));
-        $this->AdresseNom=htmlspecialchars(strip_tags($this->AdresseNom));
-        $this->Complement=htmlspecialchars(strip_tags($this->Complement));
-        $this->CodePostal=htmlspecialchars(strip_tags($this->CodePostal));
-        $this->Ville=htmlspecialchars(strip_tags($this->Ville));
-        $this->Pays=htmlspecialchars(strip_tags($this->Pays));
         $this->Societe=htmlspecialchars(strip_tags($this->Societe));
         $this->MotPasse=htmlspecialchars(strip_tags($this->MotPasse));
+        $this->idAdresse=htmlspecialchars(strip_tags($this->idAdresse));
 
         $query->bindParam(":Nom", $this->Nom);
         $query->bindParam(":Prenom", $this->Prenom);
@@ -82,6 +78,7 @@ class User {
         $query->bindParam(":Email", $this->Email);
         $query->bindParam(":Societe", $this->Societe);
         $query->bindParam(":MotPasse", $this->MotPasse);
+        $query->bindParam(":AdressePostale_ID", $this->idAdresse);
 
         if($query->execute()){
             return true;
