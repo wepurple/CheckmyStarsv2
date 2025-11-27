@@ -15,8 +15,8 @@ if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
     $data = json_decode(file_get_contents("php://input"));
     $stmt = $user->afficherUtilisateur();
 
-    if(!empty($donnees->id)){
-        $user->id = $donnees->id;
+    if(!empty($donnees->IdPersonne)){
+        $user->IdPersonne = $donnees->IdPersonne;
 
         if($user->supprimerUtilisateur()){
             http_response_code(200);
