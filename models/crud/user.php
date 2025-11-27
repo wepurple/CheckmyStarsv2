@@ -106,7 +106,7 @@ class User {
         $query->execute();
         $row= $query->fetch(PDO::FETCH_ASSOC);
         $this->Utilisateur_ID=$row['Utilisateur_ID'];
-        $this->Utilisateur_Nom=$row['Utilisateur_Nom'];
+        $query->bindParam(":Nom", $this->Nom);
         $this->Utilisateur_Prenom=$row['Utilisateur_Prenom'];
         $this->Utilisateur_Civilite=$row['Utilisateur_Civilite'];
         $this->Utilisateur_Telephone=$row['Utilisateur_Telephone'];
