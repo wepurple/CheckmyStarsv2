@@ -34,7 +34,7 @@ class User {
         * @return void
     */
     public function creerAdresse(){
-        $sql = "INSERT INTO " . $this->table2 . " SET AdressePostale_NumeroRue=:AdresseNum, AdressePostale_Complement=:Complement, AdressePostale_CodePostal=:CodePostal, AdressePostale_NomRue=:AdresseNom, AdressePostale_Ville=:Ville, AdressePostale_Pays=:Pays";
+        $sql = "INSERT INTO " . $this->table2 . " SET AdressePostale_NumeroRue=:AdresseNum, AdressePostale_Complement=:Complement, AdressePostale_CodePostal=:CodePostal, AdressePostale_NomRue=:AdresseNom, AdressePostale_Ville=:Ville, AdressePostale_Pays=:Pays, AdressePostale_ID=:AdressePostale_ID";
         $query = $this->connexion->prepare($sql);
 
         $this->AdresseNum=htmlspecialchars(strip_tags($this->AdresseNum));
