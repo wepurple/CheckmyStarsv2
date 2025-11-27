@@ -71,4 +71,24 @@ class User {
         }
         return false;
     }
+
+    public function afficherClient(){
+        $sql = "SELECT * FROM ". $this->table." WHERE Role = 'Client';";
+        $query = $this->connexion->prepare($sql);
+        $query->execute();
+        $row= $query->fetch(PDO::FETCH_ASSOC);
+        $this->IdPersonne=$row['IdPersonne'];
+        $this->Nom=$row['Nom'];
+        $this->Prenom=$row['Prenom'];
+        $this->Civilite=$row['Civilite'];
+        $this->Telephone=$row['Telephone'];
+        $this->Email=$row['Email'];
+        $this->Adresse=$row['Adresse'];
+        $this->Complement=$row['Complement'];
+        $this->CodePostal=$row['CodePostal'];
+        $this->Ville=$row['Ville'];
+        $this->Pays=$row['Pays'];
+        $this->Societenom=$row['Societe'];
+        $this->Role=$row['Role'];
+    }
 }
