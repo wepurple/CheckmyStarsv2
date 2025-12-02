@@ -83,7 +83,7 @@ if(!isset($_SESSION['Role'])){
 
                 <tbody  class="table-group-divider" id="table-body">
                     <?php
-                    for($i =0;$i <10;$i++){ ?>
+                    for( $i = 0 ; $i < 10 ; $i++ ){ ?>
                     <tr>
                         <th scope="row"><?php echo($i+1) ?></th>
                         <td>1</td>
