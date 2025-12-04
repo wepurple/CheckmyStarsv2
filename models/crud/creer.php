@@ -42,14 +42,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             http_response_code(503);
             echo json_encode(array("message" => "Impossible de créer l'adresse."));
         }
-
-        #if($user->creer()){
-            #http_response_code(201);
-            #echo json_encode(array("message" => "Utilisateur créé avec succès."));
-        #} else {
-            #http_response_code(503);
-            #echo json_encode(array("message" => "Impossible de créer l'utilisateur."));
-        #}
     } else {
         http_response_code(400);
         echo json_encode(array("message" => "Erreur, les données entre ne sont pas valide."));
