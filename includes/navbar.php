@@ -22,7 +22,7 @@
                     <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_inspecteurs.php"){echo(' active" aria-current="page');} ?>" href="gestion_inspecteurs.php">Gestion des inspecteurs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/lorem.php"){echo(' active" aria-current="page');} ?>" href="lorem.php">lorem</a>
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/dashboard.php"){echo(' active" aria-current="page');} ?>" href="Dashboard.php">dashboard</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/ipsum.php"){echo(' active" aria-current="page');} ?>" href="ipsum.php">ipsum</a>
