@@ -17,3 +17,34 @@
         <?php        
             require("./includes/navbar.php");
         ?>
+
+         <div class="container-fluid p-3">
+            
+            <!-- Formulaire de recherche -->
+            <nav class="navbar">
+                <div class="container-fluid d-flex flex-row mb-2">
+                    <div class="input-group">
+                        <span class="input-group-text">Rechercher par</span>
+                        <select class="form-select" id="inputGroupSelect01">
+                            <option selected>--selectionner--</option>
+                            <option value="1">Clients</option>
+                            <option value="2">En cours</option>
+                            <option value="3">Terminé</option>
+                        </select>
+                        <input id="recherche" type="text" aria-label="Last name" class="form-control">
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Tableau -->
+            <table class="table table-dark table-sm table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Clients</th>
+                        <th>Société</th>
+                        <th>Téléphone</th>
+                        <th>Mail</th>
+                        <th>Nombre de dossiers</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
