@@ -1,6 +1,7 @@
 async function createUser() 
 {
     const zoneError = document.getElementById('zone-error');
+    zoneError.innerHTML = '';
 
     var nomValue = document.getElementById("nom").value;
     var prenomValue = document.getElementById("prenom").value;
@@ -36,10 +37,17 @@ async function createUser()
         additionalAddressValue = null;
     }
 
+    if (passwordValue !== confirmPasswordValue) {
+        zoneError.innerHTML = `
+            <div class="alert alert-danger">
+                Les mots de passe ne correspondent pas
+            </div>
+        `;
+        return;
+    }
+
     try 
     {
-        console.log(nomValue, prenomValue)
-
         const url = 'http://172.20.33.6/checkmystars/models/crud/creer.php';
         const data = 
         {
@@ -71,21 +79,34 @@ async function createUser()
             throw new Error(`Erreur HTTP: ${response.status}`);
         }
 
-        const result = await response.json();
-        console.log('Produit ajouté avec succès:', result);
-
-        zoneError.innerHTML = `
-            <div class="alert alert-success">
-                Produit ajouté avec succès
-            </div>
-        `;
-
-    }
-    catch (error) 
-    {
+        // Essayer de lire la réponse comme texte d'abord
+        const responseText = await response.text();
+        console.log('Réponse brute:', responseText);
+        
+        // Parser en JSON
+        const result = JSON.parse(responseText);
+        console.log('Réponse JSON:', result);
+        
+        if (result.success) {
+            zoneError.innerHTML = `
+                <div class="alert alert-success">
+                    ${result.message}
+                </div>
+            `;
+        } else {
+            zoneError.innerHTML = `
+                <div class="alert alert-danger">
+                    ${result.message}
+                </div>
+            `;
+        }
+        
+    } catch (error) {
+        console.error('Erreur complète:', error);
         zoneError.innerHTML = `
             <div class="alert alert-danger">
-                Erreur lors de l'ajout du produit: ${error.message}
+                Erreur: ${error.message}<br>
+                Vérifiez la console pour plus de détails.
             </div>
         `;
     }
