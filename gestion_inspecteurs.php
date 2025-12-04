@@ -59,10 +59,6 @@ if(!isset($_SESSION['Role'])){
                         <th>Prénom</th>
                         <th>Civilité</th>
                         <th>Société</th>
-                        <th>Mail</th>
-                        <th>Téléphone</th>
-                        <th>Signature</th>
-                        <th>Adresse postale</th>
                     </tr>
                 </thead>
 
@@ -91,10 +87,6 @@ if(!isset($_SESSION['Role'])){
                         <td>2</td>
                         <td>3</td>
                         <td>4</td>
-                        <td>5</td>
-                        <td>6</td>
-                        <td>7</td>
-                        <td>8</td>
                     </tr>
                     <?php } ?>
                 </tbody>
