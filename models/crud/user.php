@@ -109,16 +109,18 @@ class User {
     }
 
     public function supprimerUtilisateur(){
-        $sql = "DELETE FROM ".$this->table." WHERE Utilisateur_ID =?";
-        $query = $this->connexion->prepare($sql);
+        $sql1 = "DELETE FROM " . $this->table2 . " WHERE AdressePostale_ID IN (SELECT AdressePostale_ID FROM " . $this->table . " WHERE Utilisateur_ID = ?)";
+        $query1 = $this->connexion->prepare($sql1);
         $this->IdPersonne=htmlspecialchars(strip_tags($this->IdPersonne));
-        $query->bindParam(1, $this->IdPersonne);
-        if($query->execute()){
-            print('Ca marche en vla');
+        $query1->bindParam(1, $this->IdPersonne);
+        
+        $sql2 = "DELETE FROM " . $this->table . " WHERE Utilisateur_ID = ?";
+        $query2 = $this->connexion->prepare($sql2);
+        $query2->bindParam(1, $this->IdPersonne);
+        if($query1->execute() && $query2->execute()){
         return true;
         }
         else {
-            print("Ca clc nsm");
         }
         return false;
     }
