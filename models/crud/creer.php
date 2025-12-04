@@ -1,15 +1,9 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+header("Access-Control-Allow-Methods: GET");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
-// Respond to CORS preflight requests
-if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
-    http_response_code(200);
-    exit;
-}
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     include_once '../../includes/mariadb.php';
@@ -43,9 +37,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if($user->creer()){
                 http_response_code(201);
                 echo json_encode(array("message" => "Utilisateur créé avec succès."));
-            } else {
-                http_response_code(503);
-                echo json_encode(array("message" => "Impossible de créer l'utilisateur."));
             }
         } else {
             http_response_code(503);
@@ -60,21 +51,21 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     echo json_encode(array("message" => "La methode n'est pas autorisé."));
 }
 
-/*
-http://172.20.33.6/checkmystars/models/crud/creer.php
-{
-    "Nom" : "tg",
-    "Prenom" : "tg",
-    "Civilite" : "Monsieur",
-    "Telephone" : "0791919191",
-    "Email" : "inspesdect.dupont@example.com",
-    "AdresseNum" : "14",
-    "AdresseNom" : "rue du bazouzou",
-    "Complement" : "12",
-    "CodePostal" : "45000",
-    "Ville" : "Orléans",
-    "Pays": "France",
-    "Societe" : "TerenceInc",
-    "MotPasse" : "mdr"
-}
+/**
+* {
+*   "Nom" : "Kylian",
+*  "Prenom" : "Terence",
+* "Civilite" : "Monsieur",
+*    "Telephone" : "0791919191",
+*    "Email" : "angel.dupont@example.com",
+*    "Adresse" : "14 rue du blazlal",
+*    "Complement" : "12",
+*    "CodePostal" : "45000",
+*    "Ville" : "Orléans",
+*    "Pays": "France",
+*    "Societe" : "TerenceInc",
+*    "Role" : "Client",
+*    "Login" : "angel",
+*    "MotPasse" : "angel"
+*}
  */
