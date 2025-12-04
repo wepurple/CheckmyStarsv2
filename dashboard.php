@@ -40,7 +40,7 @@
             <table class="table table-dark table-sm table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>Clients</th>
+                        <th>Nom</th>
                         <th>Société</th>
                         <th>Téléphone</th>
                         <th>Mail</th>
@@ -48,3 +48,47 @@
                         <th>Status</th>
                     </tr>
                 </thead>
+                <tbody>
+                    <?php
+                    require_once('./includes/mariadb.php');
+                    
+                    $database = new Database();
+                    $db = $database->getConnection();
+                    
+                    if (is_array($db)) {
+                        echo "<tr><td colspan='6' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
+                    } else {
+                        try {
+                            // Requête pour récupérer toutes les données
+                            $sql = "SELECT nom, societe, telephone, mail, nombre_dossiers, status FROM clients ORDER BY nom ASC";
+                            $stmt = $db->prepare($sql);
+                            $stmt->execute();
+                            
+                            if ($stmt->rowCount() > 0) {
+                                while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                    echo "<tr>";
+                                    echo "<td>" . htmlspecialchars($row['nom']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['societe']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['telephone']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['mail']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['nombre_dossiers']) . "</td>";
+                                    
+                                    // Badge pour le statut (0 = En cours, 1 = Terminé)
+                                    $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
+                                    $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
+                                    echo "<td><span class='badge $statusClass'>$statusText</span></td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='6' class='text-center'>Aucune donnée trouvée</td></tr>";
+                            }
+                        } catch(PDOException $e) {
+                            echo "<tr><td colspan='6' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
+                        }
+                    }
+                    ?>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>
