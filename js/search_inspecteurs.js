@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {//quand la page est ch
     document.getElementById('recherche').addEventListener('input', function(){
         clearTimeout(timer)
         console.log("ok")
+        //continuer ici
     })
 
     const request = new XMLHttpRequest()
