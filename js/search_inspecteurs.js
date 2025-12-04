@@ -9,6 +9,12 @@ function clearTab(){
 
 document.addEventListener("DOMContentLoaded", function() {//quand la page est chargée
 
+    let timer
+    document.getElementById('recherche').onabort('input', function(){
+        clearTimeout(timer)
+        //todo
+    })
+
     const request = new XMLHttpRequest()
     request.open("GET", `getInspecteurs.php`, true)
     request.send()
