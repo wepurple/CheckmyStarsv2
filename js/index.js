@@ -1,16 +1,20 @@
-//déclencheurs qui appuient sur le bouton une fois la touche entrée pressée
-document.getElementById("password").addEventListener("keypress", function(event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    document.getElementById("valider").click();
-  }
+document.addEventListener("DOMContentLoaded", function() {//quand la page est chargée
+    //déclencheurs qui appuient sur le bouton une fois la touche entrée pressée
+    document.getElementById("password").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("valider").click();
+    }
+    });
+    document.getElementById("email").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("valider").click();
+    }
+    });
 });
-document.getElementById("email").addEventListener("keypress", function(event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    document.getElementById("valider").click();
-  }
-});
+
+
 
 
 function login() {
