@@ -113,11 +113,11 @@ class User {
         $query1 = $this->connexion->prepare($sql1);
         $this->IdPersonne=htmlspecialchars(strip_tags($this->IdPersonne));
         $query1->bindParam(1, $this->IdPersonne);
-        
+
         $sql2 = "DELETE FROM " . $this->table . " WHERE Utilisateur_ID = ?";
         $query2 = $this->connexion->prepare($sql2);
         $query2->bindParam(1, $this->IdPersonne);
-        if($query1->execute() && $query2->execute()){
+        if($query2->execute() && $query2->execute()){
         return true;
         }
         else {
