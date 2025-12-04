@@ -125,7 +125,7 @@ class User {
         $sql1 = "DELETE FROM " . $this->table . " WHERE Utilisateur_ID = ?";
         $query1 = $this->connexion->prepare($sql1);
         $query1->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
-        $query->execute();
+        $query1->execute();
 
         if ($adresseID) {
             $sql2 = "DELETE FROM ".$this->table2." WHERE AdressePostale_ID =?";
