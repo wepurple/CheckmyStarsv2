@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="bootstrap 5.3/css/style.css">
   <script src="bootstrap 5.3/js/bootstrap.js"></script>
+  <script src="js/index.js"></script>
   <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
 </head>
 
@@ -72,7 +73,6 @@
 
 
   </div>
-  
-  <script src="js/index.js"></script>
+
 </body>
 </html>
