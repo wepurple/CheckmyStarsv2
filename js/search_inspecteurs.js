@@ -10,9 +10,9 @@ function clearTab(){
 document.addEventListener("DOMContentLoaded", function() {//quand la page est chargée
 
     let timer
-    document.getElementById('recherche').onabort('input', function(){
+    document.getElementById('recherche').addEventListener('input', function(){
         clearTimeout(timer)
-        //todo
+        console.log("ok")
     })
 
     const request = new XMLHttpRequest()
