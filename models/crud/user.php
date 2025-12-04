@@ -109,19 +109,29 @@ class User {
     }
 
     public function supprimerUtilisateur(){
-        $sql1 = "DELETE FROM " . $this->table2 . " WHERE AdressePostale_ID IN (SELECT AdressePostale_ID FROM " . $this->table . " WHERE Utilisateur_ID = ?)";
-        $query1 = $this->connexion->prepare($sql1);
-        $this->IdPersonne=htmlspecialchars(strip_tags($this->IdPersonne));
-        $query1->bindParam(1, $this->IdPersonne);
 
-        $sql2 = "DELETE FROM " . $this->table . " WHERE Utilisateur_ID = ?";
-        $query2 = $this->connexion->prepare($sql2);
-        $query2->bindParam(1, $this->IdPersonne);
-        if($query2->execute() && $query2->execute()){
-        return true;
+        $sql = "SELECT AdressePostale_ID FROM utilisateurs WHERE Utilisateur_ID = ?";
+        $query = $this->connexion->prepare($sql);
+        $query->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
+        $query->execute();
+        $adresse = $query->fetch(PDO::FETCH_ASSOC);
+
+        if ($adresse && isset($adresse['AdressePostale_ID'])) {
+            $adresseID = $adresse['AdressePostale_ID'];
+        } else {
+            $adresseID = null;
         }
-        else {
+
+        $sql1 = "DELETE FROM " . $this->table . " WHERE Utilisateur_ID = ?";
+        $query1 = $this->connexion->prepare($sql1);
+        $query1->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
+        $query->execute();
+
+        if ($adresseID) {
+            $sql2 = "DELETE FROM ".$this->table2." WHERE AdressePostale_ID =?";
+            $query2 = $this->connexion->prepare($sql2);
+            $query2->bindParam(1, $adresseID, PDO::PARAM_INT);
+            $query2->execute();
         }
-        return false;
     }
 }
