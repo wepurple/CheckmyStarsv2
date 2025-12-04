@@ -9,26 +9,25 @@ async function createUser()
     var addressValue = document.getElementById("address").value;
     var additionalAddressValue = document.getElementById("additionalAddress").value;
     var postalCodeValue = document.getElementById("postalCode").value;
-    var additionalAddressValue = document.getElementById("additionalAddress").value;
     var cityValue = document.getElementById("city").value;
     var companyValue = document.getElementById("company").value;
+    var civiliteHomme = document.getElementById("civilite_homme");
+    var civiliteFemme = document.getElementById("civilite_femme");
 
-    var civiliteHommeValue = document.getElementById("civilite_homme").value;
-    var civiliteFemmeValue = document.getElementById("civilite_femme").value;
-
-    var civiliteValue;
-
-    if (civiliteHommeValue.checked)
-    {
-        var civiliteValue = "Monsieur";
-    }
-    else
-    {
-        var civiliteValue = "Madame";
+    var civiliteValue = "";
+    if (civiliteHomme && civiliteHomme.checked) {
+        civiliteValue = "Monsieur";
+    } else if (civiliteFemme && civiliteFemme.checked) {
+        civiliteValue = "Madame";
     }
 
-    var adresseNum = addressValue.substring(0, 2);
-    var adresseNom = addressValue.substring(2);
+    var adresseNum = "";
+    var adresseNom = addressValue;
+    var m = addressValue.trim().match(/^\s*(\d+)\s*(.*)$/);
+    if (m) {
+        adresseNum = m[1];
+        adresseNom = m[2];
+    }
     
 
     try 
