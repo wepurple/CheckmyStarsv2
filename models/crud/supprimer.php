@@ -12,7 +12,7 @@ if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
     $database = new Database();
     $db = $database->getConnection();
     $user = new User($db);
-    $data = json_decode(file_get_contents("php://input"));
+    $donnees = json_decode(file_get_contents("php://input"));
     $stmt = $user->afficherUtilisateur();
 
     if(!empty($donnees->IdPersonne)){
