@@ -28,7 +28,11 @@ async function createUser()
         adresseNum = m[1];
         adresseNom = m[2];
     }
-    
+
+    if (additionalAddressValue === "")
+    {
+        additionalAddressValue = null;
+    }
 
     try 
     {
