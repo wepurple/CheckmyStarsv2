@@ -1,9 +1,15 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+
+// Gérer les requêtes OPTIONS pour CORS
+if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+    http_response_code(200);
+    exit();
+}
 
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     include_once '../../includes/mariadb.php';
@@ -13,6 +19,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $db = $database->getConnection();
     $user = new User($db);
     $data = json_decode(file_get_contents("php://input"));
+
+    // Debug logging
+    error_log("Données reçues: " . print_r($data, true));
 
     if (!empty($data->Nom) && !empty($data->Prenom) && !empty($data->Civilite) && !empty($data->Telephone) && !empty($data->Email) && !empty($data->AdresseNum) && !empty($data->AdresseNom) && !empty($data->CodePostal) && !empty($data->Ville) && !empty($data->Pays) && !empty($data->Societe) && !empty($data->MotPasse)) {
         
@@ -37,6 +46,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
             if($user->creer()){
                 http_response_code(201);
                 echo json_encode(array("message" => "Utilisateur créé avec succès."));
+            } else {
+                http_response_code(500);
+                echo json_encode(array("message" => "Erreur lors de la création de l'utilisateur."));
             }
         } else {
             http_response_code(503);
@@ -44,28 +56,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         }
     } else {
         http_response_code(400);
-        echo json_encode(array("message" => "Erreur, les données entre ne sont pas valide."));
+        echo json_encode(array("message" => "Erreur, des données obligatoires sont manquantes."));
     }
 } else {
     http_response_code(405);
-    echo json_encode(array("message" => "La methode n'est pas autorisé."));
+    echo json_encode(array("message" => "La méthode n'est pas autorisée."));
 }
-
-/**
-* {
-*   "Nom" : "Kylian",
-*  "Prenom" : "Terence",
-* "Civilite" : "Monsieur",
-*    "Telephone" : "0791919191",
-*    "Email" : "angel.dupont@example.com",
-*    "Adresse" : "14 rue du blazlal",
-*    "Complement" : "12",
-*    "CodePostal" : "45000",
-*    "Ville" : "Orléans",
-*    "Pays": "France",
-*    "Societe" : "TerenceInc",
-*    "Role" : "Client",
-*    "Login" : "angel",
-*    "MotPasse" : "angel"
-*}
- */

@@ -38,8 +38,6 @@ async function createUser()
 
     try 
     {
-        console.log(nomValue, prenomValue)
-
         const url = 'http://172.20.33.6/checkmystars/models/crud/creer.php';
         const data = 
         {

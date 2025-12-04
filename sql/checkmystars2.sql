@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : jeu. 27 nov. 2025 à 08:46
+-- Généré le : jeu. 04 déc. 2025 à 07:37
 -- Version du serveur : 11.5.2-MariaDB
 -- Version de PHP : 8.3.14
 
@@ -71,15 +71,15 @@ INSERT INTO `administre` (`Utilisateur_ID`, `Critere_ID`) VALUES
 
 DROP TABLE IF EXISTS `adressespostales`;
 CREATE TABLE IF NOT EXISTS `adressespostales` (
-  `AdressePostale_ID` int(11) NOT NULL,
+  `AdressePostale_ID` int(11) NOT NULL AUTO_INCREMENT,
   `AdressePostale_NumeroRue` varchar(50) DEFAULT NULL,
   `AdressePostale_Complement` varchar(50) DEFAULT NULL,
   `AdressePostale_CodePostal` varchar(50) DEFAULT NULL,
   `AdressePostale_NomRue` varchar(256) DEFAULT NULL,
-  `AdressePostale_Ville` varchar(256) DEFAULT NULL,
+  `AdressePostale_Ville` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `AdressePostale_Pays` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`AdressePostale_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `adressespostales`
@@ -89,7 +89,11 @@ INSERT INTO `adressespostales` (`AdressePostale_ID`, `AdressePostale_NumeroRue`,
 (1, '10', 'A', '75001', 'Rue de Rivoli', 'Paris', 'France'),
 (2, '25', NULL, '69002', 'Rue Merciere', 'Lyon', 'France'),
 (3, '5', NULL, '06000', 'Avenue des Fleurs', 'Nice', 'France'),
-(4, '42', NULL, '13001', 'La Canebiere', 'Marseille', 'France');
+(4, '42', NULL, '13001', 'La Canebiere', 'Marseille', 'France'),
+(7, '14', '12', '45000', 'rue du bazouzou', 'Orléans', 'France'),
+(34, '14', '12', '45000', 'rue du bazouzou', 'Orléans', 'France'),
+(35, '14', '12', '45000', 'rue du bazouzou', 'Orléans', 'France'),
+(36, '14', '12', '45000', 'rue du bazouzou', 'Orléans', 'France');
 
 -- --------------------------------------------------------
 
@@ -452,28 +456,31 @@ INSERT INTO `typeshebergements` (`TypeHebergement_ID`, `TypeHebergement_Nom`) VA
 
 DROP TABLE IF EXISTS `utilisateurs`;
 CREATE TABLE IF NOT EXISTS `utilisateurs` (
-  `Utilisateur_ID` int(11) NOT NULL,
+  `Utilisateur_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Utilisateur_Nom` varchar(50) NOT NULL,
   `Utilisateur_Prenom` varchar(50) DEFAULT NULL,
   `Utilisateur_Civilite` varchar(50) DEFAULT NULL,
+  `Utilisateur_Societe` varchar(150) DEFAULT NULL,
   `Utilisateur_Password` varchar(256) DEFAULT NULL,
   `Utilisateur_Mail` varchar(250) NOT NULL,
   `Utilisateur_Telephone` varchar(50) DEFAULT NULL,
   `Utilisateur_Signature` varchar(255) DEFAULT NULL,
   `AdressePostale_ID` int(11) NOT NULL,
   PRIMARY KEY (`Utilisateur_ID`),
+  UNIQUE KEY `unique_email` (`Utilisateur_Mail`),
   KEY `AdressePostale_ID` (`AdressePostale_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `utilisateurs`
 --
 
-INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Prenom`, `Utilisateur_Civilite`, `Utilisateur_Password`, `Utilisateur_Mail`, `Utilisateur_Telephone`, `Utilisateur_Signature`, `AdressePostale_ID`) VALUES
-(1, 'Dupont', 'Marie', 'Mme', 'pass123', 'marie.dupont@mail.com', '0600000001', NULL, 1),
-(2, 'Martin', 'Luc', 'M.', 'pass123', 'luc.martin@mail.com', '0600000002', NULL, 2),
-(3, 'Bernard', 'Julie', 'Mme', 'pass123', 'julie.bernard@mail.com', '0600000003', NULL, 3),
-(4, 'Durand', 'Paul', 'M.', 'pass123', 'paul.durand@mail.com', '0600000004', NULL, 4);
+INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Prenom`, `Utilisateur_Civilite`, `Utilisateur_Societe`, `Utilisateur_Password`, `Utilisateur_Mail`, `Utilisateur_Telephone`, `Utilisateur_Signature`, `AdressePostale_ID`) VALUES
+(1, 'Dupont', 'Marie', 'Mme', NULL, 'pass123', 'marie.dupont@mail.com', '0600000001', NULL, 1),
+(2, 'Martin', 'Luc', 'M.', NULL, 'pass123', 'luc.martin@mail.com', '0600000002', NULL, 2),
+(3, 'Bernard', 'Julie', 'Mme', NULL, 'pass123', 'julie.bernard@mail.com', '0600000003', NULL, 3),
+(4, 'Durand', 'Paul', 'M.', NULL, 'pass123', 'paul.durand@mail.com', '0600000004', NULL, 4),
+(7, 'tg', 'tg', 'Monsieur', 'TerenceInc', 'mdr', 'inspesdect.dupont@example.com', '0791919191', NULL, 34);
 
 --
 -- Contraintes pour les tables déchargées
