@@ -1,5 +1,7 @@
 async function createUser() 
 {
+    const zoneError = document.getElementById('zone-error');
+
     var nomValue = document.getElementById("nom").value;
     var prenomValue = document.getElementById("prenom").value;
     var emailValue = document.getElementById("email").value;
@@ -36,7 +38,7 @@ async function createUser()
 
     try 
     {
-        checkLastName();
+        console.log(nomValue, prenomValue)
 
         const url = 'http://172.20.33.6/checkmystars/models/crud/creer.php';
         const data = 
@@ -69,17 +71,29 @@ async function createUser()
             throw new Error(`Erreur HTTP: ${response.status}`);
         }
 
+        const result = await response.json();
+        console.log('Produit ajouté avec succès:', result);
+
+        zoneError.innerHTML = `
+            <div class="alert alert-success">
+                Produit ajouté avec succès
+            </div>
+        `;
+
     }
     catch (error) 
     {
-
+        zoneError.innerHTML = `
+            <div class="alert alert-danger">
+                Erreur lors de l'ajout du produit: ${error.message}
+            </div>
+        `;
     }
 }
 
 function checkLastName()
 {
     let regex = /^[a-z]+$/i;
-    console.log(regex.test(nomValue))
-
+    regex.test(nomValue)
 }
 
