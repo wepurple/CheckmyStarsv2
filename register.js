@@ -36,7 +36,7 @@ async function createUser()
 
     try 
     {
-        console.log(nomValue, prenomValue)
+        checkLastName();
 
         const url = 'http://172.20.33.6/checkmystars/models/crud/creer.php';
         const data = 
@@ -74,7 +74,12 @@ async function createUser()
     {
 
     }
+}
 
-    
+function checkLastName()
+{
+    let regex = /^[a-z]+$/i;
+    console.log(regex.test(nomValue))
+
 }
 
