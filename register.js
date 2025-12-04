@@ -1,5 +1,7 @@
 async function createUser() 
 {
+    const zoneError = document.getElementById('zone-error');
+
     var nomValue = document.getElementById("nom").value;
     var prenomValue = document.getElementById("prenom").value;
     var emailValue = document.getElementById("email").value;
@@ -69,10 +71,23 @@ async function createUser()
             throw new Error(`Erreur HTTP: ${response.status}`);
         }
 
+        const result = await response.json();
+        console.log('Produit ajouté avec succès:', result);
+
+        zoneError.innerHTML = `
+            <div class="alert alert-success">
+                Produit ajouté avec succès
+            </div>
+        `;
+
     }
     catch (error) 
     {
-
+        zoneError.innerHTML = `
+            <div class="alert alert-danger">
+                Erreur lors de l'ajout du produit: ${error.message}
+            </div>
+        `;
     }
 }
 

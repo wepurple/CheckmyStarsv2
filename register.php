@@ -10,109 +10,113 @@
         <link rel="stylesheet" href="bootstrap 5.3/css/style.css">
     </head>
     <body>
-  <div class="register-container" >
-    <div class="login-header text-center">
-      <i class="fas fa-user-circle fa-3x mb-3"></i>
-      <h2>CheckMyStars</h2>
+
+    <div id="zone-error" class="row">
+
     </div>
 
-    <div class="login-body">
-      <div class="alert alert-danger d-none" id="errorAlert">
-        <i class="fas fa-exclamation-circle"></i>
-        <span id="errorMessage"></span>
-      </div>
-
-      <form action="" method="post" id="registerForm">
-        <div class="row">
-          <div class="col-12 col-md-6">
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="nom" name="nom" placeholder="nom" required>
-              <label for="nom"><i class="fa-solid fa-person me-2"></i>Nom</label>
-            </div>
-
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="prenom" name="prenom" placeholder="prenom" required>
-              <label for="prenom"><i class="fa-solid fa-person me-2"></i>Prenom</label>
-            </div>
-
-            <div class="form-floating mb-3">
-              <input type="email" class="form-control" id="email" name="email" placeholder="email" required>
-              <label for="email"><i class="fas fa-envelope me-2"></i>Adresse email</label>
-            </div>
-
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control" id="password" name="mdp" placeholder="Mot de passe" required>
-              <label for="password"><i class="fas fa-lock me-2"></i>Mot de passe</label>
-            </div>
-
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Mot de passe" required>
-              <label for="confirmPassword"><i class="fas fa-lock me-2"></i>Confirmer le mot de passe</label>
-            </div>
-
-            <div class="mb-3">
-              <fieldset class="border rounded p-3">
-                <legend class="float-none w-auto px-2 mb-0">Civilité</legend>
-
-                <div class="d-flex align-items-center gap-3 mt-2">
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="civilite" id="civilite_homme" value="Homme" required>
-                    <label class="form-check-label" for="civilite_homme">
-                      <i class="fa-solid fa-person me-1" aria-hidden="true"></i> Homme
-                    </label>
-                  </div>
-
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="civilite" id="civilite_femme" value="Femme">
-                    <label class="form-check-label" for="civilite_femme">
-                      <i class="fa-solid fa-person-dress me-1" aria-hidden="true"></i> Femme
-                    </label>
-                  </div>
-                </div>
-              </fieldset>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6">
-            <div class="form-floating mb-3">
-              <input type="tel" class="form-control" id="phone" name="phone" placeholder="Numero de téléphone" pattern="[0-9]{10}" required>
-              <label for="phone"><i class="fas fa-phone me-2"></i>Numero de téléphone</label>
-            </div>
-
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="address" name="address" placeholder="Adresse" required>
-              <label for="address"><i class="fa-solid fa-house me-2"></i>Adresse</label>
-            </div>
-
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="additionalAddress" name="additionalAddress" placeholder="Complement d'adresse" required>
-              <label for="additionalAddress"><i class="fa-solid fa-house me-2"></i>Complement d'adresse</label>
-            </div>
-
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="postalCode" name="postalCode" placeholder="Code postale" required>
-              <label for="postalCode"><i class="fa-solid fa-envelope me-2"></i>Code postale</label>
-            </div>
-
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="city" name="city" placeholder="Ville" required>
-              <label for="city"><i class="fa-solid fa-city me-2"></i>Ville</label>
-            </div>
-
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control" id="company" name="company" placeholder="société" required>
-              <label for="company"><i class="fa-solid fa-building me-2"></i>Société</label>
-            </div>
+    <div class="register-container" >
+        <div class="login-header text-center">
+            <i class="fas fa-user-circle fa-3x mb-3"></i>
+            <h2>CheckMyStars</h2>
         </div>
 
-        <button type="button" class="btn btn-primary center-btn" onclick="createUser()">
-          <i class="fas fa-sign-in-alt me-2"></i>S'inscrire</button>
-      </form>
+        <div class="login-body">
+            <div class="alert alert-danger d-none" id="errorAlert">
+                <i class="fas fa-exclamation-circle"></i>
+                <span id="errorMessage"></span>
+            </div>
 
-      <div class="links text-center mt-3">
-        <a href="index.php">Deja un compte ?</a>
-      </div>
+            <form action="" method="post" id="registerForm">
+                <div class="row">
+                <div class="col-12 col-md-6">
+                    <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="nom" name="nom" placeholder="nom" required>
+                    <label for="nom"><i class="fa-solid fa-person me-2"></i>Nom</label>
+                    </div>
 
+                    <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="prenom" name="prenom" placeholder="prenom" required>
+                    <label for="prenom"><i class="fa-solid fa-person me-2"></i>Prenom</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                    <input type="email" class="form-control" id="email" name="email" placeholder="email" required>
+                    <label for="email"><i class="fas fa-envelope me-2"></i>Adresse email</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="password" name="mdp" placeholder="Mot de passe" required>
+                    <label for="password"><i class="fas fa-lock me-2"></i>Mot de passe</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Mot de passe" required>
+                    <label for="confirmPassword"><i class="fas fa-lock me-2"></i>Confirmer le mot de passe</label>
+                    </div>
+
+                    <div class="mb-3">
+                    <fieldset class="border rounded p-3">
+                        <legend class="float-none w-auto px-2 mb-0">Civilité</legend>
+
+                        <div class="d-flex align-items-center gap-3 mt-2">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="civilite" id="civilite_homme" value="Homme" required>
+                            <label class="form-check-label" for="civilite_homme">
+                            <i class="fa-solid fa-person me-1" aria-hidden="true"></i> Homme
+                            </label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="civilite" id="civilite_femme" value="Femme">
+                            <label class="form-check-label" for="civilite_femme">
+                            <i class="fa-solid fa-person-dress me-1" aria-hidden="true"></i> Femme
+                            </label>
+                        </div>
+                        </div>
+                    </fieldset>
+                    </div>
+                </div>
+
+                <div class="col-12 col-md-6">
+                    <div class="form-floating mb-3">
+                    <input type="tel" class="form-control" id="phone" name="phone" placeholder="Numero de téléphone" pattern="[0-9]{10}" required>
+                    <label for="phone"><i class="fas fa-phone me-2"></i>Numero de téléphone</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="address" name="address" placeholder="Adresse" required>
+                    <label for="address"><i class="fa-solid fa-house me-2"></i>Adresse</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="additionalAddress" name="additionalAddress" placeholder="Complement d'adresse" required>
+                    <label for="additionalAddress"><i class="fa-solid fa-house me-2"></i>Complement d'adresse</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="postalCode" name="postalCode" placeholder="Code postale" required>
+                    <label for="postalCode"><i class="fa-solid fa-envelope me-2"></i>Code postale</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="city" name="city" placeholder="Ville" required>
+                    <label for="city"><i class="fa-solid fa-city me-2"></i>Ville</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="company" name="company" placeholder="société" required>
+                    <label for="company"><i class="fa-solid fa-building me-2"></i>Société</label>
+                    </div>
+                </div>
+
+                <button type="button" class="btn btn-primary center-btn" onclick="createUser()">
+                <i class="fas fa-sign-in-alt me-2"></i>S'inscrire</button>
+            </form>
+
+        <div class="links text-center mt-3">
+            <a href="index.php">Deja un compte ?</a>
+        </div>
     </div>
   </div>
 
