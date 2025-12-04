@@ -109,12 +109,16 @@ class User {
     }
 
     public function supprimerUtilisateur(){
-        $sql = "DELETE FROM ".$this->table." WHERE id =?";
+        $sql = "DELETE FROM ".$this->table." WHERE Utilisateur_ID =?";
         $query = $this->connexion->prepare($sql);
         $this->IdPersonne=htmlspecialchars(strip_tags($this->IdPersonne));
         $query->bindParam(1, $this->IdPersonne);
         if($query->execute()){
+            print('Ca marche en vla');
         return true;
+        }
+        else {
+            print("Ca clc nsm");
         }
         return false;
     }
