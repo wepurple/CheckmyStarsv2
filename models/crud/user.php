@@ -110,7 +110,7 @@ class User {
 
     public function supprimerUtilisateur(){
 
-        $sql = "SELECT AdressePostale_ID FROM utilisateurs WHERE Utilisateur_ID = ?";
+        $sql = "SELECT AdressePostale_ID FROM ".$this->table." WHERE Utilisateur_ID = ?";
         $query = $this->connexion->prepare($sql);
         $query->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
         $query->execute();
