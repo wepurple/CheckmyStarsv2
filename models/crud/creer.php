@@ -55,7 +55,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 }
 
 /*
- {
+http://172.20.33.6/checkmystars/models/crud/creer.php
+{
     "Nom" : "tg",
     "Prenom" : "tg",
     "Civilite" : "Monsieur",
