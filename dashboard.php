@@ -19,9 +19,7 @@
         <?php        
             require("./includes/navbar.php");
         ?>
-        <a href="#">
-            <button>Creer</button>
-        </a>
+        
          <div class="container-fluid p-3">
             
             <!-- Formulaire de recherche -->
@@ -39,7 +37,9 @@
                     </div>
                 </div>
             </nav>
-
+            <a href="#">
+                <button>Creer</button>
+            </a>
             <!-- Tableau -->
             <table class="table table-dark table-sm table-striped table-hover">
                 <thead>
