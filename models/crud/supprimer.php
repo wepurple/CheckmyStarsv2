@@ -26,6 +26,10 @@ if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
             echo json_encode(["message" => "La suppression n'a pas été effectuée"]);
         }
     }
+    else{
+        http_response_code(503);
+        echo json_encode(["message" => "HOOOOOOOO NOOOOOOOOO"]);
+    }
 } else {
     http_response_code(405);
     echo json_encode(["message" => "La méthode n'est pas autorisée"]);
