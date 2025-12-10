@@ -65,6 +65,8 @@ document.addEventListener("DOMContentLoaded", function() {//quand la page est ch
     })
 
     document.getElementById('type').addEventListener('change', function(){//recherche quand on change le type de critère
-        recherche()
+        if (document.getElementById('recherche').value!=""){
+            recherche()
+        }
     })
 });
