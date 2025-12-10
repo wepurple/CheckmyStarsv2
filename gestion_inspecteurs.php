@@ -40,8 +40,7 @@ if(!isset($_SESSION['Role'])){
                     <div class="input-group">
                         <span class="input-group-text">Rechercher par</span>
                         <select class="form-select" id="type">
-                            <option selected value = "0">--selectionner--</option>
-                            <option value="1">ID</option>
+                            <option selected value = "1">ID</option>
                             <option value="2">Nom</option>
                             <option value="3">Société</option>
                         </select>
@@ -79,16 +78,7 @@ if(!isset($_SESSION['Role'])){
                 -->
 
                 <tbody  class="table-group-divider" id="table-body">
-                    <?php
-                    for( $i = 0 ; $i < 10 ; $i++ ){ ?>
-                    <tr>
-                        <th scope="row"><?php echo($i+1) ?></th>
-                        <td>1</td>
-                        <td>2</td>
-                        <td>3</td>
-                        <td>4</td>
-                    </tr>
-                    <?php } ?>
+                    <!-- Rempli par js/search_inspecteurs.js -->
                 </tbody>
             </table>
         </div>
