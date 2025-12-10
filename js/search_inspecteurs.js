@@ -57,11 +57,11 @@ document.addEventListener("DOMContentLoaded", function() {//quand la page est ch
     recherche()
 
     let timer
-    document.getElementById('recherche').addEventListener('input', function(){//recherche toute les 500ms après la dernière frappe
+    document.getElementById('recherche').addEventListener('input', function(){//recherche toute les 300ms après la dernière frappe
         clearTimeout(timer)
         timer = setTimeout(function(){
             recherche()
-        }, 500)
+        }, 300)
     })
 
     document.getElementById('type').addEventListener('change', function(){//recherche quand on change le type de critère

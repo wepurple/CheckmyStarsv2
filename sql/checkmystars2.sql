@@ -361,7 +361,8 @@ CREATE TABLE IF NOT EXISTS `inspecteurs` (
 --
 
 INSERT INTO `inspecteurs` (`Utilisateur_ID`) VALUES
-(2);
+(2),
+(7);
 
 -- --------------------------------------------------------
 
@@ -459,7 +460,7 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `Utilisateur_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Utilisateur_Nom` varchar(50) NOT NULL,
   `Utilisateur_Prenom` varchar(50) DEFAULT NULL,
-  `Utilisateur_Civilite` varchar(50) DEFAULT NULL,
+  `Utilisateur_Civilite` enum("Monsieur", "Madame", "Iel") DEFAULT NULL,
   `Utilisateur_Societe` varchar(150) DEFAULT NULL,
   `Utilisateur_Password` varchar(256) DEFAULT NULL,
   `Utilisateur_Mail` varchar(250) NOT NULL,
@@ -476,11 +477,11 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
 --
 
 INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Prenom`, `Utilisateur_Civilite`, `Utilisateur_Societe`, `Utilisateur_Password`, `Utilisateur_Mail`, `Utilisateur_Telephone`, `Utilisateur_Signature`, `AdressePostale_ID`) VALUES
-(1, 'Dupont', 'Marie', 'Mme', NULL, 'pass123', 'marie.dupont@mail.com', '0600000001', NULL, 1),
-(2, 'Martin', 'Luc', 'M.', NULL, 'pass123', 'luc.martin@mail.com', '0600000002', NULL, 2),
-(3, 'Bernard', 'Julie', 'Mme', NULL, 'pass123', 'julie.bernard@mail.com', '0600000003', NULL, 3),
-(4, 'Durand', 'Paul', 'M.', NULL, 'pass123', 'paul.durand@mail.com', '0600000004', NULL, 4),
-(7, 'tg', 'tg', 'Monsieur', 'TerenceInc', 'mdr', 'inspesdect.dupont@example.com', '0791919191', NULL, 34);
+(1, 'Dupont', 'Marie', 'Madame', "Vought International", 'pass123', 'marie.dupont@mail.com', '0600000001', NULL, 1),
+(2, 'Martin', 'Luc', 'Monsieur', 'Maze Bank', "pass123", 'luc.martin@mail.com', '0600000002', NULL, 2),
+(3, 'Bernard', 'Julie', 'Madame', 'DedSec', "pass123", 'julie.bernard@mail.com', '0600000003', NULL, 3),
+(4, 'Durand', 'Paul', 'Monsieur', 'Amazon', "pass123", 'paul.durand@mail.com', '0600000004', NULL, 4),
+(7, 'Martinant', 'Terence', 'Monsieur', 'TerenceInc', 'mdr', 'inspesdect.dupont@example.com', '0791919191', NULL, 34);
 
 --
 -- Contraintes pour les tables déchargées
