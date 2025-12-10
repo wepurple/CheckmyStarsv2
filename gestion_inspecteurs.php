@@ -39,8 +39,8 @@ if(!isset($_SESSION['Role'])){
                 <div class="container-fluid d-flex flex-row mb-2">
                     <div class="input-group">
                         <span class="input-group-text">Rechercher par</span>
-                        <select class="form-select" id="inputGroupSelect01">
-                            <option selected>--selectionner--</option>
+                        <select class="form-select" id="type">
+                            <option selected value = "0">--selectionner--</option>
                             <option value="1">ID</option>
                             <option value="2">Nom</option>
                             <option value="3">Société</option>
