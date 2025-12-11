@@ -6,7 +6,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Gestion inspecteurs - CheckMyStars</title>
+        <title>Gestion clients - CheckMyStars</title>
 
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -54,9 +54,17 @@
                 <tbody>
                     <?php
                     $apiUrl = "http://172.20.33.6/checkmystars/models/crud/infoDossier.php";
-                    $response = file_get_contents($apiUrl);
-                    $data = json_decode($response, true);
-                    var_dump($data);
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+                    $response = curl_exec($ch);
+                    $err = curl_error($ch);
+
+                    curl_close($ch);
+
+                    var_dump($response);
+                    var_dump($err);
                     require_once('./includes/mariadb.php');
                     
                     $database = new Database();
