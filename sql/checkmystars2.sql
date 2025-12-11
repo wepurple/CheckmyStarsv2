@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : jeu. 04 déc. 2025 à 07:37
+-- Généré le : jeu. 11 déc. 2025 à 09:10
 -- Version du serveur : 11.5.2-MariaDB
 -- Version de PHP : 8.3.14
 
@@ -79,7 +79,7 @@ CREATE TABLE IF NOT EXISTS `adressespostales` (
   `AdressePostale_Ville` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `AdressePostale_Pays` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`AdressePostale_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `adressespostales`
@@ -90,10 +90,9 @@ INSERT INTO `adressespostales` (`AdressePostale_ID`, `AdressePostale_NumeroRue`,
 (2, '25', NULL, '69002', 'Rue Merciere', 'Lyon', 'France'),
 (3, '5', NULL, '06000', 'Avenue des Fleurs', 'Nice', 'France'),
 (4, '42', NULL, '13001', 'La Canebiere', 'Marseille', 'France'),
-(7, '14', '12', '45000', 'rue du bazouzou', 'Orléans', 'France'),
 (34, '14', '12', '45000', 'rue du bazouzou', 'Orléans', 'France'),
-(35, '14', '12', '45000', 'rue du bazouzou', 'Orléans', 'France'),
-(36, '14', '12', '45000', 'rue du bazouzou', 'Orléans', 'France');
+(41, '14', '', '41600', 'rue des bruyere', 'chaon', 'France'),
+(42, '14', '', '41600', 'rue des bruyere', 'chaon', 'France');
 
 -- --------------------------------------------------------
 
@@ -126,6 +125,32 @@ CREATE TABLE IF NOT EXISTS `biens` (
 INSERT INTO `biens` (`Bien_ID`, `Biens_Nom`, `Bien_Telephone`, `Bien_DateEnregistrement`, `Bien_Etoile_Actuelle`, `Utilisateur_ID`, `AdressePostale_ID`, `TypeHebergement_ID`, `Utilisateur_ID_1`) VALUES
 (1, 'Hotel du Centre', '0102030405', '2024-01-01', 3, 4, 1, 1, 3),
 (2, 'Gite des Monts', '0102030406', '2024-02-15', 4, 4, 2, 2, 3);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `clients`
+--
+
+DROP TABLE IF EXISTS `clients`;
+CREATE TABLE IF NOT EXISTS `clients` (
+  `id` int(255) NOT NULL,
+  `nom` varchar(255) NOT NULL,
+  `societe` varchar(255) NOT NULL,
+  `telephone` int(255) NOT NULL,
+  `mail` varchar(255) NOT NULL,
+  `nombre_dossiers` int(255) NOT NULL,
+  `status` tinyint(1) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+
+--
+-- Déchargement des données de la table `clients`
+--
+
+INSERT INTO `clients` (`id`, `nom`, `societe`, `telephone`, `mail`, `nombre_dossiers`, `status`) VALUES
+(1, 'Celine Dion', 'Label', 658668996, 'celinedion@lebel.com', 2, 1),
+(2, 'Celine Dion', 'Label', 734748689, 'celinedion@gmail.com', 2, 1);
 
 -- --------------------------------------------------------
 
@@ -257,6 +282,7 @@ CREATE TABLE IF NOT EXISTS `dossiers` (
   `Dossier_Date` datetime DEFAULT NULL,
   `Dossier_Etoile_Cible` int(11) DEFAULT NULL,
   `Utilisateur_ID` int(11) NOT NULL,
+  `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`Dossier_ID`),
   KEY `Utilisateur_ID` (`Utilisateur_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
@@ -265,9 +291,9 @@ CREATE TABLE IF NOT EXISTS `dossiers` (
 -- Déchargement des données de la table `dossiers`
 --
 
-INSERT INTO `dossiers` (`Dossier_ID`, `Dossier_Numero`, `Dossier_Date`, `Dossier_Etoile_Cible`, `Utilisateur_ID`) VALUES
-(1, 'DOS-2025-001', '2025-01-15 10:00:00', 4, 2),
-(2, 'DOS-2025-002', '2025-02-10 14:00:00', 3, 2);
+INSERT INTO `dossiers` (`Dossier_ID`, `Dossier_Numero`, `Dossier_Date`, `Dossier_Etoile_Cible`, `Utilisateur_ID`, `status`) VALUES
+(1, 'DOS-2025-001', '2025-01-15 10:00:00', 4, 2, 0),
+(2, 'DOS-2025-002', '2025-02-10 14:00:00', 3, 2, 0);
 
 -- --------------------------------------------------------
 
@@ -361,6 +387,7 @@ CREATE TABLE IF NOT EXISTS `inspecteurs` (
 --
 
 INSERT INTO `inspecteurs` (`Utilisateur_ID`) VALUES
+(1),
 (2),
 (7);
 
@@ -460,7 +487,7 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `Utilisateur_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Utilisateur_Nom` varchar(50) NOT NULL,
   `Utilisateur_Prenom` varchar(50) DEFAULT NULL,
-  `Utilisateur_Civilite` enum("Monsieur", "Madame", "Iel") DEFAULT NULL,
+  `Utilisateur_Civilite` enum('Monsieur','Madame','Iel') DEFAULT NULL,
   `Utilisateur_Societe` varchar(150) DEFAULT NULL,
   `Utilisateur_Password` varchar(256) DEFAULT NULL,
   `Utilisateur_Mail` varchar(250) NOT NULL,
@@ -470,18 +497,19 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   PRIMARY KEY (`Utilisateur_ID`),
   UNIQUE KEY `unique_email` (`Utilisateur_Mail`),
   KEY `AdressePostale_ID` (`AdressePostale_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `utilisateurs`
 --
 
 INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Prenom`, `Utilisateur_Civilite`, `Utilisateur_Societe`, `Utilisateur_Password`, `Utilisateur_Mail`, `Utilisateur_Telephone`, `Utilisateur_Signature`, `AdressePostale_ID`) VALUES
-(1, 'Dupont', 'Marie', 'Madame', "Vought International", 'pass123', 'marie.dupont@mail.com', '0600000001', NULL, 1),
-(2, 'Martin', 'Luc', 'Monsieur', 'Maze Bank', "pass123", 'luc.martin@mail.com', '0600000002', NULL, 2),
-(3, 'Bernard', 'Julie', 'Madame', 'DedSec', "pass123", 'julie.bernard@mail.com', '0600000003', NULL, 3),
-(4, 'Durand', 'Paul', 'Monsieur', 'Amazon', "pass123", 'paul.durand@mail.com', '0600000004', NULL, 4),
-(7, 'Martinant', 'Terence', 'Monsieur', 'TerenceInc', 'mdr', 'inspesdect.dupont@example.com', '0791919191', NULL, 34);
+(1, 'Dupont', 'Marie', 'Madame', 'Vought International', 'pass123', 'marie.dupont@mail.com', '0600000001', NULL, 1),
+(2, 'Martin', 'Luc', 'Monsieur', 'Maze Bank', 'pass123', 'luc.martin@mail.com', '0600000002', NULL, 2),
+(3, 'Bernard', 'Julie', 'Madame', 'DedSec', 'pass123', 'julie.bernard@mail.com', '0600000003', NULL, 3),
+(4, 'Durand', 'Paul', 'Monsieur', 'Amazon', 'pass123', 'paul.durand@mail.com', '0600000004', NULL, 4),
+(7, 'Martinant', 'Terence', 'Monsieur', 'TerenceInc', 'mdr', 'inspesdect.dupont@example.com', '0791919191', NULL, 34),
+(29, 'bourdon', 'Angel', 'Monsieur', 'inc', '0123456789', 'anbourdonlopez@stpbb.org', '0769155622', NULL, 42);
 
 --
 -- Contraintes pour les tables déchargées
