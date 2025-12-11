@@ -180,5 +180,6 @@ class User {
         $query1->bindParam(":id", $this->IdPersonne, PDO::PARAM_INT);
         $query1->execute();
         return $query;
+        
     }
 }

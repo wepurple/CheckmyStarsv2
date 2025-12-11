@@ -4,9 +4,9 @@
     include("includes/mariadb.php");
 
     $login = trim(strip_tags($_POST['email']));
-    $password = trim(strip_tags($_POST['password']));
+    $password = $_POST['password'];
 
-    $sql="select * from utilisateurs where utilisateur_mail = :login and utilisateur_password = :password";
+    $sql="select * from utilisateurs where utilisateur_mail = :login";
     $db = new Database();
 
     $requete = $db->getConnection();
@@ -14,13 +14,17 @@
     if(!is_array($requete)){
         $requete = $requete->prepare($sql);
         $requete->bindValue(':login', $login);
-        $requete->bindValue(':password', hash("sha3-512", $password));
         $requete->execute();
 
         $result = $requete->fetch(PDO::FETCH_ASSOC);
+/*
+        var_dump($result);
+        var_dump($result["Utilisateur_Password"]);
+        var_dump(password_hash("pass123", PASSWORD_BCRYPT));
+        var_dump(password_verify($password, $result["Utilisateur_Password"]));
+        */
 
-        //var_dump($result);
-        if ($result){
+        if ($result && password_verify($password, $result["Utilisateur_Password"])){
             //on va voir dans les tables .administrateurs et .inspecteurs si l'utilisateur détient les rôles concernés
             $sql = "select * from administrateurs where Utilisateur_ID = :id";
             $requete = $db->getConnection();
@@ -48,11 +52,13 @@
                 "Email"=>$result['Utilisateur_Mail'],
                 "Civilite"=>$result['Utilisateur_Civilite']
             );
+
+            echo(json_encode(true));
+        }else{
+            echo(json_encode(false));
         }
-            echo(json_encode($result));
     } else {
         echo(json_encode($requete));
-
     }
 
 ?>
