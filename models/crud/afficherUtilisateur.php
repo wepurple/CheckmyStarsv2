@@ -22,20 +22,20 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
             extract($row);
  
             $liste = [
-                "Utilisateur_ID" => $Utilisateur_ID,
-                "Utilisateur_Nom" => $Utilisateur_Nom,
-                "Utilisateur_Prenom" => $Utilisateur_Prenom,
-                "Utilisateur_Civilite" => $Utilisateur_Civilite,
-                "Utilisateur_Telephone" => $Utilisateur_Telephone,
-                "Utilisateur_Mail" => $Utilisateur_Mail,
-                "Utilisateur_Societe" => $Utilisateur_Societe,
-                "Utilisateur_Signature" => $Utilisateur_Signature,
-                "AdressePostale_NumeroRue" => $AdressePostale_NumeroRue,
-                "AdressePostale_Complement" => $AdressePostale_Complement,
-                "AdressePostale_CodePostal" => $AdressePostale_CodePostal,
-                "AdressePostale_NomRue" => $AdressePostale_NomRue,
-                "AdressePostale_Ville" => $AdressePostale_Ville,
-                "AdressePostale_Pays" => $AdressePostale_Pays,
+                "Utilisateur_ID" => $IdPersonne,
+                "Utilisateur_Nom" => $Nom,
+                "Utilisateur_Prenom" => $Prenom,
+                "Utilisateur_Civilite" => $Civilite,
+                "Utilisateur_Telephone" => $Telephone,
+                "Utilisateur_Mail" => $Email,
+                "Utilisateur_Societe" => $Societe,
+                "Utilisateur_Signature" => $Signature,
+                "AdressePostale_NumeroRue" => $NumeroRue,
+                "AdressePostale_Complement" => $Complement,
+                "AdressePostale_CodePostal" => $CodePostal,
+                "AdressePostale_NomRue" => $NomRue,
+                "AdressePostale_Ville" => $Ville,
+                "AdressePostale_Pays" => $Pays,
             ];
             $tableauClient['utilisateur'][] = $liste;
         }
