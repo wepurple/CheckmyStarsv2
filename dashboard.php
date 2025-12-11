@@ -64,7 +64,7 @@
                         try {
                             // Requête pour récupérer toutes les données
                             //$sql = "SELECT id, nom, societe, telephone, mail, nombre_dossiers, status FROM clients ORDER BY nom ASC";
-                            $sql = "SELECT utilisateurs.Utilisateur_ID, Utilisateur_Nom, Utilisateur_Societe, Utilisateur_Telephone, Utilisateur_Mail FROM utilisateurs AS u INNER JOIN proprietaires AS p ON u.Utilisateur_ID = p.Utilisateur_ID;";
+                            $sql = "SELECT u.Utilisateur_ID, Utilisateur_Nom, Utilisateur_Societe, Utilisateur_Telephone, Utilisateur_Mail FROM utilisateurs AS u INNER JOIN proprietaires AS p ON u.Utilisateur_ID = p.Utilisateur_ID;";
                             $stmt = $db->prepare($sql);
                             $stmt->execute();
                             
