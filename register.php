@@ -7,13 +7,9 @@
 
         <link rel="stylesheet" href="bootstrap%205.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        <link rel="stylesheet" href="bootstrap%205.3/css/style.css">
+        
     </head>
     <body>
-
-    <div id="zone-error" class="row">
-
-    </div>
 
     <div class="register-container" >
         <div class="login-header text-center">
@@ -133,6 +129,6 @@
   </div>
 
   <script src="bootstrap%205.3/js/bootstrap.bundle.min.js"></script>
-  <script src="register.js"></script>
+  <script src="js/register.js"></script>
 </body>
 </html>

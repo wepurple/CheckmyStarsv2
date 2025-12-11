@@ -1,8 +1,5 @@
 async function createUser() 
 {
-    const zoneError = document.getElementById('zone-error');
-    zoneError.innerHTML = '';
-
     // Validation du formulaire avant envoi
     if (!validateForm()) {
         return; // Arrête si la validation échoue
