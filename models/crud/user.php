@@ -169,10 +169,10 @@ class User {
     //}
 
     public function infoDossier(){
-        $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->tableProprietaires ." ON ".$this->table.".Utilisateur_ID = ". $this->tableProprietaires.".Utilisateur_ID;";
+        $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->tableProprietaires ." ON ".$this->table.".Utilisateur_ID = ". $this->tableProprietaires.".Utilisateur_ID WHERE ".$this->tableProprietaires.".Utilisateur_ID = :IdPersonne;";
         $query = $this->connexion->prepare($sql);
+        $query->bindParam(":IdPersonne", $this->IdPersonne, PDO::PARAM_INT);
         $query->execute();
-        $query->bindParam(":IdPersonne", $this->IdPersonne);
         $query->bindParam(":Nom", $this->Nom);
         $query->bindParam(":Prenom", $this->Prenom);
         $query->bindParam(":Telephone", $this->Telephone);
