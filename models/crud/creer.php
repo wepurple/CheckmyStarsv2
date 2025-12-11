@@ -47,18 +47,18 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         if ($idAdresse) {
             if($user->creer()){
                 http_response_code(201);
-                echo json_encode(array("message" => "Utilisateur créé avec succès."));
+                echo json_encode(array("success" => true, "message" => "Utilisateur créé avec succès."));
             } else {
                 http_response_code(500);
-                echo json_encode(array("message" => "Erreur lors de la création de l'utilisateur."));
+                echo json_encode(array("success" => false, "message" => "Erreur lors de la création de l'utilisateur."));
             }
         } else {
             http_response_code(503);
-            echo json_encode(array("message" => "Impossible de créer l'adresse."));
+            echo json_encode(array("success" => false, "message" => "Impossible de créer l'adresse."));
         }
     } else {
         http_response_code(400);
-        echo json_encode(array("message" => "Erreur, des données obligatoires sont manquantes."));
+        echo json_encode(array("success" => false, "message" => "Erreur, des données obligatoires sont manquantes."));
     }
 } else {
     http_response_code(405);
