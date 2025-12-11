@@ -42,12 +42,11 @@
             <table class="table table-dark table-sm table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Société</th>
-                        <th>Téléphone</th>
-                        <th>Mail</th>
-                        <th>Nombre de dossiers</th>
+                        <th>N° DOSSIER</th>
+                        <th>TYPE</th>
+                        <th>CLIENT</th>
+                        <th>DONNEUR D'ORDRE</th>
+                        <th>ADRESSE HÉBERGEMENT</th>
                         <th>Status</th>
                     </tr>
                 </thead>
