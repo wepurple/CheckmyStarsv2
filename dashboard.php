@@ -63,19 +63,20 @@
                     } else {
                         try {
                             // Requête pour récupérer toutes les données
-                            $sql = "SELECT id, nom, societe, telephone, mail, nombre_dossiers, status FROM clients ORDER BY nom ASC";
+                            //$sql = "SELECT id, nom, societe, telephone, mail, nombre_dossiers, status FROM clients ORDER BY nom ASC";
+                            $sql = "SELECT Utilisateur_ID, Utilisateur_Nom, Utilisateur_Societe, Utilisateur_Telephone, Utilisateur_Mail FROM utilisateurs AS u INNER JOIN proprietaires AS p ON u.Utilisateur_ID = p.Utilisateur_ID;";
                             $stmt = $db->prepare($sql);
                             $stmt->execute();
                             
                             if ($stmt->rowCount() > 0) {
                                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['id']) . "'\">";
-                                     echo "<td>" . htmlspecialchars($row['id']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['nom']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['societe']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['telephone']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['mail']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['nombre_dossiers']) . "</td>";
+                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['Utilisateur_ID']) . "'\">";
+                                     echo "<td>" . htmlspecialchars($row['Utilisateur_ID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Societe']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
                                     
                                     // Badge pour le statut (0 = En cours, 1 = Terminé)
                                     $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
