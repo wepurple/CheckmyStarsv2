@@ -174,17 +174,11 @@ class User {
         $sql = "SELECT * FROM ". $this->table ." AS u INNER JOIN ". $this->tableProprietaires ." AS p ON u.Utilisateur_ID = p.Utilisateur_ID;";
         $query = $this->connexion->prepare($sql);
         $query->execute();
-        $infosUtilisateur = $query->fetchAll(PDO::FETCH_ASSOC);
 
         $sql1 = "SELECT COUNT(Dossier_ID) FROM ".$this->tableDossier." AS d INNER JOIN ".$this->table." AS u ON d.Utilisateur_ID = u.Utilisateur_ID WHERE u.Utilisateur_ID = :id;";
         $query1 = $this->connexion->prepare($sql1);
         $query1->bindParam(":id", $this->IdPersonne, PDO::PARAM_INT);
         $query1->execute();
-        $result = $query1->fetch(PDO::FETCH_ASSOC);
-        $NombreDossier = $result['Nombre_Dossier'];
-        return [
-        'infosUtilisateur' => $infosUtilisateur,
-        'Nombre_Dossier' => $NombreDossier
-        ];
+        return $query;
     }
 }
