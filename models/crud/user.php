@@ -101,6 +101,7 @@ class User {
         $query->bindParam(":Civilite", $this->Civilite);
         $query->bindParam(":Telephone", $this->Telephone);
         $query->bindParam(":Email", $this->Email);
+        $query->bindParam(":Societe", $this->Societe);
         $query->bindParam(":Signature", $this->Signature);
         $query->bindParam(":AdresseNum", $this->AdresseNum);
         $query->bindParam(":Complement", $this->Complement);
@@ -163,4 +164,17 @@ class User {
     //{
     //    "IdPersonne" : 25
     //}
+
+        public function infoDossier(){
+        $sql = "SELECT * FROM ". $this->table . " ;";
+        $query = $this->connexion->prepare($sql);
+        $query->execute();
+        $query->bindParam(":IdPersonne", $this->IdPersonne);
+        $query->bindParam(":Nom", $this->Nom);
+        $query->bindParam(":Prenom", $this->Prenom);
+        $query->bindParam(":Telephone", $this->Telephone);
+        $query->bindParam(":Email", $this->Email);
+        $query->bindParam(":Societe", $this->Societe);
+        return $query;
+    }
 }
