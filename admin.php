@@ -14,7 +14,7 @@
 
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-bs-theme="dark">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,10 +26,11 @@
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
     </head>
 
-    <body>
+    <body  class="bg-secondary">
         <?php        
             require("./includes/navbar.php");
             var_dump($_SESSION);
+            var_dump(hash("sha3-512", "pass123"));
         ?>
     </body>
 </html>
