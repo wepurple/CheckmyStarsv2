@@ -85,11 +85,7 @@ async function createUser()
         console.log('Status code:', response.status);
         
         if (response.ok || response.status === 201) {
-            zoneError.innerHTML = `
-                <div class="alert alert-success">
-                    <i class="fas fa-check-circle me-2"></i>${result.message}
-                </div>
-            `;
+            showToast("Succès", result.message, 'success');
             // Réinitialiser le formulaire
             document.getElementById('registerForm').reset();
             // Redirection après 2 secondes
@@ -97,28 +93,31 @@ async function createUser()
                 window.location.href = 'index.php';
             }, 2000);
         } else {
-            zoneError.innerHTML = `
-                <div class="alert alert-danger">
-                    <i class="fas fa-exclamation-circle me-2"></i>${result.message}
-                </div>
-            `;
+            showToast("Erreur", result.message, 'danger');
         }
-        
     } catch (error) {
         console.error('Erreur complète:', error);
-        zoneError.innerHTML = `
-            <div class="alert alert-danger">
-                Erreur: ${error.message}<br>
-                Vérifiez la console pour plus de détails.
-            </div>
-        `;
+        showToast("Erreur réseau", error.message, 'danger');
+    }oast.classList.remove('text-bg-danger', 'text-bg-success', 'text-bg-warning');
+    const header = toast.querySelector('.toast-header');
+    header.classList.remove('bg-danger', 'bg-success', 'bg-warning');
+    
+    if (type === 'success') {
+        toast.classList.add('text-bg-success');
+        header.classList.add('bg-success');
+    } else if (type === 'warning') {
+        toast.classList.add('text-bg-warning');
+        header.classList.add('bg-warning');
+    } else {
+        toast.classList.add('text-bg-danger');
+        header.classList.add('bg-danger');
     }
+    
+    const toastBootstrap = bootstrap.Toast.getOrCreateInstance(document.getElementById('liveToast'));
+    toastBootstrap.show();
 }
 
 function validateForm() {
-    const zoneError = document.getElementById('zone-error');
-    zoneError.innerHTML = '';
-
     let nomValue = document.getElementById("nom").value;
     let prenomValue = document.getElementById("prenom").value;
     let emailValue = document.getElementById("email").value;
@@ -131,7 +130,6 @@ function validateForm() {
 
     // Valider le nom et prénom (lettres uniquement)
     if (!/^[a-z\s]+$/i.test(nomValue.trim())) {
-        console.log("nom");
         errors.push("Le nom ne doit contenir que des lettres");
     }
     if (!/^[a-z\s]+$/i.test(prenomValue.trim())) {
@@ -164,12 +162,8 @@ function validateForm() {
     }
 
     if (errors.length > 0) {
-        let errorHTML = '<div class="alert alert-danger"><i class="fas fa-times-circle me-2"></i><ul class="mb-0">';
-        errors.forEach(error => {
-            errorHTML += `<li>${error}</li>`;
-        });
-        errorHTML += '</ul></div>';
-        zoneError.innerHTML = errorHTML;
+        const errorMessage = errors.join(" • ");
+        showToast("Erreur de validation", errorMessage, 'danger');
         return false;
     }
 

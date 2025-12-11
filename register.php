@@ -22,10 +22,22 @@
         </div>
 
         <div class="login-body">
-            <div class="alert alert-danger d-none" id="errorAlert">
-                <i class="fas fa-exclamation-circle"></i>
-                <span id="errorMessage"></span>
+            <!-- toast -->
+            <div class="toast-container position-fixed top-0 end-0 p-3">
+                <div id="liveToast" class="toast text-bg-warning" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header bg-warning">
+                        <img src="" class="rounded me-2" alt="">
+                        <strong class="me-auto" id="titreToast">
+                                Échec de la connexion
+                        </strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body" id="motif">
+                        Identifiants incorrects
+                    </div>
+                </div>
             </div>
+            <!-- end toast -->
 
             <form action="" method="post" id="registerForm">
                 <div class="row">
