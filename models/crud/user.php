@@ -101,6 +101,7 @@ class User {
         $query->bindParam(":Civilite", $this->Civilite);
         $query->bindParam(":Telephone", $this->Telephone);
         $query->bindParam(":Email", $this->Email);
+        $query->bindParam(":Societe", $this->Societe);
         $query->bindParam(":Signature", $this->Signature);
         $query->bindParam(":AdresseNum", $this->AdresseNum);
         $query->bindParam(":Complement", $this->Complement);
