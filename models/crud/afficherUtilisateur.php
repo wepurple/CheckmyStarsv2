@@ -28,6 +28,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
                 "Utilisateur_Civilite" => $Utilisateur_Civilite,
                 "Utilisateur_Telephone" => $Utilisateur_Telephone,
                 "Utilisateur_Mail" => $Utilisateur_Mail,
+                "Utilisateur_Societe" => $Utilisateur_Societe,
                 "Utilisateur_Signature" => $Utilisateur_Signature,
                 "AdressePostale_NumeroRue" => $AdressePostale_NumeroRue,
                 "AdressePostale_Complement" => $AdressePostale_Complement,
