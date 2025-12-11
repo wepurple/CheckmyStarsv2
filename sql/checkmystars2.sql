@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : jeu. 11 déc. 2025 à 09:10
+-- Généré le : jeu. 11 déc. 2025 à 10:59
 -- Version du serveur : 11.5.2-MariaDB
 -- Version de PHP : 8.3.14
 
@@ -293,7 +293,8 @@ CREATE TABLE IF NOT EXISTS `dossiers` (
 
 INSERT INTO `dossiers` (`Dossier_ID`, `Dossier_Numero`, `Dossier_Date`, `Dossier_Etoile_Cible`, `Utilisateur_ID`, `status`) VALUES
 (1, 'DOS-2025-001', '2025-01-15 10:00:00', 4, 2, 0),
-(2, 'DOS-2025-002', '2025-02-10 14:00:00', 3, 2, 0);
+(2, 'DOS-2025-002', '2025-02-10 14:00:00', 3, 2, 0),
+(3, 'DOS-2025-002', '2025-02-10 14:00:00', 3, 7, 0);
 
 -- --------------------------------------------------------
 
@@ -452,7 +453,10 @@ CREATE TABLE IF NOT EXISTS `proprietaires` (
 --
 
 INSERT INTO `proprietaires` (`Utilisateur_ID`) VALUES
-(3);
+(2),
+(3),
+(7),
+(29);
 
 -- --------------------------------------------------------
 
@@ -504,9 +508,9 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
 --
 
 INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Prenom`, `Utilisateur_Civilite`, `Utilisateur_Societe`, `Utilisateur_Password`, `Utilisateur_Mail`, `Utilisateur_Telephone`, `Utilisateur_Signature`, `AdressePostale_ID`) VALUES
-(1, 'Dupont', 'Marie', 'Madame', 'Vought International', 'pass123', 'marie.dupont@mail.com', '0600000001', NULL, 1),
-(2, 'Martin', 'Luc', 'Monsieur', 'Maze Bank', 'pass123', 'luc.martin@mail.com', '0600000002', NULL, 2),
-(3, 'Bernard', 'Julie', 'Madame', 'DedSec', 'pass123', 'julie.bernard@mail.com', '0600000003', NULL, 3),
+(1, 'Dupont', 'Marie', 'Madame', 'Vought International', '$2y$10$I1hKFaSD0SBsozEszv8ZAOLujxI09tszX6NcjMRb1sNQrnAgelLfO', 'marie.dupont@mail.com', '0600000001', NULL, 1),
+(2, 'Martin', 'Luc', 'Monsieur', 'Maze Bank', '$2y$10$MkNpWi2BTFYWLvFIMJZzuOpCXkpbPnfEGricU6ObaPhYTn0VX4wuO', 'luc.martin@mail.com', '0600000002', NULL, 2),
+(3, 'Bernard', 'Julie', 'Madame', 'DedSec', '$2y$10$39cuv2r4W/fEpXvlEQJnb.22bKm0LgU7yos190..B4V57SZ..mbp6', 'julie.bernard@mail.com', '0600000003', NULL, 3),
 (4, 'Durand', 'Paul', 'Monsieur', 'Amazon', 'pass123', 'paul.durand@mail.com', '0600000004', NULL, 4),
 (7, 'Martinant', 'Terence', 'Monsieur', 'TerenceInc', 'mdr', 'inspesdect.dupont@example.com', '0791919191', NULL, 34),
 (29, 'bourdon', 'Angel', 'Monsieur', 'inc', '0123456789', 'anbourdonlopez@stpbb.org', '0769155622', NULL, 42);
