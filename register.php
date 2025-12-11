@@ -132,6 +132,7 @@
     </div>
   </div>
 
+  <script src="bootstrap%205.3/js/bootstrap.bundle.min.js"></script>
   <script src="register.js"></script>
 </body>
 </html>
