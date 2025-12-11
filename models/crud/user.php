@@ -24,6 +24,9 @@ class User {
     public $Signature;
     public $idAdresse;
 
+    public $Utilisateur_ID;
+
+
     /**
      * Constructeur avec $db pour la connexion à la base de données
      *
@@ -92,7 +95,7 @@ class User {
     }
  
     public function afficherUtilisateur(){
-        $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID;";
+        $sql = "SELECT * FROM ". $this->table .";";
         $query = $this->connexion->prepare($sql);
         $query->execute();
         $query->bindParam(":IdPersonne", $this->IdPersonne);
@@ -165,16 +168,12 @@ class User {
     //    "IdPersonne" : 25
     //}
 
-        public function infoDossier(){
-        $sql = "SELECT * FROM ". $this->table . " ;";
+    public function infoDossier(){
+        $sql = "SELECT * FROM ". $this->table ."AS u INNER JOIN ". $this->tableProprietaires ."AS p ON u.Utilisateur_ID = p.Utilisateur_ID WHERE p.Utilisateur_ID = :IdPersonne;";
         $query = $this->connexion->prepare($sql);
+        $query->bindParam(":IdPersonne", $this->IdPersonne, PDO::PARAM_INT);
         $query->execute();
-        $query->bindParam(":IdPersonne", $this->IdPersonne);
-        $query->bindParam(":Nom", $this->Nom);
-        $query->bindParam(":Prenom", $this->Prenom);
-        $query->bindParam(":Telephone", $this->Telephone);
-        $query->bindParam(":Email", $this->Email);
-        $query->bindParam(":Societe", $this->Societe);
-        return $query;
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 }
