@@ -52,9 +52,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    
-                    ?>
+                    <tr>
+                        <td>1</td>
+                        <td>Dupont</td>
+                        <td>Entreprise A</td>
+                        <td>0123456789</td>
+                        <td>test.mail@mail.mail</td>
+                        <td>5</td>
+                        <td>1</td>
+                    </tr>
                 </tbody>
             </table>
             <!-- Vertically centered modal -->

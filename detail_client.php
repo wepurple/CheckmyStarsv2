@@ -49,3 +49,95 @@
                     </tr>
                 </thead>
                 <tbody></tbody>
+            </table>
+             <!-- Vertically centered modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <!-- modal footer -->
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter un client</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <!-- modal body -->
+                        <div class="modal-body">
+                            <form>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="leNom" placeholder="" required>
+                                    <label for="floatingInput">Nom *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="lePrenom" placeholder="" required>
+                                    <label for="floatingInput">Prenom *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="leMail" placeholder="" required>
+                                    <label for="floatingInput">Adresse Mail *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="typedebien" aria-label="Floating label select example">
+                                        <option value="1">Maison</option>
+                                        <option value="2">Appartement</option>
+                                         <option value="3">Hotel</option>
+                                         <option value="4">Camping</option>
+                                        <option selected value="5">Local commercial</option>
+                                    </select>
+                                    <label for="floatingSelect">Type de bien </label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="laSociete" placeholder="" required>
+                                    <label for="floatingInput">Société *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="tel" class="form-control" id="leTel" placeholder="" required>
+                                    <label for="floatingInput">Téléphone *</label>
+                                </div>
+
+                                <hr>
+
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control" id="leNumRue" placeholder="" required>
+                                    <label for="floatingInput">Numéro de rue *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="laAdresse" placeholder="" required>
+                                    <label for="floatingInput">Adresse postale *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="leComplement" placeholder="">
+                                    <label for="floatingInput">Complément d'adresse</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="leCode" placeholder="" required>
+                                    <label for="floatingInput">Code postal *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="laVille" placeholder="" required>
+                                    <label for="floatingInput">Ville *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="lePays" placeholder="" required>
+                                    <label for="floatingInput">Pays *</label>
+                                </div>
+
+                            </form>
+                        </div>
+                        <!-- modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn btn-success">Ajouter</button>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
