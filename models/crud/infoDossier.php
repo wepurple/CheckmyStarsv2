@@ -27,8 +27,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
                 "Utilisateur_Prenom" => $Utilisateur_Prenom,
                 "Utilisateur_Telephone" => $Utilisateur_Telephone,
                 "Utilisateur_Mail" => $Utilisateur_Mail,
-                "Utilisateurs_Societe" => $Utilisateurs_Societe,
-                            ];
+                "Utilisateurs_Societe" => $Utilisateur_Societe,
+            ];
             $tableauClient['utilisateur'][] = $liste;
         }
         http_response_code(200);
