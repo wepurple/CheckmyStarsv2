@@ -53,6 +53,10 @@
                 </thead>
                 <tbody>
                     <?php
+                    $apiUrl = "models/crud/infoDossier.php";
+                    $response = file_get_contents($apiUrl);
+                    $data = json_decode($response, true);
+                    dump($data);
                     require_once('./includes/mariadb.php');
                     
                     $database = new Database();
