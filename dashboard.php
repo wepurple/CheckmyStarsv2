@@ -53,46 +53,99 @@
                 </thead>
                 <tbody>
                     <?php
-                    require_once('./includes/mariadb.php');
                     
-                    $database = new Database();
-                    $db = $database->getConnection();
-                    
-                    if (is_array($db)) {
-                        echo "<tr><td colspan='7' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
-                    } else {
-                        try {
-                            // Requête pour récupérer toutes les données
-                            $sql = "SELECT id, nom, societe, telephone, mail, nombre_dossiers, status FROM clients ORDER BY nom ASC";
-                            $stmt = $db->prepare($sql);
-                            $stmt->execute();
-                            
-                            if ($stmt->rowCount() > 0) {
-                                while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['id']) . "'\">";
-                                     echo "<td>" . htmlspecialchars($row['id']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['nom']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['societe']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['telephone']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['mail']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['nombre_dossiers']) . "</td>";
-                                    
-                                    // Badge pour le statut (0 = En cours, 1 = Terminé)
-                                    $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
-                                    $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
-                                    echo "<td><span class='badge $statusClass'>$statusText</span></td>";
-                                    echo "</tr>";
-                                }
-                            } else {
-                                echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
-                            }
-                        } catch(PDOException $e) {
-                            echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
-                        }
-                    }
                     ?>
                 </tbody>
             </table>
+            <!-- Vertically centered modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <!-- modal footer -->
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter un client</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <!-- modal body -->
+                        <div class="modal-body">
+                            <form>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="leNom" placeholder="" required>
+                                    <label for="floatingInput">Nom *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="lePrenom" placeholder="" required>
+                                    <label for="floatingInput">Prenom *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="leMail" placeholder="" required>
+                                    <label for="floatingInput">Adresse Mail *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="leGenre" aria-label="Floating label select example">
+                                        <option value="1">Homme</option>
+                                        <option value="2">Femme</option>
+                                        <option selected value="3">Non-binaire</option>
+                                    </select>
+                                    <label for="floatingSelect">Genre *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="laSociete" placeholder="" required>
+                                    <label for="floatingInput">Société *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="tel" class="form-control" id="leTel" placeholder="" required>
+                                    <label for="floatingInput">Téléphone *</label>
+                                </div>
+
+                                <hr>
+
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control" id="leNumRue" placeholder="" required>
+                                    <label for="floatingInput">Numéro de rue *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="laAdresse" placeholder="" required>
+                                    <label for="floatingInput">Adresse postale *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="leComplement" placeholder="">
+                                    <label for="floatingInput">Complément d'adresse</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="leCode" placeholder="" required>
+                                    <label for="floatingInput">Code postal *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="laVille" placeholder="" required>
+                                    <label for="floatingInput">Ville *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="lePays" placeholder="" required>
+                                    <label for="floatingInput">Pays *</label>
+                                </div>
+
+                            </form>
+                        </div>
+                        <!-- modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn btn-success">Ajouter</button>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
         </div>
     </body>
 </html>
