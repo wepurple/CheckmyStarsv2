@@ -174,6 +174,6 @@ class User {
         $query->bindParam(":IdPersonne", $this->IdPersonne, PDO::PARAM_INT);
         $query->execute();
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $$result;
+        return $result;
     }
 }
