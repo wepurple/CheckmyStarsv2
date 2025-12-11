@@ -38,6 +38,12 @@ if(!isset($_SESSION['Role'])){
             <nav class="navbar">
                 <div class="container-fluid d-flex flex-row mb-2">
                     <div class="input-group">
+
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Ajouter un compte Inspecteur
+            </button>
+
                         <span class="input-group-text">Rechercher par</span>
                         <select class="form-select" id="type">
                             <option selected value = "1">ID</option>
@@ -81,6 +87,49 @@ if(!isset($_SESSION['Role'])){
                     <!-- Rempli par js/search_inspecteurs.js -->
                 </tbody>
             </table>
+
+            <!-- Vertically centered modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <!-- modal footer -->
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter un compte inspecteur</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <!-- modal body -->
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="leNom" placeholder="">
+                                    <label for="floatingInput">Nom</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="lePrenom" placeholder="">
+                                    <label for="floatingInput">Prenom</label>
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="leMail" placeholder="">
+                                    <label for="floatingInput">Adresse Mail</label>
+                                </div>
+                                <div class="form-floating">
+                                    <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                                        <option value="1">Homme</option>
+                                        <option value="2">Femme</option>
+                                        <option selected value="3">Non-binaire</option>
+                                    </select>
+                                    <label for="floatingSelect">Civilité</label>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn btn-success">Ajouter</button>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
         </div>
     </body>
 </html>
