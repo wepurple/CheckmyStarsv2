@@ -97,6 +97,7 @@ class User {
     public function afficherUtilisateur(){
         $sql = "SELECT * FROM ". $this->table .";";
         $query = $this->connexion->prepare($sql);
+        $query->execute();
         $query->bindParam(":IdPersonne", $this->IdPersonne);
         $query->bindParam(":Nom", $this->Nom);
         $query->bindParam(":Prenom", $this->Prenom);
@@ -111,7 +112,7 @@ class User {
         $query->bindParam(":AdresseNom", $this->AdresseNom);
         $query->bindParam(":Ville", $this->Ville);
         $query->bindParam(":Pays", $this->Pays);
-        $query->execute();
+        
 
         return $query;
     }
