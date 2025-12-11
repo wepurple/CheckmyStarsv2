@@ -1,12 +1,10 @@
-<?php
     session_start();
-?>
 <!DOCTYPE html>
-<html lang="fr" data-bs-theme="dark">
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Gestion inspecteurs - CheckMyStars</title>
+        <title>Gestion des dossiers - CheckMyStars</title>
 
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -19,8 +17,8 @@
         <?php        
             require("./includes/navbar.php");
         ?>
-        
-         <div class="container-fluid p-3">
+
+            <div class="container-fluid p-3">
             
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -42,65 +40,23 @@
             <table class="table table-dark table-sm table-striped table-hover">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Société</th>
-                        <th>Téléphone</th>
-                        <th>Mail</th>
-                        <th>Nombre de dossiers</th>
+                        <th>N° DOSSIER</th>
+                        <th>TYPE</th>
+                        <th>CLIENT</th>
+                        <th>DONNEUR D'ORDRE</th>
+                        <th>ADRESSE HÉBERGEMENT</th>
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php
-                    require_once('./includes/mariadb.php');
-                    
-                    $database = new Database();
-                    $db = $database->getConnection();
-                    
-                    if (is_array($db)) {
-                        echo "<tr><td colspan='7' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
-                    } else {
-                        try {
-                            // Requête pour récupérer toutes les données
-                            //$sql = "SELECT id, nom, societe, telephone, mail, nombre_dossiers, status FROM clients ORDER BY nom ASC";
-                            $sql = "SELECT u.Utilisateur_ID, Utilisateur_Nom, Utilisateur_Societe, Utilisateur_Telephone, Utilisateur_Mail FROM utilisateurs AS u INNER JOIN proprietaires AS p ON u.Utilisateur_ID = p.Utilisateur_ID;";
-                            $stmt = $db->prepare($sql);
-                            $stmt->execute();
-                            
-                            if ($stmt->rowCount() > 0) {
-                                while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['Utilisateur_ID']) . "'\">";
-                                     echo "<td>" . htmlspecialchars($row['Utilisateur_ID']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Societe']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
-                                    
-                                    // Badge pour le statut (0 = En cours, 1 = Terminé)
-                                    $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
-                                    $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
-                                    echo "<td><span class='badge $statusClass'>$statusText</span></td>";
-                                    echo "</tr>";
-                                }
-                            } else {
-                                echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
-                            }
-                        } catch(PDOException $e) {
-                            echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
-                        }
-                    }
-                    ?>
-                </tbody>
+                <tbody></tbody>
             </table>
-            <!-- Vertically centered modal -->
+             <!-- Vertically centered modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <!-- modal footer -->
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter un client</h1>
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter un dossier au client</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <!-- modal body -->
@@ -123,12 +79,14 @@
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" id="leGenre" aria-label="Floating label select example">
-                                        <option value="1">Homme</option>
-                                        <option value="2">Femme</option>
-                                        <option selected value="3">Non-binaire</option>
+                                    <select class="form-select" id="typedebien" aria-label="Floating label select example">
+                                        <option value="1">Maison</option>
+                                        <option value="2">Appartement</option>
+                                         <option value="3">Hotel</option>
+                                         <option value="4">Camping</option>
+                                        <option selected value="5">Local commercial</option>
                                     </select>
-                                    <label for="floatingSelect">Genre *</label>
+                                    <label for="floatingSelect">Type de bien </label>
                                 </div>
 
                                 <div class="form-floating mb-3">
@@ -183,6 +141,3 @@
                     </div>                    
                 </div>
             </div>
-        </div>
-    </body>
-</html>

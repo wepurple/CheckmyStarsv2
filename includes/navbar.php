@@ -24,6 +24,10 @@
                 <li class="nav-item">
                     <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_inspecteurs.php"){echo(' active" aria-current="page');} ?>" href="gestion_inspecteurs.php">Gestion des inspecteurs</a>
                 </li>
+
+                 <li class="nav-item">
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_dossiers.php"){echo(' active" aria-current="page');} ?>" href="gestion_dossiers.php">Gestion des dossiers</a>
+                </li>
                 <li class="nav-item">
                     <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/critereBack.php"){echo(' active" aria-current="page');} ?>" href="critereBack.php">gestions des critères</a>
                 </li>

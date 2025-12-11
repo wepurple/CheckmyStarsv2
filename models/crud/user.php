@@ -7,6 +7,7 @@ class User {
     private $tableAdministrateurs = "administrateurs";
     private $tableProprietaires = "proprietaires";
     private $tableDonneurordre = "donneurordre";
+    private $tableDossier = "dossiers";
     public $IdPersonne;
     public $Nom;
     public $Prenom;
@@ -95,7 +96,7 @@ class User {
     }
  
     public function afficherUtilisateur(){
-        $sql = "SELECT * FROM ". $this->table .";";
+        $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID;";
         $query = $this->connexion->prepare($sql);
         $query->execute();
         $query->bindParam(":IdPersonne", $this->IdPersonne);
@@ -112,6 +113,7 @@ class User {
         $query->bindParam(":AdresseNom", $this->AdresseNom);
         $query->bindParam(":Ville", $this->Ville);
         $query->bindParam(":Pays", $this->Pays);
+        
 
         return $query;
     }
@@ -172,7 +174,11 @@ class User {
         $sql = "SELECT * FROM ". $this->table ." AS u INNER JOIN ". $this->tableProprietaires ." AS p ON u.Utilisateur_ID = p.Utilisateur_ID;";
         $query = $this->connexion->prepare($sql);
         $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+
+        $sql1 = "SELECT COUNT(Dossier_ID) FROM ".$this->tableDossier." AS d INNER JOIN ".$this->table." AS u ON d.Utilisateur_ID = u.Utilisateur_ID WHERE d.Utilisateur_ID = u.Utilisateur_ID; ";
+        $query1 = $this->connexion->prepare($sql1);
+        $query1->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
+        $query1->execute();
+        return $query;
     }
 }
