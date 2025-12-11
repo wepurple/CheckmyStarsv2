@@ -14,7 +14,7 @@ if(!isset($_SESSION['Role'])){
 ?>
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" data-bs-theme="dark">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -90,7 +90,7 @@ if(!isset($_SESSION['Role'])){
 
             <!-- Vertically centered modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <!-- modal footer -->
                         <div class="modal-header">
@@ -100,26 +100,73 @@ if(!isset($_SESSION['Role'])){
                         <!-- modal body -->
                         <div class="modal-body">
                             <form>
+
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leNom" placeholder="">
-                                    <label for="floatingInput">Nom</label>
+                                    <input type="text" class="form-control" id="leNom" placeholder="" required>
+                                    <label for="floatingInput">Nom *</label>
                                 </div>
+
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="lePrenom" placeholder="">
-                                    <label for="floatingInput">Prenom</label>
+                                    <input type="text" class="form-control" id="lePrenom" placeholder="" required>
+                                    <label for="floatingInput">Prenom *</label>
                                 </div>
+
                                 <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="leMail" placeholder="">
-                                    <label for="floatingInput">Adresse Mail</label>
+                                    <input type="email" class="form-control" id="leMail" placeholder="" required>
+                                    <label for="floatingInput">Adresse Mail *</label>
                                 </div>
-                                <div class="form-floating">
-                                    <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="leGenre" aria-label="Floating label select example">
                                         <option value="1">Homme</option>
                                         <option value="2">Femme</option>
                                         <option selected value="3">Non-binaire</option>
                                     </select>
-                                    <label for="floatingSelect">Civilité</label>
+                                    <label for="floatingSelect">Genre *</label>
                                 </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="laSociete" placeholder="" required>
+                                    <label for="floatingInput">Société *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="tel" class="form-control" id="leTel" placeholder="" required>
+                                    <label for="floatingInput">Téléphone *</label>
+                                </div>
+
+                                <hr>
+
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control" id="leNumRue" placeholder="" required>
+                                    <label for="floatingInput">Numéro de rue *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="laAdresse" placeholder="" required>
+                                    <label for="floatingInput">Adresse postale *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="leComplement" placeholder="">
+                                    <label for="floatingInput">Complément d'adresse</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="leCode" placeholder="" required>
+                                    <label for="floatingInput">Code postal *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="laVille" placeholder="" required>
+                                    <label for="floatingInput">Ville *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="lePays" placeholder="" required>
+                                    <label for="floatingInput">Pays *</label>
+                                </div>
+
                             </form>
                         </div>
                         <!-- modal footer -->
