@@ -28,11 +28,18 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
                 "Utilisateur_Civilite" => $Utilisateur_Civilite,
                 "Utilisateur_Telephone" => $Utilisateur_Telephone,
                 "Utilisateur_Mail" => $Utilisateur_Mail,
+<<<<<<< HEAD
+                "Utilisateur_Signature" => $Utilisateur_Signature,
+                "AdressePostale_NumeroRue" => $AdressePostale_NumeroRue,
+                "AdressePostale_Complement" => $AdressePostale_Complement,
+                "AdressePostale_CodePostal" => $AdressePostale_CodePostal,
+=======
                 "Utilisateur_Societe" => $Utilisateur_Societe,
                 "Utilisateur_Signature" => $Utilisateur_Signature,
                 "AdressePostale_NumeroRue" => $NumeroRue,
                 "AdressePostale_Complement" => $Complement,
                 "AdressePostale_CodePostal" => $CodePostal,
+>>>>>>> 373133624b18a10c0d8ed8b8128413042d0596b2
                 "AdressePostale_NomRue" => $AdressePostale_NomRue,
                 "AdressePostale_Ville" => $AdressePostale_Ville,
                 "AdressePostale_Pays" => $AdressePostale_Pays,
