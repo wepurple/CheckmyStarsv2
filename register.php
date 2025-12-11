@@ -27,12 +27,12 @@
                 <div id="liveToast" class="toast text-bg-warning" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="toast-header bg-warning">
                         <img src="" class="rounded me-2" alt="">
-                        <strong class="me-auto" id="titreToast">
+                        <strong class="me-auto" id="toast-title">
                                 Échec de la connexion
                         </strong>
                         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
-                    <div class="toast-body" id="motif">
+                    <div class="toast-body" id="toast-message">
                         Identifiants incorrects
                     </div>
                 </div>
@@ -122,7 +122,7 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-primary center-btn" onsubmit="createUser(); return false;">
+                <button type="button" class="btn btn-primary center-btn" onclick="createUser(); return false;">
                 <i class="fas fa-sign-in-alt me-2"></i>S'inscrire</button>
             </form>
 
