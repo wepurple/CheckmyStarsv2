@@ -54,9 +54,17 @@
                 <tbody>
                     <?php
                     $apiUrl = "http://172.20.33.6/checkmystars/models/crud/infoDossier.php";
-                    $response = file_get_contents($apiUrl);
-                    $data = json_decode($response, true);
-                    var_dump($data);
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+                    $response = curl_exec($ch);
+                    $err = curl_error($ch);
+
+                    curl_close($ch);
+
+                    var_dump($response);
+                    var_dump($err);
                     require_once('./includes/mariadb.php');
                     
                     $database = new Database();
