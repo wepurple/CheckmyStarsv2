@@ -3,6 +3,11 @@ async function createUser()
     const zoneError = document.getElementById('zone-error');
     zoneError.innerHTML = '';
 
+    // Validation du formulaire avant envoi
+    if (!validateForm()) {
+        return; // Arrête si la validation échoue
+    }
+
     var nomValue = document.getElementById("nom").value;
     var prenomValue = document.getElementById("prenom").value;
     var emailValue = document.getElementById("email").value;
@@ -37,15 +42,6 @@ async function createUser()
         additionalAddressValue = null;
     }
 
-    if (passwordValue !== confirmPasswordValue) {
-        zoneError.innerHTML = `
-            <div class="alert alert-danger">
-                Les mots de passe ne correspondent pas
-            </div>
-        `;
-        return;
-    }
-
     try 
     {
         const url = 'models/crud/creer.php';
@@ -64,7 +60,6 @@ async function createUser()
             Pays: "France",
             Societe: companyValue,
             MotPasse: passwordValue
-
         };
 
         const response = await fetch(url, {
@@ -98,10 +93,24 @@ async function createUser()
     } catch (error) {
         console.error('Erreur complète:', error);
         showToast("Erreur réseau", error.message, 'danger');
-    }oast.classList.remove('text-bg-danger', 'text-bg-success', 'text-bg-warning');
+    }
+}
+
+function showToast(title, message, type) {
+    const toast = document.getElementById('liveToast');
+    const toastTitle = document.getElementById('toast-title');
+    const toastMessage = document.getElementById('toast-message');
+    
+    // Mettre à jour le contenu
+    toastTitle.textContent = title;
+    toastMessage.textContent = message;
+    
+    // Réinitialiser les classes
+    toast.classList.remove('text-bg-danger', 'text-bg-success', 'text-bg-warning');
     const header = toast.querySelector('.toast-header');
     header.classList.remove('bg-danger', 'bg-success', 'bg-warning');
     
+    // Ajouter la classe appropriée
     if (type === 'success') {
         toast.classList.add('text-bg-success');
         header.classList.add('bg-success');
@@ -113,6 +122,7 @@ async function createUser()
         header.classList.add('bg-danger');
     }
     
+    // Afficher le toast
     const toastBootstrap = bootstrap.Toast.getOrCreateInstance(document.getElementById('liveToast'));
     toastBootstrap.show();
 }
@@ -169,4 +179,3 @@ function validateForm() {
 
     return true;
 }
-

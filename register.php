@@ -122,7 +122,7 @@
                     </div>
                 </div>
 
-                <button type="button" class="btn btn-primary center-btn" onclick="if(validateForm()) { createUser(); }">
+                <button type="button" class="btn btn-primary center-btn" onsubmit="createUser(); return false;">
                 <i class="fas fa-sign-in-alt me-2"></i>S'inscrire</button>
             </form>
 
