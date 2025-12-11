@@ -71,7 +71,7 @@
                             if ($stmt->rowCount() > 0) {
                                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                      echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?nom=" . urlencode($row['nom']) . "'\">";
-                                     echo "<td>" . htmlspecialchars($row['']) . "</td>";
+                                     echo "<td>" . htmlspecialchars($row['id']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['nom']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['societe']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['telephone']) . "</td>";
