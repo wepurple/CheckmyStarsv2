@@ -95,7 +95,7 @@ class User {
     }
  
     public function afficherUtilisateur(){
-        $sql = "SELECT * FROM ". $this->table .";";
+        $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID;";
         $query = $this->connexion->prepare($sql);
         $query->execute();
         $query->bindParam(":IdPersonne", $this->IdPersonne);
