@@ -11,8 +11,6 @@
     }
 ?>
 
-
-
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="dark">
     <head>
@@ -30,7 +28,13 @@
         <?php        
             require("./includes/navbar.php");
             var_dump($_SESSION);
-            var_dump(hash("sha3-512", "pass123"));
+
+            //var_dump(hash("sha3-512", "pass123"));
+
+            var_dump(password_hash("pass123", PASSWORD_BCRYPT));
+
+            var_dump(password_verify("pass123", '$2y$10$D3Jo4foDq6DvbNzsHt5RYeX6034SSXd/22dzgn9xDVjA0RNduqxLW'));
+            //var_dump(password_algos());
         ?>
     </body>
 </html>
