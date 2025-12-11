@@ -7,6 +7,7 @@ class User {
     private $tableAdministrateurs = "administrateurs";
     private $tableProprietaires = "proprietaires";
     private $tableDonneurordre = "donneurordre";
+    private $tableDossier = "dossiers";
     public $IdPersonne;
     public $Nom;
     public $Prenom;
@@ -173,6 +174,11 @@ class User {
         $sql = "SELECT * FROM ". $this->table ." AS u INNER JOIN ". $this->tableProprietaires ." AS p ON u.Utilisateur_ID = p.Utilisateur_ID;";
         $query = $this->connexion->prepare($sql);
         $query->execute();
+
+        $sql1 = "SELECT COUNT(Dossier_ID) FROM ".$this->tableDossier." AS d INNER JOIN ".$this->table." AS u ON d.Utilisateur_ID = u.Utilisateur_ID WHERE d.Utilisateur_ID = u.Utilisateur_ID; ";
+        $query1 = $this->connexion->prepare($sql1);
+        $query1->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
+        $query1->execute();
         return $query;
     }
 }
