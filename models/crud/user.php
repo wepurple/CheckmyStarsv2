@@ -172,6 +172,7 @@ class User {
         $sql = "SELECT * FROM ". $this->table ." AS u INNER JOIN ". $this->tableProprietaires ." AS p ON u.Utilisateur_ID = p.Utilisateur_ID;";
         $query = $this->connexion->prepare($sql);
         $query->execute();
-        return $query;
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $result;
     }
 }
