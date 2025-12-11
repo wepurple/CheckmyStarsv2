@@ -27,6 +27,9 @@
                 <li class="nav-item">
                     <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/ipsum.php"){echo(' active" aria-current="page');} ?>" href="ipsum.php">ipsum</a>
                 </li>
+                 <li class="nav-item">
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_dossiers.php"){echo(' active" aria-current="page');} ?>" href="gestion_dossiers.php">Gestion des dossiers</a>
+                </li>
 
             </ul>
 
