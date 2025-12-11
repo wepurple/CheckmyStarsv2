@@ -53,57 +53,51 @@
                 </thead>
                 <tbody>
                     <?php
-                    $apiUrl = "http://172.20.33.6/checkmystars/models/crud/infoDossier.php";
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, $apiUrl);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                        $apiUrl = "http://172.20.33.6/checkmystars/models/crud/infoDossier.php";
 
-                    $response = curl_exec($ch);
-                    $err = curl_error($ch);
+                        $ch = curl_init();
+                        curl_setopt($ch, CURLOPT_URL, $apiUrl);
+                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-                    curl_close($ch);
+                        $response = curl_exec($ch);
+                        $err = curl_error($ch);
 
-                    var_dump($response);
-                    var_dump($err);
-                    require_once('./includes/mariadb.php');
-                    
-                    $database = new Database();
-                    $db = $database->getConnection();
-                    
-                    if (is_array($db)) {
-                        echo "<tr><td colspan='7' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
-                    } else {
-                        try {
-                            // Requête pour récupérer toutes les données
-                            //$sql = "SELECT id, nom, societe, telephone, mail, nombre_dossiers, status FROM clients ORDER BY nom ASC";
-                            $sql = "SELECT u.Utilisateur_ID, Utilisateur_Nom, Utilisateur_Societe, Utilisateur_Telephone, Utilisateur_Mail FROM utilisateurs AS u INNER JOIN proprietaires AS p ON u.Utilisateur_ID = p.Utilisateur_ID;";
-                            $stmt = $db->prepare($sql);
-                            $stmt->execute();
-                            
-                            if ($stmt->rowCount() > 0) {
-                                while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['Utilisateur_ID']) . "'\">";
-                                     echo "<td>" . htmlspecialchars($row['Utilisateur_ID']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Societe']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
-                                    
-                                    // Badge pour le statut (0 = En cours, 1 = Terminé)
-                                    $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
-                                    $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
-                                    echo "<td><span class='badge $statusClass'>$statusText</span></td>";
-                                    echo "</tr>";
-                                }
-                            } else {
-                                echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
-                            }
-                        } catch(PDOException $e) {
-                            echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
+                        curl_close($ch);
+
+                        // SI erreur cURL
+                        if ($err) {
+                            echo "<tr><td colspan='7' class='text-center text-danger'>Erreur API : $err</td></tr>";
+                            exit;
                         }
-                    }
-                    ?>
+
+                        // Décodage JSON
+                        $data = json_decode($response, true);
+
+                        if (!$data || !isset($data["utilisateur"])) {
+                            echo "<tr><td colspan='7' class='text-center text-danger'>Réponse API invalide</td></tr>";
+                            exit;
+                        }
+
+                        $utilisateurs = $data["utilisateur"];
+
+                        // Affichage des données
+                        foreach ($utilisateurs as $row) {
+
+                            echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['Utilisateur_ID']) . "'\">";
+
+                            echo "<td>" . htmlspecialchars($row['Utilisateur_ID']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Utilisateurs_Societe']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
+
+                            // Exemple : pas de status dans ton JSON → on met "N/A" ou on adapte
+                            echo "<td><span class='badge bg-secondary'>N/A</span></td>";
+
+                            echo "</tr>";
+                        }
+                        ?>
+
                 </tbody>
             </table>
             <!-- Vertically centered modal -->
