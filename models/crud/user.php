@@ -175,9 +175,9 @@ class User {
         $query = $this->connexion->prepare($sql);
         $query->execute();
 
-        $sql1 = "SELECT COUNT(Dossier_ID) FROM ".$this->tableDossier." AS d INNER JOIN ".$this->table." AS u ON d.Utilisateur_ID = u.Utilisateur_ID WHERE d.Utilisateur_ID = u.Utilisateur_ID; ";
+        $sql1 = "SELECT COUNT(Dossier_ID) FROM ".$this->tableDossier." AS d INNER JOIN ".$this->table." AS u ON d.Utilisateur_ID = u.Utilisateur_ID WHERE u.Utilisateur_ID = :id;";
         $query1 = $this->connexion->prepare($sql1);
-        $query1->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
+        $query1->bindParam(":id", $this->IdPersonne, PDO::PARAM_INT);
         $query1->execute();
         return $query;
     }
