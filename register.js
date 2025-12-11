@@ -131,6 +131,7 @@ function validateForm() {
 
     // Valider le nom et prénom (lettres uniquement)
     if (!/^[a-z\s]+$/i.test(nomValue.trim())) {
+        console.log("nom");
         errors.push("Le nom ne doit contenir que des lettres");
     }
     if (!/^[a-z\s]+$/i.test(prenomValue.trim())) {
