@@ -6,6 +6,7 @@ class User {
     private $tableInspecteurs = "inspecteurs";
     private $tableAdministrateurs = "administrateurs";
     private $tableProprietaires = "proprietaires";
+    private $tableDonneurordre = "donneurordre";
     public $IdPersonne;
     public $Nom;
     public $Prenom;
@@ -140,7 +141,12 @@ class User {
         $query5->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
         $query5->execute();
 
-        $sql1 = "DELETE FROM " . $this->table . " WHERE Utilisateur_ID = ?";
+        $sql6 = "DELETE FROM " . $this->tableProprietaires . " WHERE Utilisateur_ID = ?";
+        $query6 = $this->connexion->prepare($sql6);
+        $query6->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
+        $query6->execute();
+
+        $sql1 = "DELETE FROM " . $this->tableDonneurordre . " WHERE Utilisateur_ID = ?";
         $query1 = $this->connexion->prepare($sql1);
         $query1->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
         $query1->execute();
