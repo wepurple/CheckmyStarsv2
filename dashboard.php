@@ -64,13 +64,11 @@
 
                         curl_close($ch);
 
-                        // SI erreur cURL
                         if ($err) {
                             echo "<tr><td colspan='7' class='text-center text-danger'>Erreur API : $err</td></tr>";
                             exit;
                         }
 
-                        // Décodage JSON
                         $data = json_decode($response, true);
 
                         if (!$data || !isset($data["utilisateur"])) {
@@ -91,7 +89,6 @@
                             echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
 
-                            // Exemple : pas de status dans ton JSON → on met "N/A" ou on adapte
                             echo "<td><span class='badge bg-secondary'>N/A</span></td>";
 
                             echo "</tr>";
