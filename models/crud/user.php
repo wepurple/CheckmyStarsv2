@@ -169,15 +169,11 @@ class User {
     //}
 
     public function infoDossier(){
-        $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->tableProprietaires ." ON ".$this->table.".Utilisateur_ID = ". $this->tableProprietaires.".Utilisateur_ID WHERE ".$this->tableProprietaires.".Utilisateur_ID = :IdPersonne;";
+        $sql = "SELECT * FROM ". $this->table ."AS u INNER JOIN ". $this->tableProprietaires ."AS p ON u.Utilisateur_ID = p.Utilisateur_ID WHERE p.Utilisateur_ID = :IdPersonne;";
         $query = $this->connexion->prepare($sql);
         $query->bindParam(":IdPersonne", $this->IdPersonne, PDO::PARAM_INT);
         $query->execute();
-        $query->bindParam(":Nom", $this->Nom);
-        $query->bindParam(":Prenom", $this->Prenom);
-        $query->bindParam(":Telephone", $this->Telephone);
-        $query->bindParam(":Email", $this->Email);
-        $query->bindParam(":Societe", $this->Societe);
-        return $query;
+        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        return $$result;
     }
 }
