@@ -1,4 +1,4 @@
-<nav class="sticky-top navbar navbar-expand-lg bg-primary nav-underline" data-bs-theme="dark">
+<nav class="sticky-top navbar navbar-expand-lg bg-dark nav-underline">
 
     <div class="container-fluid">
 
