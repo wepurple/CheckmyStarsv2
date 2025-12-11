@@ -24,6 +24,9 @@ class User {
     public $Signature;
     public $idAdresse;
 
+    public $Utilisateur_ID;
+
+
     /**
      * Constructeur avec $db pour la connexion à la base de données
      *
@@ -92,7 +95,7 @@ class User {
     }
  
     public function afficherUtilisateur(){
-        $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID;";
+        $sql = "SELECT * FROM ". $this->table .";";
         $query = $this->connexion->prepare($sql);
         $query->execute();
         $query->bindParam(":IdPersonne", $this->IdPersonne);
@@ -165,8 +168,8 @@ class User {
     //    "IdPersonne" : 25
     //}
 
-        public function infoDossier(){
-        $sql = "SELECT * FROM ". $this->table . " ;";
+    public function infoDossier(){
+        $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->tableProprietaires ." ON ".$this->table.".Utilisateur_ID = ". $this->tableProprietaires.".Utilisateur_ID WHERE ". $this->tableProprietaires .".Utilisateur_ID = ". $this->table .".Utilisateur_ID;";
         $query = $this->connexion->prepare($sql);
         $query->execute();
         $query->bindParam(":IdPersonne", $this->IdPersonne);
