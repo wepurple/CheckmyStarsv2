@@ -13,7 +13,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     $db = $database->getConnection();
     $user = new User($db);
     $data = json_decode(file_get_contents("php://input"));
-    $stmt = $user->afficherUtilisateur();
+    $stmt = $user->infoDossier();
 
         if($stmt->rowCount() > 0){
         $tableauClient = [];

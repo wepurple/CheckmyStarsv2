@@ -29,5 +29,25 @@ if(!isset($_SESSION['Role'])){
         <?php        
             require("./includes/navbar.php");
         ?>
+
+        <div class="container-fluid p-3">
+
+            <!-- Tableau -->
+            <table class="table table-dark table-sm table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>N°</th>
+                        <th>Critère</th>
+                        <th>Status</th>
+                        <th>Points</th>
+                        <th>Validation</th>
+                        <th>Commentaire</th>
+                        <th>Photo</th>
+                    </tr>
+                </thead>
+            </table>
+            <!-- End Tableau -->
+
+        </div>
     </body>
 </html>

@@ -98,21 +98,6 @@ class User {
         $sql = "SELECT * FROM ". $this->table .";";
         $query = $this->connexion->prepare($sql);
         $query->execute();
-        $query->bindParam(":IdPersonne", $this->IdPersonne);
-        $query->bindParam(":Nom", $this->Nom);
-        $query->bindParam(":Prenom", $this->Prenom);
-        $query->bindParam(":Civilite", $this->Civilite);
-        $query->bindParam(":Telephone", $this->Telephone);
-        $query->bindParam(":Email", $this->Email);
-        $query->bindParam(":Societe", $this->Societe);
-        $query->bindParam(":Signature", $this->Signature);
-        $query->bindParam(":AdresseNum", $this->AdresseNum);
-        $query->bindParam(":Complement", $this->Complement);
-        $query->bindParam(":CodePostal", $this->CodePostal);
-        $query->bindParam(":AdresseNom", $this->AdresseNom);
-        $query->bindParam(":Ville", $this->Ville);
-        $query->bindParam(":Pays", $this->Pays);
-
         return $query;
     }
 
@@ -171,9 +156,7 @@ class User {
     public function infoDossier(){
         $sql = "SELECT * FROM ". $this->table ." AS u INNER JOIN ". $this->tableProprietaires ." AS p ON u.Utilisateur_ID = p.Utilisateur_ID;";
         $query = $this->connexion->prepare($sql);
-        $query->bindParam(":Utilisateur_ID", $this->Utilisateur_ID, PDO::PARAM_INT);
         $query->execute();
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
-        return $result;
+        return $query;
     }
 }
