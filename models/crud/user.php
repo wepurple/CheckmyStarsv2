@@ -125,11 +125,6 @@ class User {
             $adresseID = null;
         }
 
-        $sql1 = "DELETE FROM " . $this->table . " WHERE Utilisateur_ID = ?";
-        $query1 = $this->connexion->prepare($sql1);
-        $query1->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
-        $query1->execute();
-
         $sql3 = "DELETE FROM " . $this->tableAdministrateurs . " WHERE Utilisateur_ID = ?";
         $query3 = $this->connexion->prepare($sql3);
         $query3->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
@@ -144,6 +139,11 @@ class User {
         $query5 = $this->connexion->prepare($sql5);
         $query5->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
         $query5->execute();
+
+        $sql1 = "DELETE FROM " . $this->table . " WHERE Utilisateur_ID = ?";
+        $query1 = $this->connexion->prepare($sql1);
+        $query1->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
+        $query1->execute();
 
 
         if ($adresseID) {
