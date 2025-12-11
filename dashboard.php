@@ -53,43 +53,45 @@
                 </thead>
                 <tbody>
                     <?php
-// Appel de l'API (remplace la connexion SQL)
-$apiUrl = "models/crud/infoDossier.php";
-$response = file_get_contents($apiUrl);
-
-if ($response === false) {
-    echo "<tr><td colspan='7' class='text-center text-danger'>Impossible d'accéder à l'API</td></tr>";
-    exit;
-}
-
-$data = json_decode($response, true);
-
-// Vérification du JSON
-if (empty($data["utilisateur"])) {
-    echo "<tr><td colspan='7' class='text-center'>Aucun utilisateur trouvé</td></tr>";
-    exit;
-}
-
-// Parcours des utilisateurs
-foreach ($data["utilisateur"] as $row) {
-
-    echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['Utilisateur_ID']) . "'\">";
-
-    echo "<td>" . htmlspecialchars($row['Utilisateur_ID']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['Utilisateurs_Societe']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>";
-    echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
-
-    // ⚠ L’API ne renvoie pas "status", donc on place un statut par défaut
-    $statusText = "Indéfini";
-    $statusClass = "bg-secondary";
-
-    echo "<td><span class='badge $statusClass'>$statusText</span></td>";
-    echo "</tr>";
-}
-?>
-
+                    require_once('./includes/mariadb.php');
+                    
+                    $database = new Database();
+                    $db = $database->getConnection();
+                    
+                    if (is_array($db)) {
+                        echo "<tr><td colspan='7' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
+                    } else {
+                        try {
+                            // Requête pour récupérer toutes les données
+                            //$sql = "SELECT id, nom, societe, telephone, mail, nombre_dossiers, status FROM clients ORDER BY nom ASC";
+                            $sql = "SELECT u.Utilisateur_ID, Utilisateur_Nom, Utilisateur_Societe, Utilisateur_Telephone, Utilisateur_Mail FROM utilisateurs AS u INNER JOIN proprietaires AS p ON u.Utilisateur_ID = p.Utilisateur_ID;";
+                            $stmt = $db->prepare($sql);
+                            $stmt->execute();
+                            
+                            if ($stmt->rowCount() > 0) {
+                                while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['Utilisateur_ID']) . "'\">";
+                                     echo "<td>" . htmlspecialchars($row['Utilisateur_ID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Societe']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
+                                    
+                                    // Badge pour le statut (0 = En cours, 1 = Terminé)
+                                    $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
+                                    $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
+                                    echo "<td><span class='badge $statusClass'>$statusText</span></td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
+                            }
+                        } catch(PDOException $e) {
+                            echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
+                        }
+                    }
+                    ?>
                 </tbody>
             </table>
             <!-- Vertically centered modal -->
