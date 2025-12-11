@@ -29,6 +29,11 @@ function updateTab(z){//vide le tableau et le remplit avec les nouvelles donnée
                 //console.log(result[i][k[j]])
                 e.lastElementChild.textContent = z[i][k[j]]
             }
+            e.appendChild(document.createElement('td'))
+            e.lastElementChild.appendChild(document.createElement('button'))
+            e.lastElementChild.lastElementChild.classList.add("btn")
+            e.lastElementChild.lastElementChild.classList.add("btn-danger")
+            e.lastElementChild.lastElementChild.textContent = "Supprimer"
         }
     }else{
         clearTab()

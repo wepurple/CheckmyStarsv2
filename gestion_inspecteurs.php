@@ -64,6 +64,7 @@ if(!isset($_SESSION['Role'])){
                         <th>Prénom</th>
                         <th>Civilité</th>
                         <th>Société</th>
+                        <th></th>
                     </tr>
                 </thead>
 
