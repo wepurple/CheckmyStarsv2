@@ -3,6 +3,9 @@ class User {
     private $connexion;
     private $table = "utilisateurs";
     private $table2 = "adressesPostales";
+    private $tableInspecteurs = "inspecteurs";
+    private $tableAdministrateurs = "administrateurs";
+    private $tableProprietaires = "proprietaires";
     public $IdPersonne;
     public $Nom;
     public $Prenom;
@@ -127,6 +130,22 @@ class User {
         $query1->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
         $query1->execute();
 
+        $sql3 = "DELETE FROM " . $this->tableAdministrateurs . " WHERE Utilisateur_ID = ?";
+        $query3 = $this->connexion->prepare($sql3);
+        $query3->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
+        $query3->execute();
+
+        $sql4 = "DELETE FROM " . $this->tableInspecteurs . " WHERE Utilisateur_ID = ?";
+        $query4 = $this->connexion->prepare($sql4);
+        $query4->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
+        $query4->execute();
+
+        $sql5 = "DELETE FROM " . $this->tableProprietaires . " WHERE Utilisateur_ID = ?";
+        $query5 = $this->connexion->prepare($sql5);
+        $query5->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
+        $query5->execute();
+
+
         if ($adresseID) {
             $sql2 = "DELETE FROM ".$this->table2." WHERE AdressePostale_ID =?";
             $query2 = $this->connexion->prepare($sql2);
@@ -134,4 +153,8 @@ class User {
             $query2->execute();
         }
     }
+
+    //{
+    //    "IdPersonne" : 25
+    //}
 }
