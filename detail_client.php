@@ -18,17 +18,19 @@
             require("./includes/navbar.php");
         ?>
 
-         <div class="container-fluid p-3">
+            <div class="container-fluid p-3">
             
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Ajouter un dossier
-            </button>
-
-                        <span class="input-group-text">Rechercher par</span>
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="fas fa-plus"></i> Ajouter un client
+                </button>
+                
+                <div class="input-group" style="width: 400px;">
+                    <span class="input-group-text">Rechercher par</span>
                         <select class="form-select" id="type">
                             <option selected value = "1">ID</option>
                             <option value="2">Nom</option>
-                            <option value="3">Type de bien</option>
+                            <option value="3">Société</option>
                         </select>
                         <input id="recherche" type="text" aria-label="Last name" class="form-control">
                     </div>
