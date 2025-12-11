@@ -27,13 +27,6 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
                 "Utilisateur_Prenom" => $Utilisateur_Prenom,
                 "Utilisateur_Telephone" => $Utilisateur_Telephone,
                 "Utilisateur_Mail" => $Utilisateur_Mail,
-                "Utilisateur_Signature" => $Utilisateur_Signature,
-                "AdressePostale_NumeroRue" => $AdressePostale_NumeroRue,
-                "AdressePostale_Complement" => $AdressePostale_Complement,
-                "AdressePostale_CodePostal" => $AdressePostale_CodePostal,
-                "AdressePostale_NomRue" => $AdressePostale_NomRue,
-                "AdressePostale_Ville" => $AdressePostale_Ville,
-                "AdressePostale_Pays" => $AdressePostale_Pays,
                 "Utilisateurs_Societe" => $Utilisateurs_Societe,
                             ];
             $tableauClient['utilisateur'][] = $liste;
