@@ -13,30 +13,23 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     $db = $database->getConnection();
     $user = new User($db);
     $data = json_decode(file_get_contents("php://input"));
-    $stmt = $user->afficherClient();
+    $stmt = $user->afficherUtilisateur();
 
         if($stmt->rowCount() > 0){
         $tableauClient = [];
-        $tableauClient['client'] = [];
+        $tableauClient['utilisateur'] = [];
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
-
+ 
             $liste = [
-                "IdPersonne" => $IdPersonne,
-                "Nom" => $Nom,
-                "Prenom" => $Prenom,
-                "Civilite" => $Civilite,
-                "Telephone" => $Telephone,
-                "Email" => $Email,
-                "Adresse" => $Adresse,
-                "Complement" => $Complement,
-                "CodePostal" => $CodePostal,
-                "Ville" => $Ville,
-                "Pays" => $Pays,
-                "Societenom" => $Societe,
-                "Role" => $Role,
+                "Utilisateur_ID" => $Utilisateur_ID,
+                "Utilisateur_Nom" => $Utilisateur_Nom,
+                "Utilisateur_Prenom" => $Utilisateur_Prenom,
+                "Utilisateur_Telephone" => $Utilisateur_Telephone,
+                "Utilisateur_Mail" => $Utilisateur_Mail,
+                "Utilisateurs_Societe" => $Utilisateur_Societe,
             ];
-            $tableauClient['produits'][] = $liste;
+            $tableauClient['utilisateur'][] = $liste;
         }
         http_response_code(200);
         echo json_encode($tableauClient);
@@ -45,4 +38,5 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     http_response_code(405);
     echo json_encode(["message" => "La méthode n'est pas autorisée"]);
 }
+
 ?>

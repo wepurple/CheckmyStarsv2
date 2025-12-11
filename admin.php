@@ -30,6 +30,7 @@
         <?php        
             require("./includes/navbar.php");
             var_dump($_SESSION);
+            var_dump(hash("sha3-512", "pass123"));
         ?>
     </body>
 </html>
