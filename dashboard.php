@@ -52,15 +52,45 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>1</td>
-                        <td>Dupont</td>
-                        <td>Entreprise A</td>
-                        <td>0123456789</td>
-                        <td>test.mail@mail.mail</td>
-                        <td>5</td>
-                        <td>1</td>
-                    </tr>
+                    <?php
+                    require_once('./includes/mariadb.php');
+                    
+                    $database = new Database();
+                    $db = $database->getConnection();
+                    
+                    if (is_array($db)) {
+                        echo "<tr><td colspan='7' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
+                    } else {
+                        try {
+                            // Requête pour récupérer toutes les données
+                            $sql = "SELECT id, nom, societe, telephone, mail, nombre_dossiers, status FROM clients ORDER BY nom ASC";
+                            $stmt = $db->prepare($sql);
+                            $stmt->execute();
+                            
+                            if ($stmt->rowCount() > 0) {
+                                while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['id']) . "'\">";
+                                     echo "<td>" . htmlspecialchars($row['id']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['nom']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['societe']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['telephone']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['mail']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['nombre_dossiers']) . "</td>";
+                                    
+                                    // Badge pour le statut (0 = En cours, 1 = Terminé)
+                                    $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
+                                    $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
+                                    echo "<td><span class='badge $statusClass'>$statusText</span></td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
+                            }
+                        } catch(PDOException $e) {
+                            echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
+                        }
+                    }
+                    ?>
                 </tbody>
             </table>
             <!-- Vertically centered modal -->
