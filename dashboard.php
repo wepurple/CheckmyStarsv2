@@ -44,6 +44,7 @@
             <table class="table table-dark table-sm table-striped table-hover">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Nom</th>
                         <th>Société</th>
                         <th>Téléphone</th>
@@ -60,17 +61,17 @@
                     $db = $database->getConnection();
                     
                     if (is_array($db)) {
-                        echo "<tr><td colspan='6' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
+                        echo "<tr><td colspan='7' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
                     } else {
                         try {
                             // Requête pour récupérer toutes les données
-                            $sql = "SELECT nom, societe, telephone, mail, nombre_dossiers, status FROM clients ORDER BY nom ASC";
+                            $sql = "SELECT id, nom, societe, telephone, mail, nombre_dossiers, status FROM clients ORDER BY nom ASC";
                             $stmt = $db->prepare($sql);
                             $stmt->execute();
                             
                             if ($stmt->rowCount() > 0) {
                                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?nom=" . urlencode($row['nom']) . "'\">";
+                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['id']) . "'\">";
                                      echo "<td>" . htmlspecialchars($row['id']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['nom']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['societe']) . "</td>";
@@ -85,10 +86,10 @@
                                     echo "</tr>";
                                 }
                             } else {
-                                echo "<tr><td colspan='6' class='text-center'>Aucune donnée trouvée</td></tr>";
+                                echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
                             }
                         } catch(PDOException $e) {
-                            echo "<tr><td colspan='6' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
+                            echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
                         }
                     }
                     ?>
