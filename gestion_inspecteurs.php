@@ -39,10 +39,10 @@ if(!isset($_SESSION['Role'])){
                 <div class="container-fluid d-flex flex-row mb-2">
                     <div class="input-group">
 
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Ajouter un compte Inspecteur
-            </button>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            Ajouter un compte Inspecteur
+                        </button>
 
                         <span class="input-group-text">Rechercher par</span>
                         <select class="form-select" id="type">
@@ -56,7 +56,7 @@ if(!isset($_SESSION['Role'])){
             </nav>
 
             <!-- Tableau -->
-            <table class="table table-dark table-sm table-striped table-hover">
+            <table class="table table-sm table-striped table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -67,22 +67,6 @@ if(!isset($_SESSION['Role'])){
                         <th></th>
                     </tr>
                 </thead>
-
-                <!-- proto pour ajouter des inspecteurs
-                <tbody class="table-group-divider">
-                    <tr>
-                        <td><input id="leBouton" class="btn btn-outline-success" type="button" value="Ajouter"/></td>
-                        <td><input id="leNom" type="text"/></td>
-                        <td><input id="lePrenom" type="text"/></td>
-                        <td><input id="laCivilite" type="text"/></td>
-                        <td><input id="laSociete" type="text"/></td>
-                        <td><input id="leMail" type="email"/></td>
-                        <td><input id="leTel" type="tel"/></td>
-                        <td><input id="laSignature" type="text"/></td>
-                        <td><input id="lAdresse" type="text"/></td>
-                    </tr>
-                </tbody>
-                -->
 
                 <tbody  class="table-group-divider" id="table-body">
                     <!-- Rempli par js/search_inspecteurs.js -->
@@ -173,7 +157,7 @@ if(!isset($_SESSION['Role'])){
                         <!-- modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-success">Ajouter</button>
+                            <button type="button" class="btn btn-success"><i class="fa-solid fa-check mx-1"></i>Ajouter</button>
                         </div>
                     </div>                    
                 </div>
