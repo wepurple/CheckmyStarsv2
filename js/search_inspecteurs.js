@@ -33,18 +33,20 @@ function updateTab(z){//vide le tableau et le remplit avec les nouvelles donnée
             e.appendChild(document.createElement('td'))
             e.lastElementChild.classList.add("text-end")
 
+            //création bouton modifier
             e.lastElementChild.appendChild(document.createElement('button'))
                 e.lastElementChild.lastElementChild.classList.add("btn","btn-warning","btn-sm")
                 e.lastElementChild.lastElementChild.textContent = "Modifier"
-                
+                //icône
                 e.lastElementChild.lastElementChild.appendChild(document.createElement('i'))
                 e.lastElementChild.lastElementChild.lastElementChild.classList.add("fa-solid", "fa-pen-to-square", "mx-1")
             
-            //e.appendChild(document.createElement('td'))
+            //création bouton supprimer
             e.lastElementChild.appendChild(document.createElement('button'))
                 e.lastElementChild.lastElementChild.classList.add("btn","btn-danger","btn-sm", "ms-2")
                 e.lastElementChild.lastElementChild.textContent = "Supprimer"
-                
+                e.lastElementChild.lastElementChild.setAttribute("onclick", "suppr("+ z[i]["Utilisateur_ID"] +")")
+                //icône
                 e.lastElementChild.lastElementChild.appendChild(document.createElement('i'))
                 e.lastElementChild.lastElementChild.lastElementChild.classList.add("fa-regular", "fa-trash-can", "mx-1")
         }
@@ -75,6 +77,10 @@ function recherche(){
             updateTab(JSON.parse(request.responseText))
         }
     }
+}
+
+function suppr(id){
+    console.log("supprimer "+id)
 }
 
 document.addEventListener("DOMContentLoaded", function() {//quand la page est chargée
