@@ -46,7 +46,18 @@ function updateTab(z){//vide le tableau et le remplit avec les nouvelles donnée
             e.lastElementChild.appendChild(document.createElement('button'))
                 e.lastElementChild.lastElementChild.classList.add("btn","btn-danger","btn-sm", "ms-2")
                 e.lastElementChild.lastElementChild.textContent = "Supprimer"
-                e.lastElementChild.lastElementChild.setAttribute("onclick", "suppr("+ z[i]["Utilisateur_ID"] + ", " + z[i]["Utilisateur_Nom"] + ", " + z[i]["Utilisateur_Prenom"] + ")" )
+                e.lastElementChild.lastElementChild.setAttribute(
+                    "onclick",
+                    "modalSuppr("+
+                    z[i]["Utilisateur_ID"] +
+                    ", '" +
+                    z[i]["Utilisateur_Nom"] +
+                    "', '" +
+                    z[i]["Utilisateur_Prenom"] +
+                    "', '"+ 
+                    z[i]["Utilisateur_Civilite"] +
+                    "')"
+                )
                 //icône
                 e.lastElementChild.lastElementChild.appendChild(document.createElement('i'))
                 e.lastElementChild.lastElementChild.lastElementChild.classList.add("fa-regular", "fa-trash-can", "mx-1")
@@ -80,19 +91,33 @@ function recherche(){
     }
 }
 
-function suppr(id, nom, prenom){
-    //console.log("supprimer "+id)
-    const leModal = new bootstrap.Modal(document.getElementById('confirmModal'))
-    document.getElementById("supprText").textContent = "Voulez-vous vraiment supprimer l'inspecteur "+nom+" "+prenom+" ?"
+
+function modalSuppr(id, nom, prenom, genre){
+    if (genre == "Madame"){
+        leGenre = "inspectrice "
+    }else{
+        leGenre = "inspecteur "
+    }
+    document.getElementById("supprText").textContent = "Voulez-vous vraiment supprimer l'" + leGenre + prenom + " " + nom + " ?"
+    document.getElementById("supprConfirm").setAttribute('onclick', 'suppr("'+id+'")')
     leModal.show()
-    recherche()
 }
+
+function suppr(id){    
+    console.log("suppression id " + id)
+    recherche()
+    leModal.hide()
+}
+
 function edit(id){
     console.log("modifier "+id)
     recherche()
 }
 
 document.addEventListener("DOMContentLoaded", function() {//quand la page est chargée
+    
+    leModal = new bootstrap.Modal(document.getElementById('confirmModal'))
+
     //remplissage initial du tableau
     recherche()
 

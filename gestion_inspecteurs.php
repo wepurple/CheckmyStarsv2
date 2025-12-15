@@ -176,7 +176,7 @@ if(!isset($_SESSION['Role'])){
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-primary">Confirmer</button>
+                            <button type="button" class="btn btn-danger" id="supprConfirm">Confirmer</button>
                         </div>
                     </div>
                 </div>
