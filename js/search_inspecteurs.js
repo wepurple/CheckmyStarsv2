@@ -37,6 +37,7 @@ function updateTab(z){//vide le tableau et le remplit avec les nouvelles donnée
             e.lastElementChild.appendChild(document.createElement('button'))
                 e.lastElementChild.lastElementChild.classList.add("btn","btn-warning","btn-sm")
                 e.lastElementChild.lastElementChild.textContent = "Modifier"
+                e.lastElementChild.lastElementChild.setAttribute("onclick", "edit("+ z[i]["Utilisateur_ID"] +")")
                 //icône
                 e.lastElementChild.lastElementChild.appendChild(document.createElement('i'))
                 e.lastElementChild.lastElementChild.lastElementChild.classList.add("fa-solid", "fa-pen-to-square", "mx-1")
@@ -45,7 +46,7 @@ function updateTab(z){//vide le tableau et le remplit avec les nouvelles donnée
             e.lastElementChild.appendChild(document.createElement('button'))
                 e.lastElementChild.lastElementChild.classList.add("btn","btn-danger","btn-sm", "ms-2")
                 e.lastElementChild.lastElementChild.textContent = "Supprimer"
-                e.lastElementChild.lastElementChild.setAttribute("onclick", "suppr("+ z[i]["Utilisateur_ID"] +")")
+                e.lastElementChild.lastElementChild.setAttribute("onclick", "suppr("+ z[i]["Utilisateur_ID"] + ", " + z[i]["Utilisateur_Nom"] + ", " + z[i]["Utilisateur_Prenom"] + ")" )
                 //icône
                 e.lastElementChild.lastElementChild.appendChild(document.createElement('i'))
                 e.lastElementChild.lastElementChild.lastElementChild.classList.add("fa-regular", "fa-trash-can", "mx-1")
@@ -79,8 +80,16 @@ function recherche(){
     }
 }
 
-function suppr(id){
-    console.log("supprimer "+id)
+function suppr(id, nom, prenom){
+    //console.log("supprimer "+id)
+    const leModal = new bootstrap.Modal(document.getElementById('confirmModal'))
+    document.getElementById("supprText").textContent = "Voulez-vous vraiment supprimer l'inspecteur "+nom+" "+prenom+" ?"
+    leModal.show()
+    recherche()
+}
+function edit(id){
+    console.log("modifier "+id)
+    recherche()
 }
 
 document.addEventListener("DOMContentLoaded", function() {//quand la page est chargée
