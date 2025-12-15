@@ -165,7 +165,7 @@ if(!isset($_SESSION['Role'])){
 
             <!-- Modal confirmation suppression -->
             <div class="modal" tabindex="-1" id="confirmModal">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Confirmation</h5>
