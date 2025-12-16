@@ -31,16 +31,25 @@ function updateTab(z){//vide le tableau et le remplit avec les nouvelles donnée
             }
             
             e.appendChild(document.createElement('td'))
-            e.lastElementChild.classList.add("text-end")
+            e.lastElementChild.classList.add("text-end",)
 
             //création bouton modifier
             e.lastElementChild.appendChild(document.createElement('button'))
                 e.lastElementChild.lastElementChild.classList.add("btn","btn-warning","btn-sm")
                 e.lastElementChild.lastElementChild.textContent = "Modifier"
-                e.lastElementChild.lastElementChild.setAttribute("onclick", "edit("+ z[i]["Utilisateur_ID"] +")")
+                e.lastElementChild.lastElementChild.setAttribute("onclick", "modalEdit("+ z[i]["Utilisateur_ID"] +")")
                 //icône
                 e.lastElementChild.lastElementChild.appendChild(document.createElement('i'))
                 e.lastElementChild.lastElementChild.lastElementChild.classList.add("fa-solid", "fa-pen-to-square", "mx-1")
+            
+            //création bouton reset password
+            e.lastElementChild.appendChild(document.createElement('button'))
+                e.lastElementChild.lastElementChild.classList.add("btn","btn-warning","btn-sm", "ms-2")
+                e.lastElementChild.lastElementChild.textContent = "Reset mot de passe"
+                e.lastElementChild.lastElementChild.setAttribute("onclick", "resetPassword("+ z[i]["Utilisateur_ID"] +")")
+                //icône
+                e.lastElementChild.lastElementChild.appendChild(document.createElement('i'))
+                e.lastElementChild.lastElementChild.lastElementChild.classList.add("fa-solid", "fa-key", "mx-1")
             
             //création bouton supprimer
             e.lastElementChild.appendChild(document.createElement('button'))
@@ -109,14 +118,25 @@ function suppr(id){
     leModal.hide()
 }
 
-function edit(id){
+function modalEdit(id){
+    editModal.show()
     console.log("modifier "+id)
     recherche()
+}
+
+function resetPassword(id){
+    mail(
+        "piverdier@stpbb.org",
+        "objet test",
+        "message test",
+        
+    )    
 }
 
 document.addEventListener("DOMContentLoaded", function() {//quand la page est chargée
     
     leModal = new bootstrap.Modal(document.getElementById('confirmModal'))
+    editModal = new bootstrap.Modal(document.getElementById('editModal'))
 
     //remplissage initial du tableau
     recherche()
