@@ -50,8 +50,67 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+
+                <tbody>
+                    <?php
+                    $apiUrl = "http://172.20.33.6/checkmystars/models/crud/infoDossier.php";
+                    $ch = curl_init();
+                    curl_setopt($ch, CURLOPT_URL, $apiUrl);
+                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+                    $response = curl_exec($ch);
+                    $err = curl_error($ch);
+
+                    curl_close($ch);
+
+                    var_dump($response);
+                    var_dump($err);
+                    require_once('./includes/mariadb.php');
+                    
+                    $database = new Database();
+                    $db = $database->getConnection();
+                    
+                    if (is_array($db)) {
+                        echo "<tr><td colspan='7' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
+                    } else {
+                        try {
+                            // Requête pour récupérer toutes les données
+                            //$sql = "SELECT id, nom, societe, telephone, mail, nombre_dossiers, status FROM clients ORDER BY nom ASC";
+                            $sql = "SELECT u.Utilisateur_ID,Utilisateur_ID, Dossier_Numero,  FROM dossiers AS d INNER JOIN clients AS u ON u.Utilisateur_ID = d.Utilisateur_ID;";
+                            $stmt = $db->prepare($sql);
+                            $stmt->execute();
+                            
+                            if ($stmt->rowCount() > 0) {
+                                while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['Utilisateur_ID']) . "'\">";
+                                     echo "<td>" . htmlspecialchars($row['Utilisateur_ID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Societe']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
+                                    
+                                    // Badge pour le statut (0 = En cours, 1 = Terminé)
+                                    $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
+                                    $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
+                                    echo "<td><span class='badge $statusClass'>$statusText</span></td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
+                            }
+                        } catch(PDOException $e) {
+                            echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
+                        }
+                    }
+                    ?>
+                </tbody>
             </table>
+
+
+
+
+
              <!-- Vertically centered modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
