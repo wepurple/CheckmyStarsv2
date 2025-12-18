@@ -121,9 +121,11 @@ function suppr(id){
     requete.open("DELETE", "models/crud/supprimer.php")
     requete.send(form)
     requete.onreadystatechange = function(){
-        console.log(JSON.parse(requete.responseText))
-        console.log("delete id " + id)
-        recherche()
+        if (request.readyState === 4 && request.status === 200){
+            console.log(JSON.parse(requete.responseText))
+            console.log("delete id " + id)
+            recherche()
+        }
     }
     leModal.hide()
 }
