@@ -29,7 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
     }
     else{
         http_response_code(503);
-        echo json_encode($donnees);
+        //echo json_encode($GLOBALS);
         echo json_encode(["message" => "Données invalides"]);
     }
 } else {

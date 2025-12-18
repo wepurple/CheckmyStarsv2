@@ -9,6 +9,15 @@ if(!isset($_SESSION['Role'])){
     header('Location: deco.php');
     die();
 }
+
+function getInstitutionByStar($star) {
+    $result = 0;
+
+
+
+    return $result;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -21,7 +30,6 @@ if(!isset($_SESSION['Role'])){
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
-        <script src="js/search_inspecteurs.js"></script>
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
     </head>
 
@@ -32,30 +40,35 @@ if(!isset($_SESSION['Role'])){
 
         <div class="container-fluid p-3">
 
-        <div class="card" style="width: 18rem;">
-                <div class="card-body text-center">
-                    <h5 class="card-title">Critères des ?? étoile</h5>
-                    <p class="card-text">?? Critères</p>
-                    <div class="row">
-                        <div class="col">
-                            <p class="card-text">?? X</p>
+            <div class="row">
+            <?php
+                for ($x = 1; $x <= 4; $x++) {
+                    ?>
+                        <div class="card col" style="width: 18rem;">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Critères des <?php echo"$x" ?>  étoile</h5>
+                                <p class="card-text">?? Critères</p>
+                                <div class="row">
+                                    <div class="col">
+                                        <p class="card-text">?? X</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="card-text">?? O</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="card-text">?? NA</p>
+                                    </div>
+                                </div>
+                                </br>
+                                <p class="card-text">?? établissement à ?? étoile</p>
+                                </br>
+                                <a href="#" class="btn btn-primary">Accéder aux critères</a>
+                            </div>
                         </div>
-                        <div class="col">
-                            <p class="card-text">?? O</p>
-                        </div>
-                        <div class="col">
-                            <p class="card-text">?? NA</p>
-                        </div>
-                    </div>
-                    </br>
-
-                    <p class="card-text">?? établissement à ?? étoile</p>
-
-                    </br>
-                    <a href="#" class="btn btn-primary">Accéder aux critères</a>
-                </div>
+                    <?php
+                }
+            ?>
             </div>
 
-        </div>
     </body>
 </html>

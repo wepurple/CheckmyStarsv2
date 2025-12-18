@@ -49,6 +49,9 @@
                         <th>Nom</th>
                         <th>Prénom</th>
                         <th>ADRESSE HÉBERGEMENT</th>
+                        <th> Code Postal</th>
+                        <th> Ville</th>
+                        <th> Pays </th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -64,7 +67,7 @@
                     } else {
                         try {
                             // Requête pour récupérer tous les dossiers
-                            $sql = "SELECT d.Dossier_ID, d.DOSSIER_NUMERO, t.TypeHebergement_Nom, u.Utilisateur_Nom, u.Utilisateur_Prenom, a.AdressePostale_NomRue, d.status 
+                            $sql = "SELECT d.Dossier_ID, d.DOSSIER_NUMERO, t.TypeHebergement_Nom, u.Utilisateur_Nom, u.Utilisateur_Prenom, a.AdressePostale_NumeroRue, a.AdressePostale_NomRue, a.AdressePostale_CodePostal, a.AdressePostale_Ville, a.AdressePostale_Pays, d.status 
                                     FROM dossiers AS d 
                                     INNER JOIN utilisateurs AS u ON d.Utilisateur_ID = u.Utilisateur_ID 
                                     INNER JOIN adressespostales AS a ON a.AdressePostale_ID = u.AdressePostale_ID 
@@ -82,11 +85,14 @@
                                     echo "<td>" . htmlspecialchars($row['TypeHebergement_Nom']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['Utilisateur_Prenom']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['AdressePostale_NumeroRue']) . " " . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['AdressePostale_CodePostal']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['AdressePostale_Ville']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['AdressePostale_Pays']) . "</td>";
                                     
                                     // Badge pour le statut (0 = En cours, 1 = Terminé)
-                                    $statusText = $row['Dossier_Status'] == 1 ? 'Terminé' : 'En cours';
-                                    $statusClass = $row['Dossier_Status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
+                                    $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
+                                    $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
                                     echo "<td><span class='badge $statusClass'>$statusText</span></td>";
                                     echo "</tr>";
                                 }
@@ -186,8 +192,12 @@
                         <!-- modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-success">Ajouter</button>
+                            <button type="button" class="btn btn-success" id="btnAjouter">Ajouter</button>
                         </div>
                     </div>                    
                 </div>
             </div>
+
+            
+    </body>
+</html>  
