@@ -44,25 +44,27 @@ function getInstitutionByStar($star) {
         <?php
             for ($x = 1; $x <= 4; $x++) {
                 ?>
-                    <div class="card" style="width: 18rem;">
-                        <div class="card-body text-center">
-                            <h5 class="card-title">Critères des ?? étoile</h5>
-                            <p class="card-text">?? Critères</p>
-                            <div class="row">
-                                <div class="col">
-                                    <p class="card-text">?? X</p>
+                    <div class="row">
+                        <div class="card col" style="width: 18rem;">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">Critères des ?? étoile</h5>
+                                <p class="card-text">?? Critères</p>
+                                <div class="row">
+                                    <div class="col">
+                                        <p class="card-text">?? X</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="card-text">?? O</p>
+                                    </div>
+                                    <div class="col">
+                                        <p class="card-text">?? NA</p>
+                                    </div>
                                 </div>
-                                <div class="col">
-                                    <p class="card-text">?? O</p>
-                                </div>
-                                <div class="col">
-                                    <p class="card-text">?? NA</p>
-                                </div>
+                                </br>
+                                <p class="card-text">?? établissement à ?? étoile</p>
+                                </br>
+                                <a href="#" class="btn btn-primary">Accéder aux critères</a>
                             </div>
-                            </br>
-                            <p class="card-text">?? établissement à ?? étoile</p>
-                            </br>
-                            <a href="#" class="btn btn-primary">Accéder aux critères</a>
                         </div>
                     </div>
                 <?php
