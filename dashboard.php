@@ -89,7 +89,9 @@
                             echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['Nombre_Dossiers']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Status_Global']) . "</td>";
+                            $statusText = $row['Status_Global'] == 1 ? 'Terminé' : 'En cours';
+                            $statusClass = $row['Status_Global'] == 1 ? 'bg-success' : 'bg-warning text-dark';
+                             echo "<td><span class='badge $statusClass'>$statusText</span></td>";   
 
                             echo "</tr>";
                         }
