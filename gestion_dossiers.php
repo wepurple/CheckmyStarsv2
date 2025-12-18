@@ -85,7 +85,7 @@
                                     echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['Utilisateur_Prenom']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['AdressePostale_NumeroRue']) . " " . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['AdressePostale_Ville']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['AdressePostale_CodePostal']) . " " . htmlspecialchars($row['AdressePostale_Ville']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['AdressePostale_Pays']) . "</td>";
                                     
                                     // Badge pour le statut (0 = En cours, 1 = Terminé)
