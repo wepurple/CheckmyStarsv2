@@ -149,24 +149,51 @@ async function suppr(id){
     leModal.hide()
 }
 
-function modalEdit(id){
-    let form = new FormData()
-    form.append("IdPersonne", id)
-
-    const request = new XMLHttpRequest()
-    request.open("GET", "models/crud/afficherUtilisateur.php", true)
-    request.send(form)
-    request.onreadystatechange = function(){
-        if (request.readyState === 4 && request.status === 200){
-            //console.log(JSON.parse(request.responseText))
-            result = JSON.parse(request.responseText)
-            console.log(result)
-            
-            editModal.show()
-            //recherche()
+async function modalEdit(id){
+    const url = "models/crud/afficherUtilisateur.php?IdPersonne="+id
+    const response = await fetch(url, {
+        method : "GET",
+        headers : {
+            'Content-Type' : "application/json"
         }
+    })
+
+    const result = JSON.parse(await response.text())["utilisateur"][0];
+
+    console.log(result)
+    document.getElementById('editLeNom').value = result["Utilisateur_Nom"]
+    document.getElementById('editLePrenom').value = result["Utilisateur_Prenom"]
+    document.getElementById('editLeMail').value = result["Utilisateur_Mail"]
+
+    switch(result["Utilisateur_Civilite"]){
+        case "Monsieur" :
+            document.getElementById('editLeGenre').value = "1"
+            break;
+        case "Madame" :
+            document.getElementById('editLeGenre').value = "2"
+            break;
+        case "Iel" :
+            document.getElementById('editLeGenre').value = "3"
+            break;
+        default :
+            document.getElementById('editLeGenre').value = "3"
     }
 
+    document.getElementById('editLaSociete').value = result["Utilisateur_Societe"]
+    document.getElementById('editLeTel').value = result["Utilisateur_Telephone"]
+    document.getElementById('editLeNumRue').value = result["AdressePostale_NumeroRue"]
+    document.getElementById('editLaAdresse').value = result["AdressePostale_NomRue"]
+    document.getElementById('editLeComplement').value = result["AdressePostale_Complement"]
+    document.getElementById('editLeCode').value = result["AdressePostale_CodePostal"]
+    document.getElementById('editLaVille').value = result["AdressePostale_Ville"]
+    document.getElementById('editLePays').value = result["AdressePostale_Pays"]
+
+    editModal.show()
+}
+
+function edit(){
+    console.log("edit ok")
+    editModal.hide()
 }
 
 function resetPassword(id){

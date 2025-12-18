@@ -12,8 +12,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     $database = new Database();
     $db = $database->getConnection();
     $user = new User($db);
-    $data = json_decode(file_get_contents("php://input"));
-    $stmt = $user->afficherUtilisateur();
+    $data = json_decode($_GET['IdPersonne']);
+    $stmt = $user->afficherUtilisateur($data);
 
         if($stmt->rowCount() > 0){
         $tableauClient = [];

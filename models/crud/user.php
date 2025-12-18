@@ -95,11 +95,11 @@ class User {
         return false;
     }
  
-    public function afficherUtilisateur(){
-        $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID;";
+    public function afficherUtilisateur($id){
+        $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID where Utilisateur_Id = ". ":IdPersonne" .";";
         $query = $this->connexion->prepare($sql);
-        $query->execute();
-        $query->bindParam(":IdPersonne", $this->IdPersonne);
+        $query->bindParam(":IdPersonne", $id);
+        /*
         $query->bindParam(":Nom", $this->Nom);
         $query->bindParam(":Prenom", $this->Prenom);
         $query->bindParam(":Civilite", $this->Civilite);
@@ -113,7 +113,9 @@ class User {
         $query->bindParam(":AdresseNom", $this->AdresseNom);
         $query->bindParam(":Ville", $this->Ville);
         $query->bindParam(":Pays", $this->Pays);
-        
+        */
+
+        $query->execute();
 
         return $query;
     }

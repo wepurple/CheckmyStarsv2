@@ -213,9 +213,9 @@ if(!isset($_SESSION['Role'])){
 
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="editLeGenre" aria-label="Floating label select example">
-                                        <option value="1">Homme</option>
-                                        <option value="2">Femme</option>
-                                        <option selected value="3">Non-binaire</option>
+                                        <option value="1">Monsieur</option>
+                                        <option value="2">Madame</option>
+                                        <option selected value="3">Iel</option>
                                     </select>
                                     <label for="floatingSelect">Genre *</label>
                                 </div>
@@ -267,7 +267,7 @@ if(!isset($_SESSION['Role'])){
                         <!-- modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-success"><i class="fa-solid fa-check mx-1"></i>Modifier</button>
+                            <button type="button" class="btn btn-success" onclick="edit()"><i class="fa-solid fa-check mx-1"></i>Modifier</button>
                         </div>
                     </div>                    
                 </div>
