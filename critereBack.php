@@ -47,7 +47,7 @@ function getInstitutionByStar($star) {
                     ?>
                         <div class="card col" style="width: 18rem;">
                             <div class="card-body text-center">
-                                <h5 class="card-title">Critères des ?? étoile</h5>
+                                <h5 class="card-title">Critères des <?php $x ?>  étoile</h5>
                                 <p class="card-text">?? Critères</p>
                                 <div class="row">
                                     <div class="col">
