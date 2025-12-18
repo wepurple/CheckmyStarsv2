@@ -30,7 +30,6 @@ function getInstitutionByStar($star) {
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
-        <script src="js/search_inspecteurs.js"></script>
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
     </head>
 
@@ -47,7 +46,7 @@ function getInstitutionByStar($star) {
                     ?>
                         <div class="card col" style="width: 18rem;">
                             <div class="card-body text-center">
-                                <h5 class="card-title">Critères des <?php $x ?>  étoile</h5>
+                                <h5 class="card-title">Critères des <?php echo"$x" ?>  étoile</h5>
                                 <p class="card-text">?? Critères</p>
                                 <div class="row">
                                     <div class="col">
