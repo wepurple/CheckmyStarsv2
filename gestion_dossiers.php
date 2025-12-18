@@ -25,7 +25,7 @@
             
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="fas fa-plus"></i> Ajouter un client
+                    <i class="fas fa-plus"></i> Ajouter un dossier
                 </button>
                 
                 <div class="input-group" style="width: 400px;">
@@ -43,15 +43,62 @@
             <table class="table table-dark table-sm table-striped table-hover">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>N° DOSSIER</th>
                         <th>TYPE</th>
-                        <th>CLIENT</th>
-                        <th>DONNEUR D'ORDRE</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
                         <th>ADRESSE HÉBERGEMENT</th>
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+        <tbody>
+                    <?php
+                    require_once('./includes/mariadb.php');
+                    
+                    $database = new Database();
+                    $db = $database->getConnection();
+                    
+                    if (is_array($db)) {
+                        echo "<tr><td colspan='7' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
+                    } else {
+                        try {
+                            // Requête pour récupérer tous les dossiers
+                            $sql = "SELECT d.Dossier_ID, d.DOSSIER_NUMERO, t.TypeHebergement_Nom, u.Utilisateur_Nom, u.Utilisateur_Prenom, a.AdressePostale_NomRue, d.status 
+                                    FROM dossiers AS d 
+                                    INNER JOIN utilisateurs AS u ON d.Utilisateur_ID = u.Utilisateur_ID 
+                                    INNER JOIN adressespostales AS a ON a.AdressePostale_ID = u.AdressePostale_ID 
+                                    INNER JOIN biens AS b ON b.AdressePostale_ID = a.AdressePostale_ID 
+                                    INNER JOIN typeshebergements AS t ON t.TypeHebergement_ID = b.TypeHebergement_ID
+                                    ORDER BY d.Dossier_ID DESC";
+                            $stmt = $db->prepare($sql);
+                            $stmt->execute();
+                            
+                            if ($stmt->rowCount() > 0) {
+                                while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['Dossier_ID']) . "'\">";
+                                    echo "<td>" . htmlspecialchars($row['Dossier_ID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['DOSSIER_NUMERO']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['TypeHebergement_Nom']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Prenom']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>";
+                                    
+                                    // Badge pour le statut (0 = En cours, 1 = Terminé)
+                                    $statusText = $row['Dossier_Status'] == 1 ? 'Terminé' : 'En cours';
+                                    $statusClass = $row['Dossier_Status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
+                                    echo "<td><span class='badge $statusClass'>$statusText</span></td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
+                            }
+                        } catch(PDOException $e) {
+                            echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
+                        }
+                    }
+                    ?>
+                </tbody>
             </table>
              <!-- Vertically centered modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
