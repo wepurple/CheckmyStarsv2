@@ -41,10 +41,10 @@ function getInstitutionByStar($star) {
 
         <div class="container-fluid p-3">
 
-        <?php
-            for ($x = 1; $x <= 4; $x++) {
-                ?>
-                    <div class="row">
+            <div class="row">
+            <?php
+                for ($x = 1; $x <= 4; $x++) {
+                    ?>
                         <div class="card col" style="width: 18rem;">
                             <div class="card-body text-center">
                                 <h5 class="card-title">Critères des ?? étoile</h5>
@@ -66,10 +66,10 @@ function getInstitutionByStar($star) {
                                 <a href="#" class="btn btn-primary">Accéder aux critères</a>
                             </div>
                         </div>
-                    </div>
-                <?php
-            }
-        ?>
+                    <?php
+                }
+            ?>
+            </div>
 
     </body>
 </html>
