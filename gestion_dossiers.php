@@ -64,7 +64,7 @@
                     } else {
                         try {
                             // Requête pour récupérer tous les dossiers
-                            $sql = "SELECT d.Dossier_ID, d.DOSSIER_NUMERO, t.TypeHebergement_Nom, u.Utilisateur_Nom,a.AdressePostale_NumeroRue, u.Utilisateur_Prenom, a.AdressePostale_NomRue, d.status 
+                            $sql = "SELECT d.Dossier_ID, d.DOSSIER_NUMERO, t.TypeHebergement_Nom, u.Utilisateur_Nom,a.AdressePostale_NumeroRue,a.AdressePostale_CodePostal, u.Utilisateur_Prenom, a.AdressePostale_NomRue, d.status 
                                     FROM dossiers AS d 
                                     INNER JOIN utilisateurs AS u ON d.Utilisateur_ID = u.Utilisateur_ID 
                                     INNER JOIN adressespostales AS a ON a.AdressePostale_ID = u.AdressePostale_ID 
@@ -82,7 +82,7 @@
                                     echo "<td>" . htmlspecialchars($row['TypeHebergement_Nom']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['Utilisateur_Prenom']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['AdressePostale_NumeroRue']) . " " . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['AdressePostale_NumeroRue']) . " " . htmlspecialchars($row['AdressePostale_NomRue']) . " " . htmlspecialchars($row['AdressePostale_CodePostal']) . " " . htmlspecialchars($row['AdressePostale_Ville']) . " " . htmlspecialchars($row['AdressePostale_Pays']) ."</td>";
                                     
                                     // Badge pour le statut (0 = En cours, 1 = Terminé)
                                     $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
