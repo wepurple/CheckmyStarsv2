@@ -77,7 +77,7 @@ if(!isset($_SESSION['Role'])){
             <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="modal d'ajout utilisateur" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
-                        <!-- modal footer -->
+                        <!-- modal header -->
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter un compte inspecteur</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -187,9 +187,9 @@ if(!isset($_SESSION['Role'])){
             <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="modal de modification d'un utilisateur" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
-                        <!-- modal footer -->
+                        <!-- modal header -->
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Modifier un compte inspecteur</h1>
+                            <h1 class="modal-title fs-5" id="editModalTitle">Modifier un compte inspecteur</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <!-- modal body -->
@@ -197,22 +197,22 @@ if(!isset($_SESSION['Role'])){
                             <form>
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leNom" placeholder="" required>
+                                    <input type="text" class="form-control" id="editLeNom" placeholder="" required>
                                     <label for="floatingInput">Nom *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="lePrenom" placeholder="" required>
+                                    <input type="text" class="form-control" id="editLePrenom" placeholder="" required>
                                     <label for="floatingInput">Prenom *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="leMail" placeholder="" required>
+                                    <input type="email" class="form-control" id="editLeMail" placeholder="" required>
                                     <label for="floatingInput">Adresse Mail *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <select class="form-select" id="leGenre" aria-label="Floating label select example">
+                                    <select class="form-select" id="editLeGenre" aria-label="Floating label select example">
                                         <option value="1">Homme</option>
                                         <option value="2">Femme</option>
                                         <option selected value="3">Non-binaire</option>
@@ -221,44 +221,44 @@ if(!isset($_SESSION['Role'])){
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="laSociete" placeholder="" required>
+                                    <input type="text" class="form-control" id="editLaSociete" placeholder="" required>
                                     <label for="floatingInput">Société *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="tel" class="form-control" id="leTel" placeholder="" required>
+                                    <input type="tel" class="form-control" id="editLeTel" placeholder="" required>
                                     <label for="floatingInput">Téléphone *</label>
                                 </div>
 
                                 <hr>
 
                                 <div class="form-floating mb-3">
-                                    <input type="number" class="form-control" id="leNumRue" placeholder="" required>
+                                    <input type="number" class="form-control" id="editLeNumRue" placeholder="" required>
                                     <label for="floatingInput">Numéro de rue *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="laAdresse" placeholder="" required>
+                                    <input type="text" class="form-control" id="editLaAdresse" placeholder="" required>
                                     <label for="floatingInput">Adresse postale *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leComplement" placeholder="">
+                                    <input type="text" class="form-control" id="editLeComplement" placeholder="">
                                     <label for="floatingInput">Complément d'adresse</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leCode" placeholder="" required>
+                                    <input type="text" class="form-control" id="editLeCode" placeholder="" required>
                                     <label for="floatingInput">Code postal *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="laVille" placeholder="" required>
+                                    <input type="text" class="form-control" id="editLaVille" placeholder="" required>
                                     <label for="floatingInput">Ville *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="lePays" placeholder="" required>
+                                    <input type="text" class="form-control" id="editLePays" placeholder="" required>
                                     <label for="floatingInput">Pays *</label>
                                 </div>
 
@@ -267,7 +267,7 @@ if(!isset($_SESSION['Role'])){
                         <!-- modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-success"><i class="fa-solid fa-check mx-1"></i>Ajouter</button>
+                            <button type="button" class="btn btn-success"><i class="fa-solid fa-check mx-1"></i>Modifier</button>
                         </div>
                     </div>                    
                 </div>

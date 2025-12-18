@@ -112,24 +112,50 @@ function modalSuppr(id, nom, prenom, genre){
     leModal.show()
 }
 
-function suppr(id){    
-    console.log("suppression id " + id)
-    recherche()
+function suppr(id){
+    let form = new FormData()
+    form.append("IdPersonne", id)
+    console.log(form)
+
+    const requete = new XMLHttpRequest()
+    requete.open("DELETE", "models/crud/supprimer.php")
+    requete.send(form)
+    requete.onreadystatechange = function(){
+        console.log(JSON.parse(requete.responseText))
+        console.log("delete id " + id)
+        recherche()
+    }
     leModal.hide()
 }
 
 function modalEdit(id){
-    editModal.show()
-    console.log("modifier "+id)
-    recherche()
+    let form = new FormData()
+    form.append("IdPersonne", id)
+
+    const request = new XMLHttpRequest()
+    request.open("GET", "models/crud/afficherUtilisateur.php", true)
+    request.send(form)
+    request.onreadystatechange = function(){
+        if (request.readyState === 4 && request.status === 200){
+            //console.log(JSON.parse(request.responseText))
+            result = JSON.parse(request.responseText)
+            console.log(result)
+            
+            editModal.show()
+            //recherche()
+        }
+    }
+
 }
 
 function resetPassword(id){
-    mail(
-        "piverdier@stpbb.org",
-        "objet test",
-        "message test",
-        
+    console.log(id)
+    console.log(
+        mail(
+            "piverdier@stpbb.org",
+            "reset mdp utilisateur id ".id,
+            "Salutations, un administrateur a ordonné la réinitialisation du mot de passe de l'utilisateur avec l'identifiant n°".id,
+        )
     )    
 }
 
