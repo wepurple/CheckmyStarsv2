@@ -64,7 +64,7 @@
                     } else {
                         try {
                             // Requête pour récupérer tous les dossiers
-                            $sql = "SELECT d.Dossier_ID, d.DOSSIER_NUMERO, t.TypeHebergement_Nom, u.Utilisateur_Nom, u.Utilisateur_Prenom, a.AdressePostale_NomRue, d.Dossier_Status 
+                            $sql = "SELECT d.Dossier_ID, d.DOSSIER_NUMERO, t.TypeHebergement_Nom, u.Utilisateur_Nom, u.Utilisateur_Prenom, a.AdressePostale_NomRue, d.status 
                                     FROM dossiers AS d 
                                     INNER JOIN utilisateurs AS u ON d.Utilisateur_ID = u.Utilisateur_ID 
                                     INNER JOIN adressespostales AS a ON a.AdressePostale_ID = u.AdressePostale_ID 
