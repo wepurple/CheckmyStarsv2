@@ -64,7 +64,7 @@
                     } else {
                         try {
                             // Requête pour récupérer tous les dossiers
-                            $sql = "SELECT d.Dossier_ID, d.DOSSIER_NUMERO, t.TypeHebergement_Nom, u.Utilisateur_Nom,a.AdressePostale_NumeroRue,a.AdressePostale_CodePostal, u.Utilisateur_Prenom, a.AdressePostale_NomRue, d.status 
+                            $sql = "SELECT d.Dossier_ID, d.DOSSIER_NUMERO, t.TypeHebergement_Nom, u.Utilisateur_Nom, u.Utilisateur_Prenom, a.AdressePostale_NumeroRue, a.AdressePostale_NomRue, a.AdressePostale_CodePostal, a.AdressePostale_Ville, a.AdressePostale_Pays, d.status 
                                     FROM dossiers AS d 
                                     INNER JOIN utilisateurs AS u ON d.Utilisateur_ID = u.Utilisateur_ID 
                                     INNER JOIN adressespostales AS a ON a.AdressePostale_ID = u.AdressePostale_ID 
@@ -186,8 +186,46 @@
                         <!-- modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-success">Ajouter</button>
+                            <button type="button" class="btn btn-success" id="btnAjouter">Ajouter</button>
                         </div>
                     </div>                    
                 </div>
-            </div>  
+            </div>
+
+            <script>
+            // Soumission du formulaire d'ajout de dossier
+            document.getElementById('btnAjouter').addEventListener('click', function() {
+                const payload = {
+                    nom: document.getElementById('leNom').value,
+                    prenom: document.getElementById('lePrenom').value,
+                    mail: document.getElementById('leMail').value,
+                    telephone: document.getElementById('leTel').value,
+                    societe: document.getElementById('laSociete').value,
+                    typeHebergement: document.getElementById('typedebien').value,
+                    numRue: document.getElementById('leNumRue').value,
+                    nomRue: document.getElementById('laAdresse').value,
+                    complement: document.getElementById('leComplement').value,
+                    codePostal: document.getElementById('leCode').value,
+                    ville: document.getElementById('laVille').value,
+                    pays: document.getElementById('lePays').value
+                };
+
+                fetch('models/crud/ajouterDossier.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+                .then(r => r.json())
+                .then(result => {
+                    if (result.success) {
+                        alert('Dossier créé : ' + (result.numeroDossier || 'créé'));
+                        location.reload();
+                    } else {
+                        alert('Erreur : ' + (result.message || 'Une erreur est survenue'));
+                    }
+                })
+                .catch(err => alert('Erreur réseau : ' + err));
+            });
+            </script>
+    </body>
+</html>  
