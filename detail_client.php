@@ -39,32 +39,23 @@
                 </div>
             </nav>
             <!-- Tableau -->
-            <table class="table table-dark table-sm table-striped table-hover">
+ <table class="table table-dark table-sm table-striped table-hover">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>N° DOSSIER</th>
                         <th>TYPE</th>
-                        <th>CLIENT</th>
-                        <th>DONNEUR D'ORDRE</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
                         <th>ADRESSE HÉBERGEMENT</th>
+                        <th> Code Postal</th>
+                        <th> Ville</th>
+                        <th> Pays </th>
                         <th>Status</th>
                     </tr>
                 </thead>
-
-                <tbody>
+        <tbody>
                     <?php
-                    $apiUrl = "http://172.20.33.6/checkmystars/models/crud/infoDossier.php";
-                    $ch = curl_init();
-                    curl_setopt($ch, CURLOPT_URL, $apiUrl);
-                    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-                    $response = curl_exec($ch);
-                    $err = curl_error($ch);
-
-                    curl_close($ch);
-
-                    var_dump($response);
-                    var_dump($err);
                     require_once('./includes/mariadb.php');
                     
                     $database = new Database();
@@ -74,21 +65,40 @@
                         echo "<tr><td colspan='7' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
                     } else {
                         try {
-                            // Requête pour récupérer toutes les données
-                            //$sql = "SELECT id, nom, societe, telephone, mail, nombre_dossiers, status FROM clients ORDER BY nom ASC";
-                            $sql = "SELECT u.Utilisateur_ID,Utilisateur_ID, Dossier_Numero,  FROM dossiers AS d INNER JOIN clients AS u ON u.Utilisateur_ID = d.Utilisateur_ID;";
+                            // Requête pour récupérer tous les dossiers
+                            $sql = "SELECT d.Dossier_ID,
+       d.DOSSIER_NUMERO,
+       t.TypeHebergement_Nom,
+       u.Utilisateur_Nom,
+       u.Utilisateur_Prenom,
+       a.AdressePostale_NumeroRue,
+       a.AdressePostale_NomRue,
+       a.AdressePostale_CodePostal,
+       a.AdressePostale_Ville,
+       a.AdressePostale_Pays,
+       d.status
+FROM dossiers AS d
+INNER JOIN utilisateurs AS u ON d.Utilisateur_ID = u.Utilisateur_ID
+INNER JOIN adressespostales AS a ON a.AdressePostale_ID = u.AdressePostale_ID
+INNER JOIN biens AS b ON b.AdressePostale_ID = a.AdressePostale_ID
+INNER JOIN typeshebergements AS t ON t.TypeHebergement_ID = b.TypeHebergement_ID
+WHERE d.Utilisateur_ID = :utilisateurId
+ORDER BY d.Dossier_ID DESC;";
                             $stmt = $db->prepare($sql);
                             $stmt->execute();
                             
                             if ($stmt->rowCount() > 0) {
                                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['Utilisateur_ID']) . "'\">";
-                                     echo "<td>" . htmlspecialchars($row['Utilisateur_ID']) . "</td>";
+                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['Dossier_ID']) . "'\">";
+                                    echo "<td>" . htmlspecialchars($row['Dossier_ID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['DOSSIER_NUMERO']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['TypeHebergement_Nom']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Societe']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Prenom']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['AdressePostale_NumeroRue']) . " " . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['AdressePostale_CodePostal']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['AdressePostale_Ville']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['AdressePostale_Pays']) . "</td>";
                                     
                                     // Badge pour le statut (0 = En cours, 1 = Terminé)
                                     $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
@@ -106,7 +116,6 @@
                     ?>
                 </tbody>
             </table>
-
 
 
 
