@@ -32,7 +32,29 @@ if(!isset($_SESSION['Role'])){
 
         <div class="container-fluid p-3">
 
-            
+        <div class="card" style="width: 18rem;">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Critères des ?? étoile</h5>
+                    <p class="card-text">?? Critères</p>
+                    <div class="row">
+                        <div class="col">
+                            <p class="card-text">?? X</p>
+                        </div>
+                        <div class="col">
+                            <p class="card-text">?? O</p>
+                        </div>
+                        <div class="col">
+                            <p class="card-text">?? NA</p>
+                        </div>
+                    </div>
+                    </br>
+
+                    <p class="card-text">?? établissement à ?? étoile</p>
+
+                    </br>
+                    <a href="#" class="btn btn-primary">Accéder aux critères</a>
+                </div>
+            </div>
 
         </div>
     </body>
