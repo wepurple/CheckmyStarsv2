@@ -85,8 +85,8 @@
                                     echo "<td>" . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>";
                                     
                                     // Badge pour le statut (0 = En cours, 1 = Terminé)
-                                    $statusText = $row['Dossier_Status'] == 1 ? 'Terminé' : 'En cours';
-                                    $statusClass = $row['Dossier_Status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
+                                    $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
+                                    $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
                                     echo "<td><span class='badge $statusClass'>$statusText</span></td>";
                                     echo "</tr>";
                                 }
@@ -186,8 +186,44 @@
                         <!-- modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-success">Ajouter</button>
+                            <button type="button" class="btn btn-success" id="btnAjouter">Ajouter</button>
                         </div>
                     </div>                    
                 </div>
             </div>
+
+            <script>
+            // Soumission du formulaire d'ajout de dossier
+            document.getElementById('btnAjouter').addEventListener('click', function() {
+                const payload = {
+                    nom: document.getElementById('leNom').value,
+                    prenom: document.getElementById('lePrenom').value,
+                    mail: document.getElementById('leMail').value,
+                    telephone: document.getElementById('leTel').value,
+                    societe: document.getElementById('laSociete').value,
+                    typeHebergement: document.getElementById('typedebien').value,
+                    numRue: document.getElementById('leNumRue').value,
+                    nomRue: document.getElementById('laAdresse').value,
+                    complement: document.getElementById('leComplement').value,
+                    codePostal: document.getElementById('leCode').value,
+                    ville: document.getElementById('laVille').value,
+                    pays: document.getElementById('lePays').value
+                };
+
+                fetch('models/crud/ajouterDossier.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+                .then(r => r.json())
+                .then(result => {
+                    if (result.success) {
+                        alert('Dossier créé : ' + (result.numeroDossier || 'créé'));
+                        location.reload();
+                    } else {
+                        alert('Erreur : ' + (result.message || 'Une erreur est survenue'));
+                    }
+                })
+                .catch(err => alert('Erreur réseau : ' + err));
+            });
+            </script>
