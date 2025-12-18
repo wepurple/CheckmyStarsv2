@@ -19,16 +19,17 @@ if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
         $user->IdPersonne = $donnees->IdPersonne;
 
         if($user->supprimerUtilisateur()){
-            http_response_code(503);
-            echo json_encode(["message" => "La suppression n'a pas été effectuée"]);
-        } else {
             http_response_code(200);
             echo json_encode(["message" => "La suppression a été effectuée"]);
+            
+        } else {
+            http_response_code(503);
+            echo json_encode(["message" => "La suppression n'a pas été effectuée"]);
         }
     }
     else{
         http_response_code(503);
-        echo json_encode(["message" => "HOOOOOOOO NOOOOOOOOO"]);
+        echo json_encode(["message" => "Données invalides"]);
     }
 } else {
     http_response_code(405);

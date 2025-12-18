@@ -2,7 +2,7 @@
 
     <div class="container-fluid">
 
-        <a class="navbar-brand" href="">
+        <a class="navbar-brand" href="admin.php">
             <img src="/CheckMyStars/pictures/logosm.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
             CheckMyStars
         </a>
@@ -33,6 +33,8 @@
                 </li>
 
             </ul>
+
+            <hr>
 
             <div class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <span class="nav-text">Connecté<?php if(isset($_SESSION['Prenom']) && isset($_SESSION['Nom'])){ echo(" en tant que " . $_SESSION['Prenom'] . " " . $_SESSION['Nom']); } ?></span>

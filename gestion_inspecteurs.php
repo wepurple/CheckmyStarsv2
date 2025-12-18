@@ -39,10 +39,10 @@ if(!isset($_SESSION['Role'])){
                 <div class="container-fluid d-flex flex-row mb-2">
                     <div class="input-group">
 
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                Ajouter un compte Inspecteur
-            </button>
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
+                            Ajouter un compte Inspecteur
+                        </button>
 
                         <span class="input-group-text">Rechercher par</span>
                         <select class="form-select" id="type">
@@ -56,7 +56,7 @@ if(!isset($_SESSION['Role'])){
             </nav>
 
             <!-- Tableau -->
-            <table class="table table-dark table-sm table-striped table-hover">
+            <table class="table table-sm table-striped table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -64,35 +64,20 @@ if(!isset($_SESSION['Role'])){
                         <th>Prénom</th>
                         <th>Civilité</th>
                         <th>Société</th>
+                        <th>a</th>
                     </tr>
                 </thead>
-
-                <!-- proto pour ajouter des inspecteurs
-                <tbody class="table-group-divider">
-                    <tr>
-                        <td><input id="leBouton" class="btn btn-outline-success" type="button" value="Ajouter"/></td>
-                        <td><input id="leNom" type="text"/></td>
-                        <td><input id="lePrenom" type="text"/></td>
-                        <td><input id="laCivilite" type="text"/></td>
-                        <td><input id="laSociete" type="text"/></td>
-                        <td><input id="leMail" type="email"/></td>
-                        <td><input id="leTel" type="tel"/></td>
-                        <td><input id="laSignature" type="text"/></td>
-                        <td><input id="lAdresse" type="text"/></td>
-                    </tr>
-                </tbody>
-                -->
 
                 <tbody  class="table-group-divider" id="table-body">
                     <!-- Rempli par js/search_inspecteurs.js -->
                 </tbody>
             </table>
 
-            <!-- Vertically centered modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <!-- Modal d'ajout utilisateur -->
+            <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="modal d'ajout utilisateur" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
-                        <!-- modal footer -->
+                        <!-- modal header -->
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter un compte inspecteur</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -172,11 +157,122 @@ if(!isset($_SESSION['Role'])){
                         <!-- modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-success">Ajouter</button>
+                            <button type="button" class="btn btn-success"><i class="fa-solid fa-check mx-1"></i>Ajouter</button>
                         </div>
                     </div>                    
                 </div>
             </div>
+
+            <!-- Modal confirmation suppression -->
+            <div class="modal fade" tabindex="-1" id="confirmModal">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Confirmation</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p id="supprText">Voulez-vous vraiment supprimer l'utilisateur ?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn btn-danger" id="supprConfirm">Confirmer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            
+            <!-- Modal modification utilisateur -->
+            <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="modal de modification d'un utilisateur" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <!-- modal header -->
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="editModalTitle">Modifier un compte inspecteur</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <!-- modal body -->
+                        <div class="modal-body">
+                            <form>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="editLeNom" placeholder="" required>
+                                    <label for="floatingInput">Nom *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="editLePrenom" placeholder="" required>
+                                    <label for="floatingInput">Prenom *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="editLeMail" placeholder="" required>
+                                    <label for="floatingInput">Adresse Mail *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <select class="form-select" id="editLeGenre" aria-label="Floating label select example">
+                                        <option value="1">Homme</option>
+                                        <option value="2">Femme</option>
+                                        <option selected value="3">Non-binaire</option>
+                                    </select>
+                                    <label for="floatingSelect">Genre *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="editLaSociete" placeholder="" required>
+                                    <label for="floatingInput">Société *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="tel" class="form-control" id="editLeTel" placeholder="" required>
+                                    <label for="floatingInput">Téléphone *</label>
+                                </div>
+
+                                <hr>
+
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control" id="editLeNumRue" placeholder="" required>
+                                    <label for="floatingInput">Numéro de rue *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="editLaAdresse" placeholder="" required>
+                                    <label for="floatingInput">Adresse postale *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="editLeComplement" placeholder="">
+                                    <label for="floatingInput">Complément d'adresse</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="editLeCode" placeholder="" required>
+                                    <label for="floatingInput">Code postal *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="editLaVille" placeholder="" required>
+                                    <label for="floatingInput">Ville *</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="editLePays" placeholder="" required>
+                                    <label for="floatingInput">Pays *</label>
+                                </div>
+
+                            </form>
+                        </div>
+                        <!-- modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn btn-success"><i class="fa-solid fa-check mx-1"></i>Modifier</button>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+
         </div>
     </body>
 </html>

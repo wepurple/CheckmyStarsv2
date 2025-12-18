@@ -120,50 +120,9 @@ class User {
 
     public function supprimerUtilisateur(){
 
-        $sql = "SELECT AdressePostale_ID FROM ".$this->table." WHERE Utilisateur_ID = ?";
-        $query = $this->connexion->prepare($sql);
-        $query->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
-        $query->execute();
-        $adresse = $query->fetch(PDO::FETCH_ASSOC);
-
-        if ($adresse && isset($adresse['AdressePostale_ID'])) {
-            $adresseID = $adresse['AdressePostale_ID'];
-        } else {
-            $adresseID = null;
-        }
-
-        $sql3 = "DELETE FROM " . $this->tableAdministrateurs . " WHERE Utilisateur_ID = ?";
-        $query3 = $this->connexion->prepare($sql3);
-        $query3->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
-        $query3->execute();
-
-        $sql4 = "DELETE FROM " . $this->tableInspecteurs . " WHERE Utilisateur_ID = ?";
-        $query4 = $this->connexion->prepare($sql4);
-        $query4->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
-        $query4->execute();
-
-        $sql5 = "DELETE FROM " . $this->tableProprietaires . " WHERE Utilisateur_ID = ?";
-        $query5 = $this->connexion->prepare($sql5);
-        $query5->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
-        $query5->execute();
-
-        $sql6 = "DELETE FROM " . $this->tableProprietaires . " WHERE Utilisateur_ID = ?";
-        $query6 = $this->connexion->prepare($sql6);
-        $query6->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
-        $query6->execute();
-
-        $sql1 = "DELETE FROM " . $this->tableDonneurordre . " WHERE Utilisateur_ID = ?";
-        $query1 = $this->connexion->prepare($sql1);
-        $query1->bindParam(1, $this->IdPersonne, PDO::PARAM_INT);
-        $query1->execute();
-
-
-        if ($adresseID) {
-            $sql2 = "DELETE FROM ".$this->table2." WHERE AdressePostale_ID =?";
-            $query2 = $this->connexion->prepare($sql2);
-            $query2->bindParam(1, $adresseID, PDO::PARAM_INT);
-            $query2->execute();
-        }
+        $sql = "DELETE FROM " . $this->table . " WHERE Utilisateur_ID = ?";
+        $stmt = $this->connexion->prepare($sql);
+        return $stmt->execute([$this->IdPersonne]);
     }
 
     //{
@@ -180,5 +139,6 @@ class User {
         $query1->bindParam(":id", $this->IdPersonne, PDO::PARAM_INT);
         $query1->execute();
         return $query;
+        
     }
 }
