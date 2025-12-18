@@ -53,7 +53,7 @@
                 </thead>
                 <tbody>
                     <?php
-                        $apiUrl = "http://172.20.33.6/checkmystars/models/crud/infoDossier.php";
+                        $apiUrl = "http://localhost/checkmystars/models/crud/infoDossier.php";
 
                         $ch = curl_init();
                         curl_setopt($ch, CURLOPT_URL, $apiUrl);
