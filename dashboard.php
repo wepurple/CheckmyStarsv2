@@ -88,8 +88,8 @@
                             echo "<td>" . htmlspecialchars($row['Utilisateurs_Societe']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
-
-                            echo "<td><span class='badge bg-secondary'>N/A</span></td>";
+                            echo "<td>" . htmlspecialchars($row['Nombre_Dossiers']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Status_Global']) . "</td>";
 
                             echo "</tr>";
                         }

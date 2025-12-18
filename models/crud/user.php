@@ -129,7 +129,7 @@ class User {
     //    "IdPersonne" : 25
     //}
 
-    public function infoDossier(){
+    /*public function infoDossier(){
         $sql = "SELECT * FROM ". $this->table ." AS u INNER JOIN ". $this->tableProprietaires ." AS p ON u.Utilisateur_ID = p.Utilisateur_ID;";
         $query = $this->connexion->prepare($sql);
         $query->execute();
@@ -140,5 +140,16 @@ class User {
         $query1->execute();
         return $query;
         
+    }*/
+    public function infoDossier() {
+        $sql = "SELECT u.Utilisateur_ID, u.Utilisateur_Nom, u.Utilisateur_Prenom, u.Utilisateur_Telephone, u.Utilisateur_Mail, u.Utilisateur_Societe,
+                   COUNT(d.Dossier_ID) AS Nombre_Dossiers, COALESCE(MAX(d.Status), 0) AS Status_Global
+        FROM ". $this->table ." AS u
+        INNER JOIN ". $this->tableProprietaires ." AS p ON u.Utilisateur_ID = p.Utilisateur_ID
+        LEFT JOIN ". $this->tableDossier ." AS d ON u.Utilisateur_ID = d.Utilisateur_ID
+        GROUP BY u.Utilisateur_ID, u.Utilisateur_Nom, u.Utilisateur_Prenom, u.Utilisateur_Telephone, u.Utilisateur_Mail, u.Utilisateur_Societe";
+    $query = $this->connexion->prepare($sql);
+    $query->execute();
+    return $query;
     }
 }

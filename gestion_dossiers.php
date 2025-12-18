@@ -198,40 +198,6 @@
                 </div>
             </div>
 
-            <script>
-            // Soumission du formulaire d'ajout de dossier
-            document.getElementById('btnAjouter').addEventListener('click', function() {
-                const payload = {
-                    nom: document.getElementById('leNom').value,
-                    prenom: document.getElementById('lePrenom').value,
-                    mail: document.getElementById('leMail').value,
-                    telephone: document.getElementById('leTel').value,
-                    societe: document.getElementById('laSociete').value,
-                    typeHebergement: document.getElementById('typedebien').value,
-                    numRue: document.getElementById('leNumRue').value,
-                    nomRue: document.getElementById('laAdresse').value,
-                    complement: document.getElementById('leComplement').value,
-                    codePostal: document.getElementById('leCode').value,
-                    ville: document.getElementById('laVille').value,
-                    pays: document.getElementById('lePays').value
-                };
-
-                fetch('models/crud/ajouterDossier.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                })
-                .then(r => r.json())
-                .then(result => {
-                    if (result.success) {
-                        alert('Dossier créé : ' + (result.numeroDossier || 'créé'));
-                        location.reload();
-                    } else {
-                        alert('Erreur : ' + (result.message || 'Une erreur est survenue'));
-                    }
-                })
-                .catch(err => alert('Erreur réseau : ' + err));
-            });
-            </script>
+            
     </body>
 </html>  

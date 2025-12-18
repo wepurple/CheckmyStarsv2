@@ -28,6 +28,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
                 "Utilisateur_Telephone" => $Utilisateur_Telephone,
                 "Utilisateur_Mail" => $Utilisateur_Mail,
                 "Utilisateurs_Societe" => $Utilisateur_Societe,
+                "Nombre_Dossiers" => $Nombre_Dossiers,
+                "Status_Global" => $Status_Global
             ];
             $tableauClient['utilisateur'][] = $liste;
         }
