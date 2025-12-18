@@ -42,7 +42,7 @@ function getInstitutionByStar($star) {
 
             <div class="row">
             <?php
-                for ($x = 1; $x <= 4; $x++) {
+                for ($x = 1; $x <= 5; $x++) {
                     ?>
                         <div class="card col" style="width: 18rem;">
                             <div class="card-body text-center">
