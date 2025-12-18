@@ -121,7 +121,7 @@ function suppr(id){
     requete.open("DELETE", "models/crud/supprimer.php")
     requete.send(form)
     requete.onreadystatechange = function(){
-        if (request.readyState === 4 && request.status === 200){
+        if (requete.readyState === 4 && requete.status === 200){
             console.log(JSON.parse(requete.responseText))
             console.log("delete id " + id)
             recherche()
