@@ -24,7 +24,7 @@
             
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="fas fa-plus"></i> Ajouter un client
+                    <i class="fas fa-plus"></i> Ajouter un dossier
                 </button>
                 
                 <div class="input-group" style="width: 400px;">
@@ -61,8 +61,12 @@
                     $database = new Database();
                     $db = $database->getConnection();
                     
+                    $utilisateurId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+
                     if (is_array($db)) {
-                        echo "<tr><td colspan='7' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
+                        echo "<tr><td colspan='10' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
+                    } else if (empty($utilisateurId)) {
+                        echo "<tr><td colspan='10' class='text-center text-warning'>Aucun utilisateur sélectionné</td></tr>";
                     } else {
                         try {
                             // Requête pour récupérer tous les dossiers
@@ -85,7 +89,7 @@ INNER JOIN typeshebergements AS t ON t.TypeHebergement_ID = b.TypeHebergement_ID
 WHERE d.Utilisateur_ID = :utilisateurId
 ORDER BY d.Dossier_ID DESC;";
                             $stmt = $db->prepare($sql);
-                            $stmt->execute();
+                            $stmt->execute([':utilisateurId' => $utilisateurId]);
                             
                             if ($stmt->rowCount() > 0) {
                                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -107,7 +111,7 @@ ORDER BY d.Dossier_ID DESC;";
                                     echo "</tr>";
                                 }
                             } else {
-                                echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
+                                echo "<tr><td colspan='10' class='text-center'>Aucune donnée trouvée</td></tr>";
                             }
                         } catch(PDOException $e) {
                             echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
