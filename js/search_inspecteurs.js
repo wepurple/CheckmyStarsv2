@@ -112,14 +112,16 @@ function modalSuppr(id, nom, prenom, genre){
     leModal.show()
 }
 
-function suppr(id){
+async function suppr(id){
+    /*
     let form = new FormData()
     form.append("IdPersonne", id)
     console.log(form)
 
     const requete = new XMLHttpRequest()
-    requete.open("DELETE", "models/crud/supprimer.php")
+    requete.open("DELETE", "models/crud/supprimer.php", true)
     requete.send(form)
+
     requete.onreadystatechange = function(){
         if (requete.readyState === 4 && requete.status === 200){
             console.log(JSON.parse(requete.responseText))
@@ -127,6 +129,23 @@ function suppr(id){
             recherche()
         }
     }
+    */
+    const url = "models/crud/supprimer.php"
+    const data = {
+        IdPersonne : id
+    }
+    const response = await fetch(url, {
+        method : "DELETE",
+        headers : {
+            'Content-Type' : "application/json"
+        },
+        body : JSON.stringify(data)
+    })
+
+    const responseText = await response.text();
+    console.log('Réponse :\n', responseText)
+    
+    recherche()
     leModal.hide()
 }
 

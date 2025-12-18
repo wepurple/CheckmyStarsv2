@@ -1,7 +1,7 @@
 <?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: GET");
+header("Access-Control-Allow-Methods: DELETE");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
@@ -29,6 +29,7 @@ if($_SERVER['REQUEST_METHOD'] == 'DELETE'){
     }
     else{
         http_response_code(503);
+        //echo json_encode($GLOBALS);
         echo json_encode(["message" => "Données invalides"]);
     }
 } else {

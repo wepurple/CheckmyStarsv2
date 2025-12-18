@@ -25,7 +25,7 @@
             
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="fas fa-plus"></i> Ajouter un client
+                    <i class="fas fa-plus"></i> Ajouter un dossier
                 </button>
                 
                 <div class="input-group" style="width: 400px;">
@@ -43,15 +43,66 @@
             <table class="table table-dark table-sm table-striped table-hover">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>N° DOSSIER</th>
                         <th>TYPE</th>
-                        <th>CLIENT</th>
-                        <th>DONNEUR D'ORDRE</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
                         <th>ADRESSE HÉBERGEMENT</th>
+                        <th> Ville</th>
+                        <th> Pays </th>
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+        <tbody>
+                    <?php
+                    require_once('./includes/mariadb.php');
+                    
+                    $database = new Database();
+                    $db = $database->getConnection();
+                    
+                    if (is_array($db)) {
+                        echo "<tr><td colspan='7' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
+                    } else {
+                        try {
+                            // Requête pour récupérer tous les dossiers
+                            $sql = "SELECT d.Dossier_ID, d.DOSSIER_NUMERO, t.TypeHebergement_Nom, u.Utilisateur_Nom, u.Utilisateur_Prenom, a.AdressePostale_NumeroRue, a.AdressePostale_NomRue, a.AdressePostale_CodePostal, a.AdressePostale_Ville, a.AdressePostale_Pays, d.status 
+                                    FROM dossiers AS d 
+                                    INNER JOIN utilisateurs AS u ON d.Utilisateur_ID = u.Utilisateur_ID 
+                                    INNER JOIN adressespostales AS a ON a.AdressePostale_ID = u.AdressePostale_ID 
+                                    INNER JOIN biens AS b ON b.AdressePostale_ID = a.AdressePostale_ID 
+                                    INNER JOIN typeshebergements AS t ON t.TypeHebergement_ID = b.TypeHebergement_ID
+                                    ORDER BY d.Dossier_ID DESC";
+                            $stmt = $db->prepare($sql);
+                            $stmt->execute();
+                            
+                            if ($stmt->rowCount() > 0) {
+                                while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['Dossier_ID']) . "'\">";
+                                    echo "<td>" . htmlspecialchars($row['Dossier_ID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['DOSSIER_NUMERO']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['TypeHebergement_Nom']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Prenom']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['AdressePostale_NumeroRue']) . " " . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['AdressePostale_CodePostal']) . " " . htmlspecialchars($row['AdressePostale_Ville']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['AdressePostale_Pays']) . "</td>";
+                                    
+                                    // Badge pour le statut (0 = En cours, 1 = Terminé)
+                                    $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
+                                    $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
+                                    echo "<td><span class='badge $statusClass'>$statusText</span></td>";
+                                    echo "</tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
+                            }
+                        } catch(PDOException $e) {
+                            echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
+                        }
+                    }
+                    ?>
+                </tbody>
             </table>
              <!-- Vertically centered modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -139,8 +190,46 @@
                         <!-- modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-success">Ajouter</button>
+                            <button type="button" class="btn btn-success" id="btnAjouter">Ajouter</button>
                         </div>
                     </div>                    
                 </div>
             </div>
+
+            <script>
+            // Soumission du formulaire d'ajout de dossier
+            document.getElementById('btnAjouter').addEventListener('click', function() {
+                const payload = {
+                    nom: document.getElementById('leNom').value,
+                    prenom: document.getElementById('lePrenom').value,
+                    mail: document.getElementById('leMail').value,
+                    telephone: document.getElementById('leTel').value,
+                    societe: document.getElementById('laSociete').value,
+                    typeHebergement: document.getElementById('typedebien').value,
+                    numRue: document.getElementById('leNumRue').value,
+                    nomRue: document.getElementById('laAdresse').value,
+                    complement: document.getElementById('leComplement').value,
+                    codePostal: document.getElementById('leCode').value,
+                    ville: document.getElementById('laVille').value,
+                    pays: document.getElementById('lePays').value
+                };
+
+                fetch('models/crud/ajouterDossier.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                })
+                .then(r => r.json())
+                .then(result => {
+                    if (result.success) {
+                        alert('Dossier créé : ' + (result.numeroDossier || 'créé'));
+                        location.reload();
+                    } else {
+                        alert('Erreur : ' + (result.message || 'Une erreur est survenue'));
+                    }
+                })
+                .catch(err => alert('Erreur réseau : ' + err));
+            });
+            </script>
+    </body>
+</html>  
