@@ -118,8 +118,9 @@ function suppr(id){
     console.log(form)
 
     const requete = new XMLHttpRequest()
-    requete.open("DELETE", "models/crud/supprimer.php")
+    requete.open("DELETE", "models/crud/supprimer.php", true)
     requete.send(form)
+
     requete.onreadystatechange = function(){
         if (requete.readyState === 4 && requete.status === 200){
             console.log(JSON.parse(requete.responseText))
