@@ -198,13 +198,11 @@ function edit(){
 
 function resetPassword(id){
     console.log(id)
-    console.log(
-        mail(
-            "piverdier@stpbb.org",
-            "reset mdp utilisateur id ".id,
-            "Salutations, un administrateur a ordonné la réinitialisation du mot de passe de l'utilisateur avec l'identifiant n°".id,
-        )
-    )    
+    mail(
+        "piverdier@stpbb.org",
+        "reset mdp utilisateur id ".id,
+        "Salutations, un administrateur a ordonné la réinitialisation du mot de passe de l'utilisateur avec l'identifiant n°".id,
+    )
 }
 
 document.addEventListener("DOMContentLoaded", function() {//quand la page est chargée
