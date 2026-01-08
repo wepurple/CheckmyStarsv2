@@ -7,7 +7,7 @@ if(!isset($_SESSION['Role']) || !$_SESSION['Role']['Administrateur']){
     exit;
 }
 
-include("../includes/mariadb.php");
+include("includes/mariadb.php");
 
 $database = new Database();
 $db = $database->getConnection();
