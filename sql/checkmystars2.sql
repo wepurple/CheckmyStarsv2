@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : jeu. 11 déc. 2025 à 10:59
+-- Généré le : jeu. 08 jan. 2026 à 07:08
 -- Version du serveur : 11.5.2-MariaDB
 -- Version de PHP : 8.3.14
 
@@ -123,34 +123,8 @@ CREATE TABLE IF NOT EXISTS `biens` (
 --
 
 INSERT INTO `biens` (`Bien_ID`, `Biens_Nom`, `Bien_Telephone`, `Bien_DateEnregistrement`, `Bien_Etoile_Actuelle`, `Utilisateur_ID`, `AdressePostale_ID`, `TypeHebergement_ID`, `Utilisateur_ID_1`) VALUES
-(1, 'Hotel du Centre', '0102030405', '2024-01-01', 3, 4, 1, 1, 3),
-(2, 'Gite des Monts', '0102030406', '2024-02-15', 4, 4, 2, 2, 3);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `clients`
---
-
-DROP TABLE IF EXISTS `clients`;
-CREATE TABLE IF NOT EXISTS `clients` (
-  `id` int(255) NOT NULL,
-  `nom` varchar(255) NOT NULL,
-  `societe` varchar(255) NOT NULL,
-  `telephone` int(255) NOT NULL,
-  `mail` varchar(255) NOT NULL,
-  `nombre_dossiers` int(255) NOT NULL,
-  `status` tinyint(1) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
-
---
--- Déchargement des données de la table `clients`
---
-
-INSERT INTO `clients` (`id`, `nom`, `societe`, `telephone`, `mail`, `nombre_dossiers`, `status`) VALUES
-(1, 'Celine Dion', 'Label', 658668996, 'celinedion@lebel.com', 2, 1),
-(2, 'Celine Dion', 'Label', 734748689, 'celinedion@gmail.com', 2, 1);
+(1, 'Hotel Lumiere', '0140203040', '2025-01-10', 3, 4, 1, 1, 29),
+(2, 'Gite du Soleil', '0230405060', '2025-02-05', 2, 4, 2, 2, 29);
 
 -- --------------------------------------------------------
 
@@ -195,9 +169,9 @@ CREATE TABLE IF NOT EXISTS `contient` (
 --
 
 INSERT INTO `contient` (`Critere_ID`, `Photo_ID`, `ListesCriteres_ID`) VALUES
-(1, 1, 1),
-(2, 2, 1),
-(3, 3, 2);
+(1, 1, 4),
+(2, 2, 4),
+(3, 3, 7);
 
 -- --------------------------------------------------------
 
@@ -207,20 +181,151 @@ INSERT INTO `contient` (`Critere_ID`, `Photo_ID`, `ListesCriteres_ID`) VALUES
 
 DROP TABLE IF EXISTS `criteres`;
 CREATE TABLE IF NOT EXISTS `criteres` (
-  `Critere_ID` int(11) NOT NULL,
-  `Critere_nom` varchar(50) DEFAULT NULL,
-  `Critere_valeur` varchar(50) DEFAULT NULL,
+  `Critere_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Critere_description` varchar(150) DEFAULT NULL,
+  `Critere_statut` varchar(50) DEFAULT NULL,
+  `Critere_points` int(11) DEFAULT NULL,
   PRIMARY KEY (`Critere_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `criteres`
 --
 
-INSERT INTO `criteres` (`Critere_ID`, `Critere_nom`, `Critere_valeur`) VALUES
-(1, 'Proprete', 'Bonne'),
-(2, 'Accueil', 'Excellent'),
-(3, 'Securite', 'Correcte');
+INSERT INTO `criteres` (`Critere_ID`, `Critere_description`, `Critere_statut`, `Critere_points`) VALUES
+(1, 'Surface totale minimum (cuisine et coin cuisine compris) du logement meublé hors salle d\'\'eau et toilettes', 'X', 5),
+(2, 'Surface totale majorée', 'O', NULL),
+(3, 'Prise de courant libre dans chaque pièce d\'\'habitation', 'X', 1),
+(4, 'Tous les éclairages du logement fonctionnent et sont en bon état', 'X', 3),
+(5, "Mise à disposition d\'un téléphone privatif à l\'intérieur du logement", 'O', 1),
+(6, 'Accès internet par un réseau local sans fil (WiFi)', 'X', 2),
+(7, 'Accès internet filaire avec câble fourni', 'O', 2),
+(8, 'Télévision à écran plat avec télécommande', 'X', 2),
+(9, "Accès à des chaînes supplémentaires à l\'offre de la TNT", 'O', 2),
+(10, "Possibilité d\'accéder à au moins deux chaînes internationales", 'O', 1),
+(11, 'Radio', 'X', 2),
+(12, 'Enceinte connectée', 'O', 1),
+(13, "Mise à disposition d\'un système de lecture de vidéos", 'O', 2),
+(14, 'Occultation opaque dans chaque pièce comportant un couchage principal', 'X', 3),
+(15, 'Le logement est équipé de double vitrage', 'O', 3),
+(16, "Existence d\'un système de chauffage en état de fonctionnement", 'X', 5),
+(17, "Existence d\'un système de climatisation ou de rafraîchissement d\'air", 'O', 3),
+(18, 'Machine à laver le linge pour les logements de 4 personnes et plus', 'NA', 3),
+(19, 'Sèche-linge électrique pour les logements de 6 personnes et plus', 'NA', 2),
+(20, "Étendoir ou séchoir à linge à l\'intérieur du logement", 'X', 2),
+(21, 'Ustensiles de ménage appropriés au logement', 'X', 3),
+(22, 'Fer et table à repasser', 'X', 2),
+(23, 'Placards ou éléments de rangement dans le logement', 'NA', 3),
+(24, "Placards ou éléments de rangement dans chaque pièce d\'habitation", 'X', 3),
+(25, "Présence d\'une table et d\'assises correspondant à la capacité d\'accueil", 'X', 4),
+(26, "Présence d\'un canapé ou fauteuil(s) adapté(s)", 'X', 3),
+(27, "Présence d\'une table basse", 'X', 1),
+(28, 'Respect des dimensions du ou des lits', 'X', 4),
+(29, 'Matelas haute densité ou épaisseur de qualité', 'O', 2),
+(30, "Présence d\'oreillers en quantité suffisante", 'X', 2),
+(31, 'Deux couvertures ou une couette par lit', 'X', 2),
+(32, 'Matelas et oreillers protégés par alaises ou housses amovibles', 'X', 2),
+(33, 'Éclairage en tête de lit par personne avec interrupteur individuel', 'X', 2),
+(34, "Commande de l\'éclairage central près du lit", 'O', 2),
+(35, 'Prise de courant libre située près du lit', 'O', 1),
+(36, "Présence d\'une table de chevet par personne", 'X', 2),
+(37, "Salle d\'eau privative intérieure", 'X', 2),
+(38, "Salle d\'eau privative avec accès indépendant", 'X', 3),
+(39, "Salle d\'eau équipée lavabo, douche et/ou baignoire", 'X', 3),
+(40, "Salle d\'eau avec équipements supérieurs au standard", 'O', 2),
+(41, 'WC privatif intérieur au logement', 'X', 2),
+(42, "WC privatif indépendant de la salle d\'eau", 'O', 2),
+(43, "Deuxième salle d\'eau privative", 'NA', 5),
+(44, "Salle d\'eau supplémentaire équipée", 'NA', 3),
+(45, 'WC privatif supplémentaire', 'NA', 2),
+(46, 'Deux points lumineux dont un sur le lavabo', 'X', 2),
+(47, "Présence de produits d\'accueil", 'X', 3),
+(48, 'Prise de courant libre à proximité du miroir', 'X', 2),
+(49, 'Patères ou porte-serviettes', 'X', 1),
+(50, 'Sèche-serviettes électrique', 'O', 2),
+(51, 'Miroir de salle de bain', 'X', 2),
+(52, 'Miroir en pied', 'O', 2),
+(53, 'Tablette ou étagère proche du miroir', 'X', 2),
+(54, 'Espaces de rangement supplémentaires', 'X', 2),
+(55, 'Sèche-cheveux électrique', 'X', 1),
+(56, 'Évier avec robinet mélangeur ou mitigeur', 'X', 3),
+(57, 'Nombre de foyers respectés', 'X', 3),
+(58, 'Plaque vitrocéramique, induction ou gaz', 'O', 2),
+(59, 'Four ou mini-four', 'X', 3),
+(60, 'Four à micro-ondes', 'X', 2),
+(61, 'Ventilation ou VMC', 'X', 4),
+(62, 'Hotte aspirante', 'O', 2),
+(63, 'Quantité suffisante de vaisselle par personne', 'X', 3),
+(64, 'Vaisselle supplémentaire par personne', 'O', 1),
+(65, 'Équipement minimum pour la préparation des repas', 'X', 3),
+(66, 'Au moins deux équipements de petit électroménager', 'X', 2),
+(67, 'Autocuiseur, cuit-vapeur ou robot multifonction', 'O', 3),
+(68, 'Cafetière', 'X', 2),
+(69, 'Machine à expresso', 'O', 2),
+(70, 'Bouilloire', 'X', 1),
+(71, 'Grille-pain', 'X', 1),
+(72, 'Lave-vaisselle à partir de 2 personnes', 'NA', 2),
+(73, 'Lave-vaisselle 6 couverts ou plus', 'NA', 2),
+(74, 'Réfrigérateur avec compartiment conservateur', 'X', 4),
+(75, 'Congélateur ou compartiment congélateur', 'X', 2),
+(76, 'Poubelle fermée avec couvercle', 'X', 1),
+(77, 'Accès au 4ème étage sans ascenseur', 'NA', 4),
+(78, 'Accès au 3ème étage sans ascenseur', 'NA', 4),
+(79, 'Emplacements de stationnement à proximité', 'X', 4),
+(80, 'Emplacements privatifs', 'X', 3),
+(81, 'Garage ou abri couvert privatif', 'O', 2),
+(82, 'Balcon, loggia ou véranda', 'O', 2),
+(83, 'Terrasse ou jardin privé', 'O', 3),
+(84, 'Parc ou jardin de grande superficie', 'O', 4),
+(85, 'Mobilier de jardin privatif', 'O', 2),
+(86, 'Plancha ou barbecue extérieur', 'O', 2),
+(87, 'Équipement léger de loisirs', 'O', 2),
+(88, 'Équipement aménagé de loisirs', 'O', 2),
+(89, 'Piscine', 'O', 2),
+(90, 'Piscine chauffée', 'O', 2),
+(91, 'Rangement pour équipement sportif', 'O', 1),
+(92, 'Vue paysagère', 'O', 2),
+(93, 'Accès immédiat à des activités', 'O', 3),
+(94, 'Accès immédiat aux commerces et transports', 'O', 3),
+(95, 'Sanitaires propres et en bon état', 'ONC', 5),
+(96, 'Sols, murs et plafonds propres', 'ONC', 5),
+(97, 'Mobilier propre et en bon état', 'ONC', 5),
+(98, 'Literie propre et en bon état', 'ONC', 5),
+(99, 'Cuisine propre et équipements en bon état', 'ONC', 5),
+(100, 'Brochures touristiques multilingues', 'X', 3),
+(101, "Livret d\'accueil", 'X', 2),
+(102, 'Accueil sur place', 'X', 3),
+(103, 'Cadeau de bienvenue', 'O', 2),
+(104, 'Boîte à clés ou système équivalent', 'O', 2),
+(105, 'Draps fournis systématiquement', 'X', 2),
+(106, 'Linge de toilette fourni', 'X', 2),
+(107, 'Linge de table', 'X', 2),
+(108, "Lits faits à l\'arrivée", 'O', 2),
+(109, 'Matériel pour bébé sur demande', 'X', 2),
+(110, 'Service de ménage proposé', 'X', 2),
+(111, "Produits d\'entretien", 'X', 2),
+(112, 'Adaptateurs électriques', 'O', 2),
+(113, 'Site internet dédié au logement', 'O', 2),
+(114, 'Site internet en langue étrangère', 'O', 1),
+(115, 'Animaux de compagnie admis', 'O', 2),
+(116, "Informations sur l\'accessibilité", 'X', 2),
+(117, 'Télécommande adaptée', 'O', 2),
+(118, "Siège de douche avec barre d\'appui", 'O', 2),
+(119, "WC avec barre d\'appui", 'O', 2),
+(120, 'Largeur des portes adaptée', 'O', 2),
+(121, 'Document accessible', 'X', 1),
+(122, 'Label Tourisme et Handicap', 'O', 3),
+(123, "Mesure de réduction de consommation d\'énergie", 'X', 3),
+(124, "Mesure supplémentaire de réduction d\'énergie", 'O', 1),
+(125, 'Borne de recharge pour véhicules électriques', 'O', 2),
+(126, "Mesure de réduction de consommation d\'eau", 'X', 3),
+(127, "Mesure supplémentaire de réduction d\'eau", 'O', 1),
+(128, 'Tri des déchets', 'X', 1),
+(129, 'Composteur', 'O', 1),
+(130, 'Sensibilisation environnementale des clients', 'X', 2),
+(131, "Produits d\'accueil écologiques", 'O', 2),
+(132, "Produits d\'entretien écologiques", 'X', 1),
+(133, "Obtention d\'un label environnemental", 'O', 3);
 
 -- --------------------------------------------------------
 
@@ -236,7 +341,7 @@ CREATE TABLE IF NOT EXISTS `devis` (
   `Devis_Numero` varchar(50) NOT NULL,
   `Devis_DateEmission` datetime NOT NULL,
   `Devis_Document` varchar(50) DEFAULT NULL,
-  `Dossier_ID` int(11) NOT NULL,
+  `Dossier_ID` int(11) DEFAULT NULL,
   PRIMARY KEY (`Devis_ID`),
   UNIQUE KEY `Dossier_ID` (`Dossier_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
@@ -281,7 +386,7 @@ CREATE TABLE IF NOT EXISTS `dossiers` (
   `Dossier_Numero` varchar(50) DEFAULT NULL,
   `Dossier_Date` datetime DEFAULT NULL,
   `Dossier_Etoile_Cible` int(11) DEFAULT NULL,
-  `Utilisateur_ID` int(11) NOT NULL,
+  `Utilisateur_ID` int(11) DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
   PRIMARY KEY (`Dossier_ID`),
   KEY `Utilisateur_ID` (`Utilisateur_ID`)
@@ -292,9 +397,8 @@ CREATE TABLE IF NOT EXISTS `dossiers` (
 --
 
 INSERT INTO `dossiers` (`Dossier_ID`, `Dossier_Numero`, `Dossier_Date`, `Dossier_Etoile_Cible`, `Utilisateur_ID`, `status`) VALUES
-(1, 'DOS-2025-001', '2025-01-15 10:00:00', 4, 2, 0),
-(2, 'DOS-2025-002', '2025-02-10 14:00:00', 3, 2, 0),
-(3, 'DOS-2025-002', '2025-02-10 14:00:00', 3, 7, 0);
+(1, 'DOS-2025-001', '2025-01-15 10:00:00', 4, 1, 0),
+(2, 'DOS-2025-002', '2025-02-10 14:00:00', 3, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -315,8 +419,8 @@ CREATE TABLE IF NOT EXISTS `effectue` (
 --
 
 INSERT INTO `effectue` (`Utilisateur_ID`, `Evaluation_ID`) VALUES
-(2, 1),
-(2, 2);
+(1, 1),
+(1, 2);
 
 -- --------------------------------------------------------
 
@@ -342,8 +446,8 @@ CREATE TABLE IF NOT EXISTS `evaluations` (
 --
 
 INSERT INTO `evaluations` (`Evaluation_ID`, `Evaluation_Date`, `Evaluation_Document`, `Evaluation_Résultat`, `Bien_ID`, `ListesCriteres_ID`) VALUES
-(1, '2025-01-22 16:00:00', 'eval1.pdf', 'Conforme', 1, 1),
-(2, '2025-02-18 10:00:00', 'eval2.pdf', 'Non Conforme', 2, 2);
+(1, '2025-01-18 14:00:00', 'eval_hotel_lumiere.pdf', 'Conforme', 1, 4),
+(2, '2025-02-15 10:00:00', 'eval_gite_soleil.pdf', 'Non conforme', 2, 7);
 
 -- --------------------------------------------------------
 
@@ -388,9 +492,18 @@ CREATE TABLE IF NOT EXISTS `inspecteurs` (
 --
 
 INSERT INTO `inspecteurs` (`Utilisateur_ID`) VALUES
-(1),
-(2),
-(7);
+(1);
+
+--
+-- Déclencheurs `inspecteurs`
+--
+DROP TRIGGER IF EXISTS `majDossierDelete`;
+DELIMITER $$
+CREATE TRIGGER `majDossierDelete` BEFORE DELETE ON `inspecteurs` FOR EACH ROW UPDATE dossiers
+SET Utilisateur_ID = NULL
+WHERE Utilisateur_ID = OLD.Utilisateur_ID
+$$
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -410,7 +523,52 @@ CREATE TABLE IF NOT EXISTS `listescriteres` (
 
 INSERT INTO `listescriteres` (`ListesCriteres_ID`) VALUES
 (1),
-(2);
+(2),
+(3),
+(4),
+(5),
+(6),
+(7),
+(8),
+(9),
+(10);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `listescriteres_etoiles`
+--
+
+DROP TABLE IF EXISTS `listescriteres_etoiles`;
+CREATE TABLE IF NOT EXISTS `listescriteres_etoiles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ListesCriteres_ID` int(11) NOT NULL,
+  `etoile` int(11) NOT NULL,
+  `type_hebergement_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `unique_liste_etoile` (`ListesCriteres_ID`,`etoile`),
+  KEY `type_hebergement_id` (`type_hebergement_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+
+--
+-- Déchargement des données de la table `listescriteres_etoiles`
+--
+
+INSERT INTO `listescriteres_etoiles` (`id`, `ListesCriteres_ID`, `etoile`, `type_hebergement_id`) VALUES
+(1, 1, 1, 1),
+(2, 2, 2, 1),
+(3, 3, 3, 1),
+(4, 4, 4, 1),
+(5, 5, 5, 1),
+(6, 6, 1, 2),
+(7, 7, 2, 2),
+(8, 8, 3, 2),
+(9, 9, 1, 3),
+(10, 10, 2, 3),
+(11, 2, 1, 2),
+(12, 3, 1, 3),
+(13, 4, 2, 1),
+(14, 5, 2, 2);
 
 -- --------------------------------------------------------
 
@@ -432,9 +590,10 @@ CREATE TABLE IF NOT EXISTS `photos` (
 --
 
 INSERT INTO `photos` (`Photo_ID`, `Photo_Lien`, `Bien_ID`) VALUES
-(1, '/photos/bien1-1.jpg', 1),
-(2, '/photos/bien1-2.jpg', 1),
-(3, '/photos/bien2-1.jpg', 2);
+(1, 'photos/hotel_lumiere_1.jpg', 1),
+(2, 'photos/hotel_lumiere_2.jpg', 1),
+(3, 'photos/gite_soleil_1.jpg', 2),
+(100, '/photos/liste_generique.jpg', 1);
 
 -- --------------------------------------------------------
 
@@ -453,9 +612,7 @@ CREATE TABLE IF NOT EXISTS `proprietaires` (
 --
 
 INSERT INTO `proprietaires` (`Utilisateur_ID`) VALUES
-(2),
-(3),
-(7),
+(1),
 (29);
 
 -- --------------------------------------------------------
@@ -512,7 +669,6 @@ INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Pr
 (2, 'Martin', 'Luc', 'Monsieur', 'Maze Bank', '$2y$10$MkNpWi2BTFYWLvFIMJZzuOpCXkpbPnfEGricU6ObaPhYTn0VX4wuO', 'luc.martin@mail.com', '0600000002', NULL, 2),
 (3, 'Bernard', 'Julie', 'Madame', 'DedSec', '$2y$10$39cuv2r4W/fEpXvlEQJnb.22bKm0LgU7yos190..B4V57SZ..mbp6', 'julie.bernard@mail.com', '0600000003', NULL, 3),
 (4, 'Durand', 'Paul', 'Monsieur', 'Amazon', 'pass123', 'paul.durand@mail.com', '0600000004', NULL, 4),
-(7, 'Martinant', 'Terence', 'Monsieur', 'TerenceInc', 'mdr', 'inspesdect.dupont@example.com', '0791919191', NULL, 34),
 (29, 'bourdon', 'Angel', 'Monsieur', 'inc', '0123456789', 'anbourdonlopez@stpbb.org', '0769155622', NULL, 42);
 
 --
@@ -539,13 +695,13 @@ ALTER TABLE `biens`
   ADD CONSTRAINT `biens_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `donneurordre` (`Utilisateur_ID`),
   ADD CONSTRAINT `biens_ibfk_2` FOREIGN KEY (`AdressePostale_ID`) REFERENCES `adressespostales` (`AdressePostale_ID`),
   ADD CONSTRAINT `biens_ibfk_3` FOREIGN KEY (`TypeHebergement_ID`) REFERENCES `typeshebergements` (`TypeHebergement_ID`),
-  ADD CONSTRAINT `biens_ibfk_4` FOREIGN KEY (`Utilisateur_ID_1`) REFERENCES `proprietaires` (`Utilisateur_ID`);
+  ADD CONSTRAINT `biens_ibfk_4` FOREIGN KEY (`Utilisateur_ID_1`) REFERENCES `proprietaires` (`Utilisateur_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `concerne`
 --
 ALTER TABLE `concerne`
-  ADD CONSTRAINT `concerne_ibfk_1` FOREIGN KEY (`Bien_ID`) REFERENCES `biens` (`Bien_ID`),
+  ADD CONSTRAINT `concerne_ibfk_1` FOREIGN KEY (`Bien_ID`) REFERENCES `biens` (`Bien_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `concerne_ibfk_2` FOREIGN KEY (`Dossier_ID`) REFERENCES `dossiers` (`Dossier_ID`);
 
 --
@@ -553,7 +709,7 @@ ALTER TABLE `concerne`
 --
 ALTER TABLE `contient`
   ADD CONSTRAINT `contient_ibfk_1` FOREIGN KEY (`Critere_ID`) REFERENCES `criteres` (`Critere_ID`),
-  ADD CONSTRAINT `contient_ibfk_2` FOREIGN KEY (`Photo_ID`) REFERENCES `photos` (`Photo_ID`),
+  ADD CONSTRAINT `contient_ibfk_2` FOREIGN KEY (`Photo_ID`) REFERENCES `photos` (`Photo_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `contient_ibfk_3` FOREIGN KEY (`ListesCriteres_ID`) REFERENCES `listescriteres` (`ListesCriteres_ID`);
 
 --
@@ -572,20 +728,20 @@ ALTER TABLE `donneurordre`
 -- Contraintes pour la table `dossiers`
 --
 ALTER TABLE `dossiers`
-  ADD CONSTRAINT `dossiers_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `inspecteurs` (`Utilisateur_ID`);
+  ADD CONSTRAINT `dossiers_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `inspecteurs` (`Utilisateur_ID`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `effectue`
 --
 ALTER TABLE `effectue`
   ADD CONSTRAINT `effectue_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `inspecteurs` (`Utilisateur_ID`),
-  ADD CONSTRAINT `effectue_ibfk_2` FOREIGN KEY (`Evaluation_ID`) REFERENCES `evaluations` (`Evaluation_ID`);
+  ADD CONSTRAINT `effectue_ibfk_2` FOREIGN KEY (`Evaluation_ID`) REFERENCES `evaluations` (`Evaluation_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `evaluations`
 --
 ALTER TABLE `evaluations`
-  ADD CONSTRAINT `evaluations_ibfk_1` FOREIGN KEY (`Bien_ID`) REFERENCES `biens` (`Bien_ID`),
+  ADD CONSTRAINT `evaluations_ibfk_1` FOREIGN KEY (`Bien_ID`) REFERENCES `biens` (`Bien_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `evaluations_ibfk_2` FOREIGN KEY (`ListesCriteres_ID`) REFERENCES `listescriteres` (`ListesCriteres_ID`);
 
 --
@@ -598,19 +754,19 @@ ALTER TABLE `factures_prixtotal`
 -- Contraintes pour la table `inspecteurs`
 --
 ALTER TABLE `inspecteurs`
-  ADD CONSTRAINT `inspecteurs_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`);
+  ADD CONSTRAINT `inspecteurs_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `photos`
 --
 ALTER TABLE `photos`
-  ADD CONSTRAINT `photos_ibfk_1` FOREIGN KEY (`Bien_ID`) REFERENCES `biens` (`Bien_ID`);
+  ADD CONSTRAINT `photos_ibfk_1` FOREIGN KEY (`Bien_ID`) REFERENCES `biens` (`Bien_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `proprietaires`
 --
 ALTER TABLE `proprietaires`
-  ADD CONSTRAINT `proprietaires_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`);
+  ADD CONSTRAINT `proprietaires_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `utilisateurs`
