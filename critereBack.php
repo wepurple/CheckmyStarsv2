@@ -51,26 +51,25 @@ function getNumberEstablishmentByStar(PDO $pdo, int $star): int
     return ($result === false) ? 0 : (int)$result;
 }
 
-/*
-SELECT COUNT(Critere_statut)
-FROM criteres
-WHERE Critere_statut LIKE 'X%';
-*/
-
-function getNumberCriteriaByStatus(PDO $pdo, string $status): int
+function getNumberCriteriaByStatusAndStar(PDO $pdo, int $star, string $status): int
 {
     $sql = "
-        SELECT COUNT(*) AS nb
-        FROM criteres
-        WHERE Critere_statut = :status
+        SELECT COUNT(DISTINCT c.Critere_ID) AS nb
+        FROM listescriteres_etoiles lce
+        JOIN contient co ON co.ListesCriteres_ID = lce.ListesCriteres_ID
+        JOIN criteres c ON c.Critere_ID = co.Critere_ID
+        WHERE lce.type_hebergement_id = 2
+          AND lce.etoile = :star
+          AND c.Critere_statut = :status
     ";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['status' => $status]);
+    $stmt->execute(['star' => $star, 'status' => $status]);
 
     $result = $stmt->fetchColumn();
     return ($result === false) ? 0 : (int)$result;
 }
+
 
 ?>
 
@@ -106,13 +105,13 @@ function getNumberCriteriaByStatus(PDO $pdo, string $status): int
                                 <p class="card-text"><?= getNumberCriteriaByStar($db, $x) ?> Critères</p>
                                 <div class="row">
                                     <div class="col">
-                                        <p class="card-text"><?= getNumberCriteriaByStatus($db, 'X') ?> X</p>
+                                        <p class="card-text"><?= getNumberCriteriaByStatus($db, $x, 'X') ?> X</p>
                                     </div>
                                     <div class="col">
-                                        <p class="card-text"><?= getNumberCriteriaByStatus($db, 'O') ?> O</p>
+                                        <p class="card-text"><?= getNumberCriteriaByStatus($db, $x, 'O') ?> O</p>
                                     </div>
                                     <div class="col">
-                                        <p class="card-text"><?= getNumberCriteriaByStatus($db, 'NA') ?> NA</p>
+                                        <p class="card-text"><?= getNumberCriteriaByStatus($db, $x, 'NA') ?> NA</p>
                                     </div>
                                 </div>
                                 </br>
