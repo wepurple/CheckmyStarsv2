@@ -10,23 +10,27 @@ if(!isset($_SESSION['Role'])){
     die();
 }
 
-function getInstitutionByStar($star) {
-    $result = 0;
+include("includes/mariadb.php");
 
-    /*
-    SELECT 
-    lce.etoile,
-    COUNT(DISTINCT co.Critere_ID) AS nb_criteres
-    FROM listescriteres_etoiles lce
-    LEFT JOIN contient co ON co.ListesCriteres_ID = lce.ListesCriteres_ID
-    WHERE lce.type_hebergement_id = 2
-    GROUP BY lce.etoile
-    ORDER BY lce.etoile;
-    */
+$database = new Database();
+$db = $database->getConnection();
 
-    
+function getInstitutionByStar(PDO $pdo, int $star): int
+{
+    $sql = "
+        SELECT COUNT(DISTINCT co.Critere_ID) AS nb_criteres
+        FROM listescriteres_etoiles lce
+        LEFT JOIN contient co
+            ON co.ListesCriteres_ID = lce.ListesCriteres_ID
+        WHERE lce.type_hebergement_id = 2
+          AND lce.etoile = :star
+    ";
 
-    return $result;
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['star' => $star]);
+
+    $result = $stmt->fetchColumn();
+    return ($result === false) ? 0 : (int)$result;
 }
 
 ?>
@@ -57,7 +61,7 @@ function getInstitutionByStar($star) {
                     ?>
                         <div class="card col" style="width: 18rem;">
                             <div class="card-body text-center">
-                                <h5 class="card-title">Critères des <?php echo"$x" ?>  étoile</h5>
+                                <h5 class="card-title">Critères des <?php echo"getInstitutionByStar($db, $x)" ?>  étoile</h5>
                                 <p class="card-text">?? Critères</p>
                                 <div class="row">
                                     <div class="col">
