@@ -42,29 +42,37 @@ class User {
         * @return void
     */
     public function creerAdresse(){
-        $sql = "INSERT INTO " . $this->table2 . " SET AdressePostale_NumeroRue=:AdresseNum, AdressePostale_Complement=:Complement, AdressePostale_CodePostal=:CodePostal, AdressePostale_NomRue=:AdresseNom, AdressePostale_Ville=:Ville, AdressePostale_Pays=:Pays";
-        $query = $this->connexion->prepare($sql);
+    $sql = "INSERT INTO " . $this->table2 . " 
+            SET AdressePostale_NumeroRue=:AdresseNum,
+                AdressePostale_Complement=:Complement,
+                AdressePostale_CodePostal=:CodePostal,
+                AdressePostale_NomRue=:AdresseNom,
+                AdressePostale_Ville=:Ville,
+                AdressePostale_Pays=:Pays";
 
-        $this->AdresseNum=htmlspecialchars(strip_tags($this->AdresseNum));
-        $this->Complement=htmlspecialchars(strip_tags($this->Complement));
-        $this->CodePostal=htmlspecialchars(strip_tags($this->CodePostal));
-        $this->AdresseNom=htmlspecialchars(strip_tags($this->AdresseNom));
-        $this->Ville=htmlspecialchars(strip_tags($this->Ville));
-        $this->Pays=htmlspecialchars(strip_tags($this->Pays));
+    $query = $this->connexion->prepare($sql);
 
-        $query->bindParam(":AdresseNum", $this->AdresseNum);
-        $query->bindParam(":Complement", $this->Complement);
-        $query->bindParam(":CodePostal", $this->CodePostal);
-        $query->bindParam(":AdresseNom", $this->AdresseNom);
-        $query->bindParam(":Ville", $this->Ville);
-        $query->bindParam(":Pays", $this->Pays);
+    $this->AdresseNum = htmlspecialchars(strip_tags($this->AdresseNum));
+    $this->Complement = htmlspecialchars(strip_tags($this->Complement));
+    $this->CodePostal = htmlspecialchars(strip_tags($this->CodePostal));
+    $this->AdresseNom = htmlspecialchars(strip_tags($this->AdresseNom));
+    $this->Ville = htmlspecialchars(strip_tags($this->Ville));
+    $this->Pays = htmlspecialchars(strip_tags($this->Pays));
 
-        if($query->execute()){
-            return $this->connexion->lastInsertId();
-            return true;
-        }
-        return false;
+    $query->bindParam(":AdresseNum", $this->AdresseNum);
+    $query->bindParam(":Complement", $this->Complement);
+    $query->bindParam(":CodePostal", $this->CodePostal);
+    $query->bindParam(":AdresseNom", $this->AdresseNom);
+    $query->bindParam(":Ville", $this->Ville);
+    $query->bindParam(":Pays", $this->Pays);
+
+    if ($query->execute()) {
+        $this->idAdresse = $this->connexion->lastInsertId();
+        return true;
     }
+
+    return false;
+}
 
     public function creer(){
         $sql = "INSERT INTO " . $this->table . " SET Utilisateur_Nom=:Nom, Utilisateur_Prenom=:Prenom, Utilisateur_Civilite=:Civilite, Utilisateur_Telephone=:Telephone, Utilisateur_Mail=:Email, Utilisateur_Societe=:Societe, Utilisateur_Password=:MotPasse, AdressePostale_ID=:AdressePostale_ID";
