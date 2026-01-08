@@ -42,37 +42,29 @@ class User {
         * @return void
     */
     public function creerAdresse(){
-    $sql = "INSERT INTO " . $this->table2 . " 
-            SET AdressePostale_NumeroRue=:AdresseNum,
-                AdressePostale_Complement=:Complement,
-                AdressePostale_CodePostal=:CodePostal,
-                AdressePostale_NomRue=:AdresseNom,
-                AdressePostale_Ville=:Ville,
-                AdressePostale_Pays=:Pays";
+        $sql = "INSERT INTO " . $this->table2 . " SET AdressePostale_NumeroRue=:AdresseNum, AdressePostale_Complement=:Complement, AdressePostale_CodePostal=:CodePostal, AdressePostale_NomRue=:AdresseNom, AdressePostale_Ville=:Ville, AdressePostale_Pays=:Pays";
+        $query = $this->connexion->prepare($sql);
 
-    $query = $this->connexion->prepare($sql);
+        $this->AdresseNum=htmlspecialchars(strip_tags($this->AdresseNum));
+        $this->Complement=htmlspecialchars(strip_tags($this->Complement));  
+        $this->CodePostal=htmlspecialchars(strip_tags($this->CodePostal));
+        $this->AdresseNom=htmlspecialchars(strip_tags($this->AdresseNom));
+        $this->Ville=htmlspecialchars(strip_tags($this->Ville));
+        $this->Pays=htmlspecialchars(strip_tags($this->Pays));
 
-    $this->AdresseNum = htmlspecialchars(strip_tags($this->AdresseNum));
-    $this->Complement = htmlspecialchars(strip_tags($this->Complement));
-    $this->CodePostal = htmlspecialchars(strip_tags($this->CodePostal));
-    $this->AdresseNom = htmlspecialchars(strip_tags($this->AdresseNom));
-    $this->Ville = htmlspecialchars(strip_tags($this->Ville));
-    $this->Pays = htmlspecialchars(strip_tags($this->Pays));
+        $query->bindParam(":AdresseNum", $this->AdresseNum);
+        $query->bindParam(":Complement", $this->Complement);
+        $query->bindParam(":CodePostal", $this->CodePostal);
+        $query->bindParam(":AdresseNom", $this->AdresseNom);
+        $query->bindParam(":Ville", $this->Ville);
+        $query->bindParam(":Pays", $this->Pays);
 
-    $query->bindParam(":AdresseNum", $this->AdresseNum);
-    $query->bindParam(":Complement", $this->Complement);
-    $query->bindParam(":CodePostal", $this->CodePostal);
-    $query->bindParam(":AdresseNom", $this->AdresseNom);
-    $query->bindParam(":Ville", $this->Ville);
-    $query->bindParam(":Pays", $this->Pays);
-
-    if ($query->execute()) {
-        $this->idAdresse = $this->connexion->lastInsertId();
-        return true;
+        if($query->execute()){
+            return $this->connexion->lastInsertId();
+            return true;
+        }
+        return false;
     }
-
-    return false;
-}
 
     public function creer(){
         $sql = "INSERT INTO " . $this->table . " SET Utilisateur_Nom=:Nom, Utilisateur_Prenom=:Prenom, Utilisateur_Civilite=:Civilite, Utilisateur_Telephone=:Telephone, Utilisateur_Mail=:Email, Utilisateur_Societe=:Societe, Utilisateur_Password=:MotPasse, AdressePostale_ID=:AdressePostale_ID";
@@ -107,6 +99,21 @@ class User {
         $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID where Utilisateur_Id = ". ":IdPersonne" .";";
         $query = $this->connexion->prepare($sql);
         $query->bindParam(":IdPersonne", $id);
+        /*
+        $query->bindParam(":Nom", $this->Nom);
+        $query->bindParam(":Prenom", $this->Prenom);
+        $query->bindParam(":Civilite", $this->Civilite);
+        $query->bindParam(":Telephone", $this->Telephone);
+        $query->bindParam(":Email", $this->Email);
+        $query->bindParam(":Societe", $this->Societe);
+        $query->bindParam(":Signature", $this->Signature);
+        $query->bindParam(":AdresseNum", $this->AdresseNum);
+        $query->bindParam(":Complement", $this->Complement);
+        $query->bindParam(":CodePostal", $this->CodePostal);
+        $query->bindParam(":AdresseNom", $this->AdresseNom);
+        $query->bindParam(":Ville", $this->Ville);
+        $query->bindParam(":Pays", $this->Pays);
+        */
 
         $query->execute();
 
