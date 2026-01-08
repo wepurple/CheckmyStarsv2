@@ -180,10 +180,6 @@ fieldset legend {
     font-weight: 600;
 }
 
-.m-15 {
-    margin: 15px;
-}
-
 /* Responsive */
 @media (max-width: 768px) {
     .login-body {
