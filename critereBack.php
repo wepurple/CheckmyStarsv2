@@ -105,13 +105,13 @@ function getNumberCriteriaByStatusAndStar(PDO $pdo, int $star, string $status): 
                                 <p class="card-text"><?= getNumberCriteriaByStar($db, $x) ?> Critères</p>
                                 <div class="row">
                                     <div class="col">
-                                        <p class="card-text"><?= getNumberCriteriaByStatus($db, $x, 'X') ?> X</p>
+                                        <p class="card-text"><?= getNumberCriteriaByStatusAndStar($db, $x, 'X') ?> X</p>
                                     </div>
                                     <div class="col">
-                                        <p class="card-text"><?= getNumberCriteriaByStatus($db, $x, 'O') ?> O</p>
+                                        <p class="card-text"><?= getNumberCriteriaByStatusAndStar($db, $x, 'O') ?> O</p>
                                     </div>
                                     <div class="col">
-                                        <p class="card-text"><?= getNumberCriteriaByStatus($db, $x, 'NA') ?> NA</p>
+                                        <p class="card-text"><?= getNumberCriteriaByStatusAndStar($db, $x, 'NA') ?> NA</p>
                                     </div>
                                 </div>
                                 </br>
