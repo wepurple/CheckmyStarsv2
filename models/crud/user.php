@@ -46,7 +46,7 @@ class User {
         $query = $this->connexion->prepare($sql);
 
         $this->AdresseNum=htmlspecialchars(strip_tags($this->AdresseNum));
-        $this->Complement=htmlspecialchars(strip_tags($this->Complement));  
+        $this->Complement=htmlspecialchars(strip_tags($this->Complement));
         $this->CodePostal=htmlspecialchars(strip_tags($this->CodePostal));
         $this->AdresseNom=htmlspecialchars(strip_tags($this->AdresseNom));
         $this->Ville=htmlspecialchars(strip_tags($this->Ville));
@@ -61,9 +61,8 @@ class User {
 
         if($query->execute()){
             return $this->connexion->lastInsertId();
-            return true;
+            
         }
-        return false;
     }
 
     public function creer(){
@@ -99,21 +98,6 @@ class User {
         $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID where Utilisateur_Id = ". ":IdPersonne" .";";
         $query = $this->connexion->prepare($sql);
         $query->bindParam(":IdPersonne", $id);
-        /*
-        $query->bindParam(":Nom", $this->Nom);
-        $query->bindParam(":Prenom", $this->Prenom);
-        $query->bindParam(":Civilite", $this->Civilite);
-        $query->bindParam(":Telephone", $this->Telephone);
-        $query->bindParam(":Email", $this->Email);
-        $query->bindParam(":Societe", $this->Societe);
-        $query->bindParam(":Signature", $this->Signature);
-        $query->bindParam(":AdresseNum", $this->AdresseNum);
-        $query->bindParam(":Complement", $this->Complement);
-        $query->bindParam(":CodePostal", $this->CodePostal);
-        $query->bindParam(":AdresseNom", $this->AdresseNom);
-        $query->bindParam(":Ville", $this->Ville);
-        $query->bindParam(":Pays", $this->Pays);
-        */
 
         $query->execute();
 
@@ -131,18 +115,7 @@ class User {
     //    "IdPersonne" : 25
     //}
 
-    /*public function infoDossier(){
-        $sql = "SELECT * FROM ". $this->table ." AS u INNER JOIN ". $this->tableProprietaires ." AS p ON u.Utilisateur_ID = p.Utilisateur_ID;";
-        $query = $this->connexion->prepare($sql);
-        $query->execute();
-
-        $sql1 = "SELECT COUNT(Dossier_ID) FROM ".$this->tableDossier." AS d INNER JOIN ".$this->table." AS u ON d.Utilisateur_ID = u.Utilisateur_ID WHERE u.Utilisateur_ID = :id;";
-        $query1 = $this->connexion->prepare($sql1);
-        $query1->bindParam(":id", $this->IdPersonne, PDO::PARAM_INT);
-        $query1->execute();
-        return $query;
-        
-    }*/
+    
     public function infoDossier() {
         $sql = "SELECT u.Utilisateur_ID, u.Utilisateur_Nom, u.Utilisateur_Prenom, u.Utilisateur_Telephone, u.Utilisateur_Mail, u.Utilisateur_Societe,
                    COUNT(d.Dossier_ID) AS Nombre_Dossiers, COALESCE(MIN(d.Status), 1) AS Status_Global
