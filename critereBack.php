@@ -44,7 +44,7 @@ function getInstitutionByStar(PDO $pdo, int $star): int
 
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        
+        <link rel="stylesheet" href="bootstrap%205.3/css/style1.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
         
@@ -61,7 +61,7 @@ function getInstitutionByStar(PDO $pdo, int $star): int
             <?php
                 for ($x = 1; $x <= 5; $x++) {
                     ?>
-                        <div class="card col">
+                        <div class="card col margin-15">
                             <div class="card-body text-center">
                                 <h5 class="card-title">Critères des <?= $x ?>  étoile</h5>
                                 <p class="card-text"><?= getInstitutionByStar($db, $x) ?> Critères</p>
