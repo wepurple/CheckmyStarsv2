@@ -33,16 +33,18 @@ $db = $database->getConnection();
     </head>
 
     <body class="bg-secondary">
+        <?php        
+            require("./includes/navbar.php");
+        ?>
+
         <div class="container-fluid p-3">
             <table class="table table-sm table-striped table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>Civilité</th>
-                        <th>Société</th>
-                        <th></th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Points</th>
                     </tr>
                 </thead>
 
@@ -52,5 +54,6 @@ $db = $database->getConnection();
             </table>
         </div>
 
+        <script src="js/criteria1StarBack.js"></script>
     </body>
 </html>
