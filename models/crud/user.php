@@ -61,8 +61,9 @@ class User {
 
         if($query->execute()){
             return $this->connexion->lastInsertId();
-            
+            return true;
         }
+        return false;
     }
 
     public function creer(){
