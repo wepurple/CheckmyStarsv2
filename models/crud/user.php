@@ -95,11 +95,11 @@ class User {
         return false;
     }
  
-    public function afficherUtilisateur($id){
-        $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID where Utilisateur_Id = ". ":IdPersonne" .";";
+    public function afficherUtilisateur(){
+        $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID;";
         $query = $this->connexion->prepare($sql);
-        $query->bindParam(":IdPersonne", $id);
-        /*
+        $query->execute();
+        $query->bindParam(":IdPersonne", $this->IdPersonne);
         $query->bindParam(":Nom", $this->Nom);
         $query->bindParam(":Prenom", $this->Prenom);
         $query->bindParam(":Civilite", $this->Civilite);
@@ -113,9 +113,7 @@ class User {
         $query->bindParam(":AdresseNom", $this->AdresseNom);
         $query->bindParam(":Ville", $this->Ville);
         $query->bindParam(":Pays", $this->Pays);
-        */
-
-        $query->execute();
+        
 
         return $query;
     }
@@ -131,7 +129,18 @@ class User {
     //    "IdPersonne" : 25
     //}
 
-    
+    /*public function infoDossier(){
+        $sql = "SELECT * FROM ". $this->table ." AS u INNER JOIN ". $this->tableProprietaires ." AS p ON u.Utilisateur_ID = p.Utilisateur_ID;";
+        $query = $this->connexion->prepare($sql);
+        $query->execute();
+
+        $sql1 = "SELECT COUNT(Dossier_ID) FROM ".$this->tableDossier." AS d INNER JOIN ".$this->table." AS u ON d.Utilisateur_ID = u.Utilisateur_ID WHERE u.Utilisateur_ID = :id;";
+        $query1 = $this->connexion->prepare($sql1);
+        $query1->bindParam(":id", $this->IdPersonne, PDO::PARAM_INT);
+        $query1->execute();
+        return $query;
+        
+    }*/
     public function infoDossier() {
         $sql = "SELECT u.Utilisateur_ID, u.Utilisateur_Nom, u.Utilisateur_Prenom, u.Utilisateur_Telephone, u.Utilisateur_Mail, u.Utilisateur_Societe,
                    COUNT(d.Dossier_ID) AS Nombre_Dossiers, COALESCE(MIN(d.Status), 1) AS Status_Global

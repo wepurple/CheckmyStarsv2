@@ -43,7 +43,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         
         $user->creerAdresse();
         // Retrieve the ID from the user object or database if needed
-        $idAdresse = $user->idAdresse;
+        $idAdresse = $user->idAdresse ?? null;
 
         if ($idAdresse) {
             if($user->creer()){
