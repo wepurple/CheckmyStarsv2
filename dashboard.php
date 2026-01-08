@@ -16,8 +16,8 @@
     </head>
 
     <body class="bg-secondary">
-        <?php        
-            require("./includes/navbar.php");
+        <?php
+            require_once "./includes/navbar.php";
         ?>
         
          <div class="container-fluid p-3">
@@ -91,7 +91,7 @@
                             echo "<td>" . htmlspecialchars($row['Nombre_Dossiers']) . "</td>";
                             $statusText = $row['Status_Global'] == 1 ? 'Terminé' : 'En cours';
                             $statusClass = $row['Status_Global'] == 1 ? 'bg-success' : 'bg-warning text-dark';
-                             echo "<td><span class='badge $statusClass'>$statusText</span></td>";   
+                            echo "<td><span class='badge $statusClass'>$statusText</span></td>";
 
                             echo "</tr>";
                         }
@@ -185,7 +185,7 @@
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                             <button type="button" class="btn btn-success">Ajouter</button>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
         </div>

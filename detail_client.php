@@ -16,8 +16,8 @@
     </head>
 
     <body class="bg-secondary">
-        <?php        
-            require("./includes/navbar.php");
+        <?php
+            require_once "./includes/navbar.php";
         ?>
 
             <div class="container-fluid p-3">
@@ -56,7 +56,7 @@
                 </thead>
         <tbody>
                     <?php
-                    require_once('./includes/mariadb.php');
+                    require_once './includes/mariadb.php';
                     
                     $database = new Database();
                     $db = $database->getConnection();
@@ -65,7 +65,7 @@
 
                     if (is_array($db)) {
                         echo "<tr><td colspan='10' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
-                    } else if (empty($utilisateurId)) {
+                    } elseif (empty($utilisateurId)) {
                         echo "<tr><td colspan='10' class='text-center text-warning'>Aucun utilisateur sélectionné</td></tr>";
                     } else {
                         try {
@@ -111,10 +111,6 @@
                     ?>
                 </tbody>
             </table>
-
-
-
-
              <!-- Vertically centered modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
@@ -203,6 +199,8 @@
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                             <button type="button" class="btn btn-success">Ajouter</button>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
+</body>
+</html>

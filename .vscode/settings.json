@@ -1,0 +1,6 @@
+{
+  "sonarlint.connectedMode.project": {
+    "connectionId": "wepurple",
+    "projectKey": "wepurple_CheckMystars"
+  }
+}
