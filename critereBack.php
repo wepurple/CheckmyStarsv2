@@ -13,7 +13,18 @@ if(!isset($_SESSION['Role'])){
 function getInstitutionByStar($star) {
     $result = 0;
 
+    /*
+    SELECT 
+    lce.etoile,
+    COUNT(DISTINCT co.Critere_ID) AS nb_criteres
+    FROM listescriteres_etoiles lce
+    LEFT JOIN contient co ON co.ListesCriteres_ID = lce.ListesCriteres_ID
+    WHERE lce.type_hebergement_id = 2
+    GROUP BY lce.etoile
+    ORDER BY lce.etoile;
+    */
 
+    
 
     return $result;
 }

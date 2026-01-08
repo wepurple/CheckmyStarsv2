@@ -41,9 +41,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $user->Societe = $data->Societe;
         $user->MotPasse = $data->MotPasse;
         
-        $user->creerAdresse();
-        // Retrieve the ID from the user object or database if needed
-        $idAdresse = $user->idAdresse ?? null;
+        $idAdresse = $user->creerAdresse();
+        $user->idAdresse = $idAdresse;
 
         if ($idAdresse) {
             if($user->creer()){
