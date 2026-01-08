@@ -67,8 +67,6 @@ function getNumberCriteriaByStatusAndStar(PDO $pdo, int $star, string $status): 
     $result = $stmt->fetchColumn();
     return ($result === false) ? 0 : (int)$result;
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -115,7 +113,7 @@ function getNumberCriteriaByStatusAndStar(PDO $pdo, int $star, string $status): 
                                 </br>
                                 <p class="card-text"><?= getNumberEstablishmentByStar($db, $x) ?> établissement à <?= $x ?> étoile</p>
                                 </br>
-                                <a href="#" class="btn btn-primary">Accéder aux critères</a>
+                                <a href="critereBack<?= $x ?>Star.php" class="btn btn-primary">Accéder aux critères</a>
                             </div>
                         </div>
                     <?php
