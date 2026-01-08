@@ -35,17 +35,15 @@ function getNumberCriteriaByStar(PDO $pdo, int $star): int
 
 function getNumberEstablishmentByStar(PDO $pdo, int $star): int
 {
-    $typeHebergement = 2;
-
     $sql = "
         SELECT COUNT(*) AS nb
         FROM biens
-        WHERE TypeHebergement_ID = :type
+        WHERE TypeHebergement_ID = 2
           AND Bien_Etoile_Actuelle = :star
     ";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->execute(['type' => $typeHebergement, 'star' => $star]);
+    $stmt->execute(['star' => $star]);
 
     $result = $stmt->fetchColumn();
     return ($result === false) ? 0 : (int)$result;
