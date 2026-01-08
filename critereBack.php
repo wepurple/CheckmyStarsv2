@@ -10,25 +10,63 @@ if(!isset($_SESSION['Role'])){
     die();
 }
 
-function getInstitutionByStar($star) {
-    $result = 0;
+include("includes/mariadb.php");
 
-    /*
-    SELECT 
-    lce.etoile,
-    COUNT(DISTINCT co.Critere_ID) AS nb_criteres
-    FROM listescriteres_etoiles lce
-    LEFT JOIN contient co ON co.ListesCriteres_ID = lce.ListesCriteres_ID
-    WHERE lce.type_hebergement_id = 2
-    GROUP BY lce.etoile
-    ORDER BY lce.etoile;
-    */
+$database = new Database();
+$db = $database->getConnection();
 
-    
+function getNumberCriteriaByStar(PDO $pdo, int $star): int
+{
+    $sql = "
+        SELECT COUNT(DISTINCT co.Critere_ID) AS nb_criteres
+        FROM listescriteres_etoiles lce
+        LEFT JOIN contient co
+            ON co.ListesCriteres_ID = lce.ListesCriteres_ID
+        WHERE lce.type_hebergement_id = 2
+          AND lce.etoile = :star
+    ";
 
-    return $result;
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['star' => $star]);
+
+    $result = $stmt->fetchColumn();
+    return ($result === false) ? 0 : (int)$result;
 }
 
+function getNumberEstablishmentByStar(PDO $pdo, int $star): int
+{
+    $sql = "
+        SELECT COUNT(*) AS nb
+        FROM biens
+        WHERE TypeHebergement_ID = 2
+          AND Bien_Etoile_Actuelle = :star
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['star' => $star]);
+
+    $result = $stmt->fetchColumn();
+    return ($result === false) ? 0 : (int)$result;
+}
+
+function getNumberCriteriaByStatusAndStar(PDO $pdo, int $star, string $status): int
+{
+    $sql = "
+        SELECT COUNT(DISTINCT c.Critere_ID) AS nb
+        FROM listescriteres_etoiles lce
+        JOIN contient co ON co.ListesCriteres_ID = lce.ListesCriteres_ID
+        JOIN criteres c ON c.Critere_ID = co.Critere_ID
+        WHERE lce.type_hebergement_id = 2
+          AND lce.etoile = :star
+          AND c.Critere_statut = :status
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['star' => $star, 'status' => $status]);
+
+    $result = $stmt->fetchColumn();
+    return ($result === false) ? 0 : (int)$result;
+}
 ?>
 
 <!DOCTYPE html>
@@ -40,8 +78,10 @@ function getInstitutionByStar($star) {
 
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="bootstrap%205.3/css/style1.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
+        
     </head>
 
     <body class="bg-secondary">
@@ -55,25 +95,27 @@ function getInstitutionByStar($star) {
             <?php
                 for ($x = 1; $x <= 5; $x++) {
                     ?>
-                        <div class="card col" style="width: 18rem;">
+                        <div class="card col margin-15">
                             <div class="card-body text-center">
-                                <h5 class="card-title">Critères des <?php echo"$x" ?>  étoile</h5>
-                                <p class="card-text">?? Critères</p>
+                                <h5 class="card-title">Critères des <?= $x ?>  étoile</h5>
+                                <p class="card-text"><?= getNumberCriteriaByStar($db, $x) ?> Critères</p>
                                 <div class="row">
                                     <div class="col">
-                                        <p class="card-text">?? X</p>
+                                        <p class="card-text"><?= getNumberCriteriaByStatusAndStar($db, $x, 'X') ?> X</p>
                                     </div>
                                     <div class="col">
-                                        <p class="card-text">?? O</p>
+                                        <p class="card-text"><?= getNumberCriteriaByStatusAndStar($db, $x, 'O') ?> O</p>
                                     </div>
                                     <div class="col">
-                                        <p class="card-text">?? NA</p>
+                                        <p class="card-text"><?= getNumberCriteriaByStatusAndStar($db, $x, 'NA') ?> NA</p>
                                     </div>
                                 </div>
                                 </br>
-                                <p class="card-text">?? établissement à ?? étoile</p>
+                                <p class="card-text"><?= getNumberEstablishmentByStar($db, $x) ?> établissement à <?= $x ?> étoile</p>
                                 </br>
-                                <a href="#" class="btn btn-primary">Accéder aux critères</a>
+                                <a href="critereBackStar.php?star=<?= $x ?>" class="btn btn-primary">
+                                    Accéder aux critères
+                                </a>
                             </div>
                         </div>
                     <?php
