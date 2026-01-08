@@ -16,7 +16,7 @@
     </head>
 
     <body class="bg-secondary">
-        <?php        
+        <?php
             require("./includes/navbar.php");
         ?>
         

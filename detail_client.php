@@ -16,7 +16,7 @@
     </head>
 
     <body class="bg-secondary">
-        <?php        
+        <?php
             require("./includes/navbar.php");
         ?>
 
@@ -65,7 +65,7 @@
 
                     if (is_array($db)) {
                         echo "<tr><td colspan='10' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
-                    } else if (empty($utilisateurId)) {
+                    } elseif (empty($utilisateurId)) {
                         echo "<tr><td colspan='10' class='text-center text-warning'>Aucun utilisateur sélectionné</td></tr>";
                     } else {
                         try {
@@ -203,6 +203,6 @@
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                             <button type="button" class="btn btn-success">Ajouter</button>
                         </div>
-                    </div>                    
+                    </div>
                 </div>
             </div>
