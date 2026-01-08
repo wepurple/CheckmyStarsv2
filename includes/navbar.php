@@ -16,20 +16,20 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
                 <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/admin.php"){echo(' active" aria-current="page');} ?>" href="admin.php">Accueil</a>
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/admin.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/admin.php"){ echo ' aria-current="page"'; } ?> href="admin.php">Accueil</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/dashboard.php"){echo(' active" aria-current="page');} ?>" href="Dashboard.php">Dashboard</a>
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/dashboard.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/dashboard.php"){ echo ' aria-current="page"'; } ?> href="Dashboard.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_inspecteurs.php"){echo(' active" aria-current="page');} ?>" href="gestion_inspecteurs.php">Gestion des inspecteurs</a>
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_inspecteurs.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_inspecteurs.php"){ echo ' aria-current="page"'; } ?> href="gestion_inspecteurs.php">Gestion des inspecteurs</a>
                 </li>
 
                  <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_dossiers.php"){echo(' active" aria-current="page');} ?>" href="gestion_dossiers.php">Gestion des dossiers</a>
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_dossiers.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_dossiers.php"){ echo ' aria-current="page"'; } ?> href="gestion_dossiers.php">Gestion des dossiers</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/critereback.php"){echo(' active" aria-current="page');} ?>" href="critereBack.php">Gestion des critères</a>
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/critereback.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/critereback.php"){ echo ' aria-current="page"'; } ?> href="critereBack.php">Gestion des critères</a>
                 </li>
 
             </ul>
@@ -37,7 +37,7 @@
             <hr>
 
             <div class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <span class="nav-text">Connecté<?php if(isset($_SESSION['Prenom']) && isset($_SESSION['Nom'])){ echo(" en tant que " . $_SESSION['Prenom'] . " " . $_SESSION['Nom']); } ?></span>
+                <span class="nav-text">Connecté<?php if(isset($_SESSION['Prenom']) && isset($_SESSION['Nom'])){ echo " en tant que " . $_SESSION['Prenom'] . " " . $_SESSION['Nom']; } ?></span>
             </div>
 
             <ul class="navbar-nav ms-2 mb-2 mb-lg-0">
