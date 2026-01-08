@@ -51,6 +51,26 @@ function getNumberEstablishmentByStar(PDO $pdo, int $star): int
     return ($result === false) ? 0 : (int)$result;
 }
 
+/*
+SELECT COUNT(Critere_statut)
+FROM criteres
+WHERE Critere_statut LIKE 'X%';
+*/
+
+function getNumberCriteriaByStatus(PDO $pdo, string $status): int
+{
+    $sql = "
+        SELECT COUNT(*) AS nb
+        FROM criteres
+        WHERE Critere_statut = :status
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute(['status' => $status]);
+
+    $result = $stmt->fetchColumn();
+    return ($result === false) ? 0 : (int)$result;
+}
 
 ?>
 
@@ -86,13 +106,13 @@ function getNumberEstablishmentByStar(PDO $pdo, int $star): int
                                 <p class="card-text"><?= getNumberCriteriaByStar($db, $x) ?> Critères</p>
                                 <div class="row">
                                     <div class="col">
-                                        <p class="card-text">?? X</p>
+                                        <p class="card-text"><?= getNumberCriteriaByStatus($db, 'X') ?> X</p>
                                     </div>
                                     <div class="col">
-                                        <p class="card-text">?? O</p>
+                                        <p class="card-text"><?= getNumberCriteriaByStatus($db, 'O') ?> O</p>
                                     </div>
                                     <div class="col">
-                                        <p class="card-text">?? NA</p>
+                                        <p class="card-text"><?= getNumberCriteriaByStatus($db, 'NA') ?> NA</p>
                                     </div>
                                 </div>
                                 </br>
