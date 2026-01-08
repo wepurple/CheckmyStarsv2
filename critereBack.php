@@ -60,7 +60,7 @@ function getInstitutionByStar(PDO $pdo, int $star): int
             <?php
                 for ($x = 1; $x <= 5; $x++) {
                     ?>
-                        <div class="card col m-15">
+                        <div class="card col margin-15">
                             <div class="card-body text-center">
                                 <h5 class="card-title">Critères des <?= $x ?>  étoile</h5>
                                 <p class="card-text"><?= getInstitutionByStar($db, $x) ?> Critères</p>
