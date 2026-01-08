@@ -15,7 +15,7 @@ include("includes/mariadb.php");
 $database = new Database();
 $db = $database->getConnection();
 
-function getInstitutionByStar(PDO $pdo, int $star): int
+function getNumberCriteriaByStar(PDO $pdo, int $star): int
 {
     $sql = "
         SELECT COUNT(DISTINCT co.Critere_ID) AS nb_criteres
@@ -32,6 +32,28 @@ function getInstitutionByStar(PDO $pdo, int $star): int
     $result = $stmt->fetchColumn();
     return ($result === false) ? 0 : (int)$result;
 }
+
+function getNumberEstablishmentByStar(PDO $pdo, int $star): int
+{
+    $typeHebergement = 2;
+
+    $sql = "
+        SELECT COUNT(*) AS nb
+        FROM biens
+        WHERE TypeHebergementID = :type
+          AND Bien_Etoile_Actuelle = :star
+    ";
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([
+        'type' => $typeHebergement,
+        'star' => $star,
+    ]);
+
+    $result = $stmt->fetchColumn();
+    return ($result === false) ? 0 : (int)$result;
+}
+
 
 ?>
 
@@ -64,7 +86,7 @@ function getInstitutionByStar(PDO $pdo, int $star): int
                         <div class="card col margin-15">
                             <div class="card-body text-center">
                                 <h5 class="card-title">Critères des <?= $x ?>  étoile</h5>
-                                <p class="card-text"><?= getInstitutionByStar($db, $x) ?> Critères</p>
+                                <p class="card-text"><?= getNumberCriteriaByStar($db, $x) ?> Critères</p>
                                 <div class="row">
                                     <div class="col">
                                         <p class="card-text">?? X</p>
@@ -77,7 +99,7 @@ function getInstitutionByStar(PDO $pdo, int $star): int
                                     </div>
                                 </div>
                                 </br>
-                                <p class="card-text">?? établissement à ?? étoile</p>
+                                <p class="card-text"><?= getNumberEstablishmentByStar($db, $x) ?> établissement à <?= $x ?> étoile</p>
                                 </br>
                                 <a href="#" class="btn btn-primary">Accéder aux critères</a>
                             </div>
