@@ -46,7 +46,15 @@ function updateTab(z){//vide le tableau et le remplit avec les nouvelles donnée
             e.lastElementChild.appendChild(document.createElement('button'))
                 e.lastElementChild.lastElementChild.classList.add("btn","btn-warning","btn-sm", "ms-2")
                 e.lastElementChild.lastElementChild.textContent = "Reset mot de passe"
-                e.lastElementChild.lastElementChild.setAttribute("onclick", "resetPassword("+ z[i]["Utilisateur_ID"] +")")
+                e.lastElementChild.lastElementChild.setAttribute("onclick", "resetPassword("+
+                    z[i]["Utilisateur_ID"] +
+                    ", '" +
+                    z[i]["Utilisateur_Nom"] +
+                    "', '" +
+                    z[i]["Utilisateur_Prenom"] +
+                    "', '"+ 
+                    z[i]["Utilisateur_Civilite"] +
+                    "')")
                 //icône
                 e.lastElementChild.lastElementChild.appendChild(document.createElement('i'))
                 e.lastElementChild.lastElementChild.lastElementChild.classList.add("fa-solid", "fa-key", "mx-1")
@@ -196,19 +204,32 @@ function edit(){
     editModal.hide()
 }
 
-function resetPassword(id){
-    console.log(id)
-    mail(
+function resetPassword(id, nom, prenom, genre){
+    if (genre == "Madame"){
+        leGenre = "inspectrice "
+    }else{
+        leGenre = "inspecteur "
+    }
+    document.getElementById("resetText").textContent = "Voulez-vous vraiment réinitialiser le mot de passe de l'" + leGenre + prenom + " " + nom + " ?"
+    document.getElementById("resetConfirm").setAttribute('onclick', 'reset("' + id + '")')
+    confirmResetModal.show()
+    /*mail(
         "piverdier@stpbb.org",
         "reset mdp utilisateur id ".id,
         "Salutations, un administrateur a ordonné la réinitialisation du mot de passe de l'utilisateur avec l'identifiant n°".id,
-    )
+    )*/
+}
+
+async function reset(id){
+    console.log("reset id " + id)
+    confirmResetModal.hide()
 }
 
 document.addEventListener("DOMContentLoaded", function() {//quand la page est chargée
     
     leModal = new bootstrap.Modal(document.getElementById('confirmModal'))
     editModal = new bootstrap.Modal(document.getElementById('editModal'))
+    confirmResetModal = new bootstrap.Modal(document.getElementById('confirmResetPasswordModal'))
 
     //remplissage initial du tableau
     recherche()
