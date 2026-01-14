@@ -1,2 +1,9 @@
+# CheckMyStars
 Site officiel de CheckMyStars
-> "Le meilleur site du monde" Charlie, 2025
+## Installation
+test
+```bash
+pip install foobar
+```
+## Copyright
+SIO SLAM 2025-2026
