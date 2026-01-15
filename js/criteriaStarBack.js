@@ -17,6 +17,7 @@ fetch(`models/crud/getCriteriaByEtoile.php?star=${star}`)
 
 // Fonction pour afficher les données
 function displayData(data) {
+    console.log("Ok")
     const tbody = document.getElementById('table-body');
     tbody.innerHTML = ''; // Vide le tableau
     
