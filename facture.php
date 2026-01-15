@@ -9,7 +9,7 @@ if (!isset($_SESSION['ID'])) {
 }
 ?>
 <!DOCTYPE html>
-<html lang="fr" data-bs-theme="dark">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,7 @@ if (!isset($_SESSION['ID'])) {
 </head>
 <body>
      <?php
-            require_once "./includes/navbar.php";
+            require_once("./includes/navbar.php");
         ?>
     
     <div class="loading-overlay" id="loadingOverlay">
