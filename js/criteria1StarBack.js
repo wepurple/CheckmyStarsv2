@@ -1,6 +1,5 @@
 // Attend que le DOM soit complètement chargé
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('DOM chargé !'); // Tu DOIS voir ce message
     
     // Récupère le numéro d'étoile depuis l'URL
     const urlParams = new URLSearchParams(window.location.search);
@@ -51,9 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const searchBar = document.getElementById('searchBar');
         const filterType = document.getElementById('filterType');
         
-        console.log('searchBar:', searchBar);
-        console.log('filterType:', filterType);
-        
         if (!searchBar) {
             console.error('ERREUR: searchBar introuvable !');
             return;
@@ -66,16 +62,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Événements
         searchBar.addEventListener('input', function() {
-            console.log('Recherche en cours...');
             filterData();
         });
         
         filterType.addEventListener('change', function() {
-            console.log('Filtre changé');
             filterData();
         });
         
-        console.log('✓ Filtres configurés avec succès');
     }
     
     // Fonction de filtrage
@@ -83,8 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
         const searchBar = document.getElementById('searchBar');
         const filterType = document.getElementById('filterType');
         const searchTerm = searchBar.value.toLowerCase().trim();
-        
-        console.log('Recherche:', searchTerm, 'Type:', filterType.value);
         
         if (!searchTerm) {
             displayData(allData);
@@ -118,7 +109,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
         
-        console.log('Résultats trouvés:', filteredData.length);
         displayData(filteredData);
     }
 
