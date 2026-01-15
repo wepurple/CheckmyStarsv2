@@ -26,7 +26,9 @@
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <i class="fas fa-plus"></i> Ajouter un dossier
                 </button>
-
+                <button type="button" class="btn btn-back" onclick="location.href='dashboard.php'" > 
+                    Retour au tableau de bord 
+                </button>
                 
                 <div class="input-group" style="width: 400px;">
                     <span class="input-group-text">Rechercher par</span>
