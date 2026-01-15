@@ -111,11 +111,6 @@ $starColors = [
                             <div class="card h-100 shadow-lg border-<?= $color ?>">
                                 <!-- Card Header -->
                                 <div class="card-header text-center bg-<?= $color ?> bg-gradient text-white py-3">
-                                    <h3 class="mb-2">
-                                        <?php for ($i = 0; $i < $x; $i++): ?>
-                                            <i class="fas fa-star text-warning"></i>
-                                        <?php endfor; ?>
-                                    </h3>
                                     <h5 class="fw-bold mb-0">
                                         Niveau <?= $x ?> Étoile<?= $x > 1 ? 's' : '' ?>
                                     </h5>
