@@ -74,7 +74,8 @@
                     } else {
                         try {
                             // Requête pour récupérer tous les dossiers
-                            $sql = "SELECT b.Bien_ID,
+                            $sql = "SELECT b.Dossier_ID,
+                            b.Bien_ID,
                             u.Utilisateur_Nom,
                             u.Utilisateur_Prenom,
                             u.Utilisateur_Telephone,
