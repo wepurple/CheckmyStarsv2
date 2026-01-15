@@ -95,25 +95,10 @@ class User {
         return false;
     }
  
-    public function afficherUtilisateur(){
-        $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID;";
+    public function afficherUtilisateur($id){
+        $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID where Utilisateur_ID = ".$id.";";
         $query = $this->connexion->prepare($sql);
         $query->execute();
-        $query->bindParam(":IdPersonne", $this->IdPersonne);
-        $query->bindParam(":Nom", $this->Nom);
-        $query->bindParam(":Prenom", $this->Prenom);
-        $query->bindParam(":Civilite", $this->Civilite);
-        $query->bindParam(":Telephone", $this->Telephone);
-        $query->bindParam(":Email", $this->Email);
-        $query->bindParam(":Societe", $this->Societe);
-        $query->bindParam(":Signature", $this->Signature);
-        $query->bindParam(":AdresseNum", $this->AdresseNum);
-        $query->bindParam(":Complement", $this->Complement);
-        $query->bindParam(":CodePostal", $this->CodePostal);
-        $query->bindParam(":AdresseNom", $this->AdresseNom);
-        $query->bindParam(":Ville", $this->Ville);
-        $query->bindParam(":Pays", $this->Pays);
-        
 
         return $query;
     }
