@@ -114,8 +114,6 @@ function getNumberCriteriaByStatusAndStar(PDO $pdo, int $star, string $status): 
                                 <p class="card-text"><?= getNumberEstablishmentByStar($db, $x) ?> établissement à <?= $x ?> étoile</p>
                                 </br>
                                 <a href="critereBack<?= $x ?>Star.php" class="btn btn-primary">Accéder aux critères</a>
-                                    Accéder aux critères
-                                </a>
                             </div>
                         </div>
                     <?php
