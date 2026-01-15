@@ -65,6 +65,10 @@
                     $db = $database->getConnection();
                     
                     $utilisateurId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+                    echo "<pre>";
+                    var_dump($_GET);
+                    var_dump($utilisateurId);
+                    echo "</pre>";
 
                     if (is_array($db)) {
                         echo "<tr><td colspan='10' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";

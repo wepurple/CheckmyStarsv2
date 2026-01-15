@@ -31,6 +31,9 @@
                 <li class="nav-item">
                     <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/critereback.php" || strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/criterebackstar.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/critereback.php"){ echo ' aria-current="page"'; } ?> href="critereBack.php">Gestion des critères</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/facture.php" || strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/facture.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/facture.php"){ echo ' aria-current="page"'; } ?> href="facture.php">Gestion des factures</a>
+                </li>
 
             </ul>
 
