@@ -35,7 +35,9 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
             style="padding: 8px; width: 300px;">
     </div>
 
-    <table id="criteriaTable">
+    <div class="container-fluid p-3">
+    <h2>Critères <?= $star ?> étoile</h2>
+    <table class="table table-sm table-striped table-hover" id="criteriaTable">
         <thead>
             <tr>
                 <th>ID</th>
@@ -48,6 +50,7 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
             <!-- Les données seront insérées ici par JS -->
         </tbody>
     </table>
+    </div>
 
     <script src="js/criteria1StarBack.js"></script>
 </body>
