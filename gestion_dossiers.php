@@ -95,9 +95,6 @@
                                     $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
                                     echo "<td><span class='badge $statusClass'>$statusText</span></td>";
                                     echo "</tr>";
-                                    $stmt = $user->infoDossier();
-                                    var_dump($stmt->fetchAll(PDO::FETCH_ASSOC));
-                                    exit;
                                 }
                             } else {
                                 echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
