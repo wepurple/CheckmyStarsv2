@@ -64,12 +64,12 @@
                     $database = new Database();
                     $db = $database->getConnection();
                     
-                    $utilisateurId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+                    $Bien_ID = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
 
                     if (is_array($db)) {
                         echo "<tr><td colspan='10' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
-                    } elseif (empty($utilisateurId)) {
+                    } elseif (empty($Bien_ID)) {
                         echo "<tr><td colspan='10' class='text-center text-warning'>Aucun utilisateur sélectionné</td></tr>";
                     } else {
                         try {
@@ -95,7 +95,7 @@
                             
                             
                             $stmt = $db->prepare($sql);
-                            $stmt->execute([':utilisateurId' => $utilisateurId]);
+                            $stmt->execute([':Bien_ID' => $Bien_ID]);
                             
                             if ($stmt->rowCount() > 0) {
                                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
