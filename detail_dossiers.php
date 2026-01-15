@@ -23,6 +23,9 @@
             <div class="container-fluid p-3">
             
             <div class="d-flex justify-content-between align-items-center mb-3">
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                    <i class="fas fa-plus"></i> Ajouter un dossier
+                </button>
                 <button type="button" class="btn btn-danger" onclick="location.href='dashboard.php'" > 
                     <i class="fas fa-arrow-left"></i> Retour au tableau de bord 
                 </button>
@@ -62,10 +65,7 @@
                     $db = $database->getConnection();
                     
                     $utilisateurId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-                    echo "<pre>";
-                    var_dump($_GET);
-                    var_dump($utilisateurId);
-                    echo "</pre>";
+
 
                     if (is_array($db)) {
                         echo "<tr><td colspan='10' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
@@ -93,12 +93,13 @@
                             WHERE b.Bien_ID = do.Bien_ID
                             ORDER BY B.Bien_ID DESC;";
                             
+                            
                             $stmt = $db->prepare($sql);
                             $stmt->execute([':utilisateurId' => $utilisateurId]);
                             
                             if ($stmt->rowCount() > 0) {
                                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                    echo "<tr style='cursor: pointer;' onclick=\"window.location.href='gestion_dossiers.php?id=" . urlencode($row['Dossier_ID']) . "'\">";
+                                    echo "<tr style='cursor: pointer;' onclick=\"window.location.href='gestion_dossiers.php?id=" . urlencode($row['Bien_ID']) . "'\">";
                                     echo "<td>" . htmlspecialchars($row['Bien_ID']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['Utilisateur_Prenom']) . "</td>";
@@ -122,5 +123,6 @@
                     ?>
                 </tbody>
             </table>
+             <!-- Vertically centered modal -->
 </body>
 </html>
