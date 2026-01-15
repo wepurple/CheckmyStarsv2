@@ -134,13 +134,13 @@ $starColors = [
                                     <!-- Status Badges -->
                                     <div class="d-flex justify-content-center flex-wrap gap-2 mb-3">
                                         <span class="badge bg-danger fs-6 py-2 px-3">
-                                            <i class="fas fa-times-circle"></i> <?= $criteriaX ?> X
+                                            <?= $criteriaX ?> X
                                         </span>
                                         <span class="badge bg-success fs-6 py-2 px-3">
-                                            <i class="fas fa-check-circle"></i> <?= $criteriaO ?> O
+                                            <?= $criteriaO ?> O
                                         </span>
                                         <span class="badge bg-warning text-dark fs-6 py-2 px-3">
-                                            <i class="fas fa-minus-circle"></i> <?= $criteriaNA ?> NA
+                                            <?= $criteriaNA ?> NA
                                         </span>
                                     </div>
 
