@@ -159,7 +159,6 @@ $starColors = [
 
                                     <!-- Action Button -->
                                     <div class="d-grid gap-2 mt-auto">
-                                        <!-- ✅ LIGNE MODIFIÉE ICI -->
                                         <a href="critereBackStar.php?star=<?= $x ?>" 
                                         class="btn btn-<?= $color ?> btn-lg">
                                             <i class="fas fa-arrow-right"></i>
