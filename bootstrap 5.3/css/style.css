@@ -153,7 +153,7 @@ fieldset legend {
     transform: translateY(0);
 }
 
-#bootstrap-overrides .btn-back {
+.btn-back {
     background-color: red;
 }
 
