@@ -43,8 +43,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         </span>
 
                         <div class="btn-group btn-group-sm ms-auto" role="group" aria-label="Actions">
-                        <button type="button" class="btn btn-outline-primary">Modifier</button>
-                        <button type="button" class="btn btn-outline-danger">Supprimer</button>
+                            <div>
+                                <button type="button" class="btn btn-outline-primary">Modifier</button>
+                            </div>
+                            <div>
+                                <button type="button" class="btn btn-outline-danger">Supprimer</button>
+                            </div>
                         </div>
                     </div>
                 </td>
