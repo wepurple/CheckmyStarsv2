@@ -2,15 +2,17 @@
 const urlParams = new URLSearchParams(window.location.search);
 const star = urlParams.get('star') || 1;
 
-let allCriteria = []; // Stocke les données globalement
+let allCriteria = []; // Stocke toutes les données
 
 // Fetch les données
 fetch(`models/crud/getCriteriaByEtoile.php?star=${star}`)
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}`);
+        }
+        return response.json();
+    })
     .then(data => {
-        console.log('Données reçues:', data); // ← AJOUTE ÇA
-        console.log('Type:', typeof data, 'Longueur:', data.length); // ← ET ÇA
-        
         allCriteria = data;
         renderTable(data);
         setupSearch();
@@ -18,14 +20,18 @@ fetch(`models/crud/getCriteriaByEtoile.php?star=${star}`)
     .catch(error => {
         console.error('Erreur:', error);
         document.getElementById('table-body').innerHTML = 
-            '<tr><td colspan="4" class="text-danger">Erreur de chargement</td></tr>';
+            '<tr><td colspan="4" class="text-danger">Erreur de chargement des données</td></tr>';
     });
-
 
 // Fonction pour afficher le tableau
 function renderTable(data) {
     const tbody = document.getElementById('table-body');
-    tbody.innerHTML = ''; // Vide le tableau
+    tbody.innerHTML = '';
+    
+    if (!data || data.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" class="text-muted">Aucun critère trouvé</td></tr>';
+        return;
+    }
     
     data.forEach(critere => {
         const row = tbody.insertRow();
@@ -38,20 +44,27 @@ function renderTable(data) {
     });
 }
 
-// Fonction de recherche dynamique
+// Configuration de la recherche dynamique
 function setupSearch() {
-    const searchInput = document.getElementById('recherche'); // ← Ton ID réel
+    const searchInput = document.getElementById('recherche');
     const searchType = document.getElementById('type');
+    
+    if (!searchInput || !searchType) {
+        console.error('Éléments de recherche introuvables');
+        return;
+    }
     
     function filterTable() {
         const query = searchInput.value.trim().toLowerCase();
         const type = searchType.value;
         
+        // Si vide, affiche tout
         if (!query) {
-            renderTable(allCriteria); // Si vide, affiche tout
+            renderTable(allCriteria);
             return;
         }
         
+        // Filtre selon le type sélectionné
         const filtered = allCriteria.filter(critere => {
             switch(type) {
                 case "1": // ID
@@ -67,9 +80,10 @@ function setupSearch() {
             }
         });
         
-        renderTable(filtered); // Réaffiche avec les résultats filtrés
+        renderTable(filtered);
     }
     
+    // Écoute les événements
     searchInput.addEventListener('input', filterTable);
     searchType.addEventListener('change', filterTable);
 }
