@@ -158,7 +158,7 @@
                         <!-- modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-success"><i class="fa-solid fa-check mx-1" onclick="addUser()"></i>Ajouter</button>
+                            <button type="button" class="btn btn-success" onclick="addUser()"><i class="fa-solid fa-check mx-1"></i>Ajouter</button>
                         </div>
                     </div>                    
                 </div>
