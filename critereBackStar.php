@@ -33,12 +33,12 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
                 </button>
 
                 <span class="input-group-text">Rechercher par</span>
-                <select class="form-select" id="type">
-                    <option selected value = "1">ID</option>
-                    <option value="2">Description</option>
-                    <option value="2">Status</option>
-                    <option value="2">Points</option>
-                </select>
+                    <select class="form-select" id="type">
+                        <option selected value="1">ID</option>
+                        <option value="2">Description</option>
+                        <option value="3">Status</option>
+                        <option value="4">Points</option>
+                    </select>
                 <input id="recherche" type="text" aria-label="Last name" class="form-control">
             </div>
         </div>

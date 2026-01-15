@@ -2,42 +2,63 @@
 const urlParams = new URLSearchParams(window.location.search);
 const star = urlParams.get('star') || 1;
 
+const tbody = document.getElementById('table-body');
+const searchInput = document.getElementById('recherche');
+const searchType = document.getElementById('type');
+
+let allCriteria = []; // Stocke toutes les données
+
+// Fonction pour afficher les lignes
+function renderTable(data) {
+    tbody.innerHTML = '';
+    data.forEach(critere => {
+        const row = tbody.insertRow();
+        row.innerHTML = `
+            <td>${critere.id}</td>
+            <td>${critere.description}</td>
+            <td>${critere.status}</td>
+            <td>${critere.points}</td>
+        `;
+    });
+}
+
+// Fonction de filtrage
+function filterTable() {
+    const query = searchInput.value.trim().toLowerCase();
+    const type = searchType.value;
+
+    if (!query) {
+        renderTable(allCriteria);
+        return;
+    }
+
+    const filtered = allCriteria.filter(critere => {
+        switch(type) {
+            case "1": // ID
+                return String(critere.id).toLowerCase().includes(query);
+            case "2": // Description
+                return String(critere.description).toLowerCase().includes(query);
+            case "3": // Status
+                return String(critere.status).toLowerCase().includes(query);
+            case "4": // Points
+                return String(critere.points).toLowerCase().includes(query);
+            default:
+                return false;
+        }
+    });
+
+    renderTable(filtered);
+}
+
 // Fetch les données
 fetch(`models/crud/getCriteriaByEtoile.php?star=${star}`)
     .then(response => response.json())
     .then(data => {
-
-        setupSearch();
-
-        const tbody = document.getElementById('table-body');
-        
-        data.forEach(critere => {
-            const row = tbody.insertRow();
-            row.innerHTML = `
-                <td>${critere.Critere_ID}</td>
-                <td>${critere.Critere_description}</td>
-                <td>${critere.Critere_statut}</td>
-                <td>${critere.Critere_points || '-'}</td>
-            `;
-        });
+        allCriteria = data;
+        renderTable(allCriteria);
     })
-    .catch(error => {
-        console.error('Erreur:', error);
-        document.getElementById('table-body').innerHTML = 
-            '<tr><td colspan="4" class="text-danger">Erreur de chargement</td></tr>';
-    });
+    .catch(err => console.error('Erreur chargement:', err));
 
-// Fonction de recherche dynamique
-function setupSearch() {
-    const searchInput = document.getElementById('searchInput');
-    
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        const rows = document.querySelectorAll('#table-body tr');
-        
-        rows.forEach(row => {
-            const text = row.textContent.toLowerCase();
-            row.style.display = text.includes(searchTerm) ? '' : 'none';
-        });
-    });
-}
+// Écoute les changements
+searchInput.addEventListener('input', filterTable);
+searchType.addEventListener('change', filterTable);
