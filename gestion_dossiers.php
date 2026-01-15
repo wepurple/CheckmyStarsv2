@@ -10,7 +10,7 @@
         <title>Gestion des dossiers - CheckMyStars</title>
 
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
         <script src="js/search_inspecteurs.js"></script>
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
@@ -89,7 +89,7 @@
                             
                             if ($stmt->rowCount() > 0) {
                                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['Dossier_ID']) . "'\">";
+                                    echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_dossiers.php?id=" . urlencode($row['Dossier_ID']) . "'\">";
                                     echo "<td>" . htmlspecialchars($row['Dossier_ID']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['DOSSIER_NUMERO']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['TypeHebergement_Nom']) . "</td>";

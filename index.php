@@ -6,7 +6,7 @@
   <title>Login - CheckMyStars</title>
 
   <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
   <link rel="stylesheet" href="bootstrap 5.3/css/style.css">
   <script src="bootstrap 5.3/js/bootstrap.js"></script>
   <script src="js/index.js"></script>

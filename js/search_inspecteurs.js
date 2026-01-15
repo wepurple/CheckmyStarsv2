@@ -127,7 +127,7 @@ async function modalSee(id){
     })
 
     const result = JSON.parse(await response.text())["utilisateur"][0]
-    console.log(result)
+    //console.log(result)
 
     //remplacement des valeurs dans le modal
     document.getElementById('seeLeNom').value = result['Utilisateur_Nom']
@@ -148,8 +148,11 @@ async function modalSee(id){
 function modalSuppr(id, nom, prenom, genre){
     if (genre == "Madame"){
         leGenre = "inspectrice "
-    }else{
+    }else if(genre == "Monsieur"){
         leGenre = "inspecteur "
+    }
+    else{
+        leGenre = "inspecteur.ice "
     }
     document.getElementById("supprText").textContent = "Voulez-vous vraiment supprimer l'" + leGenre + prenom + " " + nom + " ?"
     document.getElementById("supprConfirm").setAttribute('onclick', 'suppr("'+id+'")')
@@ -261,13 +264,19 @@ async function reset(id){
     confirmResetModal.hide()
 }
 
+async function addUser() {
+    console.log("ok")
+    addModal.hide()
+}
+
 document.addEventListener("DOMContentLoaded", function() {//quand la page est chargée
     
     //déclaration des modals et toasts bootstrap
+    addModal = new bootstrap.Modal(document.getElementById('addModal'))
     leModal = new bootstrap.Modal(document.getElementById('confirmModal'))
     editModal = new bootstrap.Modal(document.getElementById('editModal'))
-    confirmResetModal = new bootstrap.Modal(document.getElementById('confirmResetPasswordModal'))
     seeModal = new bootstrap.Modal(document.getElementById('seeModal'))
+    confirmResetModal = new bootstrap.Modal(document.getElementById('confirmResetPasswordModal'))
 
     //remplissage initial du tableau
     recherche()

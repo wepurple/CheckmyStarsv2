@@ -9,7 +9,7 @@
         <title>Dossiers- CheckMyStars</title>
 
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
         <script src="js/search_inspecteurs.js"></script>
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
@@ -74,36 +74,41 @@
                     } else {
                         try {
                             // Requête pour récupérer tous les dossiers
-                            $sql = "SELECT d.Dossier_ID,d.DOSSIER_NUMERO,t.TypeHebergement_Nom,u.Utilisateur_Nom,u.Utilisateur_Prenom, a.AdressePostale_NumeroRue, a.AdressePostale_NomRue,a.AdressePostale_CodePostal, a.AdressePostale_Ville, a.AdressePostale_Pays,d.status
-                            FROM dossiers AS d
-                            INNER JOIN utilisateurs AS u ON d.Utilisateur_ID = u.Utilisateur_ID
-                            INNER JOIN adressespostales AS a ON a.AdressePostale_ID = u.AdressePostale_ID
-                            INNER JOIN biens AS b ON b.AdressePostale_ID = a.AdressePostale_ID
-                            INNER JOIN typeshebergements AS t ON t.TypeHebergement_ID = b.TypeHebergement_ID
-                            WHERE d.Utilisateur_ID = :utilisateurId
-                            ORDER BY d.Dossier_ID DESC;";
+                            $sql = "SELECT b.Bien_ID,
+                            u.Utilisateur_Nom,
+                            u.Utilisateur_Prenom,
+                            u.Utilisateur_Telephone,
+                            b.Biens_Nom,
+                            b.Bien_Telephone,
+                            b.Bien_DateEnregistrement,
+                            b.Bien_Etoile_Actuelle,
+                            b.AdressePostale_ID,
+                            t.TypeHebergement_Nom,
+                            d.DonneurOrdre_Entreprine_Nom
+                            FROM biens as b
+                            INNER JOIN utilisateurs as u on b.Utilisateur_ID = u.Utilisateur_ID
+                            INNER JOIN donneurordre as d on b.Donneur_ID = d.Donneur_ID
+                            INNER JOIN typeshebergements as t on b.TypeHebergement_ID = t.TypeHebergement_ID
+                            ORDER BY B.Bien_ID DESC;";
                             
                             $stmt = $db->prepare($sql);
-                            $stmt->execute([':utilisateurId' => $utilisateurId]);
+                            $stmt->execute();
                             
                             if ($stmt->rowCount() > 0) {
                                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['Dossier_ID']) . "'\">";
-                                    echo "<td>" . htmlspecialchars($row['Dossier_ID']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['DOSSIER_NUMERO']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['TypeHebergement_Nom']) . "</td>";
+                                    echo "<tr style='cursor: pointer;' onclick=\"window.location.href='gestion_dossiers.php?id=" . urlencode($row['Bien_ID']) . "'\">";
+                                    echo "<td>" . htmlspecialchars($row['Bien_ID']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['Utilisateur_Prenom']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['AdressePostale_NumeroRue']) . " " . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['AdressePostale_CodePostal']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['AdressePostale_Ville']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['AdressePostale_Pays']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Biens_Nom']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Bien_Telephone']) . " " ."</td>";
+                                    echo "<td>" . htmlspecialchars($row['Bien_DateEnregistrement']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['Bien_Etoile_Actuelle']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['AdressePostale_ID']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['TypeHebergement_Nom']) . "</td>";
+                                    echo "<td>" . htmlspecialchars($row['DonneurOrdre_Entreprine_Nom']) . "</td>";
                                     
-                                    // Badge pour le statut (0 = En cours, 1 = Terminé)
-                                    $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
-                                    $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
-                                    echo "<td><span class='badge $statusClass'>$statusText</span></td>";
-                                    echo "</tr>";
                                 }
                             } else {
                                 echo "<tr><td colspan='10' class='text-center'>Aucune donnée trouvée</td></tr>";
@@ -115,96 +120,5 @@
                     ?>
                 </tbody>
             </table>
-             <!-- Vertically centered modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                    <div class="modal-content">
-                        <!-- modal footer -->
-                        <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter un dossier au client</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <!-- modal body -->
-                        <div class="modal-body">
-                            <form>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leNom" placeholder="" required>
-                                    <label for="floatingInput">Nom *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="lePrenom" placeholder="" required>
-                                    <label for="floatingInput">Prenom *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="leMail" placeholder="" required>
-                                    <label for="floatingInput">Adresse Mail *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" id="typedebien" aria-label="Floating label select example">
-                                        <option value="1">Maison</option>
-                                        <option value="2">Appartement</option>
-                                         <option value="3">Hotel</option>
-                                         <option value="4">Camping</option>
-                                        <option selected value="5">Local commercial</option>
-                                    </select>
-                                    <label for="floatingSelect">Type de bien </label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="laSociete" placeholder="" required>
-                                    <label for="floatingInput">Société *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="tel" class="form-control" id="leTel" placeholder="" required>
-                                    <label for="floatingInput">Téléphone *</label>
-                                </div>
-
-                                <hr>
-
-                                <div class="form-floating mb-3">
-                                    <input type="number" class="form-control" id="leNumRue" placeholder="" required>
-                                    <label for="floatingInput">Numéro de rue *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="laAdresse" placeholder="" required>
-                                    <label for="floatingInput">Adresse postale *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leComplement" placeholder="">
-                                    <label for="floatingInput">Complément d'adresse</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leCode" placeholder="" required>
-                                    <label for="floatingInput">Code postal *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="laVille" placeholder="" required>
-                                    <label for="floatingInput">Ville *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="lePays" placeholder="" required>
-                                    <label for="floatingInput">Pays *</label>
-                                </div>
-
-                            </form>
-                        </div>
-                        <!-- modal footer -->
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-success">Ajouter</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
 </body>
 </html>
