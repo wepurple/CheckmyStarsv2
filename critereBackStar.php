@@ -19,9 +19,7 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
 </head>
 <body class="bg-secondary">
     <?php require("./includes/navbar.php"); ?>
-
-    <input type="text" id="searchInput" placeholder="Rechercher par ID, description..." />
-
+    
     <!-- Formulaire de recherche -->
     <nav class="navbar">
         <div class="container-fluid d-flex flex-row mb-2">
