@@ -27,7 +27,7 @@
                     <i class="fas fa-plus"></i> Ajouter un dossier
                 </button>
                 <button type="button" class="btn btn-danger" onclick="location.href='dashboard.php'" > 
-                    <i class="fas fa-arrow-left"></i>Retour au tableau de bord 
+                    <i class="fas fa-arrow-left"></i> Retour au tableau de bord 
                 </button>
                 
                 <div class="input-group" style="width: 400px;">
