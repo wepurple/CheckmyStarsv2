@@ -83,10 +83,9 @@
                             INNER JOIN typeshebergements as t on b.TypeHebergement_ID = t.TypeHebergement_ID
                             INNER JOIN dossiers as do on u.Utilisateur_ID = do.Utilisateur_ID
                             WHERE b.Bien_ID = do.Bien_ID
-                            ORDER BY B.Bien_ID DESC;";
+                            ORDER BY B.Bien_ID DESC";
                             
-                            $stmt = $db->prepare($sql);
-                            $stmt->execute();
+                            $stmt = $db->query($sql);
                             
                             if ($stmt->rowCount() > 0) {
                                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
