@@ -1,16 +1,16 @@
 <?php
-session_start();
+    session_start();
 
-//Si on tente d'accéder à la page via l'url sans être connecté, on se fait dégager avant de charger la page
-if(!isset($_SESSION['Role'])){
-    header('Location: deco.php');
-    die();
-} else if(!$_SESSION['Role']['Administrateur']){
-    header('Location: deco.php');
-    die();
-}
+    //Si on tente d'accéder à la page via l'url sans être connecté, on se fait dégager avant de charger la page
+    if(!isset($_SESSION['Role'])){
+        header('Location: deco.php');
+        die();
+    } else if(!$_SESSION['Role']['Administrateur']){
+        header('Location: deco.php');
+        die();
+    }
 
-//var_dump($_SESSION);
+    //var_dump($_SESSION);
 ?>
 
 <!DOCTYPE html>
@@ -268,6 +268,91 @@ if(!isset($_SESSION['Role'])){
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                             <button type="button" class="btn btn-success" onclick="edit()"><i class="fa-solid fa-check mx-1"></i>Modifier</button>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+            
+            <!-- Modal consultation utilisateur -->
+            <div class="modal fade" id="seeModal" tabindex="-1" aria-labelledby="modal de consultation d'un utilisateur" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <!-- modal header -->
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="editModalTitle">Consulter un compte inspecteur</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <!-- modal body -->
+                        <div class="modal-body">
+                            <form>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="seeLeNom" placeholder="" disabled>
+                                    <label for="seeLeNom">Nom</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="seeLePrenom" placeholder="" disabled>
+                                    <label for="seeLePrenom">Prenom</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="seeLeMail" placeholder="" disabled>
+                                    <label for="floatingInput">Adresse Mail</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="seeGenre" placeholder="" disabled>
+                                    <label for="seeGenre">Genre</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="seeLaSociete" placeholder="" disabled>
+                                    <label for="seeLaSociete">Société</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="tel" class="form-control" id="seeLeTel" placeholder="" disabled>
+                                    <label for="seeLeTel">Téléphone</label>
+                                </div>
+
+                                <hr>
+
+                                <div class="form-floating mb-3">
+                                    <input type="number" class="form-control" id="seeLeNumRue" placeholder="" disabled>
+                                    <label for="seeLeNumRue">Numéro de rue</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="seeLaAdresse" placeholder="" disabled>
+                                    <label for="seeLaAdresse">Adresse postale</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="seeLeComplement" placeholder="" disabled>
+                                    <label for="seeLeComplement">Complément d'adresse</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="seeLeCode" placeholder="" disabled>
+                                    <label for="seeLeCode">Code postal</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="seeLaVille" placeholder="" disabled>
+                                    <label for="seeLaVille">Ville</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="seeLePays" placeholder="" disabled>
+                                    <label for="seeLePays">Pays</label>
+                                </div>
+
+                            </form>
+                        </div>
+                        <!-- modal footer -->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                         </div>
                     </div>                    
                 </div>

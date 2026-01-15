@@ -20,6 +20,7 @@ function updateTab(z){//vide le tableau et le remplit avec les nouvelles donnée
             tab.appendChild(document.createElement("tr"))
 
             e=tab.lastElementChild
+            /*e.setAttribute("onclick", "console.log('lorem')")*/
             e.appendChild(document.createElement('th'))
             e.lastElementChild.scope = "row"
             e.lastElementChild.textContent = z[i]["Utilisateur_ID"]
@@ -32,6 +33,14 @@ function updateTab(z){//vide le tableau et le remplit avec les nouvelles donnée
             
             e.appendChild(document.createElement('td'))
             e.lastElementChild.classList.add("text-end",)
+
+            //création bouton voir
+            e.lastElementChild.appendChild(document.createElement('button'))
+                e.lastElementChild.lastElementChild.classList.add("btn","btn-secondary","btn-sm", "me-2")
+                e.lastElementChild.lastElementChild.setAttribute("onclick", "modalSee("+ z[i]["Utilisateur_ID"] +")")
+                //icône
+                e.lastElementChild.lastElementChild.appendChild(document.createElement('i'))
+                e.lastElementChild.lastElementChild.lastElementChild.classList.add("fa-solid", "fa-eye")
 
             //création bouton modifier
             e.lastElementChild.appendChild(document.createElement('button'))
@@ -108,6 +117,33 @@ function recherche(){
     }
 }
 
+async function modalSee(id){
+    const url = "models/crud/afficherUtilisateur.php?IdPersonne="+id
+    const response = await fetch(url, {
+        method : "GET",
+        headers : {
+            'Content-Type' : "application/json"
+        }
+    })
+
+    const result = JSON.parse(await response.text())["utilisateur"][0]
+    console.log(result)
+
+    //remplacement des valeurs dans le modal
+    document.getElementById('seeLeNom').value = result['Utilisateur_Nom']
+    document.getElementById('seeLePrenom').value = result['Utilisateur_Prenom']
+    document.getElementById('seeLeMail').value = result['Utilisateur_Mail']
+    document.getElementById('seeGenre').value = result['Utilisateur_Civilite']
+    document.getElementById('seeLaSociete').value = result['Utilisateur_Societe']
+    document.getElementById('seeLeTel').value = result['Utilisateur_Telephone']
+    document.getElementById('seeLeNumRue').value = result['AdressePostale_NumeroRue']
+    document.getElementById('seeLaAdresse').value = result['AdressePostale_NomRue']
+    document.getElementById('seeLeComplement').value = result['AdressePostale_Complement']
+    document.getElementById('seeLeCode').value = result['AdressePostale_CodePostal']
+    document.getElementById('seeLaVille').value = result['AdressePostale_Ville']
+    document.getElementById('seeLePays').value = result['AdressePostale_Pays']
+    seeModal.show()
+}
 
 function modalSuppr(id, nom, prenom, genre){
     if (genre == "Madame"){
@@ -168,7 +204,7 @@ async function modalEdit(id){
 
     const result = JSON.parse(await response.text())["utilisateur"][0];
 
-    console.log(result)
+    //console.log(result)
     document.getElementById('editLeNom').value = result["Utilisateur_Nom"]
     document.getElementById('editLePrenom').value = result["Utilisateur_Prenom"]
     document.getElementById('editLeMail').value = result["Utilisateur_Mail"]
@@ -227,9 +263,11 @@ async function reset(id){
 
 document.addEventListener("DOMContentLoaded", function() {//quand la page est chargée
     
+    //déclaration des modals et toasts bootstrap
     leModal = new bootstrap.Modal(document.getElementById('confirmModal'))
     editModal = new bootstrap.Modal(document.getElementById('editModal'))
     confirmResetModal = new bootstrap.Modal(document.getElementById('confirmResetPasswordModal'))
+    seeModal = new bootstrap.Modal(document.getElementById('seeModal'))
 
     //remplissage initial du tableau
     recherche()

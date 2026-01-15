@@ -67,6 +67,15 @@ function getNumberCriteriaByStatusAndStar(PDO $pdo, int $star, string $status): 
     $result = $stmt->fetchColumn();
     return ($result === false) ? 0 : (int)$result;
 }
+
+// Définir les couleurs Bootstrap par niveau d'étoile
+$starColors = [
+    1 => 'info',
+    2 => 'success',
+    3 => 'warning',
+    4 => 'danger',
+    5 => 'primary'
+];
 ?>
 
 <!DOCTYPE html>
@@ -81,45 +90,143 @@ function getNumberCriteriaByStatusAndStar(PDO $pdo, int $star, string $status): 
         <link rel="stylesheet" href="bootstrap%205.3/css/style1.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
-        
     </head>
 
     <body class="bg-secondary">
-        <?php        
-            require("./includes/navbar.php");
-        ?>
+        <?php require("./includes/navbar.php"); ?>
 
-        <div class="container-fluid p-3">
+        <div class="container-fluid py-4 px-3">
+            <!-- Cards Grid -->
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 g-4 mb-4">
+                <?php
+                    for ($x = 1; $x <= 5; $x++) {
+                        $totalCriteria = getNumberCriteriaByStar($db, $x);
+                        $criteriaX = getNumberCriteriaByStatusAndStar($db, $x, 'X');
+                        $criteriaO = getNumberCriteriaByStatusAndStar($db, $x, 'O');
+                        $criteriaNA = getNumberCriteriaByStatusAndStar($db, $x, 'NA');
+                        $establishments = getNumberEstablishmentByStar($db, $x);
+                        $color = $starColors[$x];
+                        ?>
+                        <div class="col">
+                            <div class="card h-100 shadow-lg border-<?= $color ?>">
+                                <!-- Card Header -->
+                                <div class="card-header text-center bg-<?= $color ?> bg-gradient text-white py-3">
+                                    <h5 class="fw-bold mb-0">
+                                        Niveau <?= $x ?> Étoile<?= $x > 1 ? 's' : '' ?>
+                                    </h5>
+                                </div>
 
-            <div class="row">
-            <?php
-                for ($x = 1; $x <= 5; $x++) {
-                    ?>
-                        <div class="card col margin-15">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">Critères des <?= $x ?>  étoile</h5>
-                                <p class="card-text"><?= getNumberCriteriaByStar($db, $x) ?> Critères</p>
-                                <div class="row">
-                                    <div class="col">
-                                        <p class="card-text"><?= getNumberCriteriaByStatusAndStar($db, $x, 'X') ?> X</p>
+                                <!-- Card Body -->
+                                <div class="card-body text-center d-flex flex-column">
+                                    <!-- Total Criteria -->
+                                    <div class="mb-3">
+                                        <div class="display-3 fw-bold text-<?= $color ?> mb-2">
+                                            <?= $totalCriteria ?>
+                                        </div>
+                                        <p class="text-muted mb-0">
+                                            <i class="fas fa-list-check"></i>
+                                            Critère<?= $totalCriteria > 1 ? 's' : '' ?> <?= $totalCriteria > 1 ? 'totaux' : 'total' ?>
+                                        </p>
                                     </div>
-                                    <div class="col">
-                                        <p class="card-text"><?= getNumberCriteriaByStatusAndStar($db, $x, 'O') ?> O</p>
+
+                                    <hr class="my-3">
+
+                                    <!-- Status Badges -->
+                                    <div class="d-flex justify-content-center flex-wrap gap-2 mb-3">
+                                        <span class="badge bg-danger fs-6 py-2 px-3">
+                                            <?= $criteriaX ?> X
+                                        </span>
+                                        <span class="badge bg-success fs-6 py-2 px-3">
+                                            <?= $criteriaO ?> O
+                                        </span>
+                                        <span class="badge bg-warning text-dark fs-6 py-2 px-3">
+                                            <?= $criteriaNA ?> NA
+                                        </span>
                                     </div>
-                                    <div class="col">
-                                        <p class="card-text"><?= getNumberCriteriaByStatusAndStar($db, $x, 'NA') ?> NA</p>
+
+                                    <hr class="my-3">
+
+                                    <!-- Establishments Info -->
+                                    <div class="alert alert-<?= $color ?> mb-3" role="alert">
+                                        <i class="fas fa-hotel fs-4"></i>
+                                        <div class="mt-2">
+                                            <div class="fs-3 fw-bold"><?= $establishments ?></div>
+                                            <small>
+                                                Établissement<?= $establishments > 1 ? 's' : '' ?>
+                                            </small>
+                                        </div>
+                                    </div>
+
+                                    <!-- Action Button -->
+                                    <div class="d-grid gap-2 mt-auto">
+                                        <a href="critereBack<?= $x ?>Star.php" 
+                                           class="btn btn-<?= $color ?> btn-lg">
+                                            <i class="fas fa-arrow-right"></i>
+                                            Accéder aux critères
+                                        </a>
                                     </div>
                                 </div>
-                                </br>
-                                <p class="card-text"><?= getNumberEstablishmentByStar($db, $x) ?> établissement à <?= $x ?> étoile</p>
-                                </br>
-                                <a href="critereBack<?= $x ?>Star.php" class="btn btn-primary">Accéder aux critères</a>
+
+                                <!-- Card Footer -->
+                                <div class="card-footer text-center bg-transparent border-<?= $color ?>">
+                                    <small class="text-muted">
+                                        <i class="fas fa-clock"></i>
+                                        Dernière mise à jour: Aujourd'hui (TODO)
+                                    </small>
+                                </div>
                             </div>
                         </div>
-                    <?php
-                }
-            ?>
+                        <?php
+                    }
+                ?>
             </div>
 
+            <!-- Summary Section -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="card shadow-lg border-primary">
+                        <div class="card-header bg-primary bg-gradient text-white text-center py-3">
+                            <h4 class="mb-0">
+                                <i class="fas fa-chart-bar"></i> Statistiques Globales
+                            </h4>
+                        </div>
+                        <div class="card-body py-4">
+                            <div class="row text-center g-4">
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 bg-info bg-opacity-10 rounded-3">
+                                        <i class="fas fa-clipboard-list fs-1 text-info mb-3"></i>
+                                        <h3 class="fw-bold mb-1">
+                                            <?php 
+                                                $total = 0;
+                                                for ($i = 1; $i <= 5; $i++) {
+                                                    $total += getNumberCriteriaByStar($db, $i);
+                                                }
+                                                echo $total;
+                                            ?>
+                                        </h3>
+                                        <p class="text-muted mb-0 small">Critères totaux</p>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 bg-success bg-opacity-10 rounded-3">
+                                        <i class="fas fa-building fs-1 text-success mb-3"></i>
+                                        <h3 class="fw-bold mb-1">
+                                            <?php 
+                                                $totalEst = 0;
+                                                for ($i = 1; $i <= 5; $i++) {
+                                                    $totalEst += getNumberEstablishmentByStar($db, $i);
+                                                }
+                                                echo $totalEst;
+                                            ?>
+                                        </h3>
+                                        <p class="text-muted mb-0 small">Établissements totaux</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
