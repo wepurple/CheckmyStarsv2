@@ -36,7 +36,7 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
     </div>
 
     <div class="container-fluid p-3">
-    <h2>Critères <?= $star ?> étoile</h2>
+    <h2>Critères TEST<?= $star ?> étoile</h2>
     <table class="table table-sm table-striped table-hover" id="criteriaTable">
         <thead>
             <tr>
