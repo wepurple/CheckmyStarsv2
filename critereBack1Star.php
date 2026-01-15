@@ -102,15 +102,14 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
                                 <thead class="table-dark sticky-top">
                                     <tr>
                                         <th style="width: 80px;" class="text-center">
-                                            <small>ID</small>
                                         </th>
                                         <th>
                                             <small>Description</small>
                                         </th>
-                                        <th style="width: 150px;" class="text-center">
+                                        <th class="text-center">
                                             <small>Status</small>
                                         </th>
-                                        <th style="width: 120px;" class="text-center">
+                                        <th class="text-center">
                                             <small>Points</small>
                                         </th>
                                     </tr>
