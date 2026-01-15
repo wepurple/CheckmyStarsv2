@@ -89,14 +89,15 @@
                             INNER JOIN utilisateurs as u on b.Utilisateur_ID = u.Utilisateur_ID
                             INNER JOIN donneurordre as d on b.Donneur_ID = d.Donneur_ID
                             INNER JOIN typeshebergements as t on b.TypeHebergement_ID = t.TypeHebergement_ID
+                            INNER JOIN dossiers as do on u.Utilisateur_ID = do.Utilisateur_ID
                             ORDER BY B.Bien_ID DESC;";
                             
                             $stmt = $db->prepare($sql);
-                            $stmt->execute();
+                            $stmt->execute([':utilisateurId' => $utilisateurId]);
                             
                             if ($stmt->rowCount() > 0) {
                                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                    echo "<tr style='cursor: pointer;' onclick=\"window.location.href='gestion_dossiers.php?id=" . urlencode($row['Bien_ID']) . "'\">";
+                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='gestion_dossiers.php?id=" . urlencode($row['Dossier_ID']) . "'\">";
                                     echo "<td>" . htmlspecialchars($row['Bien_ID']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['Utilisateur_Prenom']) . "</td>";
