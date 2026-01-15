@@ -30,17 +30,28 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
     <?php require("./includes/navbar.php"); ?>
 
     <div class="container-fluid py-4">
-        <!-- En-tête avec badge étoile -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="d-flex align-items-center gap-3">
-                    <div>
-                        <h2 class="mb-0">Critères <?= $star ?> étoile</h2>
-                        <p class="text-muted mb-0">Gestion des critères d'évaluation</p>
-                    </div>
+
+    <!-- En-tête avec badge étoile -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex align-items-center justify-content-between gap-3">
+                <div>
+                    <h2 class="mb-0">Critères <?= $star ?> étoile</h2>
+                    <p class="text-muted mb-0">Gestion des critères d'évaluation</p>
                 </div>
+
+                <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#addModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                </svg>
+                Ajouter un critère
+            </button>
+
             </div>
         </div>
+    </div>
+
 
         <!-- Card de recherche et filtres -->
         <div class="row mb-4">
@@ -189,6 +200,68 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
                     </button>
                     <button type="button" class="btn btn-primary" id="saveBtn">
                         <i class="fas fa-save"></i> Enregistrer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal d'ajout -->
+    <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="addModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="addModalLabel">
+                        <i class="fas fa-plus-circle"></i> Ajouter un nouveau critère
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addForm">
+                        <div class="mb-3">
+                            <label for="add-description" class="form-label fw-bold">
+                                <i class="fas fa-align-left"></i> Description *
+                            </label>
+                            <textarea class="form-control" id="add-description" name="description" rows="4" required placeholder="Entrez la description du critère..."></textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="add-statut" class="form-label fw-bold">
+                                        <i class="fas fa-flag"></i> Statut *
+                                    </label>
+                                    <select class="form-select" id="add-statut" name="statut" required>
+                                        <option value="">-- Sélectionner --</option>
+                                        <option value="X">X (Obligatoire)</option>
+                                        <option value="O">O (Optionnel)</option>
+                                        <option value="NA">NA (Non applicable)</option>
+                                        <option value="ONC">ONC (Obligatoire non contrôlable)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="add-points" class="form-label fw-bold">
+                                        <i class="fas fa-star"></i> Points
+                                    </label>
+                                    <input type="number" class="form-control" id="add-points" name="points" min="0" step="1" placeholder="Laisser vide si aucun">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-info" role="alert">
+                            <i class="fas fa-info-circle"></i>
+                            <small>Le critère sera automatiquement ajouté à la liste <?= $star ?> étoile(s).</small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i> Annuler
+                    </button>
+                    <button type="button" class="btn btn-success" id="addBtn">
+                        <i class="fas fa-check"></i> Créer le critère
                     </button>
                 </div>
             </div>
