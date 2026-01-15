@@ -66,7 +66,6 @@
                         echo "<tr><td colspan='7' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
                     } else {
                         try {
-                            // Requête pour récupérer tous les dossiers
                             $sql = "SELECT 
                                 d.Dossier_ID, 
                                 d.DOSSIER_NUMERO, 
