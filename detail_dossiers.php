@@ -86,11 +86,11 @@
                             INNER JOIN donneurordre as d on b.Donneur_ID = d.Donneur_ID
                             INNER JOIN typeshebergements as t on b.TypeHebergement_ID = t.TypeHebergement_ID
                             INNER JOIN dossiers as do on u.Utilisateur_ID = do.Utilisateur_ID
-                            WHERE b.Bien_ID = do.Bien_ID AND u.Utilisateur_ID = :utilisateurId
+                            WHERE b.Bien_ID = do.Bien_ID
                             ORDER BY B.Bien_ID DESC;";
                             
                             $stmt = $db->prepare($sql);
-                            $stmt->execute([':utilisateurId' => $utilisateurId]);
+                            $stmt->execute();
                             
                             if ($stmt->rowCount() > 0) {
                                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
