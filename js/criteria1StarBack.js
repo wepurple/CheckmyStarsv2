@@ -122,7 +122,7 @@ document.addEventListener('DOMContentLoaded', function() {
             countElement.id = 'result-count';
             countElement.style.marginTop = '10px';
             countElement.style.fontWeight = 'bold';
-            countElement.style.color = '#666';
+            countElement.style.color = '#ff0000';
             const container = document.querySelector('.search-filter-container');
             if (container) {
                 container.appendChild(countElement);

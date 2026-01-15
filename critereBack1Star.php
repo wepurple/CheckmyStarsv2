@@ -28,11 +28,6 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
             <option value="status">Status</option>
             <option value="points">Points</option>
         </select>
-        
-        <input type="text" 
-            id="searchBar" 
-            placeholder="Rechercher..." 
-            style="padding: 8px; width: 300px;">
     </div>
 
     <div class="container-fluid p-3">
