@@ -1,1 +1,38 @@
-git rm --cached file:///Applications/MAMP/htdocs/CheckMyStars/includes/mariadb.php
+# Dépendances
+/vendor/
+/node_modules/
+
+# Fichiers de configuration sensibles
+/includes/mariadb.php
+/includes/mdp*.txt
+
+# Stockage local (PDF générés)
+/storage/factures/*.pdf
+/storage/devis/*.pdf
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Fichiers IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+*.log
+
+# Fichiers temporaires
+*.tmp
+*.temp
+/tmp/
+
+# Composer
+composer.phar
+composer.lock
+
+# Fichiers de sauvegarde
+*.bak
+*.backup
