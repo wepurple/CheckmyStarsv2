@@ -62,7 +62,6 @@
                     $db = $database->getConnection();
                     
                         try {
-                            // Requête pour récupérer tous les dossiers
                             $sql = "SELECT
                             b.Bien_ID,
                             u.Utilisateur_Nom,
@@ -100,9 +99,12 @@
                                     echo "<td>" . htmlspecialchars($row['AdressePostale_ID']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['TypeHebergement_Nom']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['DonneurOrdre_Entreprine_Nom']) . "</td>";
-                                                              
-                        } else {
-                            echo "<tr><td colspan='10'>Aucun dossier trouvé.</td></tr>";
+                                }
+                            } else {
+                                echo "<tr><td colspan='11'>Aucun bien trouvé.</td></tr>";
+                            }
+                        } catch (PDOException $e) {
+                            echo "Erreur de connexion : " . $e->getMessage();
                         }
                     ?>
                 </tbody>
