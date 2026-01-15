@@ -68,13 +68,13 @@ function getNumberCriteriaByStatusAndStar(PDO $pdo, int $star, string $status): 
     return ($result === false) ? 0 : (int)$result;
 }
 
-// Définir les couleurs par niveau d'étoile
+// Définir les couleurs Bootstrap par niveau d'étoile
 $starColors = [
-    1 => ['bg' => 'info', 'gradient' => 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)'],
-    2 => ['bg' => 'success', 'gradient' => 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)'],
-    3 => ['bg' => 'warning', 'gradient' => 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)'],
-    4 => ['bg' => 'danger', 'gradient' => 'linear-gradient(135deg, #fa709a 0%, #fee140 100%)'],
-    5 => ['bg' => 'primary', 'gradient' => 'linear-gradient(135deg, #30cfd0 0%, #330867 100%)']
+    1 => 'info',
+    2 => 'success',
+    3 => 'warning',
+    4 => 'danger',
+    5 => 'primary'
 ];
 ?>
 
@@ -90,101 +90,31 @@ $starColors = [
         <link rel="stylesheet" href="bootstrap%205.3/css/style1.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
-        
-        <style>
-            .star-card {
-                transition: all 0.3s ease;
-                border: none;
-                height: 100%;
-                overflow: hidden;
-            }
-            
-            .star-card:hover {
-                transform: translateY(-10px);
-                box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3) !important;
-            }
-            
-            .card-header-gradient {
-                color: white;
-                font-weight: bold;
-                padding: 1.5rem;
-            }
-            
-            .stat-badge {
-                display: inline-block;
-                padding: 0.5rem 1rem;
-                border-radius: 10px;
-                font-weight: 600;
-                margin: 0.25rem;
-            }
-            
-            .stat-badge.x-badge {
-                background: rgba(220, 53, 69, 0.2);
-                color: #ff6b6b;
-                border: 2px solid rgba(220, 53, 69, 0.3);
-            }
-            
-            .stat-badge.o-badge {
-                background: rgba(25, 135, 84, 0.2);
-                color: #51cf66;
-                border: 2px solid rgba(25, 135, 84, 0.3);
-            }
-            
-            .stat-badge.na-badge {
-                background: rgba(255, 193, 7, 0.2);
-                color: #ffd43b;
-                border: 2px solid rgba(255, 193, 7, 0.3);
-            }
-            
-            .divider {
-                height: 2px;
-                background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-                margin: 1rem 0;
-            }
-            
-            .establishment-info {
-                background: rgba(255, 255, 255, 0.05);
-                padding: 1rem;
-                border-radius: 10px;
-                margin: 1rem 0;
-            }
-            
-            .criteria-count {
-                font-size: 2.5rem;
-                font-weight: bold;
-                margin: 0.5rem 0;
-            }
-            
-            .star-icon-large {
-                font-size: 2rem;
-                color: #ffd700;
-                text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
-            }
-        </style>
     </head>
 
     <body class="bg-dark">
         <?php require("./includes/navbar.php"); ?>
 
-        <div class="container-fluid py-4 px-4">
+        <div class="container-fluid py-4 px-3">
             <!-- Header Section -->
             <div class="row mb-4">
                 <div class="col-12">
-                    <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
-                        <div>
-                            <h1 class="mb-2">
-                                <i class="fas fa-clipboard-check text-primary"></i>
-                                Gestion des Critères
-                            </h1>
-                            <p class="text-muted mb-0">
-                                <i class="fas fa-info-circle"></i>
-                                Tableau de bord des critères par niveau d'étoiles
-                            </p>
-                        </div>
-                        <div class="text-end">
-                            <div class="badge bg-primary fs-6 p-3">
-                                <i class="fas fa-building"></i>
-                                Type Hébergement: <strong>ID 2</strong>
+                    <div class="card bg-primary bg-gradient shadow">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center justify-content-between flex-wrap">
+                                <div>
+                                    <h1 class="display-6 fw-bold mb-2">
+                                        <i class="fas fa-clipboard-check"></i> Gestion des Critères
+                                    </h1>
+                                    <p class="lead mb-0">
+                                        <i class="fas fa-info-circle"></i> Tableau de bord des critères par niveau d'étoiles
+                                    </p>
+                                </div>
+                                <div class="text-end mt-3 mt-md-0">
+                                    <span class="badge bg-light text-dark fs-5 p-3">
+                                        <i class="fas fa-building"></i> Type Hébergement: <strong>ID 2</strong>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -192,7 +122,7 @@ $starColors = [
             </div>
 
             <!-- Cards Grid -->
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 g-4">
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 g-4 mb-4">
                 <?php
                     for ($x = 1; $x <= 5; $x++) {
                         $totalCriteria = getNumberCriteriaByStar($db, $x);
@@ -203,23 +133,24 @@ $starColors = [
                         $color = $starColors[$x];
                         ?>
                         <div class="col">
-                            <div class="card star-card shadow-lg">
-                                <!-- Card Header with Gradient -->
-                                <div class="card-header card-header-gradient text-center" 
-                                     style="background: <?= $color['gradient'] ?>;">
-                                    <div class="star-icon-large mb-2">
-                                        <?= str_repeat('<i class="fas fa-star"></i>', $x) ?>
-                                    </div>
-                                    <h5 class="mb-0 fw-bold">
+                            <div class="card h-100 shadow-lg border-<?= $color ?>">
+                                <!-- Card Header -->
+                                <div class="card-header text-center bg-<?= $color ?> bg-gradient text-white py-3">
+                                    <h3 class="mb-2">
+                                        <?php for ($i = 0; $i < $x; $i++): ?>
+                                            <i class="fas fa-star text-warning"></i>
+                                        <?php endfor; ?>
+                                    </h3>
+                                    <h5 class="fw-bold mb-0">
                                         Niveau <?= $x ?> Étoile<?= $x > 1 ? 's' : '' ?>
                                     </h5>
                                 </div>
 
                                 <!-- Card Body -->
-                                <div class="card-body text-center">
+                                <div class="card-body text-center d-flex flex-column">
                                     <!-- Total Criteria -->
                                     <div class="mb-3">
-                                        <div class="criteria-count text-<?= $color['bg'] ?>">
+                                        <div class="display-3 fw-bold text-<?= $color ?> mb-2">
                                             <?= $totalCriteria ?>
                                         </div>
                                         <p class="text-muted mb-0">
@@ -228,41 +159,38 @@ $starColors = [
                                         </p>
                                     </div>
 
-                                    <div class="divider"></div>
+                                    <hr class="my-3">
 
                                     <!-- Status Badges -->
                                     <div class="d-flex justify-content-center flex-wrap gap-2 mb-3">
-                                        <div class="stat-badge x-badge">
-                                            <i class="fas fa-times-circle"></i>
-                                            <strong><?= $criteriaX ?></strong> X
-                                        </div>
-                                        <div class="stat-badge o-badge">
-                                            <i class="fas fa-check-circle"></i>
-                                            <strong><?= $criteriaO ?></strong> O
-                                        </div>
-                                        <div class="stat-badge na-badge">
-                                            <i class="fas fa-minus-circle"></i>
-                                            <strong><?= $criteriaNA ?></strong> NA
-                                        </div>
+                                        <span class="badge bg-danger fs-6 py-2 px-3">
+                                            <i class="fas fa-times-circle"></i> <?= $criteriaX ?> X
+                                        </span>
+                                        <span class="badge bg-success fs-6 py-2 px-3">
+                                            <i class="fas fa-check-circle"></i> <?= $criteriaO ?> O
+                                        </span>
+                                        <span class="badge bg-warning text-dark fs-6 py-2 px-3">
+                                            <i class="fas fa-minus-circle"></i> <?= $criteriaNA ?> NA
+                                        </span>
                                     </div>
 
-                                    <div class="divider"></div>
+                                    <hr class="my-3">
 
                                     <!-- Establishments Info -->
-                                    <div class="establishment-info">
-                                        <i class="fas fa-hotel text-<?= $color['bg'] ?> fs-4"></i>
+                                    <div class="alert alert-<?= $color ?> mb-3" role="alert">
+                                        <i class="fas fa-hotel fs-4"></i>
                                         <div class="mt-2">
-                                            <div class="fs-4 fw-bold"><?= $establishments ?></div>
-                                            <small class="text-muted">
+                                            <div class="fs-3 fw-bold"><?= $establishments ?></div>
+                                            <small>
                                                 Établissement<?= $establishments > 1 ? 's' : '' ?>
                                             </small>
                                         </div>
                                     </div>
 
                                     <!-- Action Button -->
-                                    <div class="d-grid gap-2 mt-4">
+                                    <div class="d-grid gap-2 mt-auto">
                                         <a href="critereBack<?= $x ?>Star.php" 
-                                           class="btn btn-<?= $color['bg'] ?> btn-lg">
+                                           class="btn btn-<?= $color ?> btn-lg">
                                             <i class="fas fa-arrow-right"></i>
                                             Accéder aux critères
                                         </a>
@@ -270,7 +198,7 @@ $starColors = [
                                 </div>
 
                                 <!-- Card Footer -->
-                                <div class="card-footer text-center bg-transparent border-top">
+                                <div class="card-footer text-center bg-transparent border-<?= $color ?>">
                                     <small class="text-muted">
                                         <i class="fas fa-clock"></i>
                                         Dernière mise à jour: Aujourd'hui
@@ -284,46 +212,59 @@ $starColors = [
             </div>
 
             <!-- Summary Section -->
-            <div class="row mt-5">
+            <div class="row">
                 <div class="col-12">
                     <div class="card shadow-lg border-primary">
-                        <div class="card-body">
-                            <div class="row text-center">
-                                <div class="col-md-3">
-                                    <i class="fas fa-star fs-1 text-warning mb-2"></i>
-                                    <h4 class="fw-bold">5</h4>
-                                    <p class="text-muted mb-0">Niveaux d'étoiles</p>
+                        <div class="card-header bg-primary bg-gradient text-white text-center py-3">
+                            <h4 class="mb-0">
+                                <i class="fas fa-chart-bar"></i> Statistiques Globales
+                            </h4>
+                        </div>
+                        <div class="card-body py-4">
+                            <div class="row text-center g-4">
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 bg-warning bg-opacity-10 rounded-3">
+                                        <i class="fas fa-star fs-1 text-warning mb-3"></i>
+                                        <h3 class="fw-bold mb-1">5</h3>
+                                        <p class="text-muted mb-0 small">Niveaux d'étoiles</p>
+                                    </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <i class="fas fa-clipboard-list fs-1 text-info mb-2"></i>
-                                    <h4 class="fw-bold">
-                                        <?php 
-                                            $total = 0;
-                                            for ($i = 1; $i <= 5; $i++) {
-                                                $total += getNumberCriteriaByStar($db, $i);
-                                            }
-                                            echo $total;
-                                        ?>
-                                    </h4>
-                                    <p class="text-muted mb-0">Critères totaux</p>
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 bg-info bg-opacity-10 rounded-3">
+                                        <i class="fas fa-clipboard-list fs-1 text-info mb-3"></i>
+                                        <h3 class="fw-bold mb-1">
+                                            <?php 
+                                                $total = 0;
+                                                for ($i = 1; $i <= 5; $i++) {
+                                                    $total += getNumberCriteriaByStar($db, $i);
+                                                }
+                                                echo $total;
+                                            ?>
+                                        </h3>
+                                        <p class="text-muted mb-0 small">Critères totaux</p>
+                                    </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <i class="fas fa-building fs-1 text-success mb-2"></i>
-                                    <h4 class="fw-bold">
-                                        <?php 
-                                            $totalEst = 0;
-                                            for ($i = 1; $i <= 5; $i++) {
-                                                $totalEst += getNumberEstablishmentByStar($db, $i);
-                                            }
-                                            echo $totalEst;
-                                        ?>
-                                    </h4>
-                                    <p class="text-muted mb-0">Établissements totaux</p>
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 bg-success bg-opacity-10 rounded-3">
+                                        <i class="fas fa-building fs-1 text-success mb-3"></i>
+                                        <h3 class="fw-bold mb-1">
+                                            <?php 
+                                                $totalEst = 0;
+                                                for ($i = 1; $i <= 5; $i++) {
+                                                    $totalEst += getNumberEstablishmentByStar($db, $i);
+                                                }
+                                                echo $totalEst;
+                                            ?>
+                                        </h3>
+                                        <p class="text-muted mb-0 small">Établissements totaux</p>
+                                    </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <i class="fas fa-chart-line fs-1 text-danger mb-2"></i>
-                                    <h4 class="fw-bold">100%</h4>
-                                    <p class="text-muted mb-0">Couverture système</p>
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 bg-danger bg-opacity-10 rounded-3">
+                                        <i class="fas fa-chart-line fs-1 text-danger mb-3"></i>
+                                        <h3 class="fw-bold mb-1">100%</h3>
+                                        <p class="text-muted mb-0 small">Couverture système</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
