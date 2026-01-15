@@ -8,15 +8,19 @@ let allCriteria = []; // Stocke les données globalement
 fetch(`models/crud/getCriteriaByEtoile.php?star=${star}`)
     .then(response => response.json())
     .then(data => {
-        allCriteria = data; // Sauvegarde les données
-        renderTable(data); // Affiche tout
-        setupSearch(); // Configure la recherche APRÈS avoir les données
+        console.log('Données reçues:', data); // ← AJOUTE ÇA
+        console.log('Type:', typeof data, 'Longueur:', data.length); // ← ET ÇA
+        
+        allCriteria = data;
+        renderTable(data);
+        setupSearch();
     })
     .catch(error => {
         console.error('Erreur:', error);
         document.getElementById('table-body').innerHTML = 
             '<tr><td colspan="4" class="text-danger">Erreur de chargement</td></tr>';
     });
+
 
 // Fonction pour afficher le tableau
 function renderTable(data) {
