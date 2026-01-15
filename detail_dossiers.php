@@ -61,9 +61,20 @@
                     $database = new Database();
                     $db = $database->getConnection();
                     
+                    $utilisateurId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+                    echo "<pre>";
+                    var_dump($_GET);
+                    var_dump($utilisateurId);
+                    echo "</pre>";
+
+                    if (is_array($db)) {
+                        echo "<tr><td colspan='10' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
+                    } elseif (empty($utilisateurId)) {
+                        echo "<tr><td colspan='10' class='text-center text-warning'>Aucun utilisateur sélectionné</td></tr>";
+                    } else {
                         try {
-                            $sql = "SELECT
-                            b.Bien_ID,
+                            // Requête pour récupérer tous les dossiers
+                            $sql = "SELECT b.Bien_ID,
                             u.Utilisateur_Nom,
                             u.Utilisateur_Prenom,
                             u.Utilisateur_Telephone,
@@ -87,7 +98,7 @@
                             
                             if ($stmt->rowCount() > 0) {
                                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                    echo "<tr style='cursor: pointer;' onclick=\"window.location.href='gestion_dossiers.php?id=" . urlencode($row['Bien_ID']) . "'\">";
+                                    echo "<tr style='cursor: pointer;' onclick=\"window.location.href='gestion_dossiers.php?id=" . urlencode($row['Dossier_ID']) . "'\">";
                                     echo "<td>" . htmlspecialchars($row['Bien_ID']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['Utilisateur_Prenom']) . "</td>";
@@ -99,13 +110,15 @@
                                     echo "<td>" . htmlspecialchars($row['AdressePostale_ID']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['TypeHebergement_Nom']) . "</td>";
                                     echo "<td>" . htmlspecialchars($row['DonneurOrdre_Entreprine_Nom']) . "</td>";
+                                    
                                 }
                             } else {
-                                echo "<tr><td colspan='11'>Aucun bien trouvé.</td></tr>";
+                                echo "<tr><td colspan='10' class='text-center'>Aucune donnée trouvée</td></tr>";
                             }
-                        } catch (PDOException $e) {
-                            echo "Erreur de connexion : " . $e->getMessage();
+                        } catch(PDOException $e) {
+                            echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
                         }
+                    }
                     ?>
                 </tbody>
             </table>
