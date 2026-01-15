@@ -65,10 +65,7 @@
                     $db = $database->getConnection();
                     
                     $utilisateurId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-                    echo "<pre>";
-                    var_dump($_GET);
-                    var_dump($utilisateurId);
-                    echo "</pre>";
+
 
                     if (is_array($db)) {
                         echo "<tr><td colspan='10' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
@@ -85,6 +82,7 @@
                             INNER JOIN typeshebergements AS t ON t.TypeHebergement_ID = b.TypeHebergement_ID
                             WHERE d.Utilisateur_ID = :utilisateurId
                             ORDER BY d.Dossier_ID DESC;";
+                            
                             
                             $stmt = $db->prepare($sql);
                             $stmt->execute([':utilisateurId' => $utilisateurId]);
