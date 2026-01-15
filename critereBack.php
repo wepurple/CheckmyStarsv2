@@ -179,6 +179,7 @@ $starColors = [
                     <?php
                     }
                     ?>
+                </div>
 
             <!-- Summary Section -->
             <div class="row">
