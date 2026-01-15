@@ -75,23 +75,44 @@
                         try {
                             // Requête pour récupérer tous les dossiers
                             $sql = "SELECT d.Dossier_ID,
-                                d.DOSSIER_NUMERO,
-                                t.TypeHebergement_Nom,
-                                u.Utilisateur_Nom,
-                                u.Utilisateur_Prenom,
-                                a.AdressePostale_NumeroRue,
-                                a.AdressePostale_NomRue,
-                                a.AdressePostale_CodePostal,
-                                a.AdressePostale_Ville,
-                                a.AdressePostale_Pays,
-                                d.status
-                            FROM dossiers AS d
-                            INNER JOIN utilisateurs AS u ON d.Utilisateur_ID = u.Utilisateur_ID
+                            d.DOSSIER_NUMERO,
+                            t.TypeHebergement_Nom,
+                            u.Utilisateur_Nom,
+                            u.Utilisateur_Prenom,
+                            a.AdressePostale_NumeroRue,
+                            a.AdressePostale_NomRue,
+                            a.AdressePostale_CodePostal,
+                            a.AdressePostale_Ville,
+                            a.AdressePostale_Pays,
+                            d.status
+                        FROM dossiers AS d
+                        INNER JOIN utilisateurs AS u ON d.Utilisateur_ID = u.Utilisateur_ID
+                        INNER JOIN biens AS b ON b.Bien_ID = d.Bien_ID
+                        INNER JOIN adressespostales AS a ON a.AdressePostale_ID = b.AdressePostale_ID
+                        INNER JOIN typeshebergements AS t ON t.TypeHebergement_ID = b.TypeHebergement_ID
+                        ORDER BY d.Dossier_ID DESC;";
+                            /*
+                            $sql = "SELECT 
+                                d.Dossier_ID, 
+                                d.DOSSIER_NUMERO, 
+                                t.TypeHebergement_Nom, 
+                                u.Utilisateur_Nom, 
+                                u.Utilisateur_Prenom, 
+                                a.AdressePostale_NumeroRue, 
+                                a.AdressePostale_NomRue, 
+                                a.AdressePostale_CodePostal, 
+                                a.AdressePostale_Ville, 
+                                a.AdressePostale_Pays, 
+                                d.status 
+                            FROM dossiers AS d 
+                            INNER JOIN utilisateurs AS u ON d.Utilisateur_ID = u.Utilisateur_ID 
                             INNER JOIN biens AS b ON b.Bien_ID = d.Bien_ID
-                            INNER JOIN adressespostales AS a ON a.AdressePostale_ID = b.AdressePostale_ID
+                            INNER JOIN adressespostales AS a ON a.AdressePostale_ID = b.AdressePostale_ID 
                             INNER JOIN typeshebergements AS t ON t.TypeHebergement_ID = b.TypeHebergement_ID
-                            ORDER BY d.Dossier_ID DESC;";
-
+                            ORDER BY d.Dossier_ID DESC";
+                            $stmt = $db->prepare($sql);
+                            $stmt->execute();
+                            */
                             
                             $stmt = $db->prepare($sql);
                             $stmt->execute([':utilisateurId' => $utilisateurId]);
