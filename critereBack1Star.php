@@ -41,7 +41,7 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
                 </div>
 
                 <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#addModal">
-                    <i class="fas fa-plus-circle"></i> Ajouter un critère
+                    <i class="fas fa-plus-circle"></i> Ajouter un critère !
                 </button>
             </div>
         </div>
