@@ -100,19 +100,28 @@ document.addEventListener('DOMContentLoaded', function() {
                 case 'status':
                     return critere.Critere_statut.toLowerCase().includes(searchTerm);
                 case 'points':
-                    return critere.Critere_points.toString().includes(searchTerm);
+                    // Convertir les points en string pour la comparaison
+                    const points = critere.Critere_points !== null && critere.Critere_points !== undefined 
+                        ? critere.Critere_points.toString() 
+                        : '';
+                    return points.includes(searchTerm);
                 case 'all':
                 default:
+                    // Gérer les points comme string aussi ici
+                    const pointsAll = critere.Critere_points !== null && critere.Critere_points !== undefined 
+                        ? critere.Critere_points.toString() 
+                        : '';
                     return critere.Critere_ID.toString().includes(searchTerm) ||
-                           critere.Critere_description.toLowerCase().includes(searchTerm) ||
-                           critere.Critere_statut.toLowerCase().includes(searchTerm) ||
-                           critere.Critere_points.toString().includes(searchTerm);
+                        critere.Critere_description.toLowerCase().includes(searchTerm) ||
+                        critere.Critere_statut.toLowerCase().includes(searchTerm) ||
+                        pointsAll.includes(searchTerm);
             }
         });
         
         console.log('Résultats trouvés:', filteredData.length);
         displayData(filteredData);
     }
+
     
     // Affiche le nombre de résultats
     function updateResultCount(count) {
