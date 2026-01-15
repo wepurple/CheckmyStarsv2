@@ -62,10 +62,6 @@
                     $db = $database->getConnection();
                     
                     $utilisateurId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-                    echo "<pre>";
-                    var_dump($_GET);
-                    var_dump($utilisateurId);
-                    echo "</pre>";
 
                     if (is_array($db)) {
                         echo "<tr><td colspan='10' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
@@ -90,7 +86,7 @@
                             INNER JOIN donneurordre as d on b.Donneur_ID = d.Donneur_ID
                             INNER JOIN typeshebergements as t on b.TypeHebergement_ID = t.TypeHebergement_ID
                             INNER JOIN dossiers as do on u.Utilisateur_ID = do.Utilisateur_ID
-                            WHERE b.Bien_ID = do.Bien_ID
+                            WHERE b.Bien_ID = do.Bien_ID AND u.Utilisateur_ID = :utilisateurId
                             ORDER BY B.Bien_ID DESC;";
                             
                             $stmt = $db->prepare($sql);
