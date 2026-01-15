@@ -39,7 +39,7 @@
 
             <hr>
 
-            <div class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <div class="navbar-nav ms-auto mb-2 mb-lg-0 text-light">
                 <span class="nav-text">Connecté<?php if(isset($_SESSION['Prenom']) && isset($_SESSION['Nom'])){ echo " en tant que " . $_SESSION['Prenom'] . " " . $_SESSION['Nom']; } ?></span>
             </div>
 
