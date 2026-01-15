@@ -26,7 +26,7 @@
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <i class="fas fa-plus"></i> Ajouter un dossier
                 </button>
-                <button type="button" onclick="location.href='dashboard.php'" class="btn btn-secondary">
+                <button type="button" class="btn btn-success" onclick="location.href='dashboard.php'" >
                     <i class="fas fa-arrow-left"></i> Retour au tableau de bord
                 </button>
                 
