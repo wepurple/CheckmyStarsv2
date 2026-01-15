@@ -153,6 +153,10 @@ fieldset legend {
     transform: translateY(0);
 }
 
+.btn-back {
+    background-color: red;
+}
+
 .links {
     margin-top: 20px;
 }
