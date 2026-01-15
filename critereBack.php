@@ -92,7 +92,7 @@ $starColors = [
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
     </head>
 
-    <body class="bg-dark">
+    <body class="bg-secondary">
         <?php require("./includes/navbar.php"); ?>
 
         <div class="container-fluid py-4 px-3">
