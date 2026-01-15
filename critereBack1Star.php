@@ -138,6 +138,64 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
         </div>
     </div>
 
+    <!-- Modal de modification -->
+    <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title" id="editModalLabel">
+                        <i class="fas fa-edit"></i> Modifier le critère
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm">
+                        <input type="hidden" id="edit-id" name="id">
+                        
+                        <div class="mb-3">
+                            <label for="edit-description" class="form-label fw-bold">
+                                <i class="fas fa-align-left"></i> Description
+                            </label>
+                            <textarea class="form-control" id="edit-description" name="description" rows="4" required></textarea>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="edit-statut" class="form-label fw-bold">
+                                        <i class="fas fa-flag"></i> Statut
+                                    </label>
+                                    <select class="form-select" id="edit-statut" name="statut" required>
+                                        <option value="X">X</option>
+                                        <option value="O">O</option>
+                                        <option value="NA">NA</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="edit-points" class="form-label fw-bold">
+                                        <i class="fas fa-star"></i> Points
+                                    </label>
+                                    <input type="number" class="form-control" id="edit-points" name="points" min="0" step="1">
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times"></i> Annuler
+                    </button>
+                    <button type="button" class="btn btn-primary" id="saveBtn">
+                        <i class="fas fa-save"></i> Enregistrer
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <script src="js/criteria1StarBack.js"></script>
 </body>
 </html>

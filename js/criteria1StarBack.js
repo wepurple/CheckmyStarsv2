@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const star = urlParams.get('star') || 1;
     
     let allData = []; // Stocke toutes les données
+    let editModal; // Instance Bootstrap Modal
     
     // Fetch les données
     fetch(`models/crud/getCriteriaByEtoile.php?star=${star}`)
@@ -18,8 +19,17 @@ document.addEventListener('DOMContentLoaded', function() {
             allData = data;
             displayData(data);
             setupFilters();
+            initModal();
         })
         .catch(error => console.error('Erreur fetch:', error));
+    
+    // Initialise la modal Bootstrap
+    function initModal() {
+        const modalElement = document.getElementById('editModal');
+        if (modalElement) {
+            editModal = new bootstrap.Modal(modalElement);
+        }
+    }
     
     // Fonction pour afficher les données
     function displayData(data) {
@@ -44,10 +54,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
                         <div class="btn-group btn-group-sm ms-auto" role="group" aria-label="Actions">
                             <div class="pe-3">
-                                <button type="button" class="btn btn-outline-primary">Modifier</button>
+                                <button type="button" class="btn btn-outline-primary btn-edit" 
+                                    data-id="${critere.Critere_ID}"
+                                    data-description="${escapeHtml(critere.Critere_description)}"
+                                    data-statut="${critere.Critere_statut}"
+                                    data-points="${critere.Critere_points || ''}">
+                                    Modifier
+                                </button>
                             </div>
                             <div>
-                                <button type="button" class="btn btn-outline-danger">Supprimer</button>
+                                <button type="button" class="btn btn-outline-danger btn-delete"
+                                    data-id="${critere.Critere_ID}">
+                                    Supprimer
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -57,7 +76,127 @@ document.addEventListener('DOMContentLoaded', function() {
             `;
         });
         
+        // Ajoute les event listeners sur les boutons
+        setupButtonEvents();
         updateResultCount(data.length);
+    }
+    
+    // Configure les événements sur les boutons Modifier/Supprimer
+    function setupButtonEvents() {
+        // Boutons Modifier
+        document.querySelectorAll('.btn-edit').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = this.dataset.id;
+                const description = this.dataset.description;
+                const statut = this.dataset.statut;
+                const points = this.dataset.points;
+                
+                openEditModal(id, description, statut, points);
+            });
+        });
+        
+        // Boutons Supprimer
+        document.querySelectorAll('.btn-delete').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const id = this.dataset.id;
+                if (confirm(`Êtes-vous sûr de vouloir supprimer le critère #${id} ?`)) {
+                    deleteCriteria(id);
+                }
+            });
+        });
+    }
+    
+    // Ouvre la modal avec les données pré-remplies
+    function openEditModal(id, description, statut, points) {
+        document.getElementById('edit-id').value = id;
+        document.getElementById('edit-description').value = description;
+        document.getElementById('edit-statut').value = statut;
+        document.getElementById('edit-points').value = points;
+        
+        // Change le titre de la modal
+        document.getElementById('editModalLabel').innerHTML = 
+            `<i class="fas fa-edit"></i> Modifier le critère #${id}`;
+        
+        // Ouvre la modal
+        if (editModal) {
+            editModal.show();
+        }
+    }
+    
+    // Gère la sauvegarde
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.id === 'saveBtn') {
+            saveCriteria();
+        }
+    });
+    
+    // Sauvegarde les modifications
+    function saveCriteria() {
+        const id = document.getElementById('edit-id').value;
+        const description = document.getElementById('edit-description').value;
+        const statut = document.getElementById('edit-statut').value;
+        const points = document.getElementById('edit-points').value;
+        
+        // Validation
+        if (!description.trim()) {
+            alert('La description ne peut pas être vide !');
+            return;
+        }
+        
+        // Prépare les données
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('description', description);
+        formData.append('statut', statut);
+        formData.append('points', points);
+        
+        // Envoie au serveur (à adapter selon ton API)
+        fetch('models/crud/updateCriteria.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Critère modifié avec succès !');
+                editModal.hide();
+                // Recharge les données
+                location.reload();
+            } else {
+                alert('Erreur lors de la modification : ' + (data.message || 'Erreur inconnue'));
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Erreur lors de la modification');
+        });
+    }
+    
+    // Fonction de suppression
+    function deleteCriteria(id) {
+        fetch(`models/crud/deleteCriteria.php?id=${id}`, {
+            method: 'DELETE'
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Critère supprimé avec succès !');
+                location.reload();
+            } else {
+                alert('Erreur lors de la suppression : ' + (data.message || 'Erreur inconnue'));
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Erreur lors de la suppression');
+        });
+    }
+    
+    // Échappe les caractères HTML pour éviter les injections
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
     }
     
     // Configure les filtres
@@ -83,7 +222,6 @@ document.addEventListener('DOMContentLoaded', function() {
         filterType.addEventListener('change', function() {
             filterData();
         });
-        
     }
     
     // Fonction de filtrage
@@ -106,14 +244,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 case 'status':
                     return critere.Critere_statut.toLowerCase().includes(searchTerm);
                 case 'points':
-                    // Convertir les points en string pour la comparaison
                     const points = critere.Critere_points !== null && critere.Critere_points !== undefined 
                         ? critere.Critere_points.toString() 
                         : '';
                     return points.includes(searchTerm);
                 case 'all':
                 default:
-                    // Gérer les points comme string aussi ici
                     const pointsAll = critere.Critere_points !== null && critere.Critere_points !== undefined 
                         ? critere.Critere_points.toString() 
                         : '';
@@ -126,7 +262,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         displayData(filteredData);
     }
-
     
     // Affiche le nombre de résultats
     function updateResultCount(count) {
