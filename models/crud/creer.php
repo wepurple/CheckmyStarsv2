@@ -39,7 +39,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $user->Ville = $data->Ville;
         $user->Pays = $data->Pays;
         $user->Societe = $data->Societe;
-        $user->MotPasse = $data->MotPasse;
+        $user->MotPasse = password_hash($data->MotPasse, PASSWORD_BCRYPT);
         
         $idAdresse = $user->creerAdresse();
         $user->idAdresse = $idAdresse;
