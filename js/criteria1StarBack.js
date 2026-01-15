@@ -36,7 +36,18 @@ document.addEventListener('DOMContentLoaded', function() {
             const row = tbody.insertRow();
             row.innerHTML = `
                 <td>${critere.Critere_ID}</td>
-                <td>${critere.Critere_description} <div><button type="button" class="btn btn-primary">Modifier</button> <button type="button" class="btn btn-danger">Supprimer</button></div></td>
+                <td>
+                    <div class="d-flex align-items-center gap-2">
+                        <span class="flex-grow-1">
+                        ${critere.Critere_description}
+                        </span>
+
+                        <div class="btn-group btn-group-sm ms-auto" role="group" aria-label="Actions">
+                        <button type="button" class="btn btn-outline-primary">Modifier</button>
+                        <button type="button" class="btn btn-outline-danger">Supprimer</button>
+                        </div>
+                    </div>
+                </td>
                 <td>${critere.Critere_statut}</td>
                 <td>${critere.Critere_points}</td>
             `;
