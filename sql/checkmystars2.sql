@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : jeu. 15 jan. 2026 à 07:17
+-- Généré le : jeu. 15 jan. 2026 à 15:48
 -- Version du serveur : 11.5.2-MariaDB
 -- Version de PHP : 8.3.14
 
@@ -20,6 +20,25 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `checkmystars2`
 --
+
+DELIMITER $$
+--
+-- Fonctions
+--
+DROP FUNCTION IF EXISTS `Update_User`$$
+CREATE DEFINER=`root`@`localhost` FUNCTION `Update_User` (`Nom` VARCHAR(50), `Prenom` VARCHAR(50), `Mail` VARCHAR(50), `Genre` VARCHAR(20), `Societe` VARCHAR(50), `Telephone` VARCHAR(20), `NumRue` VARCHAR(20), `Adresse` VARCHAR(50), `Complement` VARCHAR(20), `CP` VARCHAR(50), `Ville` VARCHAR(50), `Pays` VARCHAR(50), `ID` INT) RETURNS INT(11)  BEGIN
+    UPDATE utilisateurs
+    SET Utilisateur_Nom = Nom,
+    Utilisateur_Prenom = Prenom,
+	Utilisateur_Societe = Societe,
+    Utilisateur_Mail = Mail,
+    Utilisateur_Telephone = Telephone
+    WHERE Utilisateur_ID = ID;
+    
+    RETURN true;
+END$$
+
+DELIMITER ;
 
 -- --------------------------------------------------------
 
@@ -80,7 +99,7 @@ CREATE TABLE IF NOT EXISTS `adressespostales` (
   `AdressePostale_Ville` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `AdressePostale_Pays` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`AdressePostale_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=59 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `adressespostales`
@@ -91,11 +110,14 @@ INSERT INTO `adressespostales` (`AdressePostale_ID`, `AdressePostale_NumeroRue`,
 (2, '25', NULL, '69002', 'Rue Merciere', 'Lyon', 'France'),
 (3, '5', NULL, '06000', 'Avenue des Fleurs', 'Nice', 'France'),
 (4, '42', NULL, '13001', 'La Canebiere', 'Marseille', 'France'),
-(42, '14', '', '41600', 'rue des bruyere', 'chaon', 'France'),
+(42, '144', 'bis', '41600', 'rue des bruyere', 'chaon', 'France'),
 (53, '154', '', '41600', 'rue du caca', 'caca', 'France'),
 (56, '14', '12', '45000', 'rue du bazouzou', 'Orléans', 'France'),
 (57, '14', '12', '45000', 'rue du bazouzou', 'Orléans', 'France'),
-(58, '14', 'bis', '45000', 'rue de l&#039;dadmin', 'Orléans', 'France');
+(58, '14', 'bis', '45000', 'rue de l&#039;dadmin', 'Orléans', 'France'),
+(59, '14', 'bis', '45000', 'rue de jean', 'Orléans', 'France'),
+(60, '18', 'bis', '69000', 'rue de Pere', 'Lyon', 'France'),
+(61, '14', 'bis', '45000', 'rue de jean', 'Orléans', 'France');
 
 -- --------------------------------------------------------
 
@@ -110,24 +132,24 @@ CREATE TABLE IF NOT EXISTS `biens` (
   `Bien_Telephone` varchar(50) DEFAULT NULL,
   `Bien_DateEnregistrement` date DEFAULT NULL,
   `Bien_Etoile_Actuelle` int(11) DEFAULT NULL,
-  `Utilisateur_ID` int(11) DEFAULT NULL,
+  `Donneur_ID` int(11) DEFAULT NULL,
   `AdressePostale_ID` int(11) NOT NULL,
   `TypeHebergement_ID` int(11) NOT NULL,
-  `Utilisateur_ID_1` int(11) NOT NULL,
+  `Utilisateur_ID` int(11) NOT NULL,
   PRIMARY KEY (`Bien_ID`),
-  KEY `Utilisateur_ID` (`Utilisateur_ID`),
+  KEY `Utilisateur_ID` (`Donneur_ID`),
   KEY `AdressePostale_ID` (`AdressePostale_ID`),
   KEY `TypeHebergement_ID` (`TypeHebergement_ID`),
-  KEY `Utilisateur_ID_1` (`Utilisateur_ID_1`)
+  KEY `Utilisateur_ID_1` (`Utilisateur_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `biens`
 --
 
-INSERT INTO `biens` (`Bien_ID`, `Biens_Nom`, `Bien_Telephone`, `Bien_DateEnregistrement`, `Bien_Etoile_Actuelle`, `Utilisateur_ID`, `AdressePostale_ID`, `TypeHebergement_ID`, `Utilisateur_ID_1`) VALUES
-(1, 'Hotel Lumiere', '0140203040', '2025-01-10', 3, 4, 1, 1, 29),
-(2, 'Gite du Soleil', '0230405060', '2025-02-05', 2, 4, 2, 2, 29);
+INSERT INTO `biens` (`Bien_ID`, `Biens_Nom`, `Bien_Telephone`, `Bien_DateEnregistrement`, `Bien_Etoile_Actuelle`, `Donneur_ID`, `AdressePostale_ID`, `TypeHebergement_ID`, `Utilisateur_ID`) VALUES
+(1, 'Hotel Lumiere', '0140203040', '2025-01-10', 4, 4, 1, 1, 1),
+(3, 'Hotel Lumiere', '0140203040', '2025-01-10', 5, 4, 42, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -142,14 +164,6 @@ CREATE TABLE IF NOT EXISTS `concerne` (
   PRIMARY KEY (`Bien_ID`,`Dossier_ID`),
   KEY `Dossier_ID` (`Dossier_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
-
---
--- Déchargement des données de la table `concerne`
---
-
-INSERT INTO `concerne` (`Bien_ID`, `Dossier_ID`) VALUES
-(1, 1),
-(2, 2);
 
 -- --------------------------------------------------------
 
@@ -369,11 +383,6 @@ INSERT INTO `contient` (`Critere_ID`, `Photo_ID`, `ListesCriteres_ID`) VALUES
 (39, 100, 8),
 (39, 100, 11),
 (39, 100, 12),
-(40, 100, 6),
-(40, 100, 7),
-(40, 100, 8),
-(40, 100, 11),
-(40, 100, 12),
 (41, 100, 7),
 (41, 100, 8),
 (41, 100, 11),
@@ -578,7 +587,11 @@ INSERT INTO `contient` (`Critere_ID`, `Photo_ID`, `ListesCriteres_ID`) VALUES
 (117, 100, 12),
 (118, 100, 12),
 (119, 100, 12),
-(120, 100, 12);
+(120, 100, 12),
+(150, 100, 2),
+(150, 100, 6),
+(151, 100, 2),
+(151, 100, 6);
 
 -- --------------------------------------------------------
 
@@ -593,7 +606,7 @@ CREATE TABLE IF NOT EXISTS `criteres` (
   `Critere_statut` varchar(50) DEFAULT NULL,
   `Critere_points` int(11) DEFAULT NULL,
   PRIMARY KEY (`Critere_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=148 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `criteres`
@@ -639,7 +652,6 @@ INSERT INTO `criteres` (`Critere_ID`, `Critere_description`, `Critere_statut`, `
 (37, 'Salle d\'eau privative intérieure', 'X', 2),
 (38, 'Salle d\'eau privative avec accès indépendant', 'X', 3),
 (39, 'Salle d\'eau équipée lavabo, douche et/ou baignoire', 'X', 3),
-(40, 'Salle d\'eau avec équipements supérieurs au standard', 'O', 2),
 (41, 'WC privatif intérieur au logement', 'X', 2),
 (42, 'WC privatif indépendant de la salle d\'eau', 'O', 2),
 (43, 'Deuxième salle d\'eau privative', 'NA', 5),
@@ -732,7 +744,10 @@ INSERT INTO `criteres` (`Critere_ID`, `Critere_description`, `Critere_statut`, `
 (130, 'Sensibilisation environnementale des clients', 'X', 2),
 (131, 'Produits d\'accueil écologiques', 'O', 2),
 (132, 'Produits d\'entretien écologiques', 'X', 1),
-(133, 'Obtention d\'un label environnemental', 'O', 3);
+(133, 'Obtention d\'un label environnemental', 'O', 3),
+(148, 'test', 'X', 5),
+(150, 'test', 'X', 5),
+(151, 'test', 'NA', 8);
 
 -- --------------------------------------------------------
 
@@ -753,14 +768,6 @@ CREATE TABLE IF NOT EXISTS `devis` (
   UNIQUE KEY `Dossier_ID` (`Dossier_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
---
--- Déchargement des données de la table `devis`
---
-
-INSERT INTO `devis` (`Devis_ID`, `Devis_DateAccepattion`, `Devis_montant`, `Devis_Numero`, `Devis_DateEmission`, `Devis_Document`, `Dossier_ID`) VALUES
-(1, '2025-01-20 09:00:00', 1500.00, 'DEV-001', '2025-01-18 09:00:00', 'doc-dev1.pdf', 1),
-(2, '2025-02-15 12:00:00', 2100.00, 'DEV-002', '2025-02-12 12:00:00', 'doc-dev2.pdf', 2);
-
 -- --------------------------------------------------------
 
 --
@@ -769,16 +776,16 @@ INSERT INTO `devis` (`Devis_ID`, `Devis_DateAccepattion`, `Devis_montant`, `Devi
 
 DROP TABLE IF EXISTS `donneurordre`;
 CREATE TABLE IF NOT EXISTS `donneurordre` (
-  `Utilisateur_ID` int(11) NOT NULL,
+  `Donneur_ID` int(11) NOT NULL,
   `DonneurOrdre_Entreprine_Nom` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`Utilisateur_ID`)
+  PRIMARY KEY (`Donneur_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `donneurordre`
 --
 
-INSERT INTO `donneurordre` (`Utilisateur_ID`, `DonneurOrdre_Entreprine_Nom`) VALUES
+INSERT INTO `donneurordre` (`Donneur_ID`, `DonneurOrdre_Entreprine_Nom`) VALUES
 (4, 'Entreprise Soleil');
 
 -- --------------------------------------------------------
@@ -795,17 +802,18 @@ CREATE TABLE IF NOT EXISTS `dossiers` (
   `Dossier_Etoile_Cible` int(11) DEFAULT NULL,
   `Utilisateur_ID` int(11) DEFAULT NULL,
   `status` tinyint(1) NOT NULL,
+  `Bien_ID` int(11) DEFAULT NULL,
   PRIMARY KEY (`Dossier_ID`),
-  KEY `Utilisateur_ID` (`Utilisateur_ID`)
+  KEY `Utilisateur_ID` (`Utilisateur_ID`),
+  KEY `fk_dossiers_bien` (`Bien_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `dossiers`
 --
 
-INSERT INTO `dossiers` (`Dossier_ID`, `Dossier_Numero`, `Dossier_Date`, `Dossier_Etoile_Cible`, `Utilisateur_ID`, `status`) VALUES
-(1, 'DOS-2025-001', '2025-01-15 10:00:00', 4, 1, 0),
-(2, 'DOS-2025-002', '2025-02-10 14:00:00', 3, 1, 1);
+INSERT INTO `dossiers` (`Dossier_ID`, `Dossier_Numero`, `Dossier_Date`, `Dossier_Etoile_Cible`, `Utilisateur_ID`, `status`, `Bien_ID`) VALUES
+(3, 'DOS-2025-003', '2025-02-10 14:00:00', 3, 1, 0, 3);
 
 -- --------------------------------------------------------
 
@@ -826,8 +834,7 @@ CREATE TABLE IF NOT EXISTS `effectue` (
 --
 
 INSERT INTO `effectue` (`Utilisateur_ID`, `Evaluation_ID`) VALUES
-(1, 1),
-(1, 2);
+(1, 1);
 
 -- --------------------------------------------------------
 
@@ -853,8 +860,7 @@ CREATE TABLE IF NOT EXISTS `evaluations` (
 --
 
 INSERT INTO `evaluations` (`Evaluation_ID`, `Evaluation_Date`, `Evaluation_Document`, `Evaluation_Résultat`, `Bien_ID`, `ListesCriteres_ID`) VALUES
-(1, '2025-01-18 14:00:00', 'eval_hotel_lumiere.pdf', 'Conforme', 1, 4),
-(2, '2025-02-15 10:00:00', 'eval_gite_soleil.pdf', 'Non conforme', 2, 7);
+(1, '2025-01-18 14:00:00', 'eval_hotel_lumiere.pdf', 'Conforme', 1, 4);
 
 -- --------------------------------------------------------
 
@@ -873,14 +879,6 @@ CREATE TABLE IF NOT EXISTS `factures_prixtotal` (
   PRIMARY KEY (`Facture_ID`),
   UNIQUE KEY `Devis_ID` (`Devis_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
-
---
--- Déchargement des données de la table `factures_prixtotal`
---
-
-INSERT INTO `factures_prixtotal` (`Facture_ID`, `Facture_Numero`, `Facture_DateCreation`, `Facture_DatePayee`, `Facture_Document`, `Devis_ID`) VALUES
-(1, 'FAC-001', '2025-01-25 15:00:00', '2025-01-30 10:00:00', 'doc-fac1.pdf', 1),
-(2, 'FAC-002', '2025-02-20 11:00:00', NULL, 'doc-fac2.pdf', 2);
 
 -- --------------------------------------------------------
 
@@ -1003,7 +1001,6 @@ CREATE TABLE IF NOT EXISTS `photos` (
 INSERT INTO `photos` (`Photo_ID`, `Photo_Lien`, `Bien_ID`) VALUES
 (1, 'photos/hotel_lumiere_1.jpg', 1),
 (2, 'photos/hotel_lumiere_2.jpg', 1),
-(3, 'photos/gite_soleil_1.jpg', 2),
 (100, '/photos/liste_generique.jpg', 1);
 
 -- --------------------------------------------------------
@@ -1023,8 +1020,7 @@ CREATE TABLE IF NOT EXISTS `proprietaires` (
 --
 
 INSERT INTO `proprietaires` (`Utilisateur_ID`) VALUES
-(1),
-(29);
+(1);
 
 -- --------------------------------------------------------
 
@@ -1069,7 +1065,7 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   PRIMARY KEY (`Utilisateur_ID`),
   UNIQUE KEY `unique_email` (`Utilisateur_Mail`),
   KEY `AdressePostale_ID` (`AdressePostale_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `utilisateurs`
@@ -1080,8 +1076,7 @@ INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Pr
 (2, 'Martin', 'Luc', 'Monsieur', 'Maze Bank', '$2y$10$MkNpWi2BTFYWLvFIMJZzuOpCXkpbPnfEGricU6ObaPhYTn0VX4wuO', 'luc.martin@mail.com', '0600000002', NULL, 2),
 (3, 'Bernard', 'Julie', 'Madame', 'DedSec', '$2y$10$39cuv2r4W/fEpXvlEQJnb.22bKm0LgU7yos190..B4V57SZ..mbp6', 'julie.bernard@mail.com', '0600000003', NULL, 3),
 (4, 'Durand', 'Paul', 'Monsieur', 'Amazon', 'pass123', 'paul.durand@mail.com', '0600000004', NULL, 4),
-(29, 'bourdon', 'Angel', 'Monsieur', 'inc', '0123456789', 'anbourdonlopez@stpbb.org', '0769155622', NULL, 42),
-(30, 'Bourdon Lopez', 'Angel', 'Monsieur', 'cacacacaca', 'Ab123456789', 'testtesttest1558996@gmail.com', '0769155622', NULL, 53);
+(35, 'Bourdon', 'Angel', 'Monsieur', 'NCTS', '$2y$10$9SVr55S/1FpjaODneg3aR.X1OKr0AMmFoh0N9bRx4eRnC1nlv173y', 'angel@non.binaire', '0780808080', NULL, 61);
 
 --
 -- Contraintes pour les tables déchargées
@@ -1104,17 +1099,17 @@ ALTER TABLE `administre`
 -- Contraintes pour la table `biens`
 --
 ALTER TABLE `biens`
-  ADD CONSTRAINT `biens_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `donneurordre` (`Utilisateur_ID`),
+  ADD CONSTRAINT `biens_ibfk_1` FOREIGN KEY (`Donneur_ID`) REFERENCES `donneurordre` (`Donneur_ID`),
   ADD CONSTRAINT `biens_ibfk_2` FOREIGN KEY (`AdressePostale_ID`) REFERENCES `adressespostales` (`AdressePostale_ID`),
   ADD CONSTRAINT `biens_ibfk_3` FOREIGN KEY (`TypeHebergement_ID`) REFERENCES `typeshebergements` (`TypeHebergement_ID`),
-  ADD CONSTRAINT `biens_ibfk_4` FOREIGN KEY (`Utilisateur_ID_1`) REFERENCES `proprietaires` (`Utilisateur_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `biens_ibfk_4` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `proprietaires` (`Utilisateur_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `concerne`
 --
 ALTER TABLE `concerne`
   ADD CONSTRAINT `concerne_ibfk_1` FOREIGN KEY (`Bien_ID`) REFERENCES `biens` (`Bien_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `concerne_ibfk_2` FOREIGN KEY (`Dossier_ID`) REFERENCES `dossiers` (`Dossier_ID`);
+  ADD CONSTRAINT `concerne_ibfk_2` FOREIGN KEY (`Dossier_ID`) REFERENCES `dossiers` (`Dossier_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `contient`
@@ -1128,19 +1123,20 @@ ALTER TABLE `contient`
 -- Contraintes pour la table `devis`
 --
 ALTER TABLE `devis`
-  ADD CONSTRAINT `devis_ibfk_1` FOREIGN KEY (`Dossier_ID`) REFERENCES `dossiers` (`Dossier_ID`);
+  ADD CONSTRAINT `devis_ibfk_1` FOREIGN KEY (`Dossier_ID`) REFERENCES `dossiers` (`Dossier_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `donneurordre`
 --
 ALTER TABLE `donneurordre`
-  ADD CONSTRAINT `donneurordre_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`);
+  ADD CONSTRAINT `donneurordre_ibfk_1` FOREIGN KEY (`Donneur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`);
 
 --
 -- Contraintes pour la table `dossiers`
 --
 ALTER TABLE `dossiers`
-  ADD CONSTRAINT `dossiers_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `inspecteurs` (`Utilisateur_ID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `dossiers_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `inspecteurs` (`Utilisateur_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_dossiers_bien` FOREIGN KEY (`Bien_ID`) REFERENCES `biens` (`Bien_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `effectue`
@@ -1160,7 +1156,7 @@ ALTER TABLE `evaluations`
 -- Contraintes pour la table `factures_prixtotal`
 --
 ALTER TABLE `factures_prixtotal`
-  ADD CONSTRAINT `factures_prixtotal_ibfk_1` FOREIGN KEY (`Devis_ID`) REFERENCES `devis` (`Devis_ID`);
+  ADD CONSTRAINT `factures_prixtotal_ibfk_1` FOREIGN KEY (`Devis_ID`) REFERENCES `devis` (`Devis_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `inspecteurs`
