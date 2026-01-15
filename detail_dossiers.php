@@ -95,7 +95,7 @@
                             ORDER BY B.Bien_ID DESC;";
                             
                             $stmt = $db->prepare($sql);
-                            $stmt->execute([':bienId' => $bienId]);
+                            $stmt->execute();
                             
                             if ($stmt->rowCount() > 0) {
                                 while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
