@@ -96,31 +96,6 @@ $starColors = [
         <?php require("./includes/navbar.php"); ?>
 
         <div class="container-fluid py-4 px-3">
-            <!-- Header Section -->
-            <div class="row mb-4">
-                <div class="col-12">
-                    <div class="card bg-primary bg-gradient shadow">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-between flex-wrap">
-                                <div>
-                                    <h1 class="display-6 fw-bold mb-2">
-                                        <i class="fas fa-clipboard-check"></i> Gestion des Critères
-                                    </h1>
-                                    <p class="lead mb-0">
-                                        <i class="fas fa-info-circle"></i> Tableau de bord des critères par niveau d'étoiles
-                                    </p>
-                                </div>
-                                <div class="text-end mt-3 mt-md-0">
-                                    <span class="badge bg-light text-dark fs-5 p-3">
-                                        <i class="fas fa-building"></i> Type Hébergement: <strong>ID 2</strong>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- Cards Grid -->
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-5 g-4 mb-4">
                 <?php
