@@ -13,6 +13,7 @@ if (!isset($_SESSION['ID'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
     <title>Gestion des Factures - CheckMyStars</title>
     <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="bootstrap 5.3/css/facture.css">
