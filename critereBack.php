@@ -125,7 +125,7 @@ $starColors = [
                                         </div>
                                         <p class="text-muted mb-0">
                                             <i class="fas fa-list-check"></i>
-                                            Critère<?= $totalCriteria > 1 ? 's' : '' ?> total<?= $totalCriteria > 1 ? 'aux' : '' ?>
+                                            Critère<?= $totalCriteria > 1 ? 's' : '' ?> <?= $totalCriteria > 1 ? 'totaux' : 'total' ?>
                                         </p>
                                     </div>
 
@@ -171,7 +171,7 @@ $starColors = [
                                 <div class="card-footer text-center bg-transparent border-<?= $color ?>">
                                     <small class="text-muted">
                                         <i class="fas fa-clock"></i>
-                                        Dernière mise à jour: Aujourd'hui
+                                        Dernière mise à jour: Aujourd'hui (TODO)
                                     </small>
                                 </div>
                             </div>
@@ -192,13 +192,6 @@ $starColors = [
                         </div>
                         <div class="card-body py-4">
                             <div class="row text-center g-4">
-                                <div class="col-6 col-md-3">
-                                    <div class="p-3 bg-warning bg-opacity-10 rounded-3">
-                                        <i class="fas fa-star fs-1 text-warning mb-3"></i>
-                                        <h3 class="fw-bold mb-1">5</h3>
-                                        <p class="text-muted mb-0 small">Niveaux d'étoiles</p>
-                                    </div>
-                                </div>
                                 <div class="col-6 col-md-3">
                                     <div class="p-3 bg-info bg-opacity-10 rounded-3">
                                         <i class="fas fa-clipboard-list fs-1 text-info mb-3"></i>
@@ -227,13 +220,6 @@ $starColors = [
                                             ?>
                                         </h3>
                                         <p class="text-muted mb-0 small">Établissements totaux</p>
-                                    </div>
-                                </div>
-                                <div class="col-6 col-md-3">
-                                    <div class="p-3 bg-danger bg-opacity-10 rounded-3">
-                                        <i class="fas fa-chart-line fs-1 text-danger mb-3"></i>
-                                        <h3 class="fw-bold mb-1">100%</h3>
-                                        <p class="text-muted mb-0 small">Couverture système</p>
                                     </div>
                                 </div>
                             </div>
