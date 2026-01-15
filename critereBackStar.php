@@ -20,6 +20,30 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
 <body class="bg-secondary">
     <?php require("./includes/navbar.php"); ?>
 
+    <input type="text" id="searchInput" placeholder="Rechercher par ID, description..." />
+
+    <!-- Formulaire de recherche -->
+    <nav class="navbar">
+        <div class="container-fluid d-flex flex-row mb-2">
+            <div class="input-group">
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
+                    Ajouter un critère
+                </button>
+
+                <span class="input-group-text">Rechercher par</span>
+                <select class="form-select" id="type">
+                    <option selected value = "1">ID</option>
+                    <option value="2">Description</option>
+                    <option value="2">Status</option>
+                    <option value="2">Points</option>
+                </select>
+                <input id="recherche" type="text" aria-label="Last name" class="form-control">
+            </div>
+        </div>
+    </nav>
+
     <div class="container-fluid p-3">
         <h2>Critères <?= $star ?> étoile</h2>
         <table class="table table-sm table-striped table-hover">
@@ -37,6 +61,6 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
         </table>
     </div>
 
-    <script src="js/criteria1StarBack.js"></script>
+    <script src="js/criteriaStarBack.js"></script>
 </body>
 </html>

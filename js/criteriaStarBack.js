@@ -3,9 +3,12 @@ const urlParams = new URLSearchParams(window.location.search);
 const star = urlParams.get('star') || 1;
 
 // Fetch les données
-fetch(`models/crud/getCriteriaByEtoile.php?star=${star}`) // [web:249]
+fetch(`models/crud/getCriteriaByEtoile.php?star=${star}`)
     .then(response => response.json())
     .then(data => {
+
+        setupSearch();
+
         const tbody = document.getElementById('table-body');
         
         data.forEach(critere => {
@@ -23,3 +26,18 @@ fetch(`models/crud/getCriteriaByEtoile.php?star=${star}`) // [web:249]
         document.getElementById('table-body').innerHTML = 
             '<tr><td colspan="4" class="text-danger">Erreur de chargement</td></tr>';
     });
+
+// Fonction de recherche dynamique
+function setupSearch() {
+    const searchInput = document.getElementById('searchInput');
+    
+    searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const rows = document.querySelectorAll('#table-body tr');
+        
+        rows.forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(searchTerm) ? '' : 'none';
+        });
+    });
+}
