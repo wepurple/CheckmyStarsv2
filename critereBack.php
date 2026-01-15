@@ -191,8 +191,8 @@ $starColors = [
                             </h4>
                         </div>
                         <div class="card-body py-4">
-                            <div class="row text-center g-4">
-                                <div class="col-6 col-md-3">
+                            <div class="row text-center g-4 justify-content-center">
+                                <div class="col-12 col-md-6 col-lg-4">
                                     <div class="p-3 bg-info bg-opacity-10 rounded-3">
                                         <i class="fas fa-clipboard-list fs-1 text-info mb-3"></i>
                                         <h3 class="fw-bold mb-1">
@@ -207,7 +207,7 @@ $starColors = [
                                         <p class="text-muted mb-0 small">Critères totaux</p>
                                     </div>
                                 </div>
-                                <div class="col-6 col-md-3">
+                                <div class="col-12 col-md-6 col-lg-4">
                                     <div class="p-3 bg-success bg-opacity-10 rounded-3">
                                         <i class="fas fa-building fs-1 text-success mb-3"></i>
                                         <h3 class="fw-bold mb-1">
