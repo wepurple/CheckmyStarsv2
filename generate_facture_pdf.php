@@ -1,4 +1,14 @@
 <?php
+// Désactiver l'affichage des erreurs pour éviter la corruption du PDF
+error_reporting(0);
+ini_set('display_errors', 0);
+
+// Nettoyer tout buffer existant dès le début
+while (ob_get_level()) {
+    ob_end_clean();
+}
+ob_start();
+
 require_once('vendor/autoload.php');
 
 // Récupérer les données JSON envoyées
@@ -6,10 +16,11 @@ $json = file_get_contents('php://input');
 $data = json_decode($json, true);
 
 if (!$data) {
+    ob_end_clean();
     http_response_code(400);
     header('Content-Type: application/json');
     echo json_encode(['error' => 'Données invalides']);
-    die();
+    exit;
 }
 
 // Extraire et valider les données
@@ -20,10 +31,11 @@ $lignes = $data['lignes'] ?? [];
 
 // Vérifier que les champs essentiels sont présents
 if (empty($entreprise['nom']) || empty($facture['numero']) || empty($lignes)) {
+    ob_end_clean();
     http_response_code(400);
     header('Content-Type: application/json');
     echo json_encode(['error' => 'Données essentielles manquantes']);
-    die();
+    exit;
 }
 
 // Calculer les totaux
@@ -38,7 +50,7 @@ foreach ($lignes as &$ligne) {
 }
 
 // Créer le PDF avec TCPDF
-$pdf = new \TCPDF(\TCPDF_PAGE_ORIENTATION, \TCPDF_UNIT, \TCPDF_PAGE_FORMAT, true, 'UTF-8', false);
+$pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 
 $pdf->SetCreator($entreprise['nom']);
 $pdf->SetAuthor($entreprise['nom']);
@@ -235,11 +247,38 @@ $pdf->Cell(0, 4, 'N° TVA : ' . $entreprise['tva'] . ' - Tél. : ' . $entreprise
 $pdf->Cell(0, 3, 'Document généré le ' . date('d/m/Y à H:i'), 0, 1, 'C');
 
 // ========================================
-// GÉNÉRATION DU PDF
+// GÉNÉRATION / ENREGISTREMENT DU PDF
 // ========================================
 
-header('Content-Type: application/pdf');
-header('Content-Disposition: attachment; filename="facture_' . basename($facture['numero']) . '_' . date('Y-m-d') . '.pdf"');
+// Dossier de stockage local
+$storageDir = __DIR__ . '/storage/factures';
+if (!is_dir($storageDir)) {
+    mkdir($storageDir, 0775, true);
+}
 
-$pdf->Output('', 'I');
-?>
+// Nettoyer le numéro de facture pour le nom de fichier
+$sanitizedNumero = preg_replace('/[^A-Za-z0-9_-]/', '_', $facture['numero']);
+$filename = 'facture_' . $sanitizedNumero . '_' . date('Y-m-d_His') . '.pdf';
+$filePath = $storageDir . '/' . $filename;
+
+// Nettoyer TOUS les buffers de sortie avant de générer le PDF
+while (ob_get_level()) {
+    ob_end_clean();
+}
+
+// Générer le PDF en mémoire
+$pdfContent = $pdf->Output('', 'S');
+
+// Sauvegarder le PDF sur le serveur
+file_put_contents($filePath, $pdfContent);
+
+// Envoyer le PDF au navigateur
+header('Content-Type: application/pdf');
+header('Content-Disposition: attachment; filename="' . $filename . '"');
+header('Content-Length: ' . strlen($pdfContent));
+header('Cache-Control: private, max-age=0, must-revalidate');
+header('Pragma: public');
+header('Expires: 0');
+
+echo $pdfContent;
+exit;
