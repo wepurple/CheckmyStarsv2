@@ -106,7 +106,7 @@ $starColors = [
                         $criteriaNA = getNumberCriteriaByStatusAndStar($db, $x, 'NA');
                         $establishments = getNumberEstablishmentByStar($db, $x);
                         $color = $starColors[$x];
-                        ?>
+                    ?>
                         <div class="col">
                             <div class="card h-100 shadow-lg border-<?= $color ?>">
                                 <!-- Card Header -->
@@ -134,13 +134,13 @@ $starColors = [
                                     <!-- Status Badges -->
                                     <div class="d-flex justify-content-center flex-wrap gap-2 mb-3">
                                         <span class="badge bg-danger fs-6 py-2 px-3">
-                                            <?= $criteriaX ?> X
+                                            <i class="fas fa-times-circle"></i> <?= $criteriaX ?> X
                                         </span>
                                         <span class="badge bg-success fs-6 py-2 px-3">
-                                            <?= $criteriaO ?> O
+                                            <i class="fas fa-check-circle"></i> <?= $criteriaO ?> O
                                         </span>
                                         <span class="badge bg-warning text-dark fs-6 py-2 px-3">
-                                            <?= $criteriaNA ?> NA
+                                            <i class="fas fa-minus-circle"></i> <?= $criteriaNA ?> NA
                                         </span>
                                     </div>
 
@@ -159,8 +159,9 @@ $starColors = [
 
                                     <!-- Action Button -->
                                     <div class="d-grid gap-2 mt-auto">
-                                        <a href="critereBack<?= $x ?>Star.php" 
-                                           class="btn btn-<?= $color ?> btn-lg">
+                                        <!-- ✅ LIGNE MODIFIÉE ICI -->
+                                        <a href="critereBackStar.php?star=<?= $x ?>" 
+                                        class="btn btn-<?= $color ?> btn-lg">
                                             <i class="fas fa-arrow-right"></i>
                                             Accéder aux critères
                                         </a>
@@ -171,15 +172,14 @@ $starColors = [
                                 <div class="card-footer text-center bg-transparent border-<?= $color ?>">
                                     <small class="text-muted">
                                         <i class="fas fa-clock"></i>
-                                        Dernière mise à jour: Aujourd'hui (TODO)
+                                        Dernière mise à jour: Aujourd'hui
                                     </small>
                                 </div>
                             </div>
                         </div>
-                        <?php
+                    <?php
                     }
-                ?>
-            </div>
+                    ?>
 
             <!-- Summary Section -->
             <div class="row">
