@@ -159,6 +159,76 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Erreur lors de la modification');
         });
     }
+
+    // Gère l'ajout d'un nouveau critère
+    document.addEventListener('click', function(e) {
+        if (e.target && e.target.id === 'addBtn') {
+            addCriteria();
+        }
+    });
+
+    // Ajoute un nouveau critère
+    function addCriteria() {
+        const description = document.getElementById('add-description').value;
+        const statut = document.getElementById('add-statut').value;
+        const points = document.getElementById('add-points').value;
+        
+        // Validation
+        if (!description.trim()) {
+            alert('La description ne peut pas être vide !');
+            return;
+        }
+        
+        if (!statut) {
+            alert('Veuillez sélectionner un statut !');
+            return;
+        }
+        
+        // Prépare les données
+        const formData = new FormData();
+        formData.append('description', description);
+        formData.append('statut', statut);
+        formData.append('points', points);
+        formData.append('star', star); // Envoie le niveau d'étoile
+        
+        // Désactive le bouton pendant l'envoi
+        const addBtn = document.getElementById('addBtn');
+        addBtn.disabled = true;
+        addBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Création...';
+        
+        // Envoie au serveur
+        fetch('models/crud/addCriteria.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Critère créé avec succès !');
+                // Ferme la modal
+                const modalElement = document.getElementById('addModal');
+                const modal = bootstrap.Modal.getInstance(modalElement);
+                if (modal) {
+                    modal.hide();
+                }
+                // Réinitialise le formulaire
+                document.getElementById('addForm').reset();
+                // Recharge les données
+                location.reload();
+            } else {
+                alert('Erreur lors de la création : ' + (data.message || 'Erreur inconnue'));
+                addBtn.disabled = false;
+                addBtn.innerHTML = '<i class="fas fa-check"></i> Créer le critère';
+            }
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            alert('Erreur lors de la création');
+            addBtn.disabled = false;
+            addBtn.innerHTML = '<i class="fas fa-check"></i> Créer le critère';
+        });
+    }
+
     
     // Fonction de suppression
     function deleteCriteria(id) {
