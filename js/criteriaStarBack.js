@@ -2,24 +2,15 @@
 const urlParams = new URLSearchParams(window.location.search);
 const star = urlParams.get('star') || 1;
 
+let allCriteria = []; // Stocke les données globalement
+
 // Fetch les données
 fetch(`models/crud/getCriteriaByEtoile.php?star=${star}`)
     .then(response => response.json())
     .then(data => {
-
-        setupSearch();
-
-        const tbody = document.getElementById('table-body');
-        
-        data.forEach(critere => {
-            const row = tbody.insertRow();
-            row.innerHTML = `
-                <td>${critere.Critere_ID}</td>
-                <td>${critere.Critere_description}</td>
-                <td>${critere.Critere_statut}</td>
-                <td>${critere.Critere_points || '-'}</td>
-            `;
-        });
+        allCriteria = data; // Sauvegarde les données
+        renderTable(data); // Affiche tout
+        setupSearch(); // Configure la recherche APRÈS avoir les données
     })
     .catch(error => {
         console.error('Erreur:', error);
@@ -27,17 +18,54 @@ fetch(`models/crud/getCriteriaByEtoile.php?star=${star}`)
             '<tr><td colspan="4" class="text-danger">Erreur de chargement</td></tr>';
     });
 
+// Fonction pour afficher le tableau
+function renderTable(data) {
+    const tbody = document.getElementById('table-body');
+    tbody.innerHTML = ''; // Vide le tableau
+    
+    data.forEach(critere => {
+        const row = tbody.insertRow();
+        row.innerHTML = `
+            <td>${critere.Critere_ID}</td>
+            <td>${critere.Critere_description}</td>
+            <td>${critere.Critere_statut}</td>
+            <td>${critere.Critere_points || '-'}</td>
+        `;
+    });
+}
+
 // Fonction de recherche dynamique
 function setupSearch() {
-    const searchInput = document.getElementById('searchInput');
+    const searchInput = document.getElementById('recherche'); // ← Ton ID réel
+    const searchType = document.getElementById('type');
     
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        const rows = document.querySelectorAll('#table-body tr');
+    function filterTable() {
+        const query = searchInput.value.trim().toLowerCase();
+        const type = searchType.value;
         
-        rows.forEach(row => {
-            const text = row.textContent.toLowerCase();
-            row.style.display = text.includes(searchTerm) ? '' : 'none';
+        if (!query) {
+            renderTable(allCriteria); // Si vide, affiche tout
+            return;
+        }
+        
+        const filtered = allCriteria.filter(critere => {
+            switch(type) {
+                case "1": // ID
+                    return String(critere.Critere_ID).toLowerCase().includes(query);
+                case "2": // Description
+                    return String(critere.Critere_description).toLowerCase().includes(query);
+                case "3": // Status
+                    return String(critere.Critere_statut).toLowerCase().includes(query);
+                case "4": // Points
+                    return String(critere.Critere_points || '').toLowerCase().includes(query);
+                default:
+                    return false;
+            }
         });
-    });
+        
+        renderTable(filtered); // Réaffiche avec les résultats filtrés
+    }
+    
+    searchInput.addEventListener('input', filterTable);
+    searchType.addEventListener('change', filterTable);
 }
