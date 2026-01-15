@@ -95,7 +95,6 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
                             </svg>
                             Liste des critères
                         </h5>
-                        <span class="badge bg-light text-dark" id="resultCount">Chargement...</span>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive">
@@ -131,7 +130,6 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
                     </div>
                     <div class="card-footer text-muted small">
                         <div class="d-flex justify-content-between align-items-center">
-                            <span id="tableInfo">Aucune donnée</span>
                             <span class="text-end">CheckMyStars © 2026</span>
                         </div>
                     </div>
