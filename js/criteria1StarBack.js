@@ -6,7 +6,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const star = urlParams.get('star') || 1;
     
     let allData = []; // Stocke toutes les données
-    let editModal; // Instance Bootstrap Modal
     
     // Fetch les données
     fetch(`models/crud/getCriteriaByEtoile.php?star=${star}`)
@@ -19,17 +18,8 @@ document.addEventListener('DOMContentLoaded', function() {
             allData = data;
             displayData(data);
             setupFilters();
-            initModal();
         })
         .catch(error => console.error('Erreur fetch:', error));
-    
-    // Initialise la modal Bootstrap
-    function initModal() {
-        const modalElement = document.getElementById('editModal');
-        if (modalElement) {
-            editModal = new bootstrap.Modal(modalElement);
-        }
-    }
     
     // Fonction pour afficher les données
     function displayData(data) {
@@ -55,6 +45,8 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="btn-group btn-group-sm ms-auto" role="group" aria-label="Actions">
                             <div class="pe-3">
                                 <button type="button" class="btn btn-outline-primary btn-edit" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#editModal"
                                     data-id="${critere.Critere_ID}"
                                     data-description="${escapeHtml(critere.Critere_description)}"
                                     data-statut="${critere.Critere_statut}"
@@ -91,7 +83,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 const statut = this.dataset.statut;
                 const points = this.dataset.points;
                 
-                openEditModal(id, description, statut, points);
+                // Remplit les champs de la modal
+                document.getElementById('edit-id').value = id;
+                document.getElementById('edit-description').value = description;
+                document.getElementById('edit-statut').value = statut;
+                document.getElementById('edit-points').value = points;
+                
+                // Change le titre de la modal
+                document.getElementById('editModalLabel').innerHTML = 
+                    `<i class="fas fa-edit"></i> Modifier le critère #${id}`;
             });
         });
         
@@ -104,23 +104,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
         });
-    }
-    
-    // Ouvre la modal avec les données pré-remplies
-    function openEditModal(id, description, statut, points) {
-        document.getElementById('edit-id').value = id;
-        document.getElementById('edit-description').value = description;
-        document.getElementById('edit-statut').value = statut;
-        document.getElementById('edit-points').value = points;
-        
-        // Change le titre de la modal
-        document.getElementById('editModalLabel').innerHTML = 
-            `<i class="fas fa-edit"></i> Modifier le critère #${id}`;
-        
-        // Ouvre la modal
-        if (editModal) {
-            editModal.show();
-        }
     }
     
     // Gère la sauvegarde
@@ -159,7 +142,12 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.success) {
                 alert('Critère modifié avec succès !');
-                editModal.hide();
+                // Ferme la modal
+                const modalElement = document.getElementById('editModal');
+                const modal = bootstrap.Modal.getInstance(modalElement);
+                if (modal) {
+                    modal.hide();
+                }
                 // Recharge les données
                 location.reload();
             } else {
