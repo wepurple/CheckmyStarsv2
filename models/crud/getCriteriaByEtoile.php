@@ -1,6 +1,5 @@
 <?php
 session_start();
-header('Content-Type: application/json');
 
 if(!isset($_SESSION['Role']) || !$_SESSION['Role']['Administrateur']){
     http_response_code(403);
@@ -8,35 +7,33 @@ if(!isset($_SESSION['Role']) || !$_SESSION['Role']['Administrateur']){
     exit;
 }
 
-require_once '../../includes/db.php'; // ← Adapte le chemin
+include("../../includes/mariadb.php");
 
-$star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
+$database = new Database();
+$db = $database->getConnection();
 
-try {
-    $pdo = getConnection();
-    
-    $sql = "
-        SELECT DISTINCT 
-            c.Critere_ID,
-            c.Critere_description,
-            c.Critere_statut,
-            c.Critere_points
-        FROM listescriteres_etoiles lce
-        JOIN contient co ON co.ListesCriteres_ID = lce.ListesCriteres_ID
-        JOIN criteres c ON c.Critere_ID = co.Critere_ID
-        WHERE lce.type_hebergement_id = 2 
-          AND lce.etoile = :star
-        ORDER BY c.Critere_ID
-    ";
-    
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute(['star' => $star]);
-    $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-    
-    echo json_encode($data);
-    
-} catch(PDOException $e) {
-    http_response_code(500);
-    error_log("Erreur SQL: " . $e->getMessage());
-    echo json_encode(['error' => 'Erreur serveur']);
+$star = isset($_GET['star']) ? (int)$_GET['star'] : 0;
+
+if ($star < 1 || $star > 5) {
+    http_response_code(400);
+    echo json_encode(['error' => 'Etoile invalide']);
+    exit;
 }
+
+$sql = "
+    SELECT DISTINCT c.Critere_ID, c.Critere_description, c.Critere_statut, c.Critere_points
+    FROM listescriteres_etoiles lce
+    JOIN contient co ON co.ListesCriteres_ID = lce.ListesCriteres_ID
+    JOIN criteres c ON c.Critere_ID = co.Critere_ID
+    WHERE lce.type_hebergement_id = 2
+      AND lce.etoile = :star
+    ORDER BY c.Critere_ID
+";
+
+$stmt = $db->prepare($sql);
+$stmt->execute(['star' => $star]);
+
+$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+header('Content-Type: application/json');
+echo json_encode($data);
