@@ -34,11 +34,6 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
         <div class="row mb-4">
             <div class="col-12">
                 <div class="d-flex align-items-center gap-3">
-                    <h1 class="mb-0">
-                        <span class="badge bg-warning text-dark star-badge">
-                            <?= str_repeat('⭐', $star) ?>
-                        </span>
-                    </h1>
                     <div>
                         <h2 class="mb-0">Critères <?= $star ?> étoile</h2>
                         <p class="text-muted mb-0">Gestion des critères d'évaluation</p>
@@ -59,11 +54,11 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
                             <div class="col-md-4 col-lg-3">
                                 <label for="filterType" class="form-label small text-muted">Type de filtre</label>
                                 <select id="filterType" class="form-select">
-                                    <option value="all">🔍 Tous les champs</option>
-                                    <option value="id">🔢 ID</option>
-                                    <option value="description">📝 Description</option>
-                                    <option value="status">📊 Status</option>
-                                    <option value="points">⭐ Points</option>
+                                    <option value="all">Tous les champs</option>
+                                    <option value="id">ID</option>
+                                    <option value="description">Description</option>
+                                    <option value="status">Status</option>
+                                    <option value="points">Points</option>
                                 </select>
                             </div>
                             <div class="col-md-8 col-lg-9">
