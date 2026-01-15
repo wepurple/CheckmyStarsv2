@@ -26,7 +26,7 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
         }
     </style>
 </head>
-<body class="bg-dark">
+<body class="bg-secondary">
     <?php require("./includes/navbar.php"); ?>
 
     <div class="container-fluid py-4">
