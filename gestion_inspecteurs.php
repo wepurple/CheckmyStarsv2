@@ -92,17 +92,17 @@
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="leNom" placeholder="" required>
-                                    <label for="floatingInput">Nom *</label>
+                                    <label for="leNom">Nom *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="lePrenom" placeholder="" required>
-                                    <label for="floatingInput">Prenom *</label>
+                                    <label for="lePrenom">Prenom *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="email" class="form-control" id="leMail" placeholder="" required>
-                                    <label for="floatingInput">Adresse Mail *</label>
+                                    <label for="leMail">Adresse Mail *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
@@ -111,49 +111,49 @@
                                         <option value="2">Femme</option>
                                         <option selected value="3">Non-binaire</option>
                                     </select>
-                                    <label for="floatingSelect">Genre *</label>
+                                    <label for="leGenre">Genre *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="laSociete" placeholder="" required>
-                                    <label for="floatingInput">Société *</label>
+                                    <label for="laSociete">Société *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="tel" class="form-control" id="leTel" placeholder="" required>
-                                    <label for="floatingInput">Téléphone *</label>
+                                    <label for="leTel">Téléphone *</label>
                                 </div>
 
                                 <hr>
 
                                 <div class="form-floating mb-3">
                                     <input type="number" class="form-control" id="leNumRue" placeholder="" required>
-                                    <label for="floatingInput">Numéro de rue *</label>
+                                    <label for="leNumRue">Numéro de rue *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="laAdresse" placeholder="" required>
-                                    <label for="floatingInput">Adresse postale *</label>
+                                    <label for="laAdresse">Adresse postale *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="leComplement" placeholder="">
-                                    <label for="floatingInput">Complément d'adresse</label>
+                                    <label for="leComplement">Complément d'adresse</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="leCode" placeholder="" required>
-                                    <label for="floatingInput">Code postal *</label>
+                                    <label for="leCode">Code postal *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="laVille" placeholder="" required>
-                                    <label for="floatingInput">Ville *</label>
+                                    <label for="laVille">Ville *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="lePays" placeholder="" required>
-                                    <label for="floatingInput">Pays *</label>
+                                    <label for="lePays">Pays *</label>
                                 </div>
 
                             </form>
@@ -202,17 +202,17 @@
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="editLeNom" placeholder="" required>
-                                    <label for="floatingInput">Nom *</label>
+                                    <label for="editLeNom">Nom *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="editLePrenom" placeholder="" required>
-                                    <label for="floatingInput">Prenom *</label>
+                                    <label for="editLePrenom">Prenom *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="email" class="form-control" id="editLeMail" placeholder="" required>
-                                    <label for="floatingInput">Adresse Mail *</label>
+                                    <label for="editLeMail">Adresse Mail *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
@@ -221,49 +221,49 @@
                                         <option value="2">Madame</option>
                                         <option selected value="3">Iel</option>
                                     </select>
-                                    <label for="floatingSelect">Genre *</label>
+                                    <label for="editLeGenre">Genre *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="editLaSociete" placeholder="" required>
-                                    <label for="floatingInput">Société *</label>
+                                    <label for="editLaSociete">Société *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="tel" class="form-control" id="editLeTel" placeholder="" required>
-                                    <label for="floatingInput">Téléphone *</label>
+                                    <label for="editLeTel">Téléphone *</label>
                                 </div>
 
                                 <hr>
 
                                 <div class="form-floating mb-3">
                                     <input type="number" class="form-control" id="editLeNumRue" placeholder="" required>
-                                    <label for="floatingInput">Numéro de rue *</label>
+                                    <label for="editLeNumRue">Numéro de rue *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="editLaAdresse" placeholder="" required>
-                                    <label for="floatingInput">Adresse postale *</label>
+                                    <label for="editLaAdresse">Adresse postale *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="editLeComplement" placeholder="">
-                                    <label for="floatingInput">Complément d'adresse</label>
+                                    <label for="editLeComplement">Complément d'adresse</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="editLeCode" placeholder="" required>
-                                    <label for="floatingInput">Code postal *</label>
+                                    <label for="editLeCode">Code postal *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="editLaVille" placeholder="" required>
-                                    <label for="floatingInput">Ville *</label>
+                                    <label for="editLaVille">Ville *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="editLePays" placeholder="" required>
-                                    <label for="floatingInput">Pays *</label>
+                                    <label for="editLePays">Pays *</label>
                                 </div>
 
                             </form>

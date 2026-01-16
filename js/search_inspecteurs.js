@@ -268,8 +268,27 @@ async function reset(id){
 
 async function addUser() {
     console.log("ok")
-    addModal.hide()
-    recherche()
+    //vérifie si toutes les informations obligatoires sont remplies
+    if (document.getElementById('leNom').value != ""){
+        document.getElementById('leNom').classList.remove('is-invalid')
+        if (document.getElementById('lePrenom').value != ""){
+            if (document.getElementById('leMail').value != ""){
+        
+            }else{
+                document.getElementById('leMail').classList.add('is-invalid')
+                document.getElementById('leMail').focus()
+            }
+        }else{
+            document.getElementById('lePrenom').classList.add('is-invalid')
+            document.getElementById('lePrenom').focus()
+        }
+    }else{
+        document.getElementById('leNom').classList.add('is-invalid')
+        document.getElementById('leNom').focus()
+    }
+
+    //addModal.hide()
+    //recherche()
 }
 
 document.addEventListener("DOMContentLoaded", function() {//quand la page est chargée
