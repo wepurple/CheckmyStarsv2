@@ -20,7 +20,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
         $tableauClient['utilisateur'] = [];
         while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             extract($row);
- 
+
             $liste = [
                 "Utilisateur_ID" => $Utilisateur_ID,
                 "Utilisateur_Nom" => $Utilisateur_Nom,
@@ -32,7 +32,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
                 "AdressePostale_NumeroRue" => $AdressePostale_NumeroRue,
                 "AdressePostale_Complement" => $AdressePostale_Complement,
                 "AdressePostale_CodePostal" => $AdressePostale_CodePostal,
-                "Utilisateur_Societe" => $Utilisateur_Societe,
+                "societe_Nom" => $societe_Nom,
                 "AdressePostale_NomRue" => $AdressePostale_NomRue,
                 "AdressePostale_Ville" => $AdressePostale_Ville,
                 "AdressePostale_Pays" => $AdressePostale_Pays,

@@ -88,7 +88,7 @@
                         </div>
                         <!-- modal body -->
                         <div class="modal-body">
-                            <form>
+                            <form id="addForm">
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="leNom" placeholder="" required>
@@ -160,7 +160,7 @@
                         </div>
                         <!-- modal footer -->
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="addCancel()">Annuler</button>
                             <button type="button" class="btn btn-success" onclick="addUser()"><i class="fa-solid fa-check mx-1"></i>Ajouter</button>
                         </div>
                     </div>                    

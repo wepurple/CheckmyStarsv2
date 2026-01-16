@@ -3,6 +3,7 @@ class User {
     private $connexion;
     private $table = "utilisateurs";
     private $table2 = "adressesPostales";
+    private $table3 = "societes";
     private $tableInspecteurs = "inspecteurs";
     private $tableAdministrateurs = "administrateurs";
     private $tableProprietaires = "proprietaires";
@@ -96,7 +97,9 @@ class User {
     }
  
     public function afficherUtilisateur($id){
-        $sql = "SELECT * FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID where Utilisateur_ID = ".$id.";";
+        $sql = "SELECT
+        *, (select societe_Nom as 'Utilisateur_Societe' from societes where societes.Societe_ID = utilisateurs.Societe_ID)
+        FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID where Utilisateur_ID = ".$id.";";
         $query = $this->connexion->prepare($sql);
         $query->execute();
 
