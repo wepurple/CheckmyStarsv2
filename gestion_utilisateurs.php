@@ -77,7 +77,7 @@ if (isset($_SESSION['Role']['Administrateur'])) {
             <tbody id="table-body">
             <!-- Rempli en JS -->
             <tr>
-                <td colspan="6" class="text-center">Chargement...</td>
+                <td colspan="7" class="text-center">Chargement...</td>
             </tr>
             </tbody>
         </table>
