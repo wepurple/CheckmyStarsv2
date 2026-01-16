@@ -29,7 +29,7 @@
                     <div id="Carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="img\hotel_img1.jpg" class="d-block w-100" alt="Image 1">
+                                <img src="img\hotel_img1.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 1">
                             </div>
                             <div class="carousel-item">
                                 <img src="img\hotel_img2.jpg" class="d-block w-100" alt="Image 2">
