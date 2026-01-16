@@ -42,6 +42,7 @@
 
                         <!-- Button trigger modal -->
                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
+                            <i class="fa-solid fa-plus"></i>
                             Ajouter un compte Inspecteur
                         </button>
 
