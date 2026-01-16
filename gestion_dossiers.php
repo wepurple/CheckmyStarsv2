@@ -1,5 +1,16 @@
 <?php
     session_start();
+    
+    //verifie le rôle de l'utilisateur connecté
+    if(isset($_SESSION['Role']['Administrateur'])){
+        if(!$_SESSION['Role']['Administrateur']){
+            header('Location: deco.php');
+            die();
+        }
+    } else {
+        header('Location: deco.php');
+        die();
+    }
 ?>
 
 <!DOCTYPE html>

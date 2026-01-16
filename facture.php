@@ -2,12 +2,18 @@
 session_start();
 require_once('includes/mariadb.php');
 
-// Vérifier si l'utilisateur est connecté
-if (!isset($_SESSION['ID'])) {
-    header('Location: index.php');
-    exit();
-}
+// Vérifier si l'utilisateur est connecté en tant qu'inspecteur
+    if(isset($_SESSION['Role'])){
+        if(!$_SESSION['Role']['Inspecteur'] || !$_SESSION['Role']['Administrateur']){
+            header('Location: deco.php');
+            die();
+        }
+    } else {
+        header('Location: deco.php');
+        die();
+    }
 ?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
