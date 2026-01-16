@@ -44,10 +44,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="card" style="border-5 border-primary rounded p-3">
+                <div class="card-6">
                     <p>HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
                 </div>
-                <div class="card" style="border-5 border-primary rounded p-3">
+                <div class="card-6">
                     <p>HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
                 </div>
             </div>  
