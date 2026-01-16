@@ -15,9 +15,11 @@
 
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 
+            <!--
                 <li class="nav-item">
                     <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/admin.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/admin.php"){ echo ' aria-current="page"'; } ?> href="admin.php">Accueil</a>
                 </li>
+            -->
                 <li class="nav-item">
                     <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/dashboard.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/dashboard.php"){ echo ' aria-current="page"'; } ?> href="Dashboard.php">Dashboard</a>
                 </li>
