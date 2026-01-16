@@ -44,10 +44,10 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-6 border-5 rounded p-3">
+                <div class="col-6 border-5 border-primary rounded p-3">
                     <p>HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
                 </div>
-                <div class="col-6 border-5 rounded p-3">
+                <div class="col-6 border-5 border-primary rounded p-3">
                     <p>HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
                 </div>
             </div>  
