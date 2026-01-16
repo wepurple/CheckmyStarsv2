@@ -23,20 +23,13 @@
             <div class="container-fluid p-3">
             
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <button type="button" class="btn btn-danger" onclick="location.href='dashboard.php'" > 
-                    <i class="fas fa-arrow-left"></i> Retour au tableau de bord 
+                <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#modalUpdate">
+                    <i class="fas fa-edit"></i> Modifier le dossier
                 </button>
                 
-                <div class="input-group" style="width: 400px;">
-                    <span class="input-group-text">Rechercher par</span>
-                        <select class="form-select" id="type">
-                            <option selected value = "1">ID</option>
-                            <option value="2">Nom</option>
-                            <option value="3">Société</option>
-                        </select>
-                        <input id="recherche" type="text" aria-label="Last name" class="form-control">
-                    </div>
-                </div>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#modalDelete">
+                    <i class="fas fa-trash"></i> Supprimer
+                </button>
             </nav>
             <!-- Tableau -->
  <table class="table table-dark table-sm table-striped table-hover">
