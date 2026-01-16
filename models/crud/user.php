@@ -97,9 +97,7 @@ class User {
     }
  
     public function afficherUtilisateur($id){
-        $sql = "SELECT
-        *, (select societe_Nom as 'Utilisateur_Societe' from societes where societes.Societe_ID = utilisateurs.Societe_ID)
-        FROM ". $this->table ." INNER JOIN ". $this->table2 ." ON ". $this->table.".AdressePostale_ID = ". $this->table2.".AdressePostale_ID where Utilisateur_ID = ".$id.";";
+        $sql = "CALL Get_User_ID(".$id.");";
         $query = $this->connexion->prepare($sql);
         $query->execute();
 
