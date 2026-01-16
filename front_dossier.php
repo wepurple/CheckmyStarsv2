@@ -24,13 +24,13 @@
         <div id="Carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
             <div class="carousel-inner">
                 <div class="carousel-item active">
-                    <img src="hotel1.jpg" class="d-block w-100" alt="Image 1">
+                    <img src="/hotel1.jpg" class="d-block w-100" alt="Image 1">
                 </div>
                 <div class="carousel-item active">
-                    <img src="hotel2.jpg" class="d-block w-100" alt="Image 2">
+                    <img src="/hotel2.jpg" class="d-block w-100" alt="Image 2">
                 </div>
                 <div class="carousel-item active">
-                    <img src="hotel3.jpg" class="d-block w-100" alt="Image 3">
+                    <img src="/hotel3.jpg" class="d-block w-100" alt="Image 3">
                 </div>
             </div>
         </div>
