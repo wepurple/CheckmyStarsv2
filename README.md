@@ -1,4 +1,4 @@
 # CheckMyStars
 Site officiel de CheckMyStars
 ## Copyright
-SIO SLAM 2025-2026
+SIO SLAM STPBB 2025-2026

@@ -21,21 +21,41 @@
                 </li>
             -->
                 <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/dashboard.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/dashboard.php"){ echo ' aria-current="page"'; } ?> href="Dashboard.php">Dashboard</a>
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/dashboard.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/dashboard.php"){ echo ' aria-current="page"'; } ?> href="Dashboard.php">
+                        Tableau de bord
+                    </a>
                 </li>
+
+            <?php if($_SESSION['Role']['Administrateur']){ ?>
+            
                 <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_inspecteurs.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_inspecteurs.php"){ echo ' aria-current="page"'; } ?> href="gestion_inspecteurs.php">Gestion des inspecteurs</a>
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_inspecteurs.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_inspecteurs.php"){ echo ' aria-current="page"'; } ?> href="gestion_inspecteurs.php">
+                        Gestion des inspecteurs
+                    </a>
                 </li>
 
                  <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_dossiers.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_dossiers.php"){ echo ' aria-current="page"'; } ?> href="gestion_dossiers.php">Gestion des dossiers</a>
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_dossiers.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_dossiers.php"){ echo ' aria-current="page"'; } ?> href="gestion_dossiers.php">
+                        Gestion des dossiers
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/critereback.php" || strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/critereback1star.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/critereback.php"){ echo ' aria-current="page"'; } ?> href="critereBack.php">Gestion des critères</a>
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/critereback.php" || strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/critereback1star.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/critereback.php"){ echo ' aria-current="page"'; } ?> href="critereBack.php">
+                        Gestion des critères
+                    </a>
                 </li>
+
+            <?php } ?>
+
+            <?php if($_SESSION['Role']['Inspecteur']){ ?>
+
                 <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/facture.php" || strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/facture.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/facture.php"){ echo ' aria-current="page"'; } ?> href="facture.php">Gestion des factures</a>
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/facture.php" || strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/facture.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/facture.php"){ echo ' aria-current="page"'; } ?> href="facture.php">
+                        Factures et devis
+                    </a>
                 </li>
+
+            <?php } ?>
 
             </ul>
 

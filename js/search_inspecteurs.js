@@ -52,6 +52,7 @@ function updateTab(z){//vide le tableau et le remplit avec les nouvelles donnée
                 e.lastElementChild.lastElementChild.lastElementChild.classList.add("fa-solid", "fa-pen-to-square", "mx-1")
             
             //création bouton reset password
+            /*
             e.lastElementChild.appendChild(document.createElement('button'))
                 e.lastElementChild.lastElementChild.classList.add("btn","btn-warning","btn-sm", "ms-2")
                 e.lastElementChild.lastElementChild.textContent = "Reset mot de passe"
@@ -67,6 +68,7 @@ function updateTab(z){//vide le tableau et le remplit avec les nouvelles donnée
                 //icône
                 e.lastElementChild.lastElementChild.appendChild(document.createElement('i'))
                 e.lastElementChild.lastElementChild.lastElementChild.classList.add("fa-solid", "fa-key", "mx-1")
+                */
             
             //création bouton supprimer
             e.lastElementChild.appendChild(document.createElement('button'))
@@ -267,6 +269,7 @@ async function reset(id){
 async function addUser() {
     console.log("ok")
     addModal.hide()
+    recherche()
 }
 
 document.addEventListener("DOMContentLoaded", function() {//quand la page est chargée

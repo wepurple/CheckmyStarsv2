@@ -46,7 +46,7 @@
                 "Prenom"=>$result["Utilisateur_Prenom"],
                 "Role"=>array(
                     "Administrateur"=>$admin,
-                    "Instepcteur"=>$inspecteur
+                    "Inspecteur"=>$inspecteur
                 ),
                 "Telephone"=>$result['Utilisateur_Telephone'],
                 "Email"=>$result['Utilisateur_Mail'],
