@@ -69,6 +69,7 @@ if (isset($_SESSION['Role']['Administrateur'])) {
                 <th scope="col">Nom</th>
                 <th scope="col">Prénom</th>
                 <th scope="col">Mail</th>
+                <th scope="col">Role</th>
                 <th scope="col">Société</th>
                 <th scope="col" class="text-end">Actions</th>
             </tr>
