@@ -21,7 +21,7 @@
         <?php
             require_once "./includes/navbar.php";
         ?>
-        <div class="container sm">
+        <div class="container-sm">
             <div class="row justify-content-center">
                 <div class="col-md 8">
                     <div id="Carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">

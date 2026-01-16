@@ -271,8 +271,76 @@ async function addUser() {
     //vérifie si toutes les informations obligatoires sont remplies
     if (document.getElementById('leNom').value != ""){
         document.getElementById('leNom').classList.remove('is-invalid')
+
         if (document.getElementById('lePrenom').value != ""){
+            document.getElementById('lePrenom').classList.remove('is-invalid')
+
             if (document.getElementById('leMail').value != ""){
+                document.getElementById('leMail').classList.remove('is-invalid')
+
+                if (document.getElementById('laSociete').value != ""){
+                    document.getElementById('laSociete').classList.remove('is-invalid')
+
+                    if (document.getElementById('leTel').value != ""){
+                        document.getElementById('leTel').classList.remove('is-invalid')
+
+                        if (document.getElementById('leNumRue').value != ""){
+                            document.getElementById('leNumRue').classList.remove('is-invalid')
+
+                            if (document.getElementById('laAdresse').value != ""){
+                                document.getElementById('laAdresse').classList.remove('is-invalid')
+
+                                if (document.getElementById('leComplement').value != ""){
+                                    document.getElementById('leComplement').classList.remove('is-invalid')
+
+                                    if (document.getElementById('leCode').value != ""){
+                                        document.getElementById('leCode').classList.remove('is-invalid')
+
+                                        if (document.getElementById('laVille').value != ""){
+                                            document.getElementById('laVille').classList.remove('is-invalid')
+
+                                            if (document.getElementById('lePays').value != ""){
+                                                document.getElementById('lePays').classList.remove('is-invalid')
+
+                                            }else{
+                                                document.getElementById('lePays').classList.add('is-invalid')
+                                                document.getElementById('lePays').focus()
+                                            }
+
+                                        }else{
+                                            document.getElementById('laVille').classList.add('is-invalid')
+                                            document.getElementById('laVille').focus()
+                                        }
+
+                                    }else{
+                                        document.getElementById('leCode').classList.add('is-invalid')
+                                        document.getElementById('leCode').focus()
+                                    }
+
+                                }else{
+                                    document.getElementById('leComplement').classList.add('is-invalid')
+                                    document.getElementById('leComplement').focus()
+                                }
+
+                            }else{
+                                document.getElementById('laAdresse').classList.add('is-invalid')
+                                document.getElementById('laAdresse').focus()
+                            }
+
+                        }else{
+                            document.getElementById('leNumRue').classList.add('is-invalid')
+                            document.getElementById('leNumRue').focus()
+                        }
+
+                    }else{
+                        document.getElementById('leTel').classList.add('is-invalid')
+                        document.getElementById('leTel').focus()
+                    }
+
+                }else{
+                    document.getElementById('laSociete').classList.add('is-invalid')
+                    document.getElementById('laSociete').focus()
+                }
         
             }else{
                 document.getElementById('leMail').classList.add('is-invalid')
@@ -289,6 +357,10 @@ async function addUser() {
 
     //addModal.hide()
     //recherche()
+}
+
+async function addCancel(){
+    document.getElementById('addForm').reset()
 }
 
 document.addEventListener("DOMContentLoaded", function() {//quand la page est chargée

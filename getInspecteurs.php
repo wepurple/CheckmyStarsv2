@@ -5,15 +5,15 @@
 
     include("includes/mariadb.php");
 
-    $sql="select
+    $sql='select
     utilisateurs.Utilisateur_ID,
     Utilisateur_Nom,
     Utilisateur_Prenom,
     Utilisateur_Civilite,
-    Utilisateur_Societe
+    (select Societe_nom from societes where societes.Societe_ID = utilisateurs.Societe_ID) as "Utilisateur_Societe"
     from utilisateurs
     inner join inspecteurs
-    ON utilisateurs.Utilisateur_ID = inspecteurs.Utilisateur_ID";
+    ON utilisateurs.Utilisateur_ID = inspecteurs.Utilisateur_ID';
 
     $v = false;
     if (isset($_POST['value']) && $_POST['value']!=""){
