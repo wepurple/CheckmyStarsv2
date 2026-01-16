@@ -27,7 +27,10 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
                 "Utilisateur_Prenom" => $Utilisateur_Prenom,
                 "Utilisateur_Telephone" => $Utilisateur_Telephone,
                 "Utilisateur_Mail" => $Utilisateur_Mail,
-                "Utilisateurs_Societe" => $Utilisateur_Societe,
+                "Utilisateurs_Societe" => [
+                                            "Societe_ID" => $Societe_ID,
+                                            "Societe_Nom" => $Societe_Nom
+                                        ],
                 "Nombre_Dossiers" => $Nombre_Dossiers,
                 "Status_Global" => $Status_Global
             ];
