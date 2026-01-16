@@ -45,10 +45,14 @@
             </div>
             <div class="row">
                 <div class="card-6">
-                    <p>HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
+                    <div class="card-body">
+                        <p>HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
+                    </div>
                 </div>
                 <div class="card-6">
-                    <p>HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
+                    <div class="card-body">
+                        <p>HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
+                    </div>
                 </div>
             </div>  
         </div>
