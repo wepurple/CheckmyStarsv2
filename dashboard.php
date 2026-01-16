@@ -85,7 +85,7 @@
 
                             echo "<td>" . htmlspecialchars($row['Utilisateur_ID']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
-                            echo "|" . htmlspecialchars($row['Societe']['Societe_Nom'] ?? '') . "";
+                            echo "<td>" . htmlspecialchars($row['Societe']['Societe_Nom'] ?? '') . "" . "</td>";
                             echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['Nombre_Dossiers']) . "</td>";
