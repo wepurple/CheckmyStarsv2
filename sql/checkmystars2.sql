@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : jeu. 15 jan. 2026 à 15:48
+-- Généré le : ven. 16 jan. 2026 à 15:24
 -- Version du serveur : 11.5.2-MariaDB
 -- Version de PHP : 8.3.14
 
@@ -23,18 +23,83 @@ SET time_zone = "+00:00";
 
 DELIMITER $$
 --
+-- Procédures
+--
+DROP PROCEDURE IF EXISTS `Create_User`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Create_User` (IN `NumRue` VARCHAR(50), IN `NomRue` VARCHAR(100), IN `Comp` VARCHAR(20), IN `CP` VARCHAR(10))   SELECT utilisateurs.Utilisateur_ID
+FROM utilisateurs$$
+
+DROP PROCEDURE IF EXISTS `Get_User`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_User` ()   SELECT 
+    u.Utilisateur_ID,
+    u.Utilisateur_Nom,
+    u.Utilisateur_Prenom,
+    u.Utilisateur_Civilite,
+    u.Utilisateur_Mail,
+    u.Utilisateur_Signature,
+    u.Utilisateur_Telephone,
+    s.Societe_Nom,
+    a.AdressePostale_NumeroRue,
+    a.AdressePostale_NomRue,
+    a.AdressePostale_Complement,
+    a.AdressePostale_CodePostal,
+	a.AdressePostale_Ville,
+    a.AdressePostale_Pays
+FROM utilisateurs u
+JOIN societes s 
+    ON s.Societe_ID = u.Societe_ID
+Join adressespostales a
+	ON a.AdressePostale_ID = u.AdressePostale_ID$$
+
+DROP PROCEDURE IF EXISTS `Get_User_ID`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_User_ID` (IN `ID` INT)   SELECT 
+    u.Utilisateur_ID,
+    u.Utilisateur_Nom,
+    u.Utilisateur_Prenom,
+    u.Utilisateur_Civilite,
+    u.Utilisateur_Mail,
+    u.Utilisateur_Signature,
+    u.Utilisateur_Telephone,
+    s.Societe_Nom,
+    a.AdressePostale_NumeroRue,
+    a.AdressePostale_NomRue,
+    a.AdressePostale_Complement,
+    a.AdressePostale_CodePostal,
+	a.AdressePostale_Ville,
+    a.AdressePostale_Pays
+FROM utilisateurs u
+JOIN societes s 
+    ON s.Societe_ID = u.Societe_ID
+Join adressespostales a
+	ON a.AdressePostale_ID = u.AdressePostale_ID
+WHERE u.Utilisateur_ID = ID$$
+
+--
 -- Fonctions
 --
 DROP FUNCTION IF EXISTS `Update_User`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `Update_User` (`Nom` VARCHAR(50), `Prenom` VARCHAR(50), `Mail` VARCHAR(50), `Genre` VARCHAR(20), `Societe` VARCHAR(50), `Telephone` VARCHAR(20), `NumRue` VARCHAR(20), `Adresse` VARCHAR(50), `Complement` VARCHAR(20), `CP` VARCHAR(50), `Ville` VARCHAR(50), `Pays` VARCHAR(50), `ID` INT) RETURNS INT(11)  BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `Update_User` (`Nom` VARCHAR(50), `Prenom` VARCHAR(50), `Mail` VARCHAR(50), `Genre` ENUM('Monsieur','Madame','Iel'), `Societe` INT(50), `Telephone` VARCHAR(20), `NumRue` VARCHAR(20), `Adresse` VARCHAR(50), `Complement` VARCHAR(20), `CP` VARCHAR(50), `Ville` VARCHAR(50), `Pays` VARCHAR(50), `ID` INT) RETURNS INT(11)  BEGIN
+	DECLARE addrID INT;
     UPDATE utilisateurs
     SET Utilisateur_Nom = Nom,
     Utilisateur_Prenom = Prenom,
-	Utilisateur_Societe = Societe,
+	Societe_ID = Societe,
     Utilisateur_Mail = Mail,
+    Utilisateur_Civilite = Genre,
     Utilisateur_Telephone = Telephone
     WHERE Utilisateur_ID = ID;
-    
+    SELECT AdressePostale_ID
+    INTO addrID
+    FROM utilisateurs
+    WHERE Utilisateur_ID = ID;
+    UPDATE adressespostales
+    SET AdressePostale_NumeroRue = NumRue,
+    AdressePostale_Complement = Complement,
+    AdressePostale_CodePostal = CP,
+    AdressePostale_NomRue = Adresse,
+    AdressePostale_Ville = Ville,
+    AdressePostale_Pays = Pays
+    WHERE AdressePostale_ID = addrID;
     RETURN true;
 END$$
 
@@ -99,7 +164,7 @@ CREATE TABLE IF NOT EXISTS `adressespostales` (
   `AdressePostale_Ville` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `AdressePostale_Pays` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`AdressePostale_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `adressespostales`
@@ -117,7 +182,8 @@ INSERT INTO `adressespostales` (`AdressePostale_ID`, `AdressePostale_NumeroRue`,
 (58, '14', 'bis', '45000', 'rue de l&#039;dadmin', 'Orléans', 'France'),
 (59, '14', 'bis', '45000', 'rue de jean', 'Orléans', 'France'),
 (60, '18', 'bis', '69000', 'rue de Pere', 'Lyon', 'France'),
-(61, '14', 'bis', '45000', 'rue de jean', 'Orléans', 'France');
+(61, '1', 'BIS', '45100', 'rue du GOAT', 'Orléans', 'France'),
+(62, '14', '', '41600', 'rue des bruyere', 'Chaon', 'France');
 
 -- --------------------------------------------------------
 
@@ -127,7 +193,7 @@ INSERT INTO `adressespostales` (`AdressePostale_ID`, `AdressePostale_NumeroRue`,
 
 DROP TABLE IF EXISTS `biens`;
 CREATE TABLE IF NOT EXISTS `biens` (
-  `Bien_ID` int(11) NOT NULL,
+  `Bien_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Biens_Nom` varchar(50) DEFAULT NULL,
   `Bien_Telephone` varchar(50) DEFAULT NULL,
   `Bien_DateEnregistrement` date DEFAULT NULL,
@@ -141,7 +207,7 @@ CREATE TABLE IF NOT EXISTS `biens` (
   KEY `AdressePostale_ID` (`AdressePostale_ID`),
   KEY `TypeHebergement_ID` (`TypeHebergement_ID`),
   KEY `Utilisateur_ID_1` (`Utilisateur_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `biens`
@@ -149,7 +215,8 @@ CREATE TABLE IF NOT EXISTS `biens` (
 
 INSERT INTO `biens` (`Bien_ID`, `Biens_Nom`, `Bien_Telephone`, `Bien_DateEnregistrement`, `Bien_Etoile_Actuelle`, `Donneur_ID`, `AdressePostale_ID`, `TypeHebergement_ID`, `Utilisateur_ID`) VALUES
 (1, 'Hotel Lumiere', '0140203040', '2025-01-10', 4, 4, 1, 1, 1),
-(3, 'Hotel Lumiere', '0140203040', '2025-01-10', 5, 4, 42, 2, 1);
+(3, 'Hotel Lumiere', '0140203040', '2025-01-10', 5, 4, 42, 2, 1),
+(4, 'Maison hante', '0769970439', '2025-01-10', 4, 4, 4, 3, 35);
 
 -- --------------------------------------------------------
 
@@ -777,16 +844,17 @@ CREATE TABLE IF NOT EXISTS `devis` (
 DROP TABLE IF EXISTS `donneurordre`;
 CREATE TABLE IF NOT EXISTS `donneurordre` (
   `Donneur_ID` int(11) NOT NULL,
-  `DonneurOrdre_Entreprine_Nom` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`Donneur_ID`)
+  `Societe_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Donneur_ID`),
+  KEY `fk_donneurordre_societe` (`Societe_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `donneurordre`
 --
 
-INSERT INTO `donneurordre` (`Donneur_ID`, `DonneurOrdre_Entreprine_Nom`) VALUES
-(4, 'Entreprise Soleil');
+INSERT INTO `donneurordre` (`Donneur_ID`, `Societe_ID`) VALUES
+(4, 6);
 
 -- --------------------------------------------------------
 
@@ -796,7 +864,7 @@ INSERT INTO `donneurordre` (`Donneur_ID`, `DonneurOrdre_Entreprine_Nom`) VALUES
 
 DROP TABLE IF EXISTS `dossiers`;
 CREATE TABLE IF NOT EXISTS `dossiers` (
-  `Dossier_ID` int(11) NOT NULL,
+  `Dossier_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Dossier_Numero` varchar(50) DEFAULT NULL,
   `Dossier_Date` datetime DEFAULT NULL,
   `Dossier_Etoile_Cible` int(11) DEFAULT NULL,
@@ -806,14 +874,15 @@ CREATE TABLE IF NOT EXISTS `dossiers` (
   PRIMARY KEY (`Dossier_ID`),
   KEY `Utilisateur_ID` (`Utilisateur_ID`),
   KEY `fk_dossiers_bien` (`Bien_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `dossiers`
 --
 
 INSERT INTO `dossiers` (`Dossier_ID`, `Dossier_Numero`, `Dossier_Date`, `Dossier_Etoile_Cible`, `Utilisateur_ID`, `status`, `Bien_ID`) VALUES
-(3, 'DOS-2025-003', '2025-02-10 14:00:00', 3, 1, 0, 3);
+(3, 'DOS-2025-003', '2025-02-10 14:00:00', 3, 1, 0, 3),
+(4, 'DOS-2025-004', '2025-02-10 14:00:00', 3, 35, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -897,7 +966,10 @@ CREATE TABLE IF NOT EXISTS `inspecteurs` (
 --
 
 INSERT INTO `inspecteurs` (`Utilisateur_ID`) VALUES
-(1);
+(1),
+(2),
+(3),
+(35);
 
 --
 -- Déclencheurs `inspecteurs`
@@ -1020,7 +1092,35 @@ CREATE TABLE IF NOT EXISTS `proprietaires` (
 --
 
 INSERT INTO `proprietaires` (`Utilisateur_ID`) VALUES
-(1);
+(1),
+(35);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `societes`
+--
+
+DROP TABLE IF EXISTS `societes`;
+CREATE TABLE IF NOT EXISTS `societes` (
+  `Societe_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Societe_Nom` varchar(150) NOT NULL,
+  PRIMARY KEY (`Societe_ID`),
+  UNIQUE KEY `uq_societe_nom` (`Societe_Nom`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `societes`
+--
+
+INSERT INTO `societes` (`Societe_ID`, `Societe_Nom`) VALUES
+(4, 'Amazon'),
+(3, 'DedSec'),
+(6, 'Entreprise Soleil'),
+(2, 'Maze Bank'),
+(7, 'NCTS'),
+(5, 'terenceINC'),
+(1, 'Vought International');
 
 -- --------------------------------------------------------
 
@@ -1056,27 +1156,28 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `Utilisateur_Nom` varchar(50) NOT NULL,
   `Utilisateur_Prenom` varchar(50) DEFAULT NULL,
   `Utilisateur_Civilite` enum('Monsieur','Madame','Iel') DEFAULT NULL,
-  `Utilisateur_Societe` varchar(150) DEFAULT NULL,
   `Utilisateur_Password` varchar(256) DEFAULT NULL,
   `Utilisateur_Mail` varchar(250) NOT NULL,
   `Utilisateur_Telephone` varchar(50) DEFAULT NULL,
   `Utilisateur_Signature` varchar(255) DEFAULT NULL,
   `AdressePostale_ID` int(11) NOT NULL,
+  `Societe_ID` int(11) DEFAULT NULL,
   PRIMARY KEY (`Utilisateur_ID`),
   UNIQUE KEY `unique_email` (`Utilisateur_Mail`),
-  KEY `AdressePostale_ID` (`AdressePostale_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+  KEY `AdressePostale_ID` (`AdressePostale_ID`),
+  KEY `fk_utilisateurs_societe` (`Societe_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `utilisateurs`
 --
 
-INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Prenom`, `Utilisateur_Civilite`, `Utilisateur_Societe`, `Utilisateur_Password`, `Utilisateur_Mail`, `Utilisateur_Telephone`, `Utilisateur_Signature`, `AdressePostale_ID`) VALUES
-(1, 'Dupont', 'Marie', 'Madame', 'Vought International', '$2y$10$I1hKFaSD0SBsozEszv8ZAOLujxI09tszX6NcjMRb1sNQrnAgelLfO', 'marie.dupont@mail.com', '0600000001', NULL, 1),
-(2, 'Martin', 'Luc', 'Monsieur', 'Maze Bank', '$2y$10$MkNpWi2BTFYWLvFIMJZzuOpCXkpbPnfEGricU6ObaPhYTn0VX4wuO', 'luc.martin@mail.com', '0600000002', NULL, 2),
-(3, 'Bernard', 'Julie', 'Madame', 'DedSec', '$2y$10$39cuv2r4W/fEpXvlEQJnb.22bKm0LgU7yos190..B4V57SZ..mbp6', 'julie.bernard@mail.com', '0600000003', NULL, 3),
-(4, 'Durand', 'Paul', 'Monsieur', 'Amazon', 'pass123', 'paul.durand@mail.com', '0600000004', NULL, 4),
-(35, 'Bourdon', 'Angel', 'Monsieur', 'NCTS', '$2y$10$9SVr55S/1FpjaODneg3aR.X1OKr0AMmFoh0N9bRx4eRnC1nlv173y', 'angel@non.binaire', '0780808080', NULL, 61);
+INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Prenom`, `Utilisateur_Civilite`, `Utilisateur_Password`, `Utilisateur_Mail`, `Utilisateur_Telephone`, `Utilisateur_Signature`, `AdressePostale_ID`, `Societe_ID`) VALUES
+(1, 'Dupont', 'Marie', 'Madame', '$2y$10$I1hKFaSD0SBsozEszv8ZAOLujxI09tszX6NcjMRb1sNQrnAgelLfO', 'marie.dupont@mail.com', '0600000001', NULL, 1, 1),
+(2, 'Martin', 'Luc', 'Monsieur', '$2y$10$MkNpWi2BTFYWLvFIMJZzuOpCXkpbPnfEGricU6ObaPhYTn0VX4wuO', 'luc.martin@mail.com', '0600000002', NULL, 2, 2),
+(3, 'Bernard', 'Julie', 'Madame', '$2y$10$39cuv2r4W/fEpXvlEQJnb.22bKm0LgU7yos190..B4V57SZ..mbp6', 'julie.bernard@mail.com', '0600000003', NULL, 3, 3),
+(4, 'Durand', 'Paul', 'Monsieur', 'pass123', 'paul.durand@mail.com', '0600000004', NULL, 4, 4),
+(35, 'Martinant', 'Térence', 'Monsieur', '$2y$10$D3Jo4foDq6DvbNzsHt5RYeX6034SSXd/22dzgn9xDVjA0RNduqxLW', 'Terence@mail.fr', '0706060606', NULL, 61, 2);
 
 --
 -- Contraintes pour les tables déchargées
@@ -1129,7 +1230,8 @@ ALTER TABLE `devis`
 -- Contraintes pour la table `donneurordre`
 --
 ALTER TABLE `donneurordre`
-  ADD CONSTRAINT `donneurordre_ibfk_1` FOREIGN KEY (`Donneur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`);
+  ADD CONSTRAINT `donneurordre_ibfk_1` FOREIGN KEY (`Donneur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`),
+  ADD CONSTRAINT `fk_donneurordre_societe` FOREIGN KEY (`Societe_ID`) REFERENCES `societes` (`Societe_ID`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `dossiers`
@@ -1180,6 +1282,7 @@ ALTER TABLE `proprietaires`
 -- Contraintes pour la table `utilisateurs`
 --
 ALTER TABLE `utilisateurs`
+  ADD CONSTRAINT `fk_utilisateurs_societe` FOREIGN KEY (`Societe_ID`) REFERENCES `societes` (`Societe_ID`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `utilisateurs_ibfk_1` FOREIGN KEY (`AdressePostale_ID`) REFERENCES `adressespostales` (`AdressePostale_ID`);
 COMMIT;
 
