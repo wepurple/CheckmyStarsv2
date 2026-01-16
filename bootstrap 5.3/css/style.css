@@ -206,7 +206,3 @@ fieldset legend {
 .register-container {
     animation: fadeIn 0.5s ease;
 }
-
-.carousel-item img {
-    height: 300px;
-}
