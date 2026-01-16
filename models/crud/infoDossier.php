@@ -15,30 +15,27 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
     $data = json_decode(file_get_contents("php://input"));
     $stmt = $user->infoDossier();
 
-        if($stmt->rowCount() > 0){
-        $tableauClient = [];
-        $tableauClient['utilisateur'] = [];
-        while($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-            extract($row);
- 
-            $liste = [
-                "Utilisateur_ID" => $Utilisateur_ID,
-                "Utilisateur_Nom" => $Utilisateur_Nom,
-                "Utilisateur_Prenom" => $Utilisateur_Prenom,
-                "Utilisateur_Telephone" => $Utilisateur_Telephone,
-                "Utilisateur_Mail" => $Utilisateur_Mail,
-                "Utilisateurs_Societe" => [
-                                            "Societe_ID" => $Societe_ID,
-                                            "Societe_Nom" => $Societe_Nom
-                                        ],
-                "Nombre_Dossiers" => $Nombre_Dossiers,
-                "Status_Global" => $Status_Global
-            ];
-            $tableauClient['utilisateur'][] = $liste;
-        }
-        http_response_code(200);
-        echo json_encode($tableauClient);
+    $tableauClient = ['utilisateur' => []];
+
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        $tableauClient['utilisateur'][] = [
+            "Utilisateur_ID" => $row["Utilisateur_ID"],
+            "Utilisateur_Nom" => $row["Utilisateur_Nom"],
+            "Utilisateur_Prenom" => $row["Utilisateur_Prenom"],
+            "Utilisateur_Telephone" => $row["Utilisateur_Telephone"],
+            "Utilisateur_Mail" => $row["Utilisateur_Mail"],
+            "Societe" => [
+                "Societe_ID" => $row["Societe_ID"],
+                "Societe_Nom" => $row["Societe_Nom"]
+            ],
+            "Nombre_Dossiers" => $row["Nombre_Dossiers"],
+            "Status_Global" => $row["Status_Global"]
+        ];
     }
+
+    http_response_code(200);
+    echo json_encode($tableauClient);
+
 } else {
     http_response_code(405);
     echo json_encode(["message" => "La méthode n'est pas autorisée"]);
