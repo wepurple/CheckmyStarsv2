@@ -23,6 +23,7 @@
         <div class="container-sm">
             <div class="row justify-content-center">
                 <div class="col-md 4">
+                    <p>HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>
                 </div>
                 <div class="col-md 4">
                     <div id="Carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
@@ -40,6 +41,7 @@
                     </div>
                 </div>
                 <div class="col-md 4">
+                    <p>HAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</p>
                 </div>
             </div>
 
