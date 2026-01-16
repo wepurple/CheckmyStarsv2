@@ -7,7 +7,6 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dossiers- CheckMyStars</title>
-
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
@@ -27,7 +26,7 @@
                     <div id="Carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="img\hotel_img1.jpg" class="d-block w-100" alt="Image 1">
+                                <img class="img_hotel" src="img\hotel_img1.jpg" class="d-block w-100" alt="Image 1">
                             </div>
                             <div class="carousel-item">
                                 <img src="img\hotel_img2.jpg" class="d-block w-100" alt="Image 2">
@@ -37,6 +36,8 @@
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-md 8">
                 </div>
             </div>
 
