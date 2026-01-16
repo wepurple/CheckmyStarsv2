@@ -21,7 +21,7 @@
         <?php
             require_once "./includes/navbar.php";
         ?>
-        <div class="container-md">
+        <div class="container-my-4">
             <div id="Carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
                 <div class="carousel-inner">
                     <div class="carousel-item active">
