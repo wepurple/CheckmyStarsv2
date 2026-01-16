@@ -32,7 +32,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
                 "AdressePostale_NumeroRue" => $AdressePostale_NumeroRue,
                 "AdressePostale_Complement" => $AdressePostale_Complement,
                 "AdressePostale_CodePostal" => $AdressePostale_CodePostal,
-                "societe_Nom" => $societe_Nom,
+                "Utilisateur_Societe" => $Societe_Nom,
                 "AdressePostale_NomRue" => $AdressePostale_NomRue,
                 "AdressePostale_Ville" => $AdressePostale_Ville,
                 "AdressePostale_Pays" => $AdressePostale_Pays,

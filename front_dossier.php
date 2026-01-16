@@ -7,10 +7,9 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dossiers- CheckMyStars</title>
-
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
-        <link rel="stylesheet" href="bootstrap 5.3/css/style.css">
+        <link rel="stylesheet" href="bootstrap 5.3/css/styleimg.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
         <script src="js/search_inspecteurs.js"></script>
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
@@ -24,23 +23,34 @@
         ?>
         <div class="container-sm">
             <div class="row justify-content-center">
-                <div class="col-md 8">
+                <div class="col-md 4">
+                </div>
+                <div class="col-md 4 p-3 rounded">
                     <div id="Carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
-                                <img src="img\hotel_img1.jpg" class="d-block w-100" alt="Image 1">
+                                <img src="img\hotel_img1.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 1">
                             </div>
                             <div class="carousel-item">
-                                <img src="img\hotel_img2.jpg" class="d-block w-100" alt="Image 2">
+                                <img src="img\hotel_img2.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 2">
                             </div>
                             <div class="carousel-item">
-                                <img src="img\hotel_img3.jpg" class="d-block w-100" alt="Image 3">
+                                <img src="img\hotel_img3.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 3">
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="col-md 4">
+                </div>
             </div>
-
+            <div class="row">
+                <div class="col-6 border-5 rounded p-3">
+                    <p>HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
+                </div>
+                <div class="col-6 border-5 rounded p-3">
+                    <p>HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
+                </div>
+            </div>  
         </div>
     </body>
 </html>

@@ -207,7 +207,3 @@ fieldset legend {
     animation: fadeIn 0.5s ease;
 }
 
-.carousel-item img {
-    height: 300px;
-    object-fit: cover;
-}
