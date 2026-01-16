@@ -359,7 +359,7 @@ async function addUser() {
     //recherche()
 }
 
-async function addCancel(){
+async function addCancel(){//reset les valeurs du formulaire d'ajout inspecteur
     document.getElementById('addForm').reset()
 }
 

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : jeu. 15 jan. 2026 à 15:48
+-- Généré le : ven. 16 jan. 2026 à 15:24
 -- Version du serveur : 11.5.2-MariaDB
 -- Version de PHP : 8.3.14
 
@@ -23,18 +23,83 @@ SET time_zone = "+00:00";
 
 DELIMITER $$
 --
+-- Procédures
+--
+DROP PROCEDURE IF EXISTS `Create_User`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Create_User` (IN `NumRue` VARCHAR(50), IN `NomRue` VARCHAR(100), IN `Comp` VARCHAR(20), IN `CP` VARCHAR(10))   SELECT utilisateurs.Utilisateur_ID
+FROM utilisateurs$$
+
+DROP PROCEDURE IF EXISTS `Get_User`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_User` ()   SELECT 
+    u.Utilisateur_ID,
+    u.Utilisateur_Nom,
+    u.Utilisateur_Prenom,
+    u.Utilisateur_Civilite,
+    u.Utilisateur_Mail,
+    u.Utilisateur_Signature,
+    u.Utilisateur_Telephone,
+    s.Societe_Nom,
+    a.AdressePostale_NumeroRue,
+    a.AdressePostale_NomRue,
+    a.AdressePostale_Complement,
+    a.AdressePostale_CodePostal,
+	a.AdressePostale_Ville,
+    a.AdressePostale_Pays
+FROM utilisateurs u
+JOIN societes s 
+    ON s.Societe_ID = u.Societe_ID
+Join adressespostales a
+	ON a.AdressePostale_ID = u.AdressePostale_ID$$
+
+DROP PROCEDURE IF EXISTS `Get_User_ID`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_User_ID` (IN `ID` INT)   SELECT 
+    u.Utilisateur_ID,
+    u.Utilisateur_Nom,
+    u.Utilisateur_Prenom,
+    u.Utilisateur_Civilite,
+    u.Utilisateur_Mail,
+    u.Utilisateur_Signature,
+    u.Utilisateur_Telephone,
+    s.Societe_Nom,
+    a.AdressePostale_NumeroRue,
+    a.AdressePostale_NomRue,
+    a.AdressePostale_Complement,
+    a.AdressePostale_CodePostal,
+	a.AdressePostale_Ville,
+    a.AdressePostale_Pays
+FROM utilisateurs u
+JOIN societes s 
+    ON s.Societe_ID = u.Societe_ID
+Join adressespostales a
+	ON a.AdressePostale_ID = u.AdressePostale_ID
+WHERE u.Utilisateur_ID = ID$$
+
+--
 -- Fonctions
 --
 DROP FUNCTION IF EXISTS `Update_User`$$
-CREATE DEFINER=`root`@`localhost` FUNCTION `Update_User` (`Nom` VARCHAR(50), `Prenom` VARCHAR(50), `Mail` VARCHAR(50), `Genre` VARCHAR(20), `Societe` VARCHAR(50), `Telephone` VARCHAR(20), `NumRue` VARCHAR(20), `Adresse` VARCHAR(50), `Complement` VARCHAR(20), `CP` VARCHAR(50), `Ville` VARCHAR(50), `Pays` VARCHAR(50), `ID` INT) RETURNS INT(11)  BEGIN
+CREATE DEFINER=`root`@`localhost` FUNCTION `Update_User` (`Nom` VARCHAR(50), `Prenom` VARCHAR(50), `Mail` VARCHAR(50), `Genre` ENUM("Monsieur","Madame","Iel"), `Societe` INT(50), `Telephone` VARCHAR(20), `NumRue` VARCHAR(20), `Adresse` VARCHAR(50), `Complement` VARCHAR(20), `CP` VARCHAR(50), `Ville` VARCHAR(50), `Pays` VARCHAR(50), `ID` INT) RETURNS INT(11)  BEGIN
+	DECLARE addrID INT;
     UPDATE utilisateurs
     SET Utilisateur_Nom = Nom,
     Utilisateur_Prenom = Prenom,
-	Utilisateur_Societe = Societe,
+	Societe_ID = Societe,
     Utilisateur_Mail = Mail,
+    Utilisateur_Civilite = Genre,
     Utilisateur_Telephone = Telephone
     WHERE Utilisateur_ID = ID;
-    
+    SELECT AdressePostale_ID
+    INTO addrID
+    FROM utilisateurs
+    WHERE Utilisateur_ID = ID;
+    UPDATE adressespostales
+    SET AdressePostale_NumeroRue = NumRue,
+    AdressePostale_Complement = Complement,
+    AdressePostale_CodePostal = CP,
+    AdressePostale_NomRue = Adresse,
+    AdressePostale_Ville = Ville,
+    AdressePostale_Pays = Pays
+    WHERE AdressePostale_ID = addrID;
     RETURN true;
 END$$
 
@@ -99,25 +164,26 @@ CREATE TABLE IF NOT EXISTS `adressespostales` (
   `AdressePostale_Ville` varchar(256) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT NULL,
   `AdressePostale_Pays` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`AdressePostale_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=62 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=63 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `adressespostales`
 --
 
 INSERT INTO `adressespostales` (`AdressePostale_ID`, `AdressePostale_NumeroRue`, `AdressePostale_Complement`, `AdressePostale_CodePostal`, `AdressePostale_NomRue`, `AdressePostale_Ville`, `AdressePostale_Pays`) VALUES
-(1, '10', 'A', '75001', 'Rue de Rivoli', 'Paris', 'France'),
-(2, '25', NULL, '69002', 'Rue Merciere', 'Lyon', 'France'),
-(3, '5', NULL, '06000', 'Avenue des Fleurs', 'Nice', 'France'),
-(4, '42', NULL, '13001', 'La Canebiere', 'Marseille', 'France'),
-(42, '144', 'bis', '41600', 'rue des bruyere', 'chaon', 'France'),
-(53, '154', '', '41600', 'rue du caca', 'caca', 'France'),
-(56, '14', '12', '45000', 'rue du bazouzou', 'Orléans', 'France'),
-(57, '14', '12', '45000', 'rue du bazouzou', 'Orléans', 'France'),
-(58, '14', 'bis', '45000', 'rue de l&#039;dadmin', 'Orléans', 'France'),
-(59, '14', 'bis', '45000', 'rue de jean', 'Orléans', 'France'),
-(60, '18', 'bis', '69000', 'rue de Pere', 'Lyon', 'France'),
-(61, '14', 'bis', '45000', 'rue de jean', 'Orléans', 'France');
+(1, "10", "A", "75001", "Rue de Rivoli", "Paris", "France"),
+(2, "25", NULL, "69002", "Rue Merciere", "Lyon", "France"),
+(3, "5", NULL, "06000", "Avenue des Fleurs", "Nice", "France"),
+(4, "42", NULL, "13001", "La Canebiere", "Marseille", "France"),
+(42, "144", "bis", "41600", "rue des bruyere", "chaon", "France"),
+(53, "154", "", "41600", "rue du caca", "caca", "France"),
+(56, "14", "12", "45000", "rue du bazouzou", "Orléans", "France"),
+(57, "14", "12", "45000", "rue du bazouzou", "Orléans", "France"),
+(58, "14", "bis", "45000", "rue de l&#039;dadmin", "Orléans", "France"),
+(59, "14", "bis", "45000", "rue de jean", "Orléans", "France"),
+(60, "18", "bis", "69000", "rue de Pere", "Lyon", "France"),
+(61, "1", "BIS", "45100", "rue du GOAT", "Orléans", "France"),
+(62, "14", "", "41600", "rue des bruyere", "Chaon", "France");
 
 -- --------------------------------------------------------
 
@@ -127,7 +193,7 @@ INSERT INTO `adressespostales` (`AdressePostale_ID`, `AdressePostale_NumeroRue`,
 
 DROP TABLE IF EXISTS `biens`;
 CREATE TABLE IF NOT EXISTS `biens` (
-  `Bien_ID` int(11) NOT NULL,
+  `Bien_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Biens_Nom` varchar(50) DEFAULT NULL,
   `Bien_Telephone` varchar(50) DEFAULT NULL,
   `Bien_DateEnregistrement` date DEFAULT NULL,
@@ -141,15 +207,16 @@ CREATE TABLE IF NOT EXISTS `biens` (
   KEY `AdressePostale_ID` (`AdressePostale_ID`),
   KEY `TypeHebergement_ID` (`TypeHebergement_ID`),
   KEY `Utilisateur_ID_1` (`Utilisateur_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `biens`
 --
 
 INSERT INTO `biens` (`Bien_ID`, `Biens_Nom`, `Bien_Telephone`, `Bien_DateEnregistrement`, `Bien_Etoile_Actuelle`, `Donneur_ID`, `AdressePostale_ID`, `TypeHebergement_ID`, `Utilisateur_ID`) VALUES
-(1, 'Hotel Lumiere', '0140203040', '2025-01-10', 4, 4, 1, 1, 1),
-(3, 'Hotel Lumiere', '0140203040', '2025-01-10', 5, 4, 42, 2, 1);
+(1, "Hotel Lumiere", "0140203040", "2025-01-10", 4, 4, 1, 1, 1),
+(3, "Hotel Lumiere", "0140203040", "2025-01-10", 5, 4, 42, 2, 1),
+(4, "Maison hante", "0769970439", "2025-01-10", 4, 4, 4, 3, 35);
 
 -- --------------------------------------------------------
 
@@ -613,141 +680,141 @@ CREATE TABLE IF NOT EXISTS `criteres` (
 --
 
 INSERT INTO `criteres` (`Critere_ID`, `Critere_description`, `Critere_statut`, `Critere_points`) VALUES
-(1, 'Surface totale minimum (cuisine et coin cuisine compris) du logement meublé hors salle d\'\'eau et toilettes', 'X', 5),
-(2, 'Surface totale majorée', 'O', NULL),
-(3, 'Prise de courant libre dans chaque pièce d\'\'habitation', 'X', 1),
-(4, 'Tous les éclairages du logement fonctionnent et sont en bon état', 'X', 3),
-(5, 'Mise à disposition d\'un téléphone privatif à l\'intérieur du logement', 'O', 1),
-(6, 'Accès internet par un réseau local sans fil (WiFi)', 'X', 2),
-(7, 'Accès internet filaire avec câble fourni', 'O', 2),
-(8, 'Télévision à écran plat avec télécommande', 'X', 2),
-(9, 'Accès à des chaînes supplémentaires à l\'offre de la TNT', 'O', 2),
-(10, 'Possibilité d\'accéder à au moins deux chaînes internationales', 'O', 1),
-(11, 'Radio', 'X', 2),
-(12, 'Enceinte connectée', 'O', 1),
-(13, 'Mise à disposition d\'un système de lecture de vidéos', 'O', 2),
-(14, 'Occultation opaque dans chaque pièce comportant un couchage principal', 'X', 3),
-(15, 'Le logement est équipé de double vitrage', 'O', 3),
-(16, 'Existence d\'un système de chauffage en état de fonctionnement', 'X', 5),
-(17, 'Existence d\'un système de climatisation ou de rafraîchissement d\'air', 'O', 3),
-(18, 'Machine à laver le linge pour les logements de 4 personnes et plus', 'NA', 3),
-(19, 'Sèche-linge électrique pour les logements de 6 personnes et plus', 'NA', 2),
-(20, 'Étendoir ou séchoir à linge à l\'intérieur du logement', 'X', 2),
-(21, 'Ustensiles de ménage appropriés au logement', 'X', 3),
-(22, 'Fer et table à repasser', 'X', 2),
-(23, 'Placards ou éléments de rangement dans le logement', 'NA', 3),
-(24, 'Placards ou éléments de rangement dans chaque pièce d\'habitation', 'X', 3),
-(25, 'Présence d\'une table et d\'assises correspondant à la capacité d\'accueil', 'X', 4),
-(26, 'Présence d\'un canapé ou fauteuil(s) adapté(s)', 'X', 3),
-(27, 'Présence d\'une table basse', 'X', 1),
-(28, 'Respect des dimensions du ou des lits', 'X', 4),
-(29, 'Matelas haute densité ou épaisseur de qualité', 'O', 2),
-(30, 'Présence d\'oreillers en quantité suffisante', 'X', 2),
-(31, 'Deux couvertures ou une couette par lit', 'X', 2),
-(32, 'Matelas et oreillers protégés par alaises ou housses amovibles', 'X', 2),
-(33, 'Éclairage en tête de lit par personne avec interrupteur individuel', 'X', 2),
-(34, 'Commande de l\'éclairage central près du lit', 'O', 2),
-(35, 'Prise de courant libre située près du lit', 'O', 1),
-(36, 'Présence d\'une table de chevet par personne', 'X', 2),
-(37, 'Salle d\'eau privative intérieure', 'X', 2),
-(38, 'Salle d\'eau privative avec accès indépendant', 'X', 3),
-(39, 'Salle d\'eau équipée lavabo, douche et/ou baignoire', 'X', 3),
-(41, 'WC privatif intérieur au logement', 'X', 2),
-(42, 'WC privatif indépendant de la salle d\'eau', 'O', 2),
-(43, 'Deuxième salle d\'eau privative', 'NA', 5),
-(44, 'Salle d\'eau supplémentaire équipée', 'NA', 3),
-(45, 'WC privatif supplémentaire', 'NA', 2),
-(46, 'Deux points lumineux dont un sur le lavabo', 'X', 2),
-(47, 'Présence de produits d\'accueil', 'X', 3),
-(48, 'Prise de courant libre à proximité du miroir', 'X', 2),
-(49, 'Patères ou porte-serviettes', 'X', 1),
-(50, 'Sèche-serviettes électrique', 'O', 2),
-(51, 'Miroir de salle de bain', 'X', 2),
-(52, 'Miroir en pied', 'O', 2),
-(53, 'Tablette ou étagère proche du miroir', 'X', 2),
-(54, 'Espaces de rangement supplémentaires', 'X', 2),
-(55, 'Sèche-cheveux électrique', 'X', 1),
-(56, 'Évier avec robinet mélangeur ou mitigeur', 'X', 3),
-(57, 'Nombre de foyers respectés', 'X', 3),
-(58, 'Plaque vitrocéramique, induction ou gaz', 'O', 2),
-(59, 'Four ou mini-four', 'X', 3),
-(60, 'Four à micro-ondes', 'X', 2),
-(61, 'Ventilation ou VMC', 'X', 4),
-(62, 'Hotte aspirante', 'O', 2),
-(63, 'Quantité suffisante de vaisselle par personne', 'X', 3),
-(64, 'Vaisselle supplémentaire par personne', 'O', 1),
-(65, 'Équipement minimum pour la préparation des repas', 'X', 3),
-(66, 'Au moins deux équipements de petit électroménager', 'X', 2),
-(67, 'Autocuiseur, cuit-vapeur ou robot multifonction', 'O', 3),
-(68, 'Cafetière', 'X', 2),
-(69, 'Machine à expresso', 'O', 2),
-(70, 'Bouilloire', 'X', 1),
-(71, 'Grille-pain', 'X', 1),
-(72, 'Lave-vaisselle à partir de 2 personnes', 'NA', 2),
-(73, 'Lave-vaisselle 6 couverts ou plus', 'NA', 2),
-(74, 'Réfrigérateur avec compartiment conservateur', 'X', 4),
-(75, 'Congélateur ou compartiment congélateur', 'X', 2),
-(76, 'Poubelle fermée avec couvercle', 'X', 1),
-(77, 'Accès au 4ème étage sans ascenseur', 'NA', 4),
-(78, 'Accès au 3ème étage sans ascenseur', 'NA', 4),
-(79, 'Emplacements de stationnement à proximité', 'X', 4),
-(80, 'Emplacements privatifs', 'X', 3),
-(81, 'Garage ou abri couvert privatif', 'O', 2),
-(82, 'Balcon, loggia ou véranda', 'O', 2),
-(83, 'Terrasse ou jardin privé', 'O', 3),
-(84, 'Parc ou jardin de grande superficie', 'O', 4),
-(85, 'Mobilier de jardin privatif', 'O', 2),
-(86, 'Plancha ou barbecue extérieur', 'O', 2),
-(87, 'Équipement léger de loisirs', 'O', 2),
-(88, 'Équipement aménagé de loisirs', 'O', 2),
-(89, 'Piscine', 'O', 2),
-(90, 'Piscine chauffée', 'O', 2),
-(91, 'Rangement pour équipement sportif', 'O', 1),
-(92, 'Vue paysagère', 'O', 2),
-(93, 'Accès immédiat à des activités', 'O', 3),
-(94, 'Accès immédiat aux commerces et transports', 'O', 3),
-(95, 'Sanitaires propres et en bon état', 'ONC', 5),
-(96, 'Sols, murs et plafonds propres', 'ONC', 5),
-(97, 'Mobilier propre et en bon état', 'ONC', 5),
-(98, 'Literie propre et en bon état', 'ONC', 5),
-(99, 'Cuisine propre et équipements en bon état', 'ONC', 5),
-(100, 'Brochures touristiques multilingues', 'X', 3),
-(101, 'Livret d\'accueil', 'X', 2),
-(102, 'Accueil sur place', 'X', 3),
-(103, 'Cadeau de bienvenue', 'O', 2),
-(104, 'Boîte à clés ou système équivalent', 'O', 2),
-(105, 'Draps fournis systématiquement', 'X', 2),
-(106, 'Linge de toilette fourni', 'X', 2),
-(107, 'Linge de table', 'X', 2),
-(108, 'Lits faits à l\'arrivée', 'O', 2),
-(109, 'Matériel pour bébé sur demande', 'X', 2),
-(110, 'Service de ménage proposé', 'X', 2),
-(111, 'Produits d\'entretien', 'X', 2),
-(112, 'Adaptateurs électriques', 'O', 2),
-(113, 'Site internet dédié au logement', 'O', 2),
-(114, 'Site internet en langue étrangère', 'O', 1),
-(115, 'Animaux de compagnie admis', 'O', 2),
-(116, 'Informations sur l\'accessibilité', 'X', 2),
-(117, 'Télécommande adaptée', 'O', 2),
-(118, 'Siège de douche avec barre d\'appui', 'O', 2),
-(119, 'WC avec barre d\'appui', 'O', 2),
-(120, 'Largeur des portes adaptée', 'O', 2),
-(121, 'Document accessible', 'X', 1),
-(122, 'Label Tourisme et Handicap', 'O', 3),
-(123, 'Mesure de réduction de consommation d\'énergie', 'X', 3),
-(124, 'Mesure supplémentaire de réduction d\'énergie', 'O', 1),
-(125, 'Borne de recharge pour véhicules électriques', 'O', 2),
-(126, 'Mesure de réduction de consommation d\'eau', 'X', 3),
-(127, 'Mesure supplémentaire de réduction d\'eau', 'O', 1),
-(128, 'Tri des déchets', 'X', 1),
-(129, 'Composteur', 'O', 1),
-(130, 'Sensibilisation environnementale des clients', 'X', 2),
-(131, 'Produits d\'accueil écologiques', 'O', 2),
-(132, 'Produits d\'entretien écologiques', 'X', 1),
-(133, 'Obtention d\'un label environnemental', 'O', 3),
-(148, 'test', 'X', 5),
-(150, 'test', 'X', 5),
-(151, 'test', 'NA', 8);
+(1, "Surface totale minimum (cuisine et coin cuisine compris) du logement meublé hors salle d''eau et toilettes", "X", 5),
+(2, "Surface totale majorée", "O", NULL),
+(3, "Prise de courant libre dans chaque pièce d''habitation", "X", 1),
+(4, "Tous les éclairages du logement fonctionnent et sont en bon état", "X", 3),
+(5, "Mise à disposition d'un téléphone privatif à l'intérieur du logement", "O", 1),
+(6, "Accès internet par un réseau local sans fil (WiFi)", "X", 2),
+(7, "Accès internet filaire avec câble fourni", "O", 2),
+(8, "Télévision à écran plat avec télécommande", "X", 2),
+(9, "Accès à des chaînes supplémentaires à l'offre de la TNT", "O", 2),
+(10, "Possibilité d'accéder à au moins deux chaînes internationales", "O", 1),
+(11, "Radio", "X", 2),
+(12, "Enceinte connectée", "O", 1),
+(13, "Mise à disposition d'un système de lecture de vidéos", "O", 2),
+(14, "Occultation opaque dans chaque pièce comportant un couchage principal", "X", 3),
+(15, "Le logement est équipé de double vitrage", "O", 3),
+(16, "Existence d'un système de chauffage en état de fonctionnement", "X", 5),
+(17, "Existence d'un système de climatisation ou de rafraîchissement d'air", "O", 3),
+(18, "Machine à laver le linge pour les logements de 4 personnes et plus", "NA", 3),
+(19, "Sèche-linge électrique pour les logements de 6 personnes et plus", "NA", 2),
+(20, "Étendoir ou séchoir à linge à l'intérieur du logement", "X", 2),
+(21, "Ustensiles de ménage appropriés au logement", "X", 3),
+(22, "Fer et table à repasser", "X", 2),
+(23, "Placards ou éléments de rangement dans le logement", "NA", 3),
+(24, "Placards ou éléments de rangement dans chaque pièce d'habitation", "X", 3),
+(25, "Présence d'une table et d'assises correspondant à la capacité d'accueil", "X", 4),
+(26, "Présence d'un canapé ou fauteuil(s) adapté(s)", "X", 3),
+(27, "Présence d'une table basse", "X", 1),
+(28, "Respect des dimensions du ou des lits", "X", 4),
+(29, "Matelas haute densité ou épaisseur de qualité", "O", 2),
+(30, "Présence d'oreillers en quantité suffisante", "X", 2),
+(31, "Deux couvertures ou une couette par lit", "X", 2),
+(32, "Matelas et oreillers protégés par alaises ou housses amovibles", "X", 2),
+(33, "Éclairage en tête de lit par personne avec interrupteur individuel", "X", 2),
+(34, "Commande de l'éclairage central près du lit", "O", 2),
+(35, "Prise de courant libre située près du lit", "O", 1),
+(36, "Présence d'une table de chevet par personne", "X", 2),
+(37, "Salle d'eau privative intérieure", "X", 2),
+(38, "Salle d'eau privative avec accès indépendant", "X", 3),
+(39, "Salle d'eau équipée lavabo, douche et/ou baignoire", "X", 3),
+(41, "WC privatif intérieur au logement", "X", 2),
+(42, "WC privatif indépendant de la salle d'eau", "O", 2),
+(43, "Deuxième salle d'eau privative", "NA", 5),
+(44, "Salle d'eau supplémentaire équipée", "NA", 3),
+(45, "WC privatif supplémentaire", "NA", 2),
+(46, "Deux points lumineux dont un sur le lavabo", "X", 2),
+(47, "Présence de produits d'accueil", "X", 3),
+(48, "Prise de courant libre à proximité du miroir", "X", 2),
+(49, "Patères ou porte-serviettes", "X", 1),
+(50, "Sèche-serviettes électrique", "O", 2),
+(51, "Miroir de salle de bain", "X", 2),
+(52, "Miroir en pied", "O", 2),
+(53, "Tablette ou étagère proche du miroir", "X", 2),
+(54, "Espaces de rangement supplémentaires", "X", 2),
+(55, "Sèche-cheveux électrique", "X", 1),
+(56, "Évier avec robinet mélangeur ou mitigeur", "X", 3),
+(57, "Nombre de foyers respectés", "X", 3),
+(58, "Plaque vitrocéramique, induction ou gaz", "O", 2),
+(59, "Four ou mini-four", "X", 3),
+(60, "Four à micro-ondes", "X", 2),
+(61, "Ventilation ou VMC", "X", 4),
+(62, "Hotte aspirante", "O", 2),
+(63, "Quantité suffisante de vaisselle par personne", "X", 3),
+(64, "Vaisselle supplémentaire par personne", "O", 1),
+(65, "Équipement minimum pour la préparation des repas", "X", 3),
+(66, "Au moins deux équipements de petit électroménager", "X", 2),
+(67, "Autocuiseur, cuit-vapeur ou robot multifonction", "O", 3),
+(68, "Cafetière", "X", 2),
+(69, "Machine à expresso", "O", 2),
+(70, "Bouilloire", "X", 1),
+(71, "Grille-pain", "X", 1),
+(72, "Lave-vaisselle à partir de 2 personnes", "NA", 2),
+(73, "Lave-vaisselle 6 couverts ou plus", "NA", 2),
+(74, "Réfrigérateur avec compartiment conservateur", "X", 4),
+(75, "Congélateur ou compartiment congélateur", "X", 2),
+(76, "Poubelle fermée avec couvercle", "X", 1),
+(77, "Accès au 4ème étage sans ascenseur", "NA", 4),
+(78, "Accès au 3ème étage sans ascenseur", "NA", 4),
+(79, "Emplacements de stationnement à proximité", "X", 4),
+(80, "Emplacements privatifs", "X", 3),
+(81, "Garage ou abri couvert privatif", "O", 2),
+(82, "Balcon, loggia ou véranda", "O", 2),
+(83, "Terrasse ou jardin privé", "O", 3),
+(84, "Parc ou jardin de grande superficie", "O", 4),
+(85, "Mobilier de jardin privatif", "O", 2),
+(86, "Plancha ou barbecue extérieur", "O", 2),
+(87, "Équipement léger de loisirs", "O", 2),
+(88, "Équipement aménagé de loisirs", "O", 2),
+(89, "Piscine", "O", 2),
+(90, "Piscine chauffée", "O", 2),
+(91, "Rangement pour équipement sportif", "O", 1),
+(92, "Vue paysagère", "O", 2),
+(93, "Accès immédiat à des activités", "O", 3),
+(94, "Accès immédiat aux commerces et transports", "O", 3),
+(95, "Sanitaires propres et en bon état", "ONC", 5),
+(96, "Sols, murs et plafonds propres", "ONC", 5),
+(97, "Mobilier propre et en bon état", "ONC", 5),
+(98, "Literie propre et en bon état", "ONC", 5),
+(99, "Cuisine propre et équipements en bon état", "ONC", 5),
+(100, "Brochures touristiques multilingues", "X", 3),
+(101, "Livret d'accueil", "X", 2),
+(102, "Accueil sur place", "X", 3),
+(103, "Cadeau de bienvenue", "O", 2),
+(104, "Boîte à clés ou système équivalent", "O", 2),
+(105, "Draps fournis systématiquement", "X", 2),
+(106, "Linge de toilette fourni", "X", 2),
+(107, "Linge de table", "X", 2),
+(108, "Lits faits à l'arrivée", "O", 2),
+(109, "Matériel pour bébé sur demande", "X", 2),
+(110, "Service de ménage proposé", "X", 2),
+(111, "Produits d'entretien", "X", 2),
+(112, "Adaptateurs électriques", "O", 2),
+(113, "Site internet dédié au logement", "O", 2),
+(114, "Site internet en langue étrangère", "O", 1),
+(115, "Animaux de compagnie admis", "O", 2),
+(116, "Informations sur l'accessibilité", "X", 2),
+(117, "Télécommande adaptée", "O", 2),
+(118, "Siège de douche avec barre d'appui", "O", 2),
+(119, "WC avec barre d'appui", "O", 2),
+(120, "Largeur des portes adaptée", "O", 2),
+(121, "Document accessible", "X", 1),
+(122, "Label Tourisme et Handicap", "O", 3),
+(123, "Mesure de réduction de consommation d'énergie", "X", 3),
+(124, "Mesure supplémentaire de réduction d'énergie", "O", 1),
+(125, "Borne de recharge pour véhicules électriques", "O", 2),
+(126, "Mesure de réduction de consommation d'eau", "X", 3),
+(127, "Mesure supplémentaire de réduction d'eau", "O", 1),
+(128, "Tri des déchets", "X", 1),
+(129, "Composteur", "O", 1),
+(130, "Sensibilisation environnementale des clients", "X", 2),
+(131, "Produits d'accueil écologiques", "O", 2),
+(132, "Produits d'entretien écologiques", "X", 1),
+(133, "Obtention d'un label environnemental", "O", 3),
+(148, "test", "X", 5),
+(150, "test", "X", 5),
+(151, "test", "NA", 8);
 
 -- --------------------------------------------------------
 
@@ -777,16 +844,17 @@ CREATE TABLE IF NOT EXISTS `devis` (
 DROP TABLE IF EXISTS `donneurordre`;
 CREATE TABLE IF NOT EXISTS `donneurordre` (
   `Donneur_ID` int(11) NOT NULL,
-  `DonneurOrdre_Entreprine_Nom` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`Donneur_ID`)
+  `Societe_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`Donneur_ID`),
+  KEY `fk_donneurordre_societe` (`Societe_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `donneurordre`
 --
 
-INSERT INTO `donneurordre` (`Donneur_ID`, `DonneurOrdre_Entreprine_Nom`) VALUES
-(4, 'Entreprise Soleil');
+INSERT INTO `donneurordre` (`Donneur_ID`, `Societe_ID`) VALUES
+(4, 6);
 
 -- --------------------------------------------------------
 
@@ -796,7 +864,7 @@ INSERT INTO `donneurordre` (`Donneur_ID`, `DonneurOrdre_Entreprine_Nom`) VALUES
 
 DROP TABLE IF EXISTS `dossiers`;
 CREATE TABLE IF NOT EXISTS `dossiers` (
-  `Dossier_ID` int(11) NOT NULL,
+  `Dossier_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Dossier_Numero` varchar(50) DEFAULT NULL,
   `Dossier_Date` datetime DEFAULT NULL,
   `Dossier_Etoile_Cible` int(11) DEFAULT NULL,
@@ -806,14 +874,15 @@ CREATE TABLE IF NOT EXISTS `dossiers` (
   PRIMARY KEY (`Dossier_ID`),
   KEY `Utilisateur_ID` (`Utilisateur_ID`),
   KEY `fk_dossiers_bien` (`Bien_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `dossiers`
 --
 
 INSERT INTO `dossiers` (`Dossier_ID`, `Dossier_Numero`, `Dossier_Date`, `Dossier_Etoile_Cible`, `Utilisateur_ID`, `status`, `Bien_ID`) VALUES
-(3, 'DOS-2025-003', '2025-02-10 14:00:00', 3, 1, 0, 3);
+(3, "DOS-2025-003", "2025-02-10 14:00:00", 3, 1, 0, 3),
+(4, "DOS-2025-004", "2025-02-10 14:00:00", 3, 35, 0, 1);
 
 -- --------------------------------------------------------
 
@@ -860,7 +929,7 @@ CREATE TABLE IF NOT EXISTS `evaluations` (
 --
 
 INSERT INTO `evaluations` (`Evaluation_ID`, `Evaluation_Date`, `Evaluation_Document`, `Evaluation_Résultat`, `Bien_ID`, `ListesCriteres_ID`) VALUES
-(1, '2025-01-18 14:00:00', 'eval_hotel_lumiere.pdf', 'Conforme', 1, 4);
+(1, "2025-01-18 14:00:00", "eval_hotel_lumiere.pdf", "Conforme", 1, 4);
 
 -- --------------------------------------------------------
 
@@ -897,7 +966,10 @@ CREATE TABLE IF NOT EXISTS `inspecteurs` (
 --
 
 INSERT INTO `inspecteurs` (`Utilisateur_ID`) VALUES
-(1);
+(1),
+(2),
+(3),
+(35);
 
 --
 -- Déclencheurs `inspecteurs`
@@ -999,9 +1071,9 @@ CREATE TABLE IF NOT EXISTS `photos` (
 --
 
 INSERT INTO `photos` (`Photo_ID`, `Photo_Lien`, `Bien_ID`) VALUES
-(1, 'photos/hotel_lumiere_1.jpg', 1),
-(2, 'photos/hotel_lumiere_2.jpg', 1),
-(100, '/photos/liste_generique.jpg', 1);
+(1, "photos/hotel_lumiere_1.jpg", 1),
+(2, "photos/hotel_lumiere_2.jpg", 1),
+(100, "/photos/liste_generique.jpg", 1);
 
 -- --------------------------------------------------------
 
@@ -1020,7 +1092,35 @@ CREATE TABLE IF NOT EXISTS `proprietaires` (
 --
 
 INSERT INTO `proprietaires` (`Utilisateur_ID`) VALUES
-(1);
+(1),
+(35);
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `societes`
+--
+
+DROP TABLE IF EXISTS `societes`;
+CREATE TABLE IF NOT EXISTS `societes` (
+  `Societe_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Societe_Nom` varchar(150) NOT NULL,
+  PRIMARY KEY (`Societe_ID`),
+  UNIQUE KEY `uq_societe_nom` (`Societe_Nom`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Déchargement des données de la table `societes`
+--
+
+INSERT INTO `societes` (`Societe_ID`, `Societe_Nom`) VALUES
+(4, "Amazon"),
+(3, "DedSec"),
+(6, "Entreprise Soleil"),
+(2, "Maze Bank"),
+(7, "NCTS"),
+(5, "terenceINC"),
+(1, "Vought International");
 
 -- --------------------------------------------------------
 
@@ -1040,9 +1140,9 @@ CREATE TABLE IF NOT EXISTS `typeshebergements` (
 --
 
 INSERT INTO `typeshebergements` (`TypeHebergement_ID`, `TypeHebergement_Nom`) VALUES
-(1, 'Hotel'),
-(2, 'Gite'),
-(3, 'Camping');
+(1, "Hotel"),
+(2, "Gite"),
+(3, "Camping");
 
 -- --------------------------------------------------------
 
@@ -1055,28 +1155,29 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `Utilisateur_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Utilisateur_Nom` varchar(50) NOT NULL,
   `Utilisateur_Prenom` varchar(50) DEFAULT NULL,
-  `Utilisateur_Civilite` enum('Monsieur','Madame','Iel') DEFAULT NULL,
-  `Utilisateur_Societe` varchar(150) DEFAULT NULL,
+  `Utilisateur_Civilite` enum("Monsieur","Madame","Iel") DEFAULT NULL,
   `Utilisateur_Password` varchar(256) DEFAULT NULL,
   `Utilisateur_Mail` varchar(250) NOT NULL,
   `Utilisateur_Telephone` varchar(50) DEFAULT NULL,
   `Utilisateur_Signature` varchar(255) DEFAULT NULL,
   `AdressePostale_ID` int(11) NOT NULL,
+  `Societe_ID` int(11) DEFAULT NULL,
   PRIMARY KEY (`Utilisateur_ID`),
   UNIQUE KEY `unique_email` (`Utilisateur_Mail`),
-  KEY `AdressePostale_ID` (`AdressePostale_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+  KEY `AdressePostale_ID` (`AdressePostale_ID`),
+  KEY `fk_utilisateurs_societe` (`Societe_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `utilisateurs`
 --
 
-INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Prenom`, `Utilisateur_Civilite`, `Utilisateur_Societe`, `Utilisateur_Password`, `Utilisateur_Mail`, `Utilisateur_Telephone`, `Utilisateur_Signature`, `AdressePostale_ID`) VALUES
-(1, 'Dupont', 'Marie', 'Madame', 'Vought International', '$2y$10$I1hKFaSD0SBsozEszv8ZAOLujxI09tszX6NcjMRb1sNQrnAgelLfO', 'marie.dupont@mail.com', '0600000001', NULL, 1),
-(2, 'Martin', 'Luc', 'Monsieur', 'Maze Bank', '$2y$10$MkNpWi2BTFYWLvFIMJZzuOpCXkpbPnfEGricU6ObaPhYTn0VX4wuO', 'luc.martin@mail.com', '0600000002', NULL, 2),
-(3, 'Bernard', 'Julie', 'Madame', 'DedSec', '$2y$10$39cuv2r4W/fEpXvlEQJnb.22bKm0LgU7yos190..B4V57SZ..mbp6', 'julie.bernard@mail.com', '0600000003', NULL, 3),
-(4, 'Durand', 'Paul', 'Monsieur', 'Amazon', 'pass123', 'paul.durand@mail.com', '0600000004', NULL, 4),
-(35, 'Bourdon', 'Angel', 'Monsieur', 'NCTS', '$2y$10$9SVr55S/1FpjaODneg3aR.X1OKr0AMmFoh0N9bRx4eRnC1nlv173y', 'angel@non.binaire', '0780808080', NULL, 61);
+INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Prenom`, `Utilisateur_Civilite`, `Utilisateur_Password`, `Utilisateur_Mail`, `Utilisateur_Telephone`, `Utilisateur_Signature`, `AdressePostale_ID`, `Societe_ID`) VALUES
+(1, "Dupont", "Marie", "Madame", "$2y$10$I1hKFaSD0SBsozEszv8ZAOLujxI09tszX6NcjMRb1sNQrnAgelLfO", "marie.dupont@mail.com", "0600000001", NULL, 1, 1),
+(2, "Martin", "Luc", "Monsieur", "$2y$10$MkNpWi2BTFYWLvFIMJZzuOpCXkpbPnfEGricU6ObaPhYTn0VX4wuO", "luc.martin@mail.com", "0600000002", NULL, 2, 2),
+(3, "Bernard", "Julie", "Madame", "$2y$10$39cuv2r4W/fEpXvlEQJnb.22bKm0LgU7yos190..B4V57SZ..mbp6", "julie.bernard@mail.com", "0600000003", NULL, 3, 3),
+(4, "Durand", "Paul", "Monsieur", "pass123", "paul.durand@mail.com", "0600000004", NULL, 4, 4),
+(35, "Martinant", "Térence", "Monsieur", "$2y$10$D3Jo4foDq6DvbNzsHt5RYeX6034SSXd/22dzgn9xDVjA0RNduqxLW", "Terence@mail.fr", "0706060606", NULL, 61, 2);
 
 --
 -- Contraintes pour les tables déchargées
@@ -1129,7 +1230,8 @@ ALTER TABLE `devis`
 -- Contraintes pour la table `donneurordre`
 --
 ALTER TABLE `donneurordre`
-  ADD CONSTRAINT `donneurordre_ibfk_1` FOREIGN KEY (`Donneur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`);
+  ADD CONSTRAINT `donneurordre_ibfk_1` FOREIGN KEY (`Donneur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`),
+  ADD CONSTRAINT `fk_donneurordre_societe` FOREIGN KEY (`Societe_ID`) REFERENCES `societes` (`Societe_ID`) ON DELETE SET NULL ON UPDATE CASCADE;
 
 --
 -- Contraintes pour la table `dossiers`
@@ -1180,6 +1282,7 @@ ALTER TABLE `proprietaires`
 -- Contraintes pour la table `utilisateurs`
 --
 ALTER TABLE `utilisateurs`
+  ADD CONSTRAINT `fk_utilisateurs_societe` FOREIGN KEY (`Societe_ID`) REFERENCES `societes` (`Societe_ID`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `utilisateurs_ibfk_1` FOREIGN KEY (`AdressePostale_ID`) REFERENCES `adressespostales` (`AdressePostale_ID`);
 COMMIT;
 
