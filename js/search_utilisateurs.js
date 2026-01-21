@@ -19,13 +19,17 @@ function getUserById(id)
     
 }
 
-function loadTable()
+async function loadTable()
 {
-    var users = getAllusers()
-    var sb = new StringBuilder();
+    var users = await getAllusers()
+    var tab = document.getElementById("table-body");
 
-    for (var i = 0; i < users.lenght; i++)
+    for (var i = 0; i < users.length; i++)
     {
-        console.log(users[1].Utilisateur_Nom)
+        console.log(users[i].Utilisateur_Nom);
+
+        tab.appendChild(document.createElement("th"))
+        e=tab.lastElementChild
+        e.appendChild(document.createElement('td'))
     }
 }
