@@ -17,7 +17,7 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </head>
 
-    <body class="secondary.bg-gradient">
+    <body class="bg-secondary">
         <?php
             require_once "./includes/navbar.php";
         ?>
@@ -82,7 +82,7 @@
                     </div>
                 </div>
                 <div class="col-md rounded">
-                    <div class="card-6 text-white bg-transparent rounded shadow-md border" >
+                    <div class="card-6 text-white secondary.bg-gradient rounded shadow-md border" >
                         <div class="card-body">
                             <div class="card-title h3">Devis</div>
                                 <p class="card-text">Texte Dynamique</p>
@@ -104,7 +104,7 @@
                     </div>
                 </div>
                 <div class="col-md rounded">
-                    <div class="card-6 text-white bg-transparent rounded shadow-md border" >
+                    <div class="card-6 text-white secondary.bg-gradient rounded shadow-md border" >
                         <div class="card-body">
                             <div class="card-title h3">Date RDV</div>
                                 <p class="card-text">Texte Dynamique</p>
@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="col-md rounded">
-                    <div class="card-6 text-white bg-transparent rounded shadow-md border" >
+                    <div class="card-6 text-white secondary.bg-gradient rounded shadow-md border" >
                         <div class="card-body">
                             <div class="card-title h3">Etat Du Dossier</div>
                                 <p class="card-text">Texte Dynamique</p>
