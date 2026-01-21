@@ -9,12 +9,13 @@ async function getAllusers()
     });
 
     const result = await response.json();
-    
+
     return result;
 }
 
 async function getUserById(id)
 {
+    console.log(id)
     const url = "models/Read/users.php?IdPersonne="+id;
     const response = await fetch(url, {
         method : "GET",
