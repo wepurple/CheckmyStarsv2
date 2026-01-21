@@ -22,7 +22,7 @@ if (isset($_SESSION['Role']['Administrateur'])) {
 
     <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.css">
     <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
-     <link rel="stylesheet" href="bootstrap 5.3/css/style.css">
+     <link rel="stylesheet" href="bootstrap 5.3/css/style1.css">
     <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
 
     <script src="bootstrap 5.3/js/bootstrap.js"></script>
