@@ -52,7 +52,7 @@
             return $query;
         }
 
-        public function getUserById($Id){
+        public function getUserById($id){
             $sql = "CALL Get_User_ID(".$id.");";
             $query = $this->connexion->prepare($sql);
             $query->execute();
@@ -66,8 +66,18 @@
         $db = $database->getConnection();
         
         $users = new Users($db);
-        $result = $users->getAllUsers();
-        $data = $result->fetchAll(PDO::FETCH_ASSOC);
+        
+        // Vérifier si on cherche un utilisateur spécifique par ID
+        if (isset($_GET['IdPersonne']) && !empty($_GET['IdPersonne'])) {
+            $id = intval($_GET['IdPersonne']);
+            $result = $users->getUserById($id);
+            $data = $result->fetch(PDO::FETCH_ASSOC);
+        } else {
+            // Sinon, retourner tous les utilisateurs
+            $result = $users->getAllUsers();
+            $data = $result->fetchAll(PDO::FETCH_ASSOC);
+        }
+        
         echo json_encode($data);
     } catch (Exception $e) {
         echo json_encode(['error' => $e->getMessage()]);
