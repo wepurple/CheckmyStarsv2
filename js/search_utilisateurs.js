@@ -29,9 +29,9 @@ async function getUserById(id)
     return result;
 }
 
-async function updateUser(id)
+async function updateUserById(id)
 {
-    
+    const url = "models/Update/users.php?IdPersonne="+id;
 }
 
 async function showUserUpdateModal(id) 
