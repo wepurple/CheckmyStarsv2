@@ -69,6 +69,8 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="container-sm">
             <div class="row">
                 <div class="col-md rounded">
                     <div class="card-6 text-white bg-dark rounded shadow-md border" >
@@ -88,47 +90,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
-                <div class="col-md rounded">
-                    <div class="card-6 text-white bg-dark rounded shadow-md border" >
-                        <div class="card-body">
-                            <div class="card-title h3">Evolution</div>
-                                <p class="card-text">Texte</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md rounded">
-                    <div class="card-6 text-white bg-dark rounded shadow-md border" >
-                        <div class="card-body">
-                            <div class="card-title h3">Evolution</div>
-                                <p class="card-text">Texte</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md rounded">
-                    <div class="card-6 text-white bg-dark rounded shadow-md border" >
-                        <div class="card-body">
-                            <div class="card-title h3">Evolution</div>
-                                <p class="card-text">Texte</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md rounded">
-                    <div class="card-6 text-white bg-dark rounded shadow-md border" >
-                        <div class="card-body">
-                            <div class="card-title h3">Evolution</div>
-                                <p class="card-text">Texte</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </div> 
         </div>
     </body>
 </html>
