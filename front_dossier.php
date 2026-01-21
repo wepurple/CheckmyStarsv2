@@ -24,7 +24,13 @@
         <div class="container-sm">
             <div class="row justify-content-center">
                 <div class="col-md 4 p-3 rounded">
-                    <p>bambam</p>
+                    <div id="Carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <p>bambam</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="col-md 4 p-3 rounded">
                     <div id="Carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
