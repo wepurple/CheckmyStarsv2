@@ -100,8 +100,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row">
+            
                 <div class="card-6 text-white bg-dark rounded shadow-md border" >
                     <div class="card-body">
                         <div class="card-title h3">Date RDV</div>
