@@ -70,13 +70,13 @@
                 </div>
             </div>
             <div class="row">
-                <div class="card-6 text-white bg-primary rounded shadow-sm">
+                <div class="card-6 text-white bg-primary rounded shadow-md">
                     <div class="card-body">
                         <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
                     </div>
                 </div>
-                <br>
-                <div class="card-6 text-white bg-danger rounded shadow-sm">
+                </br></br></br>
+                <div class="card-6 text-white bg-danger rounded shadow-md">
                     <div class="card-body">
                         <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
                     </div>
