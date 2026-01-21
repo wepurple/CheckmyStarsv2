@@ -69,7 +69,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row-6">
                 <div class="card-6 text-white bg-primary rounded shadow-md">
                     <div class="card-body">
                         <p class="card-text">text</br>
@@ -79,7 +79,6 @@
                         </p>
                     </div>
                 </div>
-                
                 <div class="card-6 text-white bg-danger rounded shadow-md">
                     <div class="card-body">
                         <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
