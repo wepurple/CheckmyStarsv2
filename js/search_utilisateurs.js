@@ -25,6 +25,6 @@ function loadTable()
 
     for (var i = 0; i < users.lenght; i++)
     {
-        console.log(users[1].Utilisateur_Nom)
+        console.log(users[i].Utilisateur_Nom);
     }
 }
