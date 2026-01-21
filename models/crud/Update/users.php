@@ -40,11 +40,15 @@
          *
          * @param $db
         */
-        public function __construct($db){
+        public function __construct($db)
+        {
             $this->connexion = $db;
         }
 
-        
+        public function updateUserById($id)
+        {
+
+        }
     }
     
     try {

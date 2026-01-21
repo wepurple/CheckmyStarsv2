@@ -40,11 +40,13 @@
          *
          * @param $db
         */
-        public function __construct($db){
+        public function __construct($db)
+        {
             $this->connexion = $db;
         }
 
-        public function getAllUsers(){
+        public function getAllUsers()
+        {
             $sql = "CALL Get_User;";
             $query = $this->connexion->prepare($sql);
             $query->execute();
