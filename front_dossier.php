@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="col-md rounded">
-                    <div class="card-6 text-white rounded shadow-md border" style="background-color: #a1a1a1;">
+                    <div class="card-6 text-white rounded shadow-md border" style="background-color: #a1a1a1 !important;">
                         <div class="card-body">
                             <div class="card-title h3">Etat Du Dossier</div>
                                 <p class="card-text">Texte Dynamique</p>
