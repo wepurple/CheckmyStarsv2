@@ -288,7 +288,7 @@ if (isset($_SESSION['Role']['Administrateur'])) {
 
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button type="button" class="btn btn-warning" onclick="edit()">Enregistrer</button>
+                    <button type="button" class="btn btn-warning" onclick="updateUserById()">Enregistrer</button>
                 </div>
             </div>
         </div>
