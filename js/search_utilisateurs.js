@@ -1,6 +1,16 @@
-function getAlluser()
+async function getAlluser()
 {
+    const url = "models/Read/users.php";
+    const response = await fetch(url, {
+        method : "GET",
+        headers : {
+            'Content-Type' : "application/json"
+        }
+    });
 
+    const result = JSON.parse(await response.text())["utilisateur"][0]
+
+    console.log(result);
 }
 
 function getUserById(id)
