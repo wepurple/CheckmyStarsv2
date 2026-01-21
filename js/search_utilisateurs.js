@@ -8,7 +8,7 @@ async function getAllusers()
         }
     });
 
-    const result = JSON.parse(await response.text())
+    const result = JSON.parse(await response.text())["utilisateur"][0]
 
     console.log(result);
 }
