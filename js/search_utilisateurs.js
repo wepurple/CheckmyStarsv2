@@ -37,9 +37,9 @@ async function loadTable()
             
             tr.innerHTML = `
                 <td>${user.Utilisateur_ID || user.IdPersonne || ''}</td>
-                <td>${user.Nom || ''}</td>
-                <td>${user.Prenom || ''}</td>
-                <td>${user.Email || ''}</td>
+                <td>${user.Utilisateur_Nom || ''}</td>
+                <td>${user.Utilisateur_Prenom || ''}</td>
+                <td>${user.Utilisateur_Mail || ''}</td>
                 <td>Role</td>
                 <td>${user.Societe || ''}</td>
                 <td class="text-end">
