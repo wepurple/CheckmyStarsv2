@@ -37,7 +37,7 @@ async function updateUserById()
         const prenom = document.getElementById('editLePrenom').value;
         const email = document.getElementById('editLeMail').value;
         const civilite = document.getElementById('editLeGenre').value;
-        const societe_id = document.getElementById('editLaSociete').value;
+        const societe_id = 7/*document.getElementById('editLaSociete').value*/;
         const telephone = document.getElementById('editLeTel').value;
         const num_rue = document.getElementById('editLeNumRue').value;
         const nom_rue = document.getElementById('editLaAdresse').value;
