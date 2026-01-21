@@ -70,7 +70,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="card-6 text-white bg-primary rounded shadow-md">
+                <div class="card-6 text-white border-radius rounded shadow-md">
                     <div class="card-body">
                         <p class="card-text">text</br>
                             a</br>
@@ -79,7 +79,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="card-6 text-white bg-danger rounded shadow-md">
+                <div class="card-6 text-white border-radius rounded shadow-md">
                     <div class="card-body">
                         <p class="card-text">text</br>
                             a</br>
