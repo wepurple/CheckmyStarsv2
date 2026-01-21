@@ -43,7 +43,7 @@ async function loadTable()
                 <td>Role</td>
                 <td>${user.Societe_Nom || ''}</td>
                 <td class="text-end">
-                    <i class="fa-solid fa-eye"></i>
+                    <button class="btn btn-secondary btn-sm me-2"> <i class="fa-solid fa-eye"></i> </button>
                     <button class="btn btn-sm btn-warning">Edit</button>
                     <button class="btn btn-sm btn-danger">Delete</button>
                 </td>
