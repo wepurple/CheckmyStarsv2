@@ -9,8 +9,7 @@ async function getAllusers()
     });
 
     const result = await response.json();
-    console.log("Données reçues:", result);
-
+    
     return result;
 }
 
@@ -67,7 +66,6 @@ async function loadTable()
         for (var i = 0; i < users.length; i++)
         {
             var user = users[i];
-            console.log("Utilisateur", i, ":", user);
             
             var tr = document.createElement("tr");
 
