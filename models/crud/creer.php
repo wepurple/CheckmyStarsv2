@@ -1,12 +1,10 @@
-<?php /*
-error_reporting(0);
-ini_set('display_errors', 0);
+<?php
 header("Access-Control-Allow-Origin: *");
 header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-*/
+
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
     include_once '../../includes/mariadb.php';
     include_once '../crud/user.php';
@@ -38,7 +36,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
         $user->Civilite = htmlspecialchars(strip_tags($data->Civilite));
 
         //les trucs qui se remplissent différemment
-        $user->Signature = "Null";
+        $user->Signature = "";
         $user->MotPasse = password_hash("pass123", PASSWORD_DEFAULT);
 
         if($user->creer()){
