@@ -315,6 +315,7 @@ async function addUser() {
     }
     addCancel()
     addModal.hide()
+    recherche()
 }
 
 async function addCancel(){//reset les valeurs du formulaire d'ajout inspecteur
