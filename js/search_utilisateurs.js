@@ -29,9 +29,50 @@ async function getUserById(id)
     return result;
 }
 
-async function updateUserById(id)
+async function updateUserById()
 {
-    const url = "models/Update/users.php?IdPersonne="+id;
+    try {
+        const id = document.getElementById('editIdUser').value;
+        const nom = document.getElementById('editLeNom').value;
+        const prenom = document.getElementById('editLePrenom').value;
+        const email = document.getElementById('editLeMail').value;
+        const civilite = document.getElementById('editLeGenre').value;
+        const societe_id = document.getElementById('editLaSociete').value;
+        const telephone = document.getElementById('editLeTel').value;
+        const num_rue = document.getElementById('editLeNumRue').value;
+        const nom_rue = document.getElementById('editLaAdresse').value;
+        const complement = document.getElementById('editLeComplement').value;
+        const code_postal = document.getElementById('editLeCode').value;
+        const ville = document.getElementById('editLaVille').value;
+        const pays = document.getElementById('editLePays').value;
+
+        const data = {
+            id, nom, prenom, email, civilite, societe_id, telephone, 
+            num_rue, nom_rue, complement, code_postal, ville, pays
+        };
+
+        const response = await fetch("models/crud/Update/users.php", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        console.log("Réponse:", result);
+
+        if (result.success) {
+            editModal.hide();
+            loadTable();
+            alert("Utilisateur modifié avec succès!");
+        } else {
+            alert("Erreur: " + result.error);
+        }
+    } catch (error) {
+        console.error("Erreur:", error);
+        alert("Une erreur s'est produite");
+    }
 }
 
 async function showUserUpdateModal(id) 
@@ -159,8 +200,3 @@ document.addEventListener("DOMContentLoaded", function() {
     seeModal = new bootstrap.Modal(document.getElementById('seeModal'))
     editModal = new bootstrap.Modal(document.getElementById('editModal'))
 });
-
-/*
-SELECT Update_User("Térence", "Martinant", "test@gmail.com", "Monsieur", 7, "0781818181", "13", "rue du fou", "bis", "5100", "Lyon", "France", 35)
-le premier nombre c l'ID de la Societen le deuxieme l'id de ladresse
-*/
