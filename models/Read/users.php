@@ -51,6 +51,14 @@
 
             return $query;
         }
+
+        public function getUserById($Id){
+            $sql = "CALL Get_User_ID(".$id.");";
+            $query = $this->connexion->prepare($sql);
+            $query->execute();
+
+            return $query;
+        }
     }
     
     try {
