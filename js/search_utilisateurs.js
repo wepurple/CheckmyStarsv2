@@ -15,7 +15,6 @@ async function getAllusers()
 
 async function getUserById(id)
 {
-    console.log(id)
     const url = "models/Read/users.php?IdPersonne="+id;
     const response = await fetch(url, {
         method : "GET",
@@ -34,36 +33,38 @@ async function showUserUpdateModal(id)
 {
     try
     {
+        console.log("ok")
         var user = await getUserById(id)
+        console.log("ok 1")
 
-    document.getElementById('editLeNom').value = user.Utilisateur_Nom;
-    document.getElementById('editLePrenom').value = user.Utilisateur_Prenom;
-    document.getElementById('editLeMail').value = user.Utilisateur_Mail;
+        document.getElementById('editLeNom').value = user.Utilisateur_Nom;
+        document.getElementById('editLePrenom').value = user.Utilisateur_Prenom;
+        document.getElementById('editLeMail').value = user.Utilisateur_Mail;
 
-    switch(result["Utilisateur_Civilite"]){
-        case "Monsieur" :
-            document.getElementById('editLeGenre').value = "1"
-            break;
-        case "Madame" :
-            document.getElementById('editLeGenre').value = "2"
-            break;
-        case "Iel" :
-            document.getElementById('editLeGenre').value = "3"
-            break;
-        default :
-            document.getElementById('editLeGenre').value = "3"
-    }
+        switch(result["Utilisateur_Civilite"]){
+            case "Monsieur" :
+                document.getElementById('editLeGenre').value = "1"
+                break;
+            case "Madame" :
+                document.getElementById('editLeGenre').value = "2"
+                break;
+            case "Iel" :
+                document.getElementById('editLeGenre').value = "3"
+                break;
+            default :
+                document.getElementById('editLeGenre').value = "3"
+        }
 
-    document.getElementById('editLaSociete').value = "TODO";
-    document.getElementById('editLeTel').value = user.Utilisateur_Telephone;
-    document.getElementById('editLeNumRue').value = user.AdressePostale_NumeroRue;
-    document.getElementById('editLaAdresse').value = user.AdressePostale_NomRue;
-    document.getElementById('editLeComplement').value = user.AdressePostale_Complement;
-    document.getElementById('editLeCode').value = user.AdressePostale_CodePostal;
-    document.getElementById('editLaVille').value = user.AdressePostale_Ville;
-    document.getElementById('editLePays').value = user.AdressePostale_Pays;
+        document.getElementById('editLaSociete').value = "TODO";
+        document.getElementById('editLeTel').value = user.Utilisateur_Telephone;
+        document.getElementById('editLeNumRue').value = user.AdressePostale_NumeroRue;
+        document.getElementById('editLaAdresse').value = user.AdressePostale_NomRue;
+        document.getElementById('editLeComplement').value = user.AdressePostale_Complement;
+        document.getElementById('editLeCode').value = user.AdressePostale_CodePostal;
+        document.getElementById('editLaVille').value = user.AdressePostale_Ville;
+        document.getElementById('editLePays').value = user.AdressePostale_Pays;
 
-    editModal.show()
+        editModal.show()
 
     } catch (error) 
     {
