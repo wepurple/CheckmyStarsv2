@@ -47,7 +47,7 @@ if (isset($_SESSION['Role']['Administrateur'])) {
 
                 <span class="input-group-text">Rechercher par</span>
 
-                <select class="form-select" id="type">
+                <select class="form-select w-25" id="type">
                     <option selected value="1">ID</option>
                     <option value="2">Nom</option>
                     <option value="3">Prénom</option>
