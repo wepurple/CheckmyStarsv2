@@ -57,7 +57,7 @@ async function loadTable()
 
 // Charger le tableau au démarrage de la page
 document.addEventListener("DOMContentLoaded", function() {
-    loadTable
+    loadTable()
     seeModal = new bootstrap.Modal(document.getElementById('seeModal'))
 });
 
