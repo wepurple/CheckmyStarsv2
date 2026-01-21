@@ -59,7 +59,7 @@ if (isset($_SESSION['Role']['Administrateur'])) {
 
                 <input type="text" class="form-control" id="recherche" placeholder="Votre recherche...">
 
-                <button onclick="getAllusers()">test</button>
+                <button onclick="loadTable()">test</button>
             </div>
         </div>
     </nav>
