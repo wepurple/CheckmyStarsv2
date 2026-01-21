@@ -70,6 +70,15 @@
                 </div>
             </div>
             <div class="row">
+                <div class="card-6 text-white bg-dark rounded shadow-md border" >
+                    <div class="card-body">
+                        <p class="card-text">text</br>
+                            a</br>
+                            mettre</br>
+                            ci-dessou</br>
+                        </p>
+                    </div>
+                </div>
                 <div class="card-6 text-white bg-transparent rounded shadow-md border" >
                     <div class="card-body">
                         <p class="card-text">text</br>
@@ -88,8 +97,6 @@
                         </p>
                     </div>
                 </div>
-            </div>
-            <div class="row">
                 <div class="card-6 text-white bg-transparent rounded shadow-md border" >
                     <div class="card-body">
                         <p class="card-text">text</br>
