@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="col-md 4 p-3 rounded">
-                    <div id="Carousel" class="carousel slide"  data-bs-ride="carousel" data-bs-interval="500" data-bs-pause="false">
+                    <div id="Carousel" class="carousel slide"  data-bs-ride="carousel" data-bs-interval="5000" data-bs-pause="false">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img src="img\hotel_img2.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 2">
