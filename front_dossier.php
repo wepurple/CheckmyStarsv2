@@ -72,7 +72,7 @@
             <div class="row">
                 <div class="card-6 text-white bg-primary rounded" style="max-width: 18rem;">
                     <div class="card-body">
-                        <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
+                        <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
                     </div>
                 </div>
                 <div class="card-6 text-white bg-danger rounded" style="max-width: 18rem;">
