@@ -22,7 +22,6 @@ function getUserById(id)
 function loadTable()
 {
     var users = getAllusers()
-    var sb = new StringBuilder();
 
     for (var i = 0; i < users.lenght; i++)
     {
