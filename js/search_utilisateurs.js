@@ -52,13 +52,24 @@ async function loadTable()
             console.log("Utilisateur", i, ":", user);
             
             var tr = document.createElement("tr");
+
+            var roleUser;
+
+            if (user && user.admin == 1)
+            {
+                roleUser = "Utilisateur"
+            }
+            else if (user && user.inspecteur == 1)
+            {
+                roleUser = "Inspecteur"
+            }
             
             tr.innerHTML = `
                 <td>${user.Utilisateur_ID || user.IdPersonne || ''}</td>
                 <td>${user.Utilisateur_Nom || ''}</td>
                 <td>${user.Utilisateur_Prenom || ''}</td>
                 <td>${user.Utilisateur_Mail || ''}</td>
-                <td>${user.admin || user.inspecteur || 'Utilisateur'}</td>
+                <td>${roleUser}</td>
                 <td>${user.Societe_Nom || ''}</td>
                 <td class="text-end">
                     <button class="btn btn-secondary btn-sm me-2"> <i class="fa-solid fa-eye"></i> </button>
