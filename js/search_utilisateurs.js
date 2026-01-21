@@ -29,13 +29,16 @@ async function getUserById(id)
     return result;
 }
 
+async function updateUser(id)
+{
+    
+}
+
 async function showUserUpdateModal(id) 
 {
     try
     {
-        console.log("ok")
         var user = await getUserById(id)
-        console.log("ok 1")
 
         document.getElementById('editIdUser').value = user.Utilisateur_ID;
         document.getElementById('editLeNom').value = user.Utilisateur_Nom;
