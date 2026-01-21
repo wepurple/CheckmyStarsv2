@@ -72,10 +72,17 @@
             <div class="row">
                 <div class="card-6 text-white bg-primary rounded shadow-md">
                     <div class="card-body">
-                        <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
+                        <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAA
+                            sfdsf
+                            dns_get_mxsdg
+                            sys_get_temp_dirs
+                            gc_disableg
+                            sem_gets
+                            g
+                        </p>
                     </div>
                 </div>
-                </br></br></br>
+                
                 <div class="card-6 text-white bg-danger rounded shadow-md">
                     <div class="card-body">
                         <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
