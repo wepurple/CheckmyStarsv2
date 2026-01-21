@@ -58,6 +58,8 @@ if (isset($_SESSION['Role']['Administrateur'])) {
                 </select>
 
                 <input type="text" class="form-control" id="recherche" placeholder="Votre recherche...">
+
+                <button onclick="getAllusers()">test</button>
             </div>
         </div>
     </nav>
