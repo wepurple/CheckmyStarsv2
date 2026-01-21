@@ -23,8 +23,6 @@
         ?>
         <div class="container-sm">
             <div class="row justify-content-center">
-                <div class="col-md 4">
-                </div>
                 <div class="col-md 4 p-3 rounded">
                     <div id="Carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
                         <div class="carousel-inner">
