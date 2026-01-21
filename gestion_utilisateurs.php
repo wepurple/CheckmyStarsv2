@@ -22,6 +22,7 @@ if (isset($_SESSION['Role']['Administrateur'])) {
 
     <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.css">
     <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
+     <link rel="stylesheet" href="bootstrap 5.3/css/style.css">
     <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
 
     <script src="bootstrap 5.3/js/bootstrap.js"></script>
@@ -47,7 +48,7 @@ if (isset($_SESSION['Role']['Administrateur'])) {
 
                 <span class="input-group-text">Rechercher par</span>
 
-                <select class="form-select mw-15" id="type">
+                <select class="form-select max-w-15" id="type">
                     <option selected value="1">ID</option>
                     <option value="2">Nom</option>
                     <option value="3">Prénom</option>
