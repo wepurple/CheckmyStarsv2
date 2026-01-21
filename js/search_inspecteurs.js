@@ -1,3 +1,5 @@
+//import { getCountries, getCities, getCountriesWithDetails } from "../api-countries/src"
+
 function clearTab(){//vide le tableau
     tab = document.getElementById("table-body")
     child = tab.lastElementChild
@@ -267,100 +269,31 @@ async function reset(id){
 }
 
 async function addUser() {
-    console.log("ok")
     //vérifie si toutes les informations obligatoires sont remplies
-    if (document.getElementById('leNom').value != ""){
-        document.getElementById('leNom').classList.remove('is-invalid')
-
-        if (document.getElementById('lePrenom').value != ""){
-            document.getElementById('lePrenom').classList.remove('is-invalid')
-
-            if (document.getElementById('leMail').value != ""){
-                document.getElementById('leMail').classList.remove('is-invalid')
-
-                if (document.getElementById('laSociete').value != ""){
-                    document.getElementById('laSociete').classList.remove('is-invalid')
-
-                    if (document.getElementById('leTel').value != ""){
-                        document.getElementById('leTel').classList.remove('is-invalid')
-
-                        if (document.getElementById('leNumRue').value != ""){
-                            document.getElementById('leNumRue').classList.remove('is-invalid')
-
-                            if (document.getElementById('laAdresse').value != ""){
-                                document.getElementById('laAdresse').classList.remove('is-invalid')
-
-                                if (document.getElementById('leComplement').value != ""){
-                                    document.getElementById('leComplement').classList.remove('is-invalid')
-
-                                    if (document.getElementById('leCode').value != ""){
-                                        document.getElementById('leCode').classList.remove('is-invalid')
-
-                                        if (document.getElementById('laVille').value != ""){
-                                            document.getElementById('laVille').classList.remove('is-invalid')
-
-                                            if (document.getElementById('lePays').value != ""){
-                                                document.getElementById('lePays').classList.remove('is-invalid')
-
-                                            }else{
-                                                document.getElementById('lePays').classList.add('is-invalid')
-                                                document.getElementById('lePays').focus()
-                                            }
-
-                                        }else{
-                                            document.getElementById('laVille').classList.add('is-invalid')
-                                            document.getElementById('laVille').focus()
-                                        }
-
-                                    }else{
-                                        document.getElementById('leCode').classList.add('is-invalid')
-                                        document.getElementById('leCode').focus()
-                                    }
-
-                                }else{
-                                    document.getElementById('leComplement').classList.add('is-invalid')
-                                    document.getElementById('leComplement').focus()
-                                }
-
-                            }else{
-                                document.getElementById('laAdresse').classList.add('is-invalid')
-                                document.getElementById('laAdresse').focus()
-                            }
-
-                        }else{
-                            document.getElementById('leNumRue').classList.add('is-invalid')
-                            document.getElementById('leNumRue').focus()
-                        }
-
-                    }else{
-                        document.getElementById('leTel').classList.add('is-invalid')
-                        document.getElementById('leTel').focus()
-                    }
-
-                }else{
-                    document.getElementById('laSociete').classList.add('is-invalid')
-                    document.getElementById('laSociete').focus()
-                }
-        
-            }else{
-                document.getElementById('leMail').classList.add('is-invalid')
-                document.getElementById('leMail').focus()
-            }
-        }else{
-            document.getElementById('lePrenom').classList.add('is-invalid')
-            document.getElementById('lePrenom').focus()
+    const laListe = ['leNom', 'lePrenom', 'leMail', 'laSociete', 'leTel', 'leNumRue', 'laAdresse', 'leComplement', 'leCode', 'laVille', 'lePays']
+    let verif = true
+    laListe.forEach((sixseven) => {
+        if (document.getElementById(sixseven).value == ""){
+            document.getElementById(sixseven).classList.add('is-invalid')
+            verif = false
+        }else{            
+            document.getElementById(sixseven).classList.remove('is-invalid')
         }
-    }else{
-        document.getElementById('leNom').classList.add('is-invalid')
-        document.getElementById('leNom').focus()
-    }
+        if(verif){
+            console.log('ok')
+            //addModal.hide()
+            //recherche()
+        }
+    })
 
-    //addModal.hide()
-    //recherche()
 }
 
 async function addCancel(){//reset les valeurs du formulaire d'ajout inspecteur
     document.getElementById('addForm').reset()
+    const laListe = ['leNom', 'lePrenom', 'leMail', 'laSociete', 'leTel', 'leNumRue', 'laAdresse', 'leComplement', 'leCode', 'laVille', 'lePays']
+    laListe.forEach((sixseven) => {          
+            document.getElementById(sixseven).classList.remove('is-invalid')
+    })
 }
 
 document.addEventListener("DOMContentLoaded", function() {//quand la page est chargée
@@ -388,4 +321,6 @@ document.addEventListener("DOMContentLoaded", function() {//quand la page est ch
             recherche()
         }
     })
+
+    //console.log(getCities('france'))
 });

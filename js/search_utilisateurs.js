@@ -40,14 +40,14 @@ async function loadTable()
                 <td>${user.Utilisateur_Nom || ''}</td>
                 <td>${user.Utilisateur_Prenom || ''}</td>
                 <td>${user.Utilisateur_Mail || ''}</td>
-                <td>Role</td>
+                <td>TODO</td>
                 <td>${user.Societe_Nom || ''}</td>
                 <td class="text-end">
-                    <button class="btn btn-sm btn-warning">Edit</button>
+                    <button class="btn btn-secondary btn-sm me-2"> <i class="fa-solid fa-eye"></i> </button>
+                    <button class="btn btn-sm btn-warning me-2">Edit</button>
                     <button class="btn btn-sm btn-danger">Delete</button>
                 </td>
             `;
-            
             tab.appendChild(tr);
         }
     } catch (error) {
