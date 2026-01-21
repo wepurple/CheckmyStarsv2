@@ -160,4 +160,7 @@ document.addEventListener("DOMContentLoaded", function() {
     editModal = new bootstrap.Modal(document.getElementById('editModal'))
 });
 
-
+/*
+SELECT Update_User("Térence", "Martinant", "test@gmail.com", "Monsieur", 7, "0781818181", "13", "rue du fou", "bis", "5100", "Lyon", "France", 35)
+le premier nombre c l'ID de la Societen le deuxieme l'id de ladresse
+*/
