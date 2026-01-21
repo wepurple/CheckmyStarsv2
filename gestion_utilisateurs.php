@@ -52,7 +52,8 @@ if (isset($_SESSION['Role']['Administrateur'])) {
                     <option value="2">Nom</option>
                     <option value="3">Prénom</option>
                     <option value="4">Mail</option>
-                    <option value="5">Société</option>
+                    <option value="5">Role</option>
+                    <option value="6">Société</option>
                 </select>
 
                 <input type="text" class="form-control" id="recherche" placeholder="Votre recherche...">
