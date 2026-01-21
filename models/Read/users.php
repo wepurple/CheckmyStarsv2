@@ -1,4 +1,6 @@
 <?php
+    require_once("../../includes/mariadb.php");
+    
     class Users
     {
         private $connexion;
@@ -46,5 +48,16 @@
 
             return $query;
         }
+    }
+
+    header('Content-Type: application/json');
+    
+    try {
+        $users = new Users($db);
+        $result = $users->getAllUsers();
+        $data = $result->fetchAll(PDO::FETCH_ASSOC);
+        echo json_encode($data);
+    } catch (Exception $e) {
+        echo json_encode(['error' => $e->getMessage()]);
     }
 ?>
