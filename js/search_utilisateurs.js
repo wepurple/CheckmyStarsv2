@@ -10,9 +10,22 @@ async function getAllusers()
 
     const result = await response.json();
     console.log(result);
+
+    return result;
 }
 
 function getUserById(id)
 {
     
+}
+
+function loadTable()
+{
+    var users = getAllusers()
+    var sb = new StringBuilder();
+
+    for (var i = 0; i < users.lenght; i++)
+    {
+        console.log(users[1].Utilisateur_Nom)
+    }
 }
