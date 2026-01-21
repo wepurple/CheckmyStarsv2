@@ -27,8 +27,8 @@
         $database = new Database();
         $db = $database->getConnection();
         
-        if (!$db) {
-            throw new Exception("Erreur de connexion à la base de données");
+        if (!$db || $db === false) {
+            throw new Exception("Erreur: Impossible de se connecter à la base de données");
         }
         
         $users = new Users($db);
@@ -38,9 +38,12 @@
             $json = file_get_contents('php://input');
             $data = json_decode($json, true);
             
-            if (!$data || !isset($data['id'])) {
-                echo json_encode(['success' => false, 'error' => 'Données manquantes']);
-                exit;
+            if (!$data) {
+                throw new Exception("Erreur: JSON invalide reçu");
+            }
+            
+            if (!isset($data['id']) || empty($data['id'])) {
+                throw new Exception("Erreur: ID utilisateur manquant");
             }
             
             $result = $users->updateUserById(
@@ -56,14 +59,17 @@
                 $data['code_postal'] ?? '',
                 $data['ville'] ?? '',
                 $data['pays'] ?? '',
-                $data['id']
+                intval($data['id'])
             );
             
-            echo json_encode(['success' => true, 'message' => 'Utilisateur modifié']);
+            echo json_encode(['success' => true, 'message' => 'Utilisateur modifié avec succès']);
+            exit;
         } else {
-            echo json_encode(['success' => false, 'error' => 'Méthode POST requise']);
+            throw new Exception("Erreur: Méthode POST requise");
         }
     } catch (Exception $e) {
+        http_response_code(400);
         echo json_encode(['success' => false, 'error' => $e->getMessage()]);
+        exit;
     }
 ?>
