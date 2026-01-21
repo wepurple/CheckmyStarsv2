@@ -74,7 +74,7 @@
                     <div class="card-6 text-white bg-dark rounded shadow-md border" >
                         <div class="card-body">
                             <div class="card-title h3">Evolution</div>
-                                <p class="card-text"></p>
+                                <p class="card-text">Texte</p>
                             </div>
                         </div>
                     </div>
