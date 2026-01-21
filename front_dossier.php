@@ -72,13 +72,10 @@
             <div class="row">
                 <div class="card-6 text-white bg-primary rounded shadow-md">
                     <div class="card-body">
-                        <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAA</br>
-                            sfdsf
-                            dns_get_mxsdg
-                            sys_get_temp_dirs
-                            gc_disableg
-                            sem_gets
-                            g
+                        <p class="card-text">text</br>
+                            a</br>
+                            mettre</br>
+                            ci-dessou</br>
                         </p>
                     </div>
                 </div>
