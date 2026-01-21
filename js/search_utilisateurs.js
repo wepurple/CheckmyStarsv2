@@ -32,7 +32,7 @@ async function getUserById(id)
 
 function showUserInfoModal(id)
 {
-
+    seeModal.show()
 }
 
 //seeModal.show()
@@ -53,7 +53,7 @@ async function loadTable()
             
             var tr = document.createElement("tr");
 
-            var roleUser = "err";
+            var roleUser;
 
             if (user && user.admin == 1)
             {
