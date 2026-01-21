@@ -1,4 +1,5 @@
 <?php
+    ob_clean();
     header('Content-Type: application/json');
     
     require_once("../../includes/mariadb.php");
@@ -51,8 +52,6 @@
             return $query;
         }
     }
-
-    header('Content-Type: application/json');
     
     try {
         $users = new Users($db);
