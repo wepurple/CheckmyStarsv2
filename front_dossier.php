@@ -73,7 +73,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md rounded">
-                    <div class="card-6 text-white bg-dark rounded shadow-md border" >
+                    <div class="card text-white bg-dark rounded shadow-md border" >
                         <div class="card-body">
                             <div class="card-title h3">Evolution</div>
                                 <p class="card-text">Texte Dynamique</p>
@@ -82,7 +82,7 @@
                     </div>
                 </div>
                 <div class="col-md rounded">
-                    <div class="card-6 text-white secondary.bg-gradient rounded shadow-md border" >
+                    <div class="card text-white secondary.bg-gradient rounded shadow-md border" >
                         <div class="card-body">
                             <div class="card-title h3">Devis</div>
                                 <p class="card-text">Texte Dynamique</p>
@@ -95,7 +95,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md rounded">
-                    <div class="card-6 text-white bg-dark rounded shadow-md border" >
+                    <div class="card text-white bg-dark rounded shadow-md border" >
                         <div class="card-body">
                             <div class="card-title h3">Adresse</div>
                                 <p class="card-text">Texte Dynamique</p>
@@ -104,7 +104,7 @@
                     </div>
                 </div>
                 <div class="col-md rounded">
-                    <div class="card-6 text-white secondary.bg-gradient rounded shadow-md border" >
+                    <div class="card text-white secondary.bg-gradient rounded shadow-md border" >
                         <div class="card-body">
                             <div class="card-title h3">Date RDV</div>
                                 <p class="card-text">Texte Dynamique</p>
@@ -117,7 +117,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md rounded">
-                    <div class="card-6 text-white bg-dark rounded shadow-md border" >
+                    <div class="card text-white bg-dark rounded shadow-md border" >
                         <div class="card-body">
                             <div class="card-title h3">Facture</div>
                                 <p class="card-text">Texte Dynamique</p>
@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="col-md rounded">
-                    <div class="card-6 text-white rounded shadow-md border" style="background-color: #a1a1a1 !important;">
+                    <div class="card text-white rounded shadow-md border" style="background-color: #a1a1a1 !important;">
                         <div class="card-body">
                             <div class="card-title h3">Etat Du Dossier</div>
                                 <p class="card-text">Texte Dynamique</p>
