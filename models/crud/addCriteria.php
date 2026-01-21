@@ -38,7 +38,6 @@ try {
     $db->beginTransaction();
     
     try {
-        // Étape 1 : Insérer le nouveau critère
         $sqlInsertCritere = "INSERT INTO criteres (Critere_description, Critere_statut, Critere_points) 
                              VALUES (:description, :statut, :points)";
         
@@ -58,7 +57,6 @@ try {
         // Récupérer l'ID du critère nouvellement créé
         $newCritereId = $db->lastInsertId();
         
-        // Étape 2 : Trouver la ListesCriteres_ID correspondant au niveau d'étoile
         $sqlGetListe = "SELECT ListesCriteres_ID 
                         FROM listescriteres_etoiles 
                         WHERE type_hebergement_id = 2 AND etoile = :star";
@@ -73,7 +71,6 @@ try {
             throw new Exception("Aucune liste de critères trouvée pour $star étoile(s)");
         }
         
-        // Étape 3 : Insérer dans la table contient pour chaque liste trouvée
         $sqlInsertContient = "INSERT INTO contient (Critere_ID, Photo_ID, ListesCriteres_ID) 
                               VALUES (:critere_id, 100, :liste_id)";
         
