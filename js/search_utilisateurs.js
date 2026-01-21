@@ -30,6 +30,47 @@ async function getUserById(id)
     return result;
 }
 
+async function showUserUpdateModal(id) 
+{
+    try
+    {
+        var user = await getUserById(id)
+
+    document.getElementById('editLeNom').value = user.Utilisateur_Nom;
+    document.getElementById('editLePrenom').value = user.Utilisateur_Prenom;
+    document.getElementById('editLeMail').value = user.Utilisateur_Mail;
+
+    switch(result["Utilisateur_Civilite"]){
+        case "Monsieur" :
+            document.getElementById('editLeGenre').value = "1"
+            break;
+        case "Madame" :
+            document.getElementById('editLeGenre').value = "2"
+            break;
+        case "Iel" :
+            document.getElementById('editLeGenre').value = "3"
+            break;
+        default :
+            document.getElementById('editLeGenre').value = "3"
+    }
+
+    document.getElementById('editLaSociete').value = "TODO";
+    document.getElementById('editLeTel').value = user.Utilisateur_Telephone;
+    document.getElementById('editLeNumRue').value = user.AdressePostale_NumeroRue;
+    document.getElementById('editLaAdresse').value = user.AdressePostale_NomRue;
+    document.getElementById('editLeComplement').value = user.AdressePostale_Complement;
+    document.getElementById('editLeCode').value = user.AdressePostale_CodePostal;
+    document.getElementById('editLaVille').value = user.AdressePostale_Ville;
+    document.getElementById('editLePays').value = user.AdressePostale_Pays;
+
+    editModal.show()
+
+    } catch (error) 
+    {
+        console.error("Erreur:", error);
+    }
+}
+
 async function showUserInfoModal(id)
 {
     try 
@@ -109,7 +150,9 @@ async function loadTable()
 // Charger le tableau au démarrage de la page
 document.addEventListener("DOMContentLoaded", function() {
     loadTable()
+
     seeModal = new bootstrap.Modal(document.getElementById('seeModal'))
+    editModal = new bootstrap.Modal(document.getElementById('editModal'))
 });
 
 
