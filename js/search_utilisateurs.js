@@ -57,11 +57,15 @@ async function loadTable()
 
             if (user && user.admin == 1)
             {
-                roleUser = "Utilisateur"
+                roleUser = "Administrateur"
             }
             else if (user && user.inspecteur == 1)
             {
                 roleUser = "Inspecteur"
+            }
+            else if (user && user.proprietaire == 1)
+            {
+                roleUser = "Proprietaire"
             }
             
             tr.innerHTML = `
