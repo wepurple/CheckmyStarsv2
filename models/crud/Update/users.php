@@ -7,39 +7,7 @@
     class Users
     {
         private $connexion;
-        private $tableUtilisateurs = "utilisateurs";
-        private $tableAdressesPostales = "adressesPostales";
-        private $tableSocietes = "societes";
-        private $tableInspecteurs = "inspecteurs";
-        private $tableAdministrateurs = "administrateurs";
-        private $tableProprietaires = "proprietaires";
-        private $tableDonneurordre = "donneurordre";
-        private $tableDossier = "dossiers";
 
-        public $IdPersonne;
-        public $Nom;
-        public $Prenom;
-        public $Civilite;
-        public $Telephone;
-        public $Email;
-        public $AdresseNum;
-        public $AdresseNom;
-        public $Complement;
-        public $CodePostal;
-        public $Ville;
-        public $Pays;
-        public $Societe;
-        public $MotPasse;
-        public $Signature;
-        public $idAdresse;
-        public $Utilisateur_ID;
-
-
-        /**
-         * Constructeur avec $db pour la connexion à la base de données
-         *
-         * @param $db
-        */
         public function __construct($db)
         {
             $this->connexion = $db;
@@ -59,6 +27,10 @@
         $database = new Database();
         $db = $database->getConnection();
         
+        if (!$db) {
+            throw new Exception("Erreur de connexion à la base de données");
+        }
+        
         $users = new Users($db);
         
         // Traiter la requête POST
@@ -66,31 +38,33 @@
             $json = file_get_contents('php://input');
             $data = json_decode($json, true);
             
-            if (isset($data['id'])) {
-                $result = $users->updateUserById(
-                    $data['nom'],
-                    $data['prenom'],
-                    $data['email'],
-                    $data['civilite'],
-                    $data['societe_id'],
-                    $data['telephone'],
-                    $data['num_rue'],
-                    $data['nom_rue'],
-                    $data['complement'],
-                    $data['code_postal'],
-                    $data['ville'],
-                    $data['pays'],
-                    $data['id']
-                );
-                
-                echo json_encode(['success' => true, 'message' => 'Utilisateur modifié']);
-            } else {
-                echo json_encode(['success' => false, 'error' => 'ID manquant']);
+            if (!$data || !isset($data['id'])) {
+                echo json_encode(['success' => false, 'error' => 'Données manquantes']);
+                exit;
             }
+            
+            $result = $users->updateUserById(
+                $data['nom'] ?? '',
+                $data['prenom'] ?? '',
+                $data['email'] ?? '',
+                $data['civilite'] ?? '',
+                $data['societe_id'] ?? '',
+                $data['telephone'] ?? '',
+                $data['num_rue'] ?? '',
+                $data['nom_rue'] ?? '',
+                $data['complement'] ?? '',
+                $data['code_postal'] ?? '',
+                $data['ville'] ?? '',
+                $data['pays'] ?? '',
+                $data['id']
+            );
+            
+            echo json_encode(['success' => true, 'message' => 'Utilisateur modifié']);
         } else {
-            echo json_encode(['success' => false, 'error' => 'Méthode non autorisée']);
+            echo json_encode(['success' => false, 'error' => 'Méthode POST requise']);
         }
     } catch (Exception $e) {
         echo json_encode(['success' => false, 'error' => $e->getMessage()]);
     }
+?>
 ?>
