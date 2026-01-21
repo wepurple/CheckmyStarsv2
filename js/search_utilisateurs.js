@@ -32,6 +32,7 @@ async function getUserById(id)
 
 function showUserInfoModal(id)
 {
+    console.log(id)
     seeModal.show()
 }
 
@@ -76,7 +77,7 @@ async function loadTable()
                 <td>${roleUser}</td>
                 <td>${user.Societe_Nom || ''}</td>
                 <td class="text-end">
-                    <button class="btn btn-secondary btn-sm me-2"> <i class="fa-solid fa-eye"></i> </button>
+                    <button class="btn btn-secondary btn-sm me-2" onclick="showUserInfoModal(1)"> <i class="fa-solid fa-eye"></i> </button>
                     <button class="btn btn-sm btn-warning me-2">Edit</button>
                     <button class="btn btn-sm btn-danger">Delete</button>
                 </td>
