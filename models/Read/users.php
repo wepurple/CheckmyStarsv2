@@ -40,7 +40,7 @@
         }
 
         public function getAllUsers(){
-            $sql = "CALL Get_User_ID;";
+            $sql = "CALL Get_User;";
             $query = $this->connexion->prepare($sql);
             $query->execute();
 
