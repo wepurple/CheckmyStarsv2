@@ -41,7 +41,7 @@ async function loadTable()
                 <td>${user.Utilisateur_Prenom || ''}</td>
                 <td>${user.Utilisateur_Mail || ''}</td>
                 <td>Role</td>
-                <td>${user.Societe || ''}</td>
+                <td>${user.Societe_Nom || ''}</td>
                 <td class="text-end">
                     <button class="btn btn-sm btn-warning">Edit</button>
                     <button class="btn btn-sm btn-danger">Delete</button>
