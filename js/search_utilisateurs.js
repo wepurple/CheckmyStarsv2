@@ -23,13 +23,13 @@ async function loadTable()
 {
     var users = await getAllusers()
     var tab = document.getElementById("table-body");
-    tab.innerHTML = ""; // Vider le tableau
+    tab.innerHTML = "";
 
     for (var i = 0; i < users.length; i++)
     {
         var user = users[i];
         
-        var tr = document.createElement("tr");
+        var tr = tab.createElement("tr");
         
         tr.innerHTML = `
             <td>${user.Utilisateur_ID || user.IdPersonne || ''}</td>
