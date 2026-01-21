@@ -22,9 +22,14 @@ function getUserById(id)
 async function loadTable()
 {
     var users = await getAllusers()
+    var tab = document.getElementById("table-body");
 
     for (var i = 0; i < users.length; i++)
     {
         console.log(users[i].Utilisateur_Nom);
+
+        tab.appendChild(document.createElement("th"))
+        e=tab.lastElementChild
+        e.appendChild(document.createElement('td'))
     }
 }
