@@ -70,12 +70,12 @@
                 </div>
             </div>
             <div class="row">
-                <div class="card-6 text-white bg-primary rounded" style="max-width: 18rem;">
+                <div class="card-6 text-white bg-primary rounded">
                     <div class="card-body">
                         <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAAaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</p>
                     </div>
                 </div>
-                <div class="card-6 text-white bg-danger rounded" style="max-width: 18rem;">
+                <div class="card-6 text-white bg-danger rounded">
                     <div class="card-body">
                         <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
                     </div>
