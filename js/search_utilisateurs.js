@@ -30,22 +30,39 @@ async function getUserById(id)
     return result;
 }
 
-function showUserInfoModal(id)
+async function showUserInfoModal(id)
 {
-    console.log(id)
-    seeModal.show()
-}
+    try 
+    {
+        var user = await getUserById(id)
 
-//seeModal.show()
+        document.getElementById('seeLeNom').value = user.Utilisateur_Nom;
+        document.getElementById('seeLePrenom').value = user.Utilisateur_Prenom;
+        document.getElementById('seeLeMail').value = user.Utilisateur_Mail;
+        document.getElementById('seeGenre').value = user.Utilisateur_Civilite;
+        document.getElementById('seeLaSociete').value = user.Societe_Nom;
+        document.getElementById('seeLeTel').value = user.Utilisateur_Telephone;
+        document.getElementById('seeLeNumRue').value = user.AdressePostale_NumeroRue;
+        document.getElementById('seeLaAdresse').value = user.AdressePostale_NomRue;
+        document.getElementById('seeLeComplement').value = user.AdressePostale_Complement;
+        document.getElementById('seeLeCode').value = user.AdressePostale_CodePostal;
+        document.getElementById('seeLaVille').value = user.AdressePostale_Ville;
+        document.getElementById('seeLePays').value = user.AdressePostale_Pays;
+
+        seeModal.show()
+    } catch (error) 
+    {
+        console.error("Erreur:", error);
+    }
+}
 
 async function loadTable()
 {
-    try {
+    try 
+    {
         var users = await getAllusers()
         var tab = document.getElementById("table-body");
         tab.innerHTML = "";
-
-        console.log("Nombre d'utilisateurs:", users.length);
 
         for (var i = 0; i < users.length; i++)
         {
@@ -84,7 +101,8 @@ async function loadTable()
             `;
             tab.appendChild(tr);
         }
-    } catch (error) {
+    } catch (error) 
+    {
         console.error("Erreur:", error);
     }
 }
