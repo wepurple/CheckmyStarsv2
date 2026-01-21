@@ -42,6 +42,7 @@ class User {
          *
         * @return void
     */
+    /*
     public function creerAdresse(){
         $sql = "INSERT INTO " . $this->table2 . " SET AdressePostale_NumeroRue=:AdresseNum, AdressePostale_Complement=:Complement, AdressePostale_CodePostal=:CodePostal, AdressePostale_NomRue=:AdresseNom, AdressePostale_Ville=:Ville, AdressePostale_Pays=:Pays";
         $query = $this->connexion->prepare($sql);
@@ -66,19 +67,18 @@ class User {
         }
         return false;
     }
+        */
 
-    public function creer(){
-        $sql = "INSERT INTO " . $this->table . " SET Utilisateur_Nom=:Nom, Utilisateur_Prenom=:Prenom, Utilisateur_Civilite=:Civilite, Utilisateur_Telephone=:Telephone, Utilisateur_Mail=:Email, Utilisateur_Societe=:Societe, Utilisateur_Password=:MotPasse, AdressePostale_ID=:AdressePostale_ID";
+    public function creer(){//crée un utilisateur et une adresse
+        $sql = "CALL Create_User(:NumRue, :NomRue, :Comp, :CP, :Ville, :Pays, :Nom, :Prenom, :Civilite, :Password, :Email, :Telephone, :Signature, :Societe)";
         $query = $this->connexion->prepare($sql);
-
-        $this->Nom=htmlspecialchars(strip_tags($this->Nom));
-        $this->Prenom=htmlspecialchars(strip_tags($this->Prenom));
-        $this->Civilite=htmlspecialchars(strip_tags($this->Civilite));
-        $this->Telephone=htmlspecialchars(strip_tags($this->Telephone));
-        $this->Email=htmlspecialchars(strip_tags($this->Email));
-        $this->Societe=htmlspecialchars(strip_tags($this->Societe));
-        $this->MotPasse=htmlspecialchars(strip_tags($this->MotPasse));
-        $this->idAdresse=htmlspecialchars(strip_tags($this->idAdresse));
+        
+        $query->bindParam(":NumRue", $this->AdresseNum);
+        $query->bindParam(":NomRue", $this->AdresseNom);
+        $query->bindParam(":Comp", $this->Complement);
+        $query->bindParam(":CP", $this->CodePostal);
+        $query->bindParam(":Ville", $this->Ville);
+        $query->bindParam(":Pays", $this->Pays);
 
         $query->bindParam(":Nom", $this->Nom);
         $query->bindParam(":Prenom", $this->Prenom);
@@ -86,14 +86,14 @@ class User {
         $query->bindParam(":Telephone", $this->Telephone);
         $query->bindParam(":Email", $this->Email);
         $query->bindParam(":Societe", $this->Societe);
-        $query->bindParam(":MotPasse", $this->MotPasse);
-        $query->bindParam(":AdressePostale_ID", $this->idAdresse);
+        $query->bindParam(":Password", $this->MotPasse);
+        $query->bindParam(":Signature", $this->Signature);
 
         if($query->execute()){
             return true;
-
+        }else{
+            return false;
         }
-        return false;
     }
  
     public function afficherUtilisateur($id){

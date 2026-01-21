@@ -270,8 +270,9 @@ async function reset(id){
 
 async function addUser() {
     //vérifie si toutes les informations obligatoires sont remplies
-    const laListe = ['leNom', 'lePrenom', 'leMail', 'laSociete', 'leTel', 'leNumRue', 'laAdresse', 'leComplement', 'leCode', 'laVille', 'lePays']
+    const laListe = ['leNom', 'lePrenom', 'leMail', 'laSociete', 'leTel', 'leNumRue', 'laAdresse', 'leCode', 'laVille', 'lePays']
     let verif = true
+
     laListe.forEach((sixseven) => {
         if (document.getElementById(sixseven).value == ""){
             document.getElementById(sixseven).classList.add('is-invalid')
@@ -279,13 +280,41 @@ async function addUser() {
         }else{            
             document.getElementById(sixseven).classList.remove('is-invalid')
         }
-        if(verif){
-            console.log('ok')
-            //addModal.hide()
-            //recherche()
-        }
     })
 
+    if(verif){//si tous les champs sont remplis
+        console.log('ok')
+        //addModal.hide()
+        //recherche()
+    
+        const url = "models/crud/creer.php"
+        const data = {
+            AdresseNum : document.getElementById('leNumRue').value,
+            AdresseNom : document.getElementById('laAdresse').value,
+            Complement : document.getElementById('leComplement').value,
+            CodePostal : document.getElementById('leCode').value,
+            Ville : document.getElementById('laVille').value,
+            Pays : document.getElementById('lePays').value,
+
+            Nom : document.getElementById('leNom').value,
+            Prenom : document.getElementById('lePrenom').value,
+            Civilite : document.getElementById('leGenre').value,
+            Email : document.getElementById('leMail').value,
+            Telephone : document.getElementById('leTel').value,
+            //Signature : document.getElementById('laSignature').value,
+            Societe : document.getElementById('laSociete').value,
+
+        }
+        const response = await fetch(url, {
+            method : "POST",
+            headers : {
+                'Content-Type' : "application/json"
+            },
+            body : JSON.stringify(data)
+        })
+    }
+    addCancel()
+    addModal.hide()
 }
 
 async function addCancel(){//reset les valeurs du formulaire d'ajout inspecteur
