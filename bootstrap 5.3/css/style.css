@@ -207,3 +207,6 @@ fieldset legend {
     animation: fadeIn 0.5s ease;
 }
 
+.max-w-15 {
+    max-width: 15%;
+}
