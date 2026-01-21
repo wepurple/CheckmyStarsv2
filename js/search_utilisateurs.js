@@ -28,7 +28,8 @@ async function loadTable()
     {
         console.log(users[i].Utilisateur_Nom);
 
-        tab.appendChild(document.createElement("th"))
+        e=tab.lastElementChild
+        e.appendChild(document.createElement("th"))
         e=tab.lastElementChild
         e.appendChild(document.createElement('td'))
     }
