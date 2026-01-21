@@ -71,7 +71,7 @@ async function updateUserById()
         }
     } catch (error) {
         console.error("Erreur:", error);
-        alert("Une erreur s'est produite");
+        alert("Une erreur s'est produite :", error);
     }
 }
 
