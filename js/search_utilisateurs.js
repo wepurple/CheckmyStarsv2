@@ -53,7 +53,7 @@ async function loadTable()
             
             var tr = document.createElement("tr");
 
-            var roleUser;
+            var roleUser = "err";
 
             if (user && user.admin == 1)
             {
