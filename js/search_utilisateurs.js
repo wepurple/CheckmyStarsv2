@@ -1,4 +1,4 @@
-async function getAlluser()
+async function getAllusers()
 {
     const url = "models/Read/users.php";
     const response = await fetch(url, {
