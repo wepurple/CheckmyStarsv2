@@ -26,7 +26,9 @@
                 <div class="col-md 4 p-3 rounded">
                     <div id="Carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
                         <div class="carousel-inner">
-                            <p>bambam</p>
+                            <div class="carousel-item active">
+                                <p>bambam</p>
+                            </div>
                         </div>
                     </div>
                 </div>
