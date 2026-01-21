@@ -21,7 +21,7 @@
         <?php
             require_once "./includes/navbar.php";
         ?>
-        <div class="container-sm">
+        <div class="container">
             <div class="row justify-content-center">
                 <div class="col-md 4 p-3 rounded">
                     <div id="Carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
@@ -50,8 +50,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md 4">
                 </div>
             </div>
             <div class="row">
