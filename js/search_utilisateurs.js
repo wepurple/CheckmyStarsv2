@@ -14,10 +14,23 @@ async function getAllusers()
     return result;
 }
 
-function getUserById(id)
+async function getUserById(id)
 {
-    
+    const url = "models/Read/users.php?IdPersonne="+id;
+    const response = await fetch(url, {
+        method : "GET",
+        headers : {
+            'Content-Type' : "application/json"
+        }
+    });
+
+    const result = await response.json();
+    console.log("Données reçues:", result);
+
+    return result;
 }
+
+//seeModal.show()
 
 async function loadTable()
 {
