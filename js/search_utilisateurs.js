@@ -37,11 +37,12 @@ async function showUserUpdateModal(id)
         var user = await getUserById(id)
         console.log("ok 1")
 
+        document.getElementById('editIdUser').value = user.Utilisateur_ID;
         document.getElementById('editLeNom').value = user.Utilisateur_Nom;
         document.getElementById('editLePrenom').value = user.Utilisateur_Prenom;
         document.getElementById('editLeMail').value = user.Utilisateur_Mail;
 
-        switch(result["Utilisateur_Civilite"]){
+        switch(user["Utilisateur_Civilite"]){
             case "Monsieur" :
                 document.getElementById('editLeGenre').value = "1"
                 break;
@@ -136,7 +137,7 @@ async function loadTable()
                 <td>${user.Societe_Nom || ''}</td>
                 <td class="text-end">
                     <button class="btn btn-secondary btn-sm me-2" onclick="showUserInfoModal(${user.Utilisateur_ID})"> <i class="fa-solid fa-eye"></i> </button>
-                    <button class="btn btn-sm btn-warning me-2 onclick="showUserUpdateModal(${user.Utilisateur_ID})"">Edit</button>
+                    <button class="btn btn-sm btn-warning me-2" onclick="showUserUpdateModal(${user.Utilisateur_ID})">Edit</button>
                     <button class="btn btn-sm btn-danger">Delete</button>
                 </td>
             `;
