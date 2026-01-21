@@ -19,12 +19,12 @@ function getUserById(id)
     
 }
 
-function loadTable()
+async function loadTable()
 {
-    var users = getAllusers()
+    var users = await getAllusers()
 
-    for (var i = 0; i < users.lenght; i++)
+    for (var i = 0; i < users.length; i++)
     {
-        console.log(users[i].Utilisateur_Nom);
+        console.log(users[i]);
     }
 }
