@@ -72,12 +72,12 @@
             <div class="row">
                 <div class="card-6">
                     <div class="card-body">
-                        <p>HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
+                        <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
                     </div>
                 </div>
                 <div class="card-6">
                     <div class="card-body">
-                        <p>HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
+                        <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
                     </div>
                 </div>
             </div>  
