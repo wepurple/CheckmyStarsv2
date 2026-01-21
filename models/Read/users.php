@@ -54,6 +54,9 @@
     }
     
     try {
+        $database = new Database();
+        $db = $database->getConnection();
+        
         $users = new Users($db);
         $result = $users->getAllUsers();
         $data = $result->fetchAll(PDO::FETCH_ASSOC);
