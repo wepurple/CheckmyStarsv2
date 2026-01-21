@@ -72,7 +72,7 @@
             <div class="row">
                 <div class="card-6 text-white bg-primary rounded shadow-md">
                     <div class="card-body">
-                        <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAA
+                        <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAA</br>
                             sfdsf
                             dns_get_mxsdg
                             sys_get_temp_dirs
