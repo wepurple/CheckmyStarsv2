@@ -2,7 +2,7 @@
     ob_clean();
     header('Content-Type: application/json');
     
-    require_once(dirname(__FILE__) . "/../../../includes/mariadb.php");
+    require_once(dirname(__FILE__) . "/../../../../includes/mariadb.php");
     
     class Users
     {
