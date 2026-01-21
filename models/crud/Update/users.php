@@ -2,7 +2,7 @@
     ob_clean();
     header('Content-Type: application/json');
     
-    require_once("../../includes/mariadb.php");
+    require_once(dirname(__FILE__) . "/../../../../includes/mariadb.php");
     
     class Users
     {
@@ -51,7 +51,7 @@
                 $data['prenom'] ?? '',
                 $data['email'] ?? '',
                 $data['civilite'] ?? '',
-                $data['societe_id'] ?? '',
+                !empty($data['societe_id']) ? intval($data['societe_id']) : 7,
                 $data['telephone'] ?? '',
                 $data['num_rue'] ?? '',
                 $data['nom_rue'] ?? '',
