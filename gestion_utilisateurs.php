@@ -37,17 +37,17 @@ if (isset($_SESSION['Role']['Administrateur'])) {
     <!-- Barre de recherche + bouton ajouter -->
     <nav class="navbar">
         <div class="container-fluid d-flex flex-row mb-2">
-            <div class="input-group">
+            <div class="input-group row">
 
                 <!-- Bouton Ajout -->
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
+                <button type="button" class="btn btn-success col-2" data-bs-toggle="modal" data-bs-target="#addModal">
                     <i class="fa-solid fa-plus"></i>
                     Ajouter un utilisateur
                 </button>
 
-                <span class="input-group-text">Rechercher par</span>
+                <span class="input-group-text col-2">Rechercher par</span>
 
-                <select class="form-select" id="type">
+                <select class="form-select col-2" id="type">
                     <option selected value="1">ID</option>
                     <option value="2">Nom</option>
                     <option value="3">Prénom</option>
@@ -56,7 +56,7 @@ if (isset($_SESSION['Role']['Administrateur'])) {
                     <option value="6">Société</option>
                 </select>
 
-                <input type="text" class="form-control" id="recherche" placeholder="Votre recherche...">
+                <input type="text" class="form-control col-6" id="recherche" placeholder="Votre recherche...">
             </div>
         </div>
     </nav>
