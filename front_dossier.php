@@ -70,12 +70,12 @@
                 </div>
             </div>
             <div class="row">
-                <div class="card-6">
+                <div class="card-6" style="width: 18rem;">
                     <div class="card-body">
                         <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
                     </div>
                 </div>
-                <div class="card-6">
+                <div class="card-6" style="width: 18rem;">
                     <div class="card-body">
                         <p class="card-text">HAAAAAAAAAAAAAAAAAAAAAAAAA</p>
                     </div>
