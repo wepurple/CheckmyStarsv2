@@ -73,13 +73,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-md rounded">
-                    <div class="card text-white bg-dark rounded shadow-md border" >
-                        <div class="card-body">
-                            <p class="card-text">Texte Dynamique</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
                         <div class="card-body">
                                 <button type="button" class="btn">Voir le devis</button>
@@ -87,40 +80,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md rounded">
-                    <div class="card text-white bg-dark rounded shadow-md border" >
-                        <div class="card-body">
-                            <p class="card-text">Texte Dynamique</p>
-                        </div>
-                    </div>
-                </div>
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
                         <div class="card-body">
-                                <p class="card-text">Texte Dynamique</p>
+                                <button type="button" class="btn">Voir la facture</button>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md rounded">
-                    <div class="card text-white bg-dark rounded shadow-md border" >
-                        <div class="card-body">
-                            <p class="card-text">Texte Dynamique</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md rounded">
-                    <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
-                        <div class="card-body">
-                            <p class="card-text">Texte Dynamique</p>
                         </div>
                     </div>
                 </div>
