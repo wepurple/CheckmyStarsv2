@@ -47,7 +47,6 @@ function getAllCompany()
     <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
 
     <script src="bootstrap 5.3/js/bootstrap.js"></script>
-    <script src="js/search_utilisateurs.js"></script>
 </head>
 
 <body class="bg-secondary">
@@ -403,5 +402,6 @@ function getAllCompany()
         </div>
     </div>
 </div>
+<script src="js/search_utilisateurs.js"></script>
 </body>
 </html>
