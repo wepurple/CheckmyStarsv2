@@ -70,7 +70,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="./deco.php">Déconnexion</a>
+                    <a class="nav-link" href="./deco.php">Se déconnecter</a>
                 </li>
 
             </ul>
