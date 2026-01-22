@@ -24,7 +24,7 @@
         <div class="container-sm">
             <div class="row justify-content-center">
                 <div class="col-md 4 p-3 rounded">
-                    <div id="Carousel" class="carousel slide"  data-bs-ride="carousel" data-bs-interval="5000" data-bs-pause="false">
+                    <div id="Carousel" class="carousel slide"  data-bs-ride="carousel" data-bs-interval="2000" data-bs-pause="false">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img src="img\hotel_img3.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 3">
@@ -39,7 +39,7 @@
                     </div>
                 </div>
                 <div class="col-md 4 p-3 rounded">
-                    <div id="Carousel" class="carousel slide"  data-bs-ride="carousel" data-bs-interval="5000" data-bs-pause="false">
+                    <div id="Carousel" class="carousel slide"  data-bs-ride="carousel" data-bs-interval="2000" data-bs-pause="false">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img src="img\hotel_img1.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 1">
@@ -54,7 +54,7 @@
                     </div>
                 </div>
                 <div class="col-md 4 p-3 rounded">
-                    <div id="Carousel" class="carousel slide"  data-bs-ride="carousel" data-bs-interval="5000" data-bs-pause="false">
+                    <div id="Carousel" class="carousel slide"  data-bs-ride="carousel" data-bs-interval="2000" data-bs-pause="false">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img src="img\hotel_img2.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 2">
@@ -82,10 +82,10 @@
                     </div>
                 </div>
                 <div class="col-md rounded">
-                    <div class="card text-white secondary.bg-gradient rounded shadow-md border" >
+                    <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
                         <div class="card-body">
                             <div class="card-title h3">Devis</div>
-                                <p class="card-text">Texte Dynamique</p>
+                                <button type="button" class="btn">Voir le devis</button>
                             </div>
                         </div>
                     </div>
@@ -104,7 +104,7 @@
                     </div>
                 </div>
                 <div class="col-md rounded">
-                    <div class="card text-white secondary.bg-gradient rounded shadow-md border" >
+                    <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
                         <div class="card-body">
                             <div class="card-title h3">Date RDV</div>
                                 <p class="card-text">Texte Dynamique</p>
@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="col-md rounded">
-                    <div class="card text-white rounded shadow-md border" style="background-color: #a1a1a1 !important;">
+                    <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
                         <div class="card-body">
                             <div class="card-title h3">Etat Du Dossier</div>
                                 <p class="card-text">Texte Dynamique</p>
