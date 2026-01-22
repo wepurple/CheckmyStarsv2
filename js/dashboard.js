@@ -30,7 +30,7 @@ function remplirTab(liste) {//remplit le tablo
             tr.addEventListener("click", function () {
                 window.location.href = "utilisateur.php?id=" + liste[i]["Utilisateur_ID"];
             });
-
+            tab.appendChild(tr)
             e=tab.lastElementChild
             e.appendChild(document.createElement('td'))
             e.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
