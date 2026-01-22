@@ -141,6 +141,12 @@
                 <div class="col-md rounded">
                     <p>salut</p>
                 </div>
+                <div class="col-md rounded">
+                    <p>salut</p>
+                </div>
+                <div class="col-md rounded">
+                    <p>salut</p>
+                </div>
             </div>
         </div>
     </body>
