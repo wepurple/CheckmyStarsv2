@@ -1,4 +1,3 @@
-// Déclarer les variables modals au DÉBUT du fichier
 let seeModal = null;
 let editModal = null;
 
@@ -39,7 +38,7 @@ async function updateUserById()
         const prenom = document.getElementById('editLePrenom').value;
         const email = document.getElementById('editLeMail').value;
         const civilite = document.getElementById('editLeGenre').value;
-        const societe_id = 7;
+        const societe_id = document.getElementById('editLaSociete').value;
         const telephone = document.getElementById('editLeTel').value;
         const num_rue = document.getElementById('editLeNumRue').value;
         const nom_rue = document.getElementById('editLaAdresse').value;
@@ -53,7 +52,7 @@ async function updateUserById()
             num_rue, nom_rue, complement, code_postal, ville, pays
         };
 
-        const response = await fetch("models/crud/Update/users.php", {
+        const response = await fetch("models/Update/users.php", {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)
@@ -81,7 +80,6 @@ async function showUserUpdateModal(id)
 {
     try
     {
-        // Initialiser le modal s'il n'existe pas
         if (!editModal) {
             const editModalElement = document.getElementById('editModal');
             if (editModalElement) {
@@ -113,7 +111,12 @@ async function showUserUpdateModal(id)
                 document.getElementById('editLeGenre').value = "3";
         }
 
-        document.getElementById('editLaSociete').value = "TODO";
+        if (user.Societe_ID) {
+            console.log(user);
+            console.log(user.Societe_ID);
+            document.getElementById('editLaSociete').value = user.Societe_ID;
+        }
+        
         document.getElementById('editLeTel').value = user.Utilisateur_Telephone || '';
         document.getElementById('editLeNumRue').value = user.AdressePostale_NumeroRue || '';
         document.getElementById('editLaAdresse').value = user.AdressePostale_NomRue || '';
@@ -135,7 +138,6 @@ async function showUserInfoModal(id)
 {
     try 
     {
-        // Initialiser le modal s'il n'existe pas
         if (!seeModal) {
             const seeModalElement = document.getElementById('seeModal');
             if (seeModalElement) {
@@ -239,24 +241,5 @@ async function loadTable()
 
 // Charger le tableau et initialiser les modals au démarrage de la page
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("Page chargée, initialisation...");
-    
-    // Initialiser les modals
-    const editModalElement = document.getElementById('editModal');
-    const seeModalElement = document.getElementById('seeModal');
-    
-    if (editModalElement) {
-        editModal = new bootstrap.Modal(editModalElement);
-    } else {
-        console.error("editModal element not found in DOM!");
-    }
-    
-    if (seeModalElement) {
-        seeModal = new bootstrap.Modal(seeModalElement);
-    } else {
-        console.error("seeModal element not found in DOM!");
-    }
-    
-    // Charger le tableau
-    loadTable();
+  loadTable();
 });
