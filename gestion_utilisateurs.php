@@ -14,6 +14,9 @@ if (isset($_SESSION['Role']['Administrateur'])) {
     die();
 }
 
+$database = new Database();
+$db = $database->getConnection();
+
 function getAllCompany($connexion)
 {
     $sql = "SELECT Societe_ID, Societe_Nom FROM societes ORDER BY Societe_Nom;";
