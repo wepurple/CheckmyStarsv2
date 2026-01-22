@@ -75,16 +75,13 @@
                 <div class="col-md rounded">
                     <div class="card text-white bg-dark rounded shadow-md border" >
                         <div class="card-body">
-                            <div class="card-title h3">Evolution</div>
-                                <p class="card-text">Texte Dynamique</p>
-                            </div>
+                            <p class="card-text">Texte Dynamique</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
                         <div class="card-body">
-                            <div class="card-title h3">Devis</div>
                                 <button type="button" class="btn">Voir le devis</button>
                             </div>
                         </div>
@@ -97,16 +94,13 @@
                 <div class="col-md rounded">
                     <div class="card text-white bg-dark rounded shadow-md border" >
                         <div class="card-body">
-                            <div class="card-title h3">Adresse</div>
-                                <p class="card-text">Texte Dynamique</p>
-                            </div>
+                            <p class="card-text">Texte Dynamique</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
                         <div class="card-body">
-                            <div class="card-title h3">Date RDV</div>
                                 <p class="card-text">Texte Dynamique</p>
                             </div>
                         </div>
@@ -119,49 +113,14 @@
                 <div class="col-md rounded">
                     <div class="card text-white bg-dark rounded shadow-md border" >
                         <div class="card-body">
-                            <div class="card-title h3">Facture</div>
-                                <p class="card-text">Texte Dynamique</p>
-                            </div>
+                            <p class="card-text">Texte Dynamique</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
                         <div class="card-body">
-                            <div class="card-title h3">Etat Du Dossier</div>
-                                <p class="card-text">Texte Dynamique</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md rounded">
-                    <div class="card text-white bg-dark rounded shadow-md border" >
-                        <div class="card-body">
-                            <div class="card-title h3">Etat Du Dossier</div>
-                                <p>salut</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md rounded">
-                    <div class="card text-white bg-dark rounded shadow-md border" >
-                        <div class="card-body">
-                            <div class="card-title h3">Etat Du Dossier</div>
-                                <p>salut</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md rounded">
-                    <div class="card text-white bg-dark rounded shadow-md border" >
-                        <div class="card-body">
-                            <div class="card-title h3">Etat Du Dossier</div>
-                                <p>salut</p>
-                            </div>
+                            <p class="card-text">Texte Dynamique</p>
                         </div>
                     </div>
                 </div>
