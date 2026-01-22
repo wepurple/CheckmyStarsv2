@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+require_once("../../includes/mariadb.php");
+
 // Même protection que gestion_inspecteurs.php : réservé admin
 if (isset($_SESSION['Role']['Administrateur'])) {
     if (!$_SESSION['Role']['Administrateur']) {
@@ -10,6 +12,25 @@ if (isset($_SESSION['Role']['Administrateur'])) {
 } else {
     header('Location: deco.php');
     die();
+}
+
+/**
+ * Constructeur avec $db pour la connexion à la base de données
+ *
+ * @param $db
+*/
+function __construct($db)
+{
+    $this->connexion = $db;
+}
+
+function getAllCompany()
+{
+    $sql = "SELECT Societe_Nom FROM societes;";
+    $query = $this->connexion->prepare($sql);
+    $query->execute();
+
+    return $query;
 }
 ?>
 
@@ -243,7 +264,14 @@ if (isset($_SESSION['Role']['Administrateur'])) {
 
                             <div class="col-md-6 form-floating mb-3">
                                 <select class="form-select" id="editLaSociete">
-                                    <option value="">Sélectionner...</option>
+                                    <?php
+                                        $companyName = getAllCompany();
+
+                                        while ($row = $companyName->fetch_assoc())
+                                        {
+                                            ?><option value="<?php echo $row['Societe_Nom'] ?>"> <?php echo $row['Societe_Nom'] ?> <?php
+                                        }
+                                    ?>
                                 </select>
                                 <label for="editLaSociete">Société *</label>
                             </div>
