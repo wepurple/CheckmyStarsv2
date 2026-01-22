@@ -7,7 +7,6 @@ const DOC_CONFIG = {
   FACTURE: {
     suffix: "",
     containerId: "lignes-container",
-    buttonId: "btn-facture",
     sectionId: "section-facture",
   },
   DEVIS: {
@@ -18,8 +17,9 @@ const DOC_CONFIG = {
   },
 };
 
-let selectedDocType = "FACTURE";
+let selectedDocType = "DEVIS";
 let previewTimeout;
+let currentDevisNumero = null; // Numéro de devis réservé
 
 // ========== INITIALISATION ==========
 
@@ -35,8 +35,13 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initialiser les boutons de basculement
   bindToggleButtons();
 
-  // Afficher la section Facture par défaut
-  setDocType("FACTURE");
+  // Charger la liste des devis et factures existants
+  fetchDevisList();
+  fetchFacturesList();
+
+  // Afficher la section Devis par défaut et générer un numéro unique
+  setDocType("DEVIS");
+  initNewDevis();
 });
 
 // ========== GESTION DES LIGNES ==========
@@ -76,8 +81,8 @@ function addLigne(type = selectedDocType) {
           </select>
         </div>
         <div class="col-lg-1 col-md-6 col-sm-6 d-flex align-items-end mb-2">
-          <button type="button" class="btn-remove-ligne w-100" onclick="removeLigne('${id}', '${type}')" title="Supprimer">
-            <i class="bi bi-trash"></i>
+          <button type="button" class="btn btn-outline-danger btn-sm w-100" onclick="removeLigne('${id}', '${type}')" title="Supprimer">
+            <i class="fa-solid fa-trash"></i>
           </button>
         </div>
       </div>
@@ -98,7 +103,7 @@ function removeLigne(id, type = selectedDocType) {
 
 function addEventListenersToLigne(id, type) {
   const inputs = document.querySelectorAll(
-    `[data-id="${id}"][data-doc="${type}"]`
+    `[data-id="${id}"][data-doc="${type}"]`,
   );
   inputs.forEach((input) => {
     input.addEventListener("change", () => {
@@ -271,7 +276,7 @@ function updatePreview(type = selectedDocType) {
       lignes,
       totaux: { ht: totalHT, tva: totalTVA, ttc: totalTTC },
     },
-    type
+    type,
   );
 
   previewDiv.innerHTML = htmlPreview;
@@ -295,7 +300,7 @@ function generateHTMLPreview(data, docType) {
         <td class="text-right">${ligne.tva_taux.toFixed(1)}%</td>
         <td class="text-right">${ligne.montant_tva.toFixed(2)} €</td>
         <td class="text-right"><strong>${ligne.montant_ttc.toFixed(
-          2
+          2,
         )} €</strong></td>
       </tr>`;
   });
@@ -360,19 +365,19 @@ function generateHTMLPreview(data, docType) {
           <tr>
             <td><strong>Total HT:</strong></td>
             <td style="text-align: right;"><strong>${totaux.ht.toFixed(
-              2
+              2,
             )} €</strong></td>
           </tr>
           <tr>
             <td><strong>Total TVA:</strong></td>
             <td style="text-align: right;"><strong>${totaux.tva.toFixed(
-              2
+              2,
             )} €</strong></td>
           </tr>
           <tr class="total-row">
             <td><strong>TOTAL TTC:</strong></td>
             <td style="text-align: right;"><strong>${totaux.ttc.toFixed(
-              2
+              2,
             )} €</strong></td>
           </tr>
         </div>
@@ -380,7 +385,8 @@ function generateHTMLPreview(data, docType) {
 
       <div class="invoice-notes">
         <strong>Conditions de paiement:</strong> Net 30 jours<br>
-        Merci de votre confiance!
+        IBAN : XXXX XXXX XXXX XXXX XXXX XX<br>
+        BIC : XXXXXXXXXXX
       </div>
     </div>`;
 }
@@ -478,14 +484,642 @@ function downloadPDF(type = selectedDocType) {
     });
 }
 
+// ========== SAUVEGARDE EN BDD ==========
+
+function saveDevis(type = selectedDocType) {
+  const loading = document.getElementById("loadingOverlay");
+  if (loading) loading.classList.add("active");
+
+  const config = DOC_CONFIG[type];
+  const suffix = config?.suffix ?? "";
+
+  const documentInfo =
+    type === "FACTURE"
+      ? { numero: getValue("facture_numero"), date: getValue("facture_date") }
+      : { numero: getValue("devis_numero"), date: getValue("devis_date") };
+
+  const client = {
+    nom: getValue(`client_nom${suffix}`),
+    adresse: getValue(`client_adresse${suffix}`),
+    cp: getValue(`client_cp${suffix}`),
+    ville: getValue(`client_ville${suffix}`),
+  };
+
+  const lignes = collectLines(type);
+
+  // Calcul des totaux
+  let totalTTC = 0;
+  lignes.forEach((l) => (totalTTC += l.montant_ttc));
+
+  if (!documentInfo.numero || documentInfo.numero === "Génération...") {
+    alert("Veuillez attendre la génération du numéro de document.");
+    if (loading) loading.classList.remove("active");
+    return;
+  }
+
+  fetch("api/devis_api.php?action=save_devis", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ type, documentInfo, client, lignes, totalTTC }),
+  })
+    .then((r) => r.json())
+    .then((res) => {
+      if (!res.success) throw new Error(res.message || "Échec sauvegarde");
+      alert(`✅ ${type} sauvegardé : ${documentInfo.numero}`);
+      fetchDevisList(); // Rafraîchir la liste déroulante
+      // Réinitialiser le numéro réservé
+      currentDevisNumero = null;
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("❌ Erreur sauvegarde: " + err.message);
+    })
+    .finally(() => {
+      if (loading) loading.classList.remove("active");
+    });
+}
+
+// Charger un devis sélectionné
+function loadDevisFromDropdown() {
+  const select = document.getElementById("devisSelector");
+  if (!select || !select.value) {
+    alert("Sélectionnez un devis à charger.");
+    return;
+  }
+
+  const devisId = select.value;
+  const loading = document.getElementById("loadingOverlay");
+  if (loading) loading.classList.add("active");
+
+  fetch(`api/devis_api.php?action=get_devis&id=${encodeURIComponent(devisId)}`)
+    .then((r) => r.json())
+    .then((data) => {
+      if (!data.success)
+        throw new Error(data.message || "Chargement devis impossible");
+      hydrateFormFromDevis(data.devis);
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("❌ Erreur chargement devis: " + err.message);
+    })
+    .finally(() => {
+      if (loading) loading.classList.remove("active");
+    });
+}
+
+function hydrateFormFromDevis(devis) {
+  if (!devis) return;
+
+  // Type de document enregistré
+  const type = devis.Devis_Document === "FACTURE" ? "FACTURE" : "DEVIS";
+  setDocType(type);
+
+  const suffix = DOC_CONFIG[type]?.suffix ?? "";
+
+  // Numéro et date
+  const numeroField = type === "FACTURE" ? "facture_numero" : "devis_numero";
+  const dateField = type === "FACTURE" ? "facture_date" : "devis_date";
+  const dateVal = devis.Devis_DateEmission
+    ? devis.Devis_DateEmission.substring(0, 10)
+    : "";
+  const numEl = document.getElementById(numeroField);
+  const dateEl = document.getElementById(dateField);
+  if (numEl) numEl.value = devis.Devis_Numero || "";
+  if (dateEl) dateEl.value = dateVal;
+
+  // Client
+  if (devis.client) {
+    const c = devis.client;
+    const map = {
+      [`client_nom${suffix}`]: c.nom || "",
+      [`client_adresse${suffix}`]: c.adresse || "",
+      [`client_cp${suffix}`]: c.cp || "",
+      [`client_ville${suffix}`]: c.ville || "",
+    };
+    Object.entries(map).forEach(([id, val]) => {
+      const el = document.getElementById(id);
+      if (el) el.value = val;
+    });
+  }
+
+  // Lignes
+  setLines(type, devis.items || []);
+
+  // Totaux + preview
+  updateTotals(type);
+  updatePreview(type);
+}
+
+function setLines(type, items) {
+  const config = DOC_CONFIG[type];
+  if (!config) return;
+  const container = document.getElementById(config.containerId);
+  if (!container) return;
+
+  container.innerHTML = "";
+  if (!items || items.length === 0) {
+    addLigne(type);
+    return;
+  }
+
+  items.forEach((it) => {
+    addLigne(type);
+    const ligne = container.lastElementChild;
+    if (!ligne) return;
+    const setVal = (sel, val) => {
+      const el = ligne.querySelector(sel);
+      if (el) el.value = val;
+    };
+    setVal('[data-field="description"]', it.description || "");
+    setVal(
+      '[data-field="quantite"]',
+      it.quantite || it.quantite === 0 ? it.quantite : "",
+    );
+    setVal('[data-field="prix_unitaire"]', it.prix_unitaire || "");
+    setVal('[data-field="tva_taux"]', it.tva || it.tva_taux || 0);
+  });
+}
+
+function fetchDevisList() {
+  const select = document.getElementById("devisSelector");
+  if (!select) return;
+
+  fetch("api/devis_api.php?action=list_devis")
+    .then((r) => r.json())
+    .then((data) => {
+      if (!data.success)
+        throw new Error(data.message || "Impossible de lister les devis");
+      select.innerHTML =
+        '<option value="">-- Sélectionner un devis --</option>';
+      data.devis.forEach((d) => {
+        const opt = document.createElement("option");
+        opt.value = d.Devis_ID;
+        opt.textContent = `${d.Devis_Numero} (${d.Devis_Document})`;
+        select.appendChild(opt);
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      select.innerHTML = '<option value="">Erreur de chargement</option>';
+    });
+}
+
+/**
+ * Initialise un nouveau devis avec un numéro unique pré-généré
+ */
+function initNewDevis() {
+  // Réinitialiser le formulaire
+  resetDevisForm();
+  // Générer un nouveau numéro unique
+  fetchNewDevisNumber();
+}
+
+/**
+ * Récupère un nouveau numéro de devis unique depuis l'API
+ */
+function fetchNewDevisNumber() {
+  const input = document.getElementById("devis_numero");
+  if (!input) return;
+
+  // Marquer comme en cours de chargement
+  input.value = "Génération...";
+  input.readOnly = true;
+
+  fetch("api/devis_api.php?action=new_devis_number")
+    .then((r) => r.json())
+    .then((data) => {
+      if (!data.success)
+        throw new Error(data.message || "Erreur génération numéro");
+      currentDevisNumero = data.numero;
+      input.value = data.numero;
+      input.readOnly = true; // Garder readonly pour éviter modification
+      // Réinitialiser le dropdown
+      const select = document.getElementById("devisSelector");
+      if (select) select.value = "";
+      // Mettre à jour la prévisualisation
+      updatePreview("DEVIS");
+    })
+    .catch((err) => {
+      console.error(err);
+      input.value = "";
+      input.readOnly = false; // En cas d'erreur, permettre saisie manuelle
+      alert("❌ Impossible de générer un numéro de devis: " + err.message);
+    });
+}
+
+/**
+ * Réinitialise le formulaire devis
+ */
+function resetDevisForm() {
+  // Champs document
+  document.getElementById("devis_date").value = new Date()
+    .toISOString()
+    .split("T")[0];
+
+  // Champs client
+  const clientFields = [
+    "client_nom_devis",
+    "client_adresse_devis",
+    "client_cp_devis",
+    "client_ville_devis",
+  ];
+  clientFields.forEach((id) => {
+    const el = document.getElementById(id);
+    if (el) el.value = "";
+  });
+
+  // Vider les lignes et en ajouter une nouvelle
+  const container = document.getElementById("lignes-container-devis");
+  if (container) {
+    container.innerHTML = "";
+    addLigne("DEVIS");
+  }
+
+  // Désactiver le mode readonly
+  setReadOnlyMode(false, "DEVIS");
+
+  // Réinitialiser les totaux
+  updateTotals("DEVIS");
+}
+
+// Expose to inline onclick handler
+window.saveDevis = saveDevis;
+window.loadDevisFromDropdown = loadDevisFromDropdown;
+window.initNewDevis = initNewDevis;
+
+// ========== CONVERSION DEVIS → FACTURE ==========
+
+/**
+ * Convertir le devis actuellement chargé en facture
+ */
+function convertDevisToFacture() {
+  const select = document.getElementById("devisSelector");
+  const devisId = select ? select.value : null;
+
+  if (!devisId) {
+    alert("Veuillez d'abord sélectionner et charger un devis à convertir.");
+    return;
+  }
+
+  if (!confirm("Convertir ce devis en facture ? Le devis sera verrouillé.")) {
+    return;
+  }
+
+  const loading = document.getElementById("loadingOverlay");
+  if (loading) loading.classList.add("active");
+
+  fetch(
+    `api/devis_api.php?action=convert&devis_id=${encodeURIComponent(devisId)}`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    },
+  )
+    .then((r) => r.json())
+    .then((res) => {
+      if (!res.success) throw new Error(res.message || "Échec conversion");
+
+      if (res.already_exists) {
+        alert(`ℹ️ Une facture existe déjà : ${res.numeroFacture}`);
+      } else {
+        alert(
+          `✅ Facture créée !\nNuméro: ${res.numeroFacture}\nTotal: ${res.total?.toFixed(2) || 0} €`,
+        );
+      }
+
+      // Recharger les listes
+      fetchDevisList();
+      fetchFacturesList();
+
+      // Afficher la facture créée
+      loadFacture(res.factureId);
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("❌ Erreur conversion: " + err.message);
+    })
+    .finally(() => {
+      if (loading) loading.classList.remove("active");
+    });
+}
+
+/**
+ * Charger une facture (mode READ-ONLY)
+ */
+function loadFacture(factureId) {
+  if (!factureId) {
+    const select = document.getElementById("factureSelector");
+    factureId = select ? select.value : null;
+  }
+
+  if (!factureId) {
+    alert("Sélectionnez une facture à charger.");
+    return;
+  }
+
+  const loading = document.getElementById("loadingOverlay");
+  if (loading) loading.classList.add("active");
+
+  fetch(
+    `api/devis_api.php?action=get_facture&id=${encodeURIComponent(factureId)}`,
+  )
+    .then((r) => r.json())
+    .then((data) => {
+      if (!data.success)
+        throw new Error(data.message || "Chargement impossible");
+      hydrateFormFromFacture(data.facture);
+    })
+    .catch((err) => {
+      console.error(err);
+      alert("❌ Erreur chargement facture: " + err.message);
+    })
+    .finally(() => {
+      if (loading) loading.classList.remove("active");
+    });
+}
+
+/**
+ * Remplir le formulaire avec une facture (mode lecture seule)
+ */
+function hydrateFormFromFacture(facture) {
+  if (!facture) return;
+
+  // Basculer en mode FACTURE
+  setDocType("FACTURE");
+
+  // Activer le mode lecture seule
+  setReadOnlyMode(true, "FACTURE");
+
+  // Remplir les champs
+  const numEl = document.getElementById("facture_numero");
+  const dateEl = document.getElementById("facture_date");
+
+  if (numEl) {
+    numEl.value = facture.Facture_Numero || "";
+    numEl.setAttribute("readonly", true);
+  }
+
+  if (dateEl) {
+    const dateVal = facture.Facture_DateCreation
+      ? facture.Facture_DateCreation.substring(0, 10)
+      : "";
+    dateEl.value = dateVal;
+    dateEl.setAttribute("readonly", true);
+  }
+
+  // Client
+  if (facture.client) {
+    const c = facture.client;
+    ["nom", "adresse", "email", "telephone"].forEach((field) => {
+      const el = document.getElementById(`client_${field}`);
+      if (el) {
+        el.value = c[field] || "";
+        el.setAttribute("readonly", true);
+      }
+    });
+  }
+
+  // Lignes (lecture seule)
+  setLinesReadOnly("FACTURE", facture.items || []);
+
+  // Afficher badge "Facture verrouillée"
+  showLockedBadge(true, facture.Facture_Numero);
+
+  // Mettre à jour l'aperçu
+  updateTotals("FACTURE");
+  updatePreview("FACTURE");
+
+  // Stocker l'ID de la facture chargée
+  window.currentFactureId = facture.Facture_ID;
+}
+
+/**
+ * Afficher les lignes en mode lecture seule
+ */
+function setLinesReadOnly(type, items) {
+  const config = DOC_CONFIG[type];
+  if (!config) return;
+  const container = document.getElementById(config.containerId);
+  if (!container) return;
+
+  container.innerHTML = "";
+  if (!items || items.length === 0) return;
+
+  items.forEach((it) => {
+    const id = `${type}-readonly-${Date.now()}-${Math.random().toString(36).substr(2, 5)}`;
+
+    const ligneHTML = `
+      <div class="ligne-item ligne-readonly" id="ligne-${id}" data-doc-type="${type}">
+        <div class="row">
+          <div class="col-lg-6 col-md-12 mb-2">
+            <label class="form-label">Description</label>
+            <input type="text" class="form-control" value="${escapeHtml(it.description || "")}" 
+                   data-field="description" readonly disabled>
+          </div>
+          <div class="col-lg-2 col-md-6 col-sm-6 mb-2">
+            <label class="form-label">Quantité</label>
+            <input type="number" class="form-control" value="${it.quantite || 0}" 
+                   data-field="quantite" readonly disabled>
+          </div>
+          <div class="col-lg-2 col-md-6 col-sm-6 mb-2">
+            <label class="form-label">Prix Unitaire</label>
+            <input type="number" class="form-control" value="${it.prix_unitaire || 0}" 
+                   data-field="prix_unitaire" readonly disabled>
+          </div>
+          <div class="col-lg-1 col-md-6 col-sm-6 mb-2">
+            <label class="form-label">TVA %</label>
+            <input type="text" class="form-control" value="${it.tva || 20}%" 
+                   data-field="tva_taux" readonly disabled>
+          </div>
+          <div class="col-lg-1 col-md-6 col-sm-6 d-flex align-items-end mb-2">
+            <span class="badge bg-secondary w-100 p-2">
+              <i class="bi bi-lock"></i>
+            </span>
+          </div>
+        </div>
+      </div>`;
+
+    container.insertAdjacentHTML("beforeend", ligneHTML);
+  });
+}
+
+/**
+ * Activer/désactiver le mode lecture seule
+ * Note: le champ devis_numero reste TOUJOURS readonly
+ */
+function setReadOnlyMode(readonly, type = selectedDocType) {
+  const config = DOC_CONFIG[type];
+  const suffix = config?.suffix ?? "";
+
+  // Le champ numéro de devis reste TOUJOURS readonly
+  const devisNumeroEl = document.getElementById("devis_numero");
+  if (devisNumeroEl) devisNumeroEl.readOnly = true;
+
+  // Boutons d'action
+  const btnAddLine = document.querySelector(`[onclick*="addLigne"]`);
+  const btnSave = document.querySelector(`[onclick*="saveDevis"]`);
+
+  if (btnAddLine) btnAddLine.style.display = readonly ? "none" : "";
+  if (btnSave) btnSave.style.display = readonly ? "none" : "";
+
+  // Afficher/masquer boutons spécifiques facture
+  const btnConvert = document.getElementById("btn-convert-facture");
+  const btnDownloadFacture = document.getElementById("btn-download-facture");
+
+  if (btnConvert) btnConvert.style.display = readonly ? "none" : "";
+  if (btnDownloadFacture)
+    btnDownloadFacture.style.display = readonly ? "" : "none";
+
+  window.isReadOnlyMode = readonly;
+}
+
+/**
+ * Afficher/masquer le badge "Verrouillé"
+ */
+function showLockedBadge(show, numero = "") {
+  let badge = document.getElementById("locked-badge");
+
+  if (show) {
+    if (!badge) {
+      const previewHeader =
+        document.querySelector(".preview-header") ||
+        document.querySelector("#pdf-preview")?.parentElement;
+      if (previewHeader) {
+        badge = document.createElement("div");
+        badge.id = "locked-badge";
+        badge.className = "alert alert-warning mb-2 d-flex align-items-center";
+        badge.innerHTML = `
+          <i class="bi bi-lock-fill me-2"></i>
+          <span>Facture <strong>${escapeHtml(numero)}</strong> - Mode lecture seule</span>
+          <button type="button" class="btn btn-sm btn-outline-secondary ms-auto" onclick="resetToNewDocument()">
+            <i class="bi bi-plus-circle me-1"></i> Nouveau document
+          </button>
+        `;
+        previewHeader.insertBefore(badge, previewHeader.firstChild);
+      }
+    } else {
+      badge.querySelector("strong").textContent = numero;
+      badge.style.display = "";
+    }
+  } else if (badge) {
+    badge.style.display = "none";
+  }
+}
+
+/**
+ * Réinitialiser pour créer un nouveau document
+ */
+function resetToNewDocument() {
+  // Désactiver le mode lecture seule
+  setReadOnlyMode(false);
+  showLockedBadge(false);
+
+  // Réinitialiser les champs
+  const type = selectedDocType;
+  const suffix = DOC_CONFIG[type]?.suffix ?? "";
+
+  // Numéro et date
+  const numeroField = type === "FACTURE" ? "facture_numero" : "devis_numero";
+  const dateField = type === "FACTURE" ? "facture_date" : "devis_date";
+
+  const numEl = document.getElementById(numeroField);
+  const dateEl = document.getElementById(dateField);
+
+  if (numEl) {
+    numEl.value = "";
+    numEl.removeAttribute("readonly");
+  }
+  if (dateEl) {
+    dateEl.value = new Date().toISOString().substring(0, 10);
+    dateEl.removeAttribute("readonly");
+  }
+
+  // Client
+  ["nom", "adresse", "cp", "ville"].forEach((field) => {
+    const el = document.getElementById(`client_${field}${suffix}`);
+    if (el) {
+      el.value = "";
+      el.removeAttribute("readonly");
+    }
+  });
+
+  // Lignes
+  const container = document.getElementById(DOC_CONFIG[type].containerId);
+  if (container) container.innerHTML = "";
+  addLigne(type);
+
+  // Réinitialiser les sélecteurs
+  const devisSelector = document.getElementById("devisSelector");
+  const factureSelector = document.getElementById("factureSelector");
+  if (devisSelector) devisSelector.value = "";
+  if (factureSelector) factureSelector.value = "";
+
+  // Clear stored IDs
+  window.currentFactureId = null;
+  window.currentDevisId = null;
+
+  updateTotals(type);
+  updatePreview(type);
+}
+
+/**
+ * Télécharger le PDF d'une facture existante (read-only)
+ */
+function downloadFacturePDF() {
+  const factureId = window.currentFactureId;
+  if (!factureId) {
+    alert("Aucune facture chargée.");
+    return;
+  }
+
+  const loading = document.getElementById("loadingOverlay");
+  if (loading) loading.classList.add("active");
+
+  // Utiliser l'API PDF existante avec les données de la facture chargée
+  downloadPDF("FACTURE");
+}
+
+/**
+ * Charger la liste des factures
+ */
+function fetchFacturesList() {
+  const select = document.getElementById("factureSelector");
+  if (!select) return;
+
+  fetch("api/devis_api.php?action=list_factures")
+    .then((r) => r.json())
+    .then((data) => {
+      if (!data.success)
+        throw new Error(data.message || "Impossible de lister les factures");
+      select.innerHTML =
+        '<option value="">-- Sélectionner une facture --</option>';
+      data.factures.forEach((f) => {
+        const opt = document.createElement("option");
+        opt.value = f.Facture_ID;
+        const montant = f.Facture_Montant
+          ? ` - ${parseFloat(f.Facture_Montant).toFixed(2)}€`
+          : "";
+        opt.textContent = `${f.Facture_Numero}${montant}`;
+        select.appendChild(opt);
+      });
+    })
+    .catch((err) => {
+      console.error(err);
+      select.innerHTML = '<option value="">Erreur de chargement</option>';
+    });
+}
+
+// Exposer les nouvelles fonctions
+window.convertDevisToFacture = convertDevisToFacture;
+window.loadFacture = loadFacture;
+window.resetToNewDocument = resetToNewDocument;
+window.downloadFacturePDF = downloadFacturePDF;
+window.fetchFacturesList = fetchFacturesList;
+
 // ========== TOGGLE FACTURE / DEVIS ==========
 
 function bindToggleButtons() {
-  const btnFacture = document.getElementById(DOC_CONFIG.FACTURE.buttonId);
   const btnDevis = document.getElementById(DOC_CONFIG.DEVIS.buttonId);
-
-  if (btnFacture)
-    btnFacture.addEventListener("click", () => setDocType("FACTURE"));
   if (btnDevis) btnDevis.addEventListener("click", () => setDocType("DEVIS"));
 }
 
@@ -493,20 +1127,15 @@ function setDocType(type) {
   if (!DOC_CONFIG[type]) return;
   selectedDocType = type;
 
-  // Mettre à jour les boutons
-  const btnFacture = document.getElementById(DOC_CONFIG.FACTURE.buttonId);
+  // Mettre à jour le bouton devis (actif seulement en mode DEVIS)
   const btnDevis = document.getElementById(DOC_CONFIG.DEVIS.buttonId);
-  if (btnFacture && btnDevis) {
-    if (type === "FACTURE") {
-      btnFacture.classList.add("btn-primary");
-      btnFacture.classList.remove("btn-outline-primary");
-      btnDevis.classList.add("btn-outline-primary");
-      btnDevis.classList.remove("btn-primary");
+  if (btnDevis) {
+    if (type === "DEVIS") {
+      btnDevis.classList.add("btn-success");
+      btnDevis.classList.remove("btn-outline-success");
     } else {
-      btnDevis.classList.add("btn-primary");
-      btnDevis.classList.remove("btn-outline-primary");
-      btnFacture.classList.add("btn-outline-primary");
-      btnFacture.classList.remove("btn-primary");
+      btnDevis.classList.add("btn-outline-success");
+      btnDevis.classList.remove("btn-success");
     }
   }
 
@@ -588,10 +1217,3 @@ function escapeHtml(text) {
   };
   return text.replace(/[&<>"']/g, (m) => map[m]);
 }
-
-// Auto-refresh toutes les 5 secondes si inactif
-setInterval(() => {
-  if (!previewTimeout) {
-    updatePreview(selectedDocType);
-  }
-}, 5000);
