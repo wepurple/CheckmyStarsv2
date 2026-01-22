@@ -85,7 +85,7 @@
                     <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
                         <div class="card-body">
                             <div class="card-title h3">Devis</div>
-                                <p class="card-text">Texte Dynamique</p>
+                                <button type="button" class="btn-close" aria-label="Close">Texte Dynamique</button>
                             </div>
                         </div>
                     </div>
