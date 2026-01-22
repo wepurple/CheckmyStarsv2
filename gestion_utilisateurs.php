@@ -356,6 +356,11 @@ function getAllCompany($connexion)
                                 <label for="seeLeTel">Téléphone</label>
                             </div>
 
+                            <div class="col-md-6 form-floating mb-3">
+                                <input type="text" class="form-control" id="seeRole" placeholder="" disabled>
+                                <label for="seeRole">Role</label>
+                            </div>
+
                             <div class="col-md-4 form-floating mb-3">
                                 <input type="text" class="form-control" id="seeLeNumRue" placeholder="" disabled>
                                 <label for="seeLeNumRue">N° rue</label>

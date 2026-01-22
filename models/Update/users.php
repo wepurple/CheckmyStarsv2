@@ -22,7 +22,7 @@
             $query->execute([
                 $nom,           // 1. Nom
                 $prenom,        // 2. Prenom
-                $societe_id,    // 3. Societe (attention à l'ordre !)
+                $societe_id,    // 3. Societe
                 $email,         // 4. Mail
                 $civilite,      // 5. Genre
                 $telephone,     // 6. Telephone
