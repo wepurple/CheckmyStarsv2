@@ -4,9 +4,6 @@
 
     $id = isset($_GET['id']) ? intval ($_GET['id']) : null;
 
-    echo var_dump($id);
-
-
 ?>
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="dark">
@@ -131,7 +128,11 @@
                     <div header class="header">
                         <h5 class="modal-title">Informations</h5>
                         <div class="modal-body">
-                            <p>Contenu du modal...</p>
+                            <p>
+                                <?php
+                                    echo var_dump($id);
+                                ?>
+                            </p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
