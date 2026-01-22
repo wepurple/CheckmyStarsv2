@@ -8,6 +8,7 @@ async function getInfos() {
     })
 
     const result = JSON.parse(await response.text())["utilisateur"]
+    remplirTab(result)
     return result
 }
 
@@ -20,7 +21,7 @@ async function viderTab() {//vide le tablo
     }
 }
 
-async function remplirTab() {//remplit le tablo
+async function remplirTab(liste) {//remplit le tablo
     tab = document.getElementById("tabloBody")
 }
 
