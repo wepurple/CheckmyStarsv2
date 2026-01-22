@@ -134,7 +134,7 @@
                                     $db = $database->getConnection();
 
                                     try {
-                                        $sql = "CALL Get_Dossier();";
+                                        $sql = "CALL Get_Adresse_Dossier($id);";
                                         $stmt = $db->prepare($sql);
                                         $stmt->execute();
 
@@ -143,6 +143,7 @@
                                                 echo "<td>" . htmlspecialchars($row['AdressePostale_NumeroRue']) . " " . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>" . "</br>" ;
                                                 echo "<td>" . htmlspecialchars($row['AdressePostale_CodePostal']) . "</td>" . "</br>" ;
                                                 echo "<td>" . htmlspecialchars($row['AdressePostale_Ville']) . "</td>" . "</br>" ;
+                                                echo "<td>" . htmlspecialchars($row['AdressePostale_Pays']) . "</td>" . "</br>";
                                             }
                                         } else {
                                             echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
