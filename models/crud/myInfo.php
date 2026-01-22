@@ -49,4 +49,7 @@ if(isset($_SESSION['ID'])){
         http_response_code(405);
         echo json_encode(["message" => "La méthode n'est pas autorisée"]);
     }
+}else{
+    header('deco.php');
+    die();
 }
