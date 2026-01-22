@@ -25,10 +25,12 @@ function remplirTab(liste) {//remplit le tablo
     if (liste.length>0){
         viderTab()
         for (let i = 0; i < liste.length; i++){
+            tab.appendChild(document.createElement("tr"))
+            
             e=tab.lastElementChild
-            tab.appendChild(document.createElement('th'))
-            tab.lastElementChild.scope = "row"
-            tab.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
+            e.appendChild(document.createElement('th'))
+            e.lastElementChild.scope = "row"
+            e.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
         }
     }
 }
