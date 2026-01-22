@@ -1,5 +1,7 @@
 let seeModal = null;
 let editModal = null;
+let deleteUserId = null;
+let confirmModal = null;
 
 async function getAllusers()
 {
@@ -241,6 +243,50 @@ async function showUserInfoModal(id)
     }
 }
 
+function openDeleteModal(id, nom, prenom) {
+  deleteUserId = id;
+
+  const p = document.getElementById('supprText');
+  if (p) p.textContent = `Voulez-vous vraiment supprimer l'utilisateur ${nom} ${prenom} (ID ${id}) ?`;
+
+  if (!confirmModal) {
+    const el = document.getElementById('confirmModal');
+    confirmModal = new bootstrap.Modal(el);
+  }
+  confirmModal.show();
+}
+
+async function deleteUserById(id) {
+  const resp = await fetch('models/Delete/users.php', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id })
+  });
+
+  const result = await resp.json();
+  if (!resp.ok || !result.success) {
+    throw new Error(result.error || 'Suppression impossible');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btn = document.getElementById('supprConfirm');
+  if (!btn) return;
+
+  btn.addEventListener('click', async () => {
+    try {
+      if (!deleteUserId) return;
+      await deleteUserById(deleteUserId);
+      if (confirmModal) confirmModal.hide();
+      deleteUserId = null;
+      await loadTable();
+      alert('Utilisateur supprimé.');
+    } catch (e) {
+      alert(e.message);
+    }
+  });
+});
+
 async function loadTable()
 {
     try 
@@ -289,7 +335,10 @@ async function loadTable()
                 <td class="text-end">
                     <button class="btn btn-secondary btn-sm me-2" onclick="showUserInfoModal(${user.Utilisateur_ID})"> <i class="fa-solid fa-eye"></i> </button>
                     <button class="btn btn-sm btn-warning me-2" onclick="showUserUpdateModal(${user.Utilisateur_ID})">Edit</button>
-                    <button class="btn btn-sm btn-danger">Delete</button>
+                    <button class="btn btn-sm btn-danger"
+                        onclick="openDeleteModal(${user.UtilisateurID}, '${(user.UtilisateurNom ?? '').replace(/'/g, "\\'")}', '${(user.UtilisateurPrenom ?? '').replace(/'/g, "\\'")}')">
+                        Supprimer
+                    </button>
                 </td>
             `;
             tab.appendChild(tr);
