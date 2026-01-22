@@ -3,7 +3,7 @@
     class Database {
         private $host = "localhost";
         private $connexion;
-        private $dns = 'mysql:host=localhost;port=3307;dbname=checkmystars2';
+        private $dns = 'mysql:host=localhost;port=3307;dbname=checkmystars3';
         private $utilisateur = 'root';
         private $motDePasse = 'password';
 

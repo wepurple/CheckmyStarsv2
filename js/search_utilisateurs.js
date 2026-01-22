@@ -246,6 +246,7 @@ async function loadTable()
     try 
     {
         var users = await getAllusers();
+        console.log(users);
         var tab = document.getElementById("table-body");
         
         if (!tab) {
