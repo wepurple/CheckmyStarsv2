@@ -139,13 +139,19 @@
         <div class="container">
             <div class="row">
                 <div class="col-md rounded">
-                    <p>salut</p>
+                    <div class="card text-white bg-dark rounded shadow-md border" >
+                        <p>salut</p>
+                    </div>
                 </div>
                 <div class="col-md rounded">
-                    <p>salut</p>
+                    <div class="card text-white bg-dark rounded shadow-md border" >
+                        <p>salut</p>
+                    </div>
                 </div>
                 <div class="col-md rounded">
-                    <p>salut</p>
+                    <div class="card text-white bg-dark rounded shadow-md border" >
+                        <p>salut</p>
+                    </div>
                 </div>
             </div>
         </div>
