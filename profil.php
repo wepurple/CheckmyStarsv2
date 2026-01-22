@@ -27,7 +27,6 @@
 
     <body class="bg-secondary">
         <?php
-            echo('<script>id = '.$_SESSION['ID']."</script>");
             require("./includes/navbar.php");
         ?>
 

@@ -1,5 +1,5 @@
 async function getInfos() {
-    const url = "models/crud/afficherUtilisateur.php?IdPersonne="+id
+    const url = "models/crud/myInfo.php"
     const response = await fetch(url, {
         method : "GET",
         headers : {
@@ -11,9 +11,7 @@ async function getInfos() {
     return result
 }
 
-
-
-document.addEventListener("DOMContentLoaded", async function() {//quand la page est chargée
+async function updateInfos(){
     const list = await getInfos()
     console.log(list)
     const ids = [
@@ -48,5 +46,10 @@ document.addEventListener("DOMContentLoaded", async function() {//quand la page 
     for (i = 0 ; i<ids.length ; i++){        
         document.getElementById(ids[i]).textContent = list[elements[i]]
     }
+}
 
+
+
+document.addEventListener("DOMContentLoaded", async function() {//quand la page est chargée
+    updateInfos()
 });
