@@ -33,6 +33,18 @@ function remplirTab(liste) {//remplit le tablo
 
             e.appendChild(document.createElement('td'))
             e.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
+
+            e.appendChild(document.createElement('td'))
+            e.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
+
+            e.appendChild(document.createElement('td'))
+            e.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
+
+            e.appendChild(document.createElement('td'))
+            e.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
+            
+            e.appendChild(document.createElement('td'))
+            e.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
         }
     }
 }
