@@ -20,7 +20,7 @@ async function viderTab() {//vide le tablo
     }
 }
 
-async function remplirTab(liste) {//remplit le tablo
+function remplirTab(liste) {//remplit le tablo
     tab = document.getElementById("tabloBody")
     if (liste.length>0){
         viderTab()
