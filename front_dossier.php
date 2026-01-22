@@ -4,9 +4,6 @@
 
     $id = isset($_GET['id']) ? intval ($_GET['id']) : null;
 
-    echo var_dump($id);
-
-
 ?>
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="dark">
@@ -131,7 +128,21 @@
                     <div header class="header">
                         <h5 class="modal-title">Informations</h5>
                         <div class="modal-body">
-                            <p>Contenu du modal...</p>
+                            <p>
+                                <?php
+                                    $database = new Database();
+                                    $db = $database->getConnection();
+
+                                    try {
+                                        $sql = "CALL Get_Dossier();";
+                                        $stmt = $db->prepare($sql);
+                                        $stmt->execute();
+                                    
+                                    } catch(PDOException $e) {
+                                        echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
+                                    }
+                                ?>
+                            </p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>

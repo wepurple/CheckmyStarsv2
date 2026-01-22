@@ -3,8 +3,8 @@ include_once "../includes/mariadb.php";
 $database = new Database();
 $db = $database->getConnection();
 
-if (isset($_POST["Utilisateur_ID"])) {
-    $Utilisateur_ID = $_POST["Utilisateur_ID"];
+if (isset($_POST["Client_ID"])) {
+    $Client_ID = $_POST["Client_ID"];
     if (is_array($db)) {
         echo json_encode(['error' => 'Erreur de connexion à la base de données']);
     } else {
@@ -13,7 +13,7 @@ if (isset($_POST["Utilisateur_ID"])) {
             JOIN adressespostales ON utilisateurs.AdressePostale_ID= adressespostales.AdressePostale_ID
             WHERE Utilisateur_ID = :id";
             $stmt = $db->prepare($sql);
-            $stmt->bindParam(':id', $Utilisateur_ID, PDO::PARAM_INT);
+            $stmt->bindParam(':id', $Client_ID, PDO::PARAM_INT);
             $stmt->execute();
             $row = $stmt->fetch(PDO::FETCH_ASSOC);
             

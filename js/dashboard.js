@@ -32,19 +32,22 @@ function remplirTab(liste) {//remplit le tablo
             e.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
 
             e.appendChild(document.createElement('td'))
-            e.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
+            e.lastElementChild.textContent = liste[i]["Utilisateur_Nom"]
 
             e.appendChild(document.createElement('td'))
-            e.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
+            e.lastElementChild.textContent = liste[i]["Societe_Nom"]
 
             e.appendChild(document.createElement('td'))
-            e.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
+            e.lastElementChild.textContent = liste[i]["Utilisateur_Telephone"]
 
             e.appendChild(document.createElement('td'))
-            e.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
-            
+            e.lastElementChild.textContent = liste[i]["Utilisateur_Mail"]
+
             e.appendChild(document.createElement('td'))
-            e.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
+            e.lastElementChild.textContent = liste[i]["Nombre_Dossiers"]
+
+            e.appendChild(document.createElement('td'))
+            e.lastElementChild.textContent = liste[i]["Status_Global"]
         }
     }
 }
