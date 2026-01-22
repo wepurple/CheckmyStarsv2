@@ -52,6 +52,10 @@ async function updateUserById() {
             default:
                 civilite = "Iel";
         }
+
+        if (!civilite || civilite.trim() === '') {
+            civilite = "Iel";
+        }
         
         const societe_id = document.getElementById('editLaSociete').value;
         const role_id = document.getElementById('editLeRole').value;
@@ -131,7 +135,7 @@ async function showUserUpdateModal(id)
             document.getElementById('editLaSociete').value = user.Societe_ID;
         }
 
-        var roleUser = "0";
+        var roleUser;
 
         if (user && user.admin == 1)
         {
@@ -185,7 +189,7 @@ async function showUserInfoModal(id)
 
         var user = await getUserById(id);
 
-        var roleUser = "Non défini";
+        var roleUser;
 
         if (user && user.admin == 1)
         {
@@ -242,6 +246,7 @@ async function loadTable()
     try 
     {
         var users = await getAllusers();
+        console.log(users);
         var tab = document.getElementById("table-body");
         
         if (!tab) {
@@ -255,7 +260,7 @@ async function loadTable()
         {
             var user = users[i];
             var tr = document.createElement("tr");
-            var roleUser = "Non défini";
+            var roleUser;
 
             if (user && user.admin == 1)
             {

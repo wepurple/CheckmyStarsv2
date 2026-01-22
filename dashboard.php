@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
-        <script src="js/search_inspecteurs.js"></script>
+        <script src="js/dashboard.js"></script>
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
     </head>
 
@@ -51,52 +51,8 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <?php
-                        $apiUrl = "http://localhost/checkmystars/models/crud/infoDossier.php";
-
-                        $ch = curl_init();
-                        curl_setopt($ch, CURLOPT_URL, $apiUrl);
-                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-                        $response = curl_exec($ch);
-                        $err = curl_error($ch);
-
-                        curl_close($ch);
-
-                        if ($err) {
-                            echo "<tr><td colspan='7' class='text-center text-danger'>Erreur API : $err</td></tr>";
-                            exit;
-                        }
-
-                        $data = json_decode($response, true);
-
-                        if (!$data || !isset($data["utilisateur"])) {
-                            echo "<tr><td colspan='7' class='text-center text-danger'>Réponse API invalide</td></tr>";
-                            exit;
-                        }
-
-                        $utilisateurs = $data["utilisateur"];
-
-                        // Affichage des données
-                        foreach ($utilisateurs as $row) {
-
-                            echo "<tr style='cursor: pointer;' onclick=\"window.location.href='detail_client.php?id=" . urlencode($row['Utilisateur_ID']) . "'\">";
-
-                            echo "<td>" . htmlspecialchars($row['Utilisateur_ID']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Societe']['Societe_Nom'] ?? '') . "" . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Nombre_Dossiers']) . "</td>";
-                            $statusText = $row['Status_Global'] == 1 ? 'Terminé' : 'En cours';
-                            $statusClass = $row['Status_Global'] == 1 ? 'bg-success' : 'bg-warning text-dark';
-                            echo "<td><span class='badge $statusClass'>$statusText</span></td>";
-
-                            echo "</tr>";
-                        }
-                        ?>
-
+                <tbody id="tabloBody">
+                    <!-- remplit par le js -->
                 </tbody>
             </table>
             <!-- Vertically centered modal -->
