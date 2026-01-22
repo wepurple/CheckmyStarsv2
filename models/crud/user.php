@@ -128,23 +128,7 @@ class User {
         
     }*/
     public function infoDossier() {
-        $sql = "SELECT 
-                    u.Utilisateur_ID,
-                    u.Utilisateur_Nom,
-                    u.Utilisateur_Prenom,
-                    u.Utilisateur_Telephone,
-                    u.Utilisateur_Mail,
-                    s.Societe_ID,
-                    s.Societe_Nom,
-                    COUNT(d.Dossier_ID) AS Nombre_Dossiers,
-                    COALESCE(MIN(d.Status), 1) AS Status_Global
-                FROM utilisateurs AS u
-                INNER JOIN proprietaires AS p ON u.Utilisateur_ID = p.Utilisateur_ID
-                LEFT JOIN dossiers AS d ON u.Utilisateur_ID = d.Poprietaire_ID
-                LEFT JOIN societes AS s ON s.Societe_ID = u.Societe_ID
-                GROUP BY 
-                    u.Utilisateur_ID, u.Utilisateur_Nom, u.Utilisateur_Prenom,
-                    u.Utilisateur_Telephone, u.Utilisateur_Mail";
+        $sql = "CALL Dashboard_Info";
 
         $query = $this->connexion->prepare($sql);
         $query->execute();
