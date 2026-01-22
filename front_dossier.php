@@ -138,13 +138,13 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col">
+                <div class="col-md rounded">
                     <p>salut</p>
                 </div>
-                <div class="col">
+                <div class="col-md rounded">
                     <p>salut</p>
                 </div>
-                <div class="col">
+                <div class="col-md rounded">
                     <p>salut</p>
                 </div>
             </div>
