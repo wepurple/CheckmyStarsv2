@@ -74,7 +74,7 @@
             <div class="row">
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
-                            <button type="button" class="btn" data-bs-toggle="info_modal" data-bs-target="#info_modal">Voir le devis</button>
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#info_modal">Voir le devis</button>
                         </div>
                     </div>
                 </div>
