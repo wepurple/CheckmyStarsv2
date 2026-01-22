@@ -115,19 +115,19 @@ async function showUserUpdateModal(id)
             document.getElementById('editLaSociete').value = user.Societe_ID;
         }
 
-        var roleUser = 0;
+        var roleUser = "0";
 
         if (user && user.admin == 1)
         {
-            roleUser = 3;
+            roleUser = "3";
         }
         else if (user && user.inspecteur == 1)
         {
-            roleUser = 2;
+            roleUser = "2";
         }
         else if (user && user.proprietaire == 1)
         {
-            roleUser = 1;
+            roleUser = "1";
         }
 
         document.getElementById('editLeRole').value = roleUser;
