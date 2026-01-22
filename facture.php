@@ -22,6 +22,66 @@ require_once('includes/mariadb.php');
     
     <title>Gestion des Factures - CheckMyStars</title>
 
+    <script type='text/javascript'>
+ 
+            function getXhr(){
+                                var xhr = null; 
+                if(window.XMLHttpRequest) // Firefox et autres
+                   xhr = new XMLHttpRequest(); 
+                else if(window.ActiveXObject){ // Internet Explorer 
+                   try {
+                            xhr = new ActiveXObject("Msxml2.XMLHTTP");
+                        } catch (e) {
+                            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                }
+                else { // XMLHttpRequest non supporté par le navigateur 
+                   alert("Votre navigateur ne supporte pas les objets XMLHTTPRequest..."); 
+                   xhr = false; 
+                } 
+                                return xhr;
+            }
+ 
+            /**
+            * Méthode qui sera appelée sur le clic du bouton
+            */
+            function test(){
+                var xhr = getXhr();
+                // On définit ce qu'on va faire quand on aura la réponse
+                xhr.onreadystatechange = function(){
+                    // On ne fait quelque chose que si on a tout reçu et que le serveur est OK
+                    if(xhr.readyState == 4 && xhr.status == 200){
+                        try {
+                            var data = JSON.parse(xhr.responseText);
+                            if (data.error) {
+                                alert('Erreur : ' + data.error);
+                            } else {
+                                // Remplir les champs avec les données reçues
+                                document.getElementById('client_adresse_devis').value = data.adresse;
+                                document.getElementById('client_cp_devis').value = data.codepostal;
+                                document.getElementById('client_ville_devis').value = data.ville;
+                                
+                                // document.getElementById('leNumRue').value = data.numerorue;
+                                // document.getElementById('laAdresse').value = data.nomrue;
+                                // document.getElementById('laVille').value = data.ville;
+                                // document.getElementById('lePays').value = data.pays;
+                            }
+                        } catch(e) {
+                            alert('Erreur de traitement de la réponse');
+                        }
+                    }
+                }
+ 
+                // Récupérer l'ID du client sélectionné
+                sel = document.getElementById('client_nom_devis');
+                idclient = sel.options[sel.selectedIndex].value;
+                
+                // Requête POST
+                xhr.open("POST","ajaxtest/ajaxDevis.php",true);
+                xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+                xhr.send("Utilisateur_ID="+idclient);
+            }
+        </script>
     <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
     <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.css">
     <link rel="stylesheet" href="bootstrap 5.3/css/facture.css">
@@ -283,7 +343,39 @@ require_once('includes/mariadb.php');
                                                     <div class="row">
                                                         <div class="col-md-12 mb-2">
                                                             <label class="form-label">Nom Client</label>
-                                                            <input type="text" class="form-control" id="client_nom_devis" value="Hôtel Le Château">
+                                                            <?php
+                                        require_once('./includes/mariadb.php');
+                                        
+                                        $database = new Database();
+                                        $db = $database->getConnection();
+                                        
+                                        if (is_array($db)) {
+                                            echo "<p class='text-danger'>Erreur de connexion à la base de données</p>";
+                                        } else {
+                                            try {
+                                                $sql = "SELECT Utilisateur_ID, Utilisateur_Nom, Utilisateur_Prenom FROM utilisateurs ORDER BY Utilisateur_Nom ASC, Utilisateur_Prenom ASC";
+                                                $stmt = $db->prepare($sql);
+                                                $stmt->execute();
+                                                
+                                                echo '<select class="form-control" id="client_nom_devis" onchange="test()" ">';
+                                                echo '<option selected disabled>Choisir un client</option>';
+                                                
+                                                if ($stmt->rowCount() > 0) {
+                                                    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                                        $fullName = htmlspecialchars($row['Utilisateur_Nom'] . ' ' . $row['Utilisateur_Prenom']);
+                                                        echo '<option value="' . htmlspecialchars($row['Utilisateur_ID']) . '">' . $fullName . '</option>';
+                                                    }
+                                                } else {
+                                                    echo '<option disabled>Aucun client trouvé</option>';
+                                                }
+                                                
+                                                echo '</select>';
+                                            } catch(PDOException $e) {
+                                                echo "<p class='text-danger'>Erreur : " . $e->getMessage() . "</p>";
+                                            }
+                                        }
+
+                                    ?>
                                                         </div>
                                                         <div class="col-md-12 mb-2">
                                                             <label class="form-label">Adresse</label>

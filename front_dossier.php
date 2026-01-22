@@ -4,7 +4,8 @@
 
     $id = isset($_GET['id']) ? intval ($_GET['id']) : null;
 
-    
+    echo var_dump($id);
+
 
 ?>
 <!DOCTYPE html>
