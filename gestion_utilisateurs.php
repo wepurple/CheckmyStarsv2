@@ -14,16 +14,6 @@ if (isset($_SESSION['Role']['Administrateur'])) {
     die();
 }
 
-/**
- * Constructeur avec $db pour la connexion à la base de données
- *
- * @param $db
-*/
-function __construct($db)
-{
-    $this->connexion = $db;
-}
-
 function getAllCompany($connexion)
 {
     $sql = "SELECT Societe_ID, Societe_Nom FROM societes ORDER BY Societe_Nom;";
@@ -31,6 +21,7 @@ function getAllCompany($connexion)
     $query->execute();
     return $query;
 }
+?>
 ?>
 
 <!DOCTYPE html>
@@ -265,7 +256,7 @@ function getAllCompany($connexion)
                                     <?php
 
                                     $companies = getAllCompany($db);
-                                    
+
                                     while ($row = $companies->fetch()) {
                                         echo '<option value="' . $row['Societe_ID'] . '">' . htmlspecialchars($row['Societe_Nom']) . '</option>';
                                     }
