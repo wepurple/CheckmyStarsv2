@@ -28,7 +28,7 @@ function remplirTab(liste) {//remplit le tablo
             const tr = document.createElement("tr");
 
             tr.addEventListener("click", function () {
-                window.location.href = "infoDossier.php?id=" + liste[i]["Utilisateur_ID"];
+                window.location.href = "detail_client.php?id=" + liste[i]["Utilisateur_ID"];
             });
             tab.appendChild(tr)
             e=tab.lastElementChild
