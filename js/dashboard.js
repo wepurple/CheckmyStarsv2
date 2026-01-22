@@ -27,8 +27,8 @@ function remplirTab(liste) {//remplit le tablo
         for (let i = 0; i < liste.length; i++){
             e=tab.lastElementChild
             tab.appendChild(document.createElement('th'))
-            e.lastElementChild.scope = "row"
-            e.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
+            tab.lastElementChild.scope = "row"
+            tab.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
         }
     }
 }
