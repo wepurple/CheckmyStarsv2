@@ -111,7 +111,11 @@ async function showUserUpdateModal(id)
                 document.getElementById('editLeGenre').value = "3";
         }
 
-        document.getElementById('editLaSociete').value = user.Societe_Nom || "",
+        // ✅ CORRECTION : Utiliser Societe_ID au lieu de Societe_Nom
+        if (user.Societe_ID) {
+            document.getElementById('editLaSociete').value = user.Societe_ID;
+        }
+        
         document.getElementById('editLeTel').value = user.Utilisateur_Telephone || '';
         document.getElementById('editLeNumRue').value = user.AdressePostale_NumeroRue || '';
         document.getElementById('editLaAdresse').value = user.AdressePostale_NomRue || '';
