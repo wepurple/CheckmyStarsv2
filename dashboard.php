@@ -51,7 +51,7 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tabloBody">
                     <!-- remplit par le js -->
                 </tbody>
             </table>
