@@ -25,7 +25,12 @@ function remplirTab(liste) {//remplit le tablo
     if (liste.length>0){
         viderTab()
         for (let i = 0; i < liste.length; i++){
-            tab.appendChild(document.createElement("tr"))
+            const tr = document.createElement("tr")
+            tr.style.cursor = "pointer"
+            tr.onclick = () => {
+                window.location.href = "front_dossier.php?id=" + liste[i]["Utilisateur_Nom"]
+            }
+            tab.appendChild(tr)
 
             e=tab.lastElementChild
             e.appendChild(document.createElement('td'))
@@ -46,20 +51,20 @@ function remplirTab(liste) {//remplit le tablo
             e.appendChild(document.createElement('td'))
             e.lastElementChild.textContent = liste[i]["Nombre_Dossiers"]
             
-            let statusGlobal = liste[i]["Status_Global"];
-            let statusText = statusGlobal == 1 ? "Terminé" : "En cours";
+            let statusGlobal = liste[i]["Status_Global"]
+            let statusText = statusGlobal == 1 ? "Terminé" : "En cours"
             let statusClass = statusGlobal == 1
                 ? "badge bg-success"
                 : "badge bg-warning text-dark";
 
-            let tdStatus = document.createElement("td");
-            let spanStatus = document.createElement("span");
+            let tdStatus = document.createElement("td")
+            let spanStatus = document.createElement("span")
 
-            spanStatus.className = statusClass;
-            spanStatus.textContent = statusText;
+            spanStatus.className = statusClass
+            spanStatus.textContent = statusText
 
-            tdStatus.appendChild(spanStatus);
-            e.appendChild(tdStatus);
+            tdStatus.appendChild(spanStatus)
+            e.appendChild(tdStatus)
         }
     }
 }
