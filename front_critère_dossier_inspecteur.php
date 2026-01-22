@@ -27,24 +27,31 @@
         <script src="js/search_inspecteurs.js"></script>
     </head>
     <body class="bg-secondary">
-        <?php 
-            require("./includes/navbar.php");
+    <?php 
+        require("./includes/navbar.php");
+        require_once './includes/mariadb.php';
 
-            // Connexion à la base de données
-            require_once './includes/mariadb.php';
-            $database = new Database();
-            $db = $database->getConnection();
+        $database = new Database();
+        $db = $database->getConnection();
 
-            // Récupération de l'ID du dossier depuis l'URL
-            $dossierId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+        //var_dump($db);
 
-            // Requête pour obtenir le numéro du dossier
-            $NumDossier = "SELECT Dossier_Numero FROM dossiers WHERE Dossier_ID = '$dossierId'";
+        // Vérification si la connexion a réussi et est bien un objet
+        if (!is_object($db)) {
+            die("Erreur de connexion : La base de données n'a pas retourné un objet valide.");
+        }
 
-            // Exécution de la requête
-            $result = $db->query($NumDossier);
-            $numeroDossier = $result->fetchColumn();
-        ?>
+        $dossierId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+
+        if ($dossierId) {
+            // Utilisation d'une requête préparée pour éviter les erreurs SQL et les injections
+            $stmt = $db->prepare("SELECT Dossier_Numero FROM dossiers WHERE Dossier_ID = :id");
+            $stmt->execute(['id' => $dossierId]);
+            $numeroDossier = $stmt->fetchColumn();
+        } else {
+            $numeroDossier = "Inconnu";
+        }
+    ?>
         
         <div>
             <div>
@@ -59,22 +66,25 @@
                         </span>
                     </div>
                 </div>
-            </div>
-                <div>
-                    <label for="etoiles-select">Sélectionner le nombre d'étoiles :</label>
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="d-flex align-items-center gap-3 p-3">
+        
+                        <div class="bg-white rounded-pill shadow-sm d-flex align-items-center ps-4 pe-2 py-1 border">
+                            <span class="text-dark me-3 fw-medium">Sélectionner le nombre d'étoile :</span>
+                            
+                            <select class="form-select border-0 rounded-pill bg-light fw-bold text-center" style="width: 80px; background-color: #adb5bd !important;">
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                        </div>
 
-                    <select name="etoiles" id="etoiles-select">
-                        <option value="">--étoile--</option>
-                        <option value="un">1</option>
-                        <option value="deux">2</option>
-                        <option value="trois">3</option>
-                        <option value="quatre">4</option>
-                        <option value="cinq">5</option>
-                    </select>
-
-                    <button>
-                        valider
-                    </button>
+                        <button type="submit" class="btn btn-white bg-white rounded-pill px-4 py-2 shadow-sm fw-bold border-0">
+                            Valider
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
