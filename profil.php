@@ -38,66 +38,92 @@
                     
                     <h2>Mes informations</h2>
 
-                    <table class="table table-borderless table-light">
-                        <tr>
-                            <th scope="row">Nom</th>
-                            <td id="nom">Chargement ...</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Prénom</th>
-                            <td id="prenom">Chargement ...</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Civilité</th>
-                            <td id="civilite">Chargement ...</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Adresse mail</th>
-                            <td id="mail">Chargement ...</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Téléphone</th>
-                            <td id="tel">Chargement ...</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Société</th>
-                            <td id="societe">Chargement ...</td>
-                        </tr>
-                    </table>
+                    <div class="input-group mb-1">
+
+                        <span class="input-group-text">Nom</span>
+                        <input id="nom" type="text" class="form-control" placeholder="ex: Macron" disabled>
+                    </div>
+
+                    <div class="input-group mb-1">
+                        <span class="input-group-text">Prénom</span>
+                        <input id="prenom" type="text" class="form-control" placeholder="ex: Emmanuel" disabled>
+                    </div>
+
+                    <div class="input-group mb-1">
+                        <span class="input-group-text">Civilité</span>
+                        <input id="civilite" type="text" class="form-control" placeholder="ex: Civilité" disabled>
+                    </div>
+
+                    <div class="input-group mb-1">
+                        <span class="input-group-text">Adresse Mail</span>
+                        <input id="mail" type="text" class="form-control" placeholder="ex: exemple@mail.com" disabled>
+                    </div>
+
+                    <div class="input-group mb-1">
+                        <span class="input-group-text">Téléphone</span>
+                        <input id="tel" type="text" class="form-control" placeholder="ex: 0612345678" disabled>
+                    </div>
+
+                    <div class="input-group mb-1">
+                        <span class="input-group-text">Société</span>
+                        <input id="societe" type="text" class="form-control" placeholder="ex: Pedro & Cie" disabled>
+                    </div>
 
                 </div>
 
                 <div class="col m-2 p-2 rounded">
                     <h2>Mon adresse</h2>
 
-                    <table class="table table-borderless table-light">
-                        <tr>
-                            <th scope="row">Numéro de rue</th>
-                            <td id="numRue">Chargement ...</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Nom de la rue</th>
-                            <td id="nomRue">Chargement ...</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Complément d'adresse</th>
-                            <td id="complement">Chargement ...</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Code postal</th>
-                            <td id="codePost">Chargement ...</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Ville</th>
-                            <td id="ville">Chargement ...</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">Pays</th>
-                            <td id="pays">Chargement ...</td>
-                        </tr>
-                    </table>
+                    <div class="input-group mb-1">
+
+                        <span class="input-group-text">Numéro de rue</span>
+                        <input id="numRue" type="text" class="form-control" placeholder="ex: 18" disabled>
+                    </div>
+
+                    <div class="input-group mb-1">
+                        <span class="input-group-text">Nom de voie</span>
+                        <input id="nomRue" type="text" class="form-control" placeholder="ex: Rue du moulin" disabled>
+                    </div>
+
+                    <div class="input-group mb-1">
+                        <span class="input-group-text">Complément d'adresse</span>
+                        <input id="complement" type="text" class="form-control" placeholder="ex: Bis" disabled>
+                    </div>
+
+                    <div class="input-group mb-1">
+                        <span class="input-group-text">Code Postal</span>
+                        <input id="codePost" type="text" class="form-control" placeholder="ex: 75000" disabled>
+                    </div>
+
+                    <div class="input-group mb-1">
+                        <span class="input-group-text">Ville</span>
+                        <input id="ville" type="text" class="form-control" placeholder="ex: Paris" disabled>
+                    </div>
+
+                    <div class="input-group mb-1">
+                        <span class="input-group-text">Pays</span>
+                        <input id="pays" type="text" class="form-control" placeholder="ex: France" disabled>
+                    </div>
+
                 </div>
 
+            </div>
+
+            <!-- boutons -->
+            <div class="row">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+
+                    <button type="button" class="btn btn-outline-warning" onclick="edit()">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Modifier mes informations
+                    </button>
+
+                    <button id="valider" type="button" class="btn btn-outline-success" onclick="" disabled>
+                        <i class="fa-solid fa-check"></i>
+                        Valider
+                    </button>
+
+                </div>
             </div>
 
         </div>
