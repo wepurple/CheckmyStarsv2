@@ -81,12 +81,12 @@ class User {
         $query->bindParam(":Pays", $this->Pays);
 
         $query->bindParam(":Nom", $this->Nom);
-        $query->bindParam(":Prenom", $this->Prenom);
-        $query->bindParam(":Civilite", $this->Civilite);
-        $query->bindParam(":Telephone", $this->Telephone);
         $query->bindParam(":Email", $this->Email);
+        $query->bindParam(":Prenom", $this->Prenom);
         $query->bindParam(":Societe", $this->Societe);
+        $query->bindParam(":Civilite", $this->Civilite);
         $query->bindParam(":Password", $this->MotPasse);
+        $query->bindParam(":Telephone", $this->Telephone);
         $query->bindParam(":Signature", $this->Signature);
 
         if($query->execute()){
