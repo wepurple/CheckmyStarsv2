@@ -23,6 +23,15 @@ async function viderTab() {//vide le tablo
 
 async function remplirTab(liste) {//remplit le tablo
     tab = document.getElementById("tabloBody")
+    if (liste.length>0){
+        viderTab()
+        for (let i = 0; i < liste.length; i++){
+            e=tab.lastElementChild
+            e.appendChild(document.createElement('th'))
+            e.lastElementChild.scope = "row"
+            e.lastElementChild.textContent = liste[i]["Utilisateur_ID"]
+        }
+    }
 }
 
 document.addEventListener("DOMContentLoaded", async function() {//quand la page est chargée
