@@ -217,6 +217,14 @@ document.addEventListener("DOMContentLoaded", function() {
     const seeModalElement = document.getElementById('seeModal');
     const editModalElement = document.getElementById('editModal');
     
+    console.log("seeModal element exists:", !!seeModalElement);
+    console.log("editModal element exists:", !!editModalElement);
+
+    if (seeModalElement) {
+        console.log("seeLeNom exists:", !!document.getElementById('seeLeNom'));
+        console.log("seeLePrenom exists:", !!document.getElementById('seeLePrenom'));
+    }
+    
     if (seeModalElement) {
         seeModal = new bootstrap.Modal(seeModalElement);
     }
