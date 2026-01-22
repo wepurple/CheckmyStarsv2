@@ -15,7 +15,7 @@
 
         public function updateUserById($nom, $prenom, $email, $civilite, $societe_id, $role_id, $telephone, $num_rue, $nom_rue, $complement, $code_postal, $ville, $pays, $id)
         {
-            $sql = "SELECT Update_User(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) AS result";
+            $sql = "SELECT Update_User(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) AS result";
             $query = $this->connexion->prepare($sql);
             
             // ORDRE : Nom, Prenom, Societe, Mail, Genre, Telephone, NumRue, Complement, CP, Adresse, Ville, Pays, ID
