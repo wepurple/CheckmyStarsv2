@@ -73,7 +73,7 @@ require_once('includes/mariadb.php');
                 }
  
                 // Récupérer l'ID du client sélectionné
-                sel = document.getElementById('client_nom_devis');
+                sel = document.getElementById('client_nom');
                 idclient = sel.options[sel.selectedIndex].value;
                 
                 // Requête POST
