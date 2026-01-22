@@ -240,6 +240,16 @@ function getAllCompany($connexion)
                                 <label for="editLePrenom">Prénom *</label>
                             </div>
 
+                            <div class="col-md-8 form-floating mb-3">
+                                <input type="email" class="form-control" id="editLeMail" placeholder="">
+                                <label for="editLeMail">Mail *</label>
+                            </div>
+
+                            <div class="col-md-4 form-floating mb-3">
+                                <input type="text" class="form-control" id="editLeTel" placeholder="">
+                                <label for="editLeTel">Téléphone *</label>
+                            </div>
+
                             <div class="col-md-6 form-floating mb-3">
                                 <select class="form-select" id="editLeGenre">
                                     <option value="1">Monsieur</option>
@@ -247,11 +257,6 @@ function getAllCompany($connexion)
                                     <option value="3">Iel</option>
                                 </select>
                                 <label for="editLeGenre">Civilité *</label>
-                            </div>
-
-                            <div class="col-md-6 form-floating mb-3">
-                                <input type="email" class="form-control" id="editLeMail" placeholder="">
-                                <label for="editLeMail">Mail *</label>
                             </div>
 
                             <div class="col-md-6 form-floating mb-3">
@@ -268,37 +273,42 @@ function getAllCompany($connexion)
                                 <label for="editLaSociete">Société *</label>
                             </div>
 
-                            <div class="col-md-6 form-floating mb-3">
-                                <input type="text" class="form-control" id="editLeTel" placeholder="">
-                                <label for="editLeTel">Téléphone *</label>
+                            <div class="col-md-12 form-floating mb-3">
+                                <select class="form-select" id="editLeRole">
+                                    <option value="0">Propriétaire</option>
+                                    <option value="1">Donneur d'ordre</option>
+                                    <option value="2">Inspecteur</option>
+                                    <option value="3">Administrateur</option>
+                                </select>
+                                <label for="editLeRole">Rôle *</label>
                             </div>
 
-                            <div class="col-md-4 form-floating mb-3">
+                            <div class="col-md-2 form-floating mb-3">
                                 <input type="text" class="form-control" id="editLeNumRue" placeholder="">
                                 <label for="editLeNumRue">N° rue *</label>
                             </div>
 
-                            <div class="col-md-8 form-floating mb-3">
+                            <div class="col-md-10 form-floating mb-3">
                                 <input type="text" class="form-control" id="editLaAdresse" placeholder="">
                                 <label for="editLaAdresse">Adresse *</label>
                             </div>
 
-                            <div class="col-md-6 form-floating mb-3">
+                            <div class="col-md-12 form-floating mb-3">
                                 <input type="text" class="form-control" id="editLeComplement" placeholder="">
                                 <label for="editLeComplement">Complément</label>
                             </div>
 
-                            <div class="col-md-6 form-floating mb-3">
+                            <div class="col-md-4 form-floating mb-3">
                                 <input type="text" class="form-control" id="editLeCode" placeholder="">
                                 <label for="editLeCode">Code postal *</label>
                             </div>
 
-                            <div class="col-md-6 form-floating mb-3">
+                            <div class="col-md-4 form-floating mb-3">
                                 <input type="text" class="form-control" id="editLaVille" placeholder="">
                                 <label for="editLaVille">Ville *</label>
                             </div>
 
-                            <div class="col-md-6 form-floating mb-3">
+                            <div class="col-md-4 form-floating mb-3">
                                 <input type="text" class="form-control" id="editLePays" placeholder="">
                                 <label for="editLePays">Pays *</label>
                             </div>
