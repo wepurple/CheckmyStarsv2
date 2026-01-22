@@ -24,10 +24,8 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
             "Utilisateur_Prenom" => $row["Utilisateur_Prenom"],
             "Utilisateur_Telephone" => $row["Utilisateur_Telephone"],
             "Utilisateur_Mail" => $row["Utilisateur_Mail"],
-            "Societe" => [
-                "Societe_ID" => $row["Societe_ID"],
-                "Societe_Nom" => $row["Societe_Nom"]
-            ],
+            "Societe_ID" => $row["Societe_ID"],
+            "Societe_Nom" => $row["Societe_Nom"],
             "Nombre_Dossiers" => $row["Nombre_Dossiers"],
             "Status_Global" => $row["Status_Global"]
         ];
