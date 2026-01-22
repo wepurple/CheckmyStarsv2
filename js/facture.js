@@ -995,9 +995,6 @@ function showLockedBadge(show, numero = "") {
         badge.innerHTML = `
           <i class="bi bi-lock-fill me-2"></i>
           <span>Facture <strong>${escapeHtml(numero)}</strong> - Mode lecture seule</span>
-          <button type="button" class="btn btn-sm btn-outline-secondary ms-auto" onclick="resetToNewDocument()">
-            <i class="bi bi-plus-circle me-1"></i> Nouveau document
-          </button>
         `;
         previewHeader.insertBefore(badge, previewHeader.firstChild);
       }
