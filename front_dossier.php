@@ -134,7 +134,7 @@
                                     $db = $database->getConnection();
 
                                     try {
-                                        $sql = "CALL Get_Adresse_Dossier;";
+                                        $sql = "CALL Get_Adresse_Dossier();";
                                         $stmt = $db->prepare($sql);
                                         $stmt->execute();
 
