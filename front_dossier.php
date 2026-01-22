@@ -118,5 +118,15 @@
                 </div>
             </div>
         </div>
+        <div class="modal" id="info modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div header class="header">
+                        <h5 class="modal-title">Informations</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
