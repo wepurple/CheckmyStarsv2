@@ -52,6 +52,10 @@ async function updateUserById() {
             default:
                 civilite = "Iel";
         }
+
+        if (!civilite || civilite.trim() === '') {
+            civilite = "Iel";
+        }
         
         const societe_id = document.getElementById('editLaSociete').value;
         const role_id = document.getElementById('editLeRole').value;
@@ -242,6 +246,7 @@ async function loadTable()
     try 
     {
         var users = await getAllusers();
+        console.log(users);
         var tab = document.getElementById("table-body");
         
         if (!tab) {

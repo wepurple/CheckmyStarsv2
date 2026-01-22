@@ -247,19 +247,12 @@ $pdf->Cell(0, 4, 'N° TVA : ' . $entreprise['tva'] . ' - Tél. : ' . $entreprise
 $pdf->Cell(0, 3, 'Document généré le ' . date('d/m/Y à H:i'), 0, 1, 'C');
 
 // ========================================
-// GÉNÉRATION / ENREGISTREMENT DU PDF
+// GÉNÉRATION DU PDF
 // ========================================
-
-// Dossier de stockage local
-$storageDir = __DIR__ . '/storage/factures';
-if (!is_dir($storageDir)) {
-    mkdir($storageDir, 0775, true);
-}
 
 // Nettoyer le numéro de facture pour le nom de fichier
 $sanitizedNumero = preg_replace('/[^A-Za-z0-9_-]/', '_', $facture['numero']);
 $filename = 'facture_' . $sanitizedNumero . '_' . date('Y-m-d_His') . '.pdf';
-$filePath = $storageDir . '/' . $filename;
 
 // Nettoyer TOUS les buffers de sortie avant de générer le PDF
 while (ob_get_level()) {
@@ -268,9 +261,6 @@ while (ob_get_level()) {
 
 // Générer le PDF en mémoire
 $pdfContent = $pdf->Output('', 'S');
-
-// Sauvegarder le PDF sur le serveur
-file_put_contents($filePath, $pdfContent);
 
 // Envoyer le PDF au navigateur
 header('Content-Type: application/pdf');

@@ -18,27 +18,26 @@
             $sql = "SELECT Update_User(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) AS result";
             $query = $this->connexion->prepare($sql);
             
-            // ORDRE : Nom, Prenom, Societe, Mail, Genre, Telephone, NumRue, Complement, CP, Adresse, Ville, Pays, ID
+            // ORDRE CORRECT selon la fonction SQL
             $query->execute([
                 $nom,           // 1. Nom
                 $prenom,        // 2. Prenom
-                $societe_id,    // 3. Societe
-                $role_id,
-                $email,         // 4. Mail
-                $civilite,      // 5. Genre
+                $email,         // 3. Mail
+                $civilite,      // 4. Genre
+                $societe_id,    // 5. Societe
                 $telephone,     // 6. Telephone
                 $num_rue,       // 7. NumRue
-                $complement,    // 8. Complement
-                $code_postal,   // 9. CP
-                $nom_rue,       // 10. Adresse (nom de rue)
+                $nom_rue,       // 8. Adresse
+                $complement,    // 9. Complement
+                $code_postal,   // 10. CP
                 $ville,         // 11. Ville
                 $pays,          // 12. Pays
-                $id             // 13. ID
+                $id,            // 13. ID
+                $role_id        // 14. Role
             ]);
             
             return $query;
         }
-
     }
     
     try {
@@ -68,7 +67,7 @@
                 $data['nom'] ?? '',
                 $data['prenom'] ?? '',
                 $data['email'] ?? '',
-                $data['civilite'] ?? '',
+                $data['civilite'] ?? 'Iel',
                 !empty($data['societe_id']) ? intval($data['societe_id']) : 7,
                 !empty($data['role_id']) ? intval($data['role_id']) : 0,
                 $data['telephone'] ?? '',
