@@ -141,21 +141,27 @@
                 <div class="col-md rounded">
                     <div class="card text-white bg-dark rounded shadow-md border" >
                         <div class="card-body">
-                            <p>salut</p>
+                            <div class="card-title h3">Etat Du Dossier</div>
+                                <p>salut</p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md rounded">
                     <div class="card text-white bg-dark rounded shadow-md border" >
                         <div class="card-body">
-                            <p>salut</p>
+                            <div class="card-title h3">Etat Du Dossier</div>
+                                <p>salut</p>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md rounded">
                     <div class="card text-white bg-dark rounded shadow-md border" >
                         <div class="card-body">
-                            <p>salut</p>
+                            <div class="card-title h3">Etat Du Dossier</div>
+                                <p>salut</p>
+                            </div>
                         </div>
                     </div>
                 </div>
