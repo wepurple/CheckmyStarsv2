@@ -150,12 +150,28 @@ async function showUserInfoModal(id)
 
         var user = await getUserById(id);
 
+        var roleUser = "Non défini";
+
+        if (user && user.admin == 1)
+        {
+            roleUser = "Administrateur";
+        }
+        else if (user && user.inspecteur == 1)
+        {
+            roleUser = "Inspecteur";
+        }
+        else if (user && user.proprietaire == 1)
+        {
+            roleUser = "Proprietaire";
+        }
+
         const fields = {
             'seeLeNom': user.Utilisateur_Nom || "",
             'seeLePrenom': user.Utilisateur_Prenom || "",
             'seeLeMail': user.Utilisateur_Mail || "",
             'seeGenre': user.Utilisateur_Civilite || "",
             'seeLaSociete': user.Societe_Nom || "",
+            'seeRole': roleUser,
             'seeLeTel': user.Utilisateur_Telephone || "",
             'seeLeNumRue': user.AdressePostale_NumeroRue || "",
             'seeLaAdresse': user.AdressePostale_NomRue || "",
