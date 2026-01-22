@@ -77,6 +77,16 @@ async function showUserUpdateModal(id)
 {
     try
     {
+        if (!editModal) {
+            const editModalElement = document.getElementById('editModal');
+            if (editModalElement) {
+                editModal = new bootstrap.Modal(editModalElement);
+            } else {
+                console.error("editModal element not found!");
+                return;
+            }
+        }
+
         var user = await getUserById(id)
 
         document.getElementById('editIdUser').value = user.Utilisateur_ID;
@@ -121,6 +131,17 @@ async function showUserInfoModal(id)
 {
     try 
     {
+        // Initialiser le modal s'il n'existe pas
+        if (!seeModal) {
+            const seeModalElement = document.getElementById('seeModal');
+            if (seeModalElement) {
+                seeModal = new bootstrap.Modal(seeModalElement);
+            } else {
+                console.error("seeModal element not found!");
+                return;
+            }
+        }
+
         var user = await getUserById(id)
 
         const fields = {
@@ -212,23 +233,4 @@ let editModal;
 // Charger le tableau au démarrage de la page
 document.addEventListener("DOMContentLoaded", function() {
     loadTable()
-
-    // Initialiser les modales avec vérification
-    const seeModalElement = document.getElementById('seeModal');
-    const editModalElement = document.getElementById('editModal');
-    
-    console.log("seeModal element exists:", !!seeModalElement);
-    console.log("editModal element exists:", !!editModalElement);
-
-    if (seeModalElement) {
-        console.log("seeLeNom exists:", !!document.getElementById('seeLeNom'));
-        console.log("seeLePrenom exists:", !!document.getElementById('seeLePrenom'));
-    }
-    
-    if (seeModalElement) {
-        seeModal = new bootstrap.Modal(seeModalElement);
-    }
-    if (editModalElement) {
-        editModal = new bootstrap.Modal(editModalElement);
-    }
 });
