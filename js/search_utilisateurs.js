@@ -30,14 +30,29 @@ async function getUserById(id)
     return result;
 }
 
-async function updateUserById()
-{
+async function updateUserById() {
     try {
         const id = document.getElementById('editIdUser').value;
         const nom = document.getElementById('editLeNom').value;
         const prenom = document.getElementById('editLePrenom').value;
         const email = document.getElementById('editLeMail').value;
-        const civilite = document.getElementById('editLeGenre').value;
+        const civiliteValue = document.getElementById('editLeGenre').value;
+        
+        let civilite;
+        switch(civiliteValue) {
+            case "1":
+                civilite = "Monsieur";
+                break;
+            case "2":
+                civilite = "Madame";
+                break;
+            case "3":
+                civilite = "Iel";
+                break;
+            default:
+                civilite = "Iel";
+        }
+        
         const societe_id = document.getElementById('editLaSociete').value;
         const role_id = document.getElementById('editLeRole').value;
         const telephone = document.getElementById('editLeTel').value;
