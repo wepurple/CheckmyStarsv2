@@ -112,10 +112,25 @@ async function showUserUpdateModal(id)
         }
 
         if (user.Societe_ID) {
-            console.log(user);
-            console.log(user.Societe_ID);
             document.getElementById('editLaSociete').value = user.Societe_ID;
         }
+
+        var roleUser = 0;
+
+        if (user && user.admin == 1)
+        {
+            roleUser = 3;
+        }
+        else if (user && user.inspecteur == 1)
+        {
+            roleUser = 2;
+        }
+        else if (user && user.proprietaire == 1)
+        {
+            roleUser = 1;
+        }
+
+        document.getElementById('editLeRole').value = roleUser;
         
         document.getElementById('editLeTel').value = user.Utilisateur_Telephone || '';
         document.getElementById('editLeNumRue').value = user.AdressePostale_NumeroRue || '';
@@ -150,12 +165,28 @@ async function showUserInfoModal(id)
 
         var user = await getUserById(id);
 
+        var roleUser = "Non défini";
+
+        if (user && user.admin == 1)
+        {
+            roleUser = "Administrateur";
+        }
+        else if (user && user.inspecteur == 1)
+        {
+            roleUser = "Inspecteur";
+        }
+        else if (user && user.proprietaire == 1)
+        {
+            roleUser = "Proprietaire";
+        }
+
         const fields = {
             'seeLeNom': user.Utilisateur_Nom || "",
             'seeLePrenom': user.Utilisateur_Prenom || "",
             'seeLeMail': user.Utilisateur_Mail || "",
             'seeGenre': user.Utilisateur_Civilite || "",
             'seeLaSociete': user.Societe_Nom || "",
+            'seeRole': roleUser,
             'seeLeTel': user.Utilisateur_Telephone || "",
             'seeLeNumRue': user.AdressePostale_NumeroRue || "",
             'seeLaAdresse': user.AdressePostale_NomRue || "",
