@@ -2,6 +2,15 @@
 session_start();
 header('Content-Type: application/json');
 
+echo json_encode([
+  'session_id' => session_id(),
+  'cookie' => $_COOKIE[session_name()] ?? null,
+  'RoleAdministrateur' => $_SESSION['RoleAdministrateur'] ?? null,
+  'all_session' => $_SESSION
+]);
+exit;
+
+
 require_once __DIR__ . '/../../includes/mariadb.php';
 
 if (!isset($_SESSION['RoleAdministrateur']) || !$_SESSION['RoleAdministrateur']) {

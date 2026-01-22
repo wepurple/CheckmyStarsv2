@@ -257,12 +257,13 @@ function openDeleteModal(id, nom, prenom) {
 }
 
 async function deleteUserById(id) {
-  const resp = await fetch('models/Delete/users.php', {
+    const resp = await fetch('models/Delete/users.php', {
     method: 'POST',
-    credentials: 'same-origin',
+    credentials: 'include',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id })
-  });
+    });
+
 
   const text = await resp.text();
   let result;
