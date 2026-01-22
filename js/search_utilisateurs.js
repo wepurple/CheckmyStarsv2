@@ -4,17 +4,44 @@ let editModal = null;
 
 async function getAllusers()
 {
-    const url = "models/Read/users.php";
-    const response = await fetch(url, {
-        method : "GET",
-        headers : {
-            'Content-Type' : "application/json"
+    try {
+        console.log("🔄 Début requête vers models/Read/users.php");
+        
+        const url = "models/Read/users.php";
+        console.log("📡 URL appelée:", url);
+        
+        const response = await fetch(url, {
+            method : "GET",
+            headers : {
+                'Content-Type' : "application/json"
+            }
+        });
+        
+        console.log("📊 Statut HTTP:", response.status);
+        console.log("📊 Statut texte:", response.statusText);
+        
+        if (!response.ok) {
+            const errorText = await response.text();
+            console.error("❌ Erreur HTTP:", response.status, errorText);
+            throw new Error(`HTTP ${response.status}: ${errorText.substring(0, 200)}`);
         }
-    });
-
-    const result = await response.json();
-    return result;
+        
+        const text = await response.text();
+        console.log("📄 Réponse brute (premiers 500 chars):", text.substring(0, 500));
+        
+        const result = JSON.parse(text);
+        console.log("✅ JSON parsé:", result);
+        console.log("📈 Nombre d'utilisateurs:", result.length);
+        
+        return result;
+        
+    } catch (error) {
+        console.error("💥 ERREUR getAllusers:", error);
+        alert("Erreur chargement utilisateurs: " + error.message);
+        return []; // Retourner tableau vide pour éviter blocage
+    }
 }
+
 
 async function getUserById(id)
 {
@@ -184,7 +211,6 @@ async function loadTable()
 {
     try 
     {
-        console.log("ok")
         var users = await getAllusers();
         var tab = document.getElementById("table-body");
         
