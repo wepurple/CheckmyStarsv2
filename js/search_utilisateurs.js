@@ -257,14 +257,18 @@ function openDeleteModal(id, nom, prenom) {
 }
 
 async function deleteUserById(id) {
-  const resp = await fetch('/models/Delete/users.php', {
+  const resp = await fetch('models/Delete/users.php', {
     method: 'POST',
     credentials: 'same-origin',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id })
   });
 
-  const result = await resp.json();
+  const text = await resp.text();
+  let result;
+  try { result = JSON.parse(text); }
+  catch { throw new Error(`Réponse non-JSON (HTTP ${resp.status}) : ${text.slice(0, 80)}...`); }
+
   if (!resp.ok || !result.success) throw new Error(result.error || 'Suppression impossible');
 }
 
@@ -316,7 +320,7 @@ async function loadTable() {
         <td>${user.Societe_Nom ?? user.SocieteNom ?? ''}</td>
         <td class="text-end">
           <button class="btn btn-secondary btn-sm me-2">Voir</button>
-          <button class="btn btn-sm btn-warning me-2">Edit</button>
+          <button class="btn btn-sm btn-warning me-2">Modifier</button>
           <button class="btn btn-sm btn-danger">Supprimer</button>
         </td>
       `;
