@@ -55,7 +55,7 @@ function login() {
                         toastList[0].show()
                     } else {//si l'identification réussit
                         console.log("Connexion réussie !!")
-                        window.location.href = "./dashboard.php";
+                        window.location.href = "./dashboard";
                     }
                 }
             }
