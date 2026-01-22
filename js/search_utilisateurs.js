@@ -334,7 +334,6 @@ async function loadTable() {
   }
 }
 
-// Charger le tableau et initialiser les modals au démarrage de la page
 document.addEventListener("DOMContentLoaded", function() {
   loadTable();
 });
