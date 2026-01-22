@@ -63,11 +63,10 @@ async function updateUserById()
         console.log("Réponse:", result);
 
         if (result.success) {
-            // CORRECTION : Vérifier que editModal existe avant de l'utiliser
             if (editModal) {
                 editModal.hide();
             }
-            await loadTable(); // Attendre le rechargement du tableau
+            await loadTable();
             alert("Utilisateur modifié avec succès!");
         } else {
             alert("Erreur: " + result.error);
@@ -185,6 +184,7 @@ async function loadTable()
 {
     try 
     {
+        console.log("ok")
         var users = await getAllusers();
         var tab = document.getElementById("table-body");
         
