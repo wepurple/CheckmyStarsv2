@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-require_once("../../includes/mariadb.php");
+require_once("includes/mariadb.php");
 
 // Même protection que gestion_inspecteurs.php : réservé admin
 if (isset($_SESSION['Role']['Administrateur'])) {
