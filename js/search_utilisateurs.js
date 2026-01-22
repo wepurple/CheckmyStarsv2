@@ -52,7 +52,7 @@ async function updateUserById()
             num_rue, nom_rue, complement, code_postal, ville, pays
         };
 
-        const response = await fetch("models/crud/Update/users.php", {
+        const response = await fetch("models/Update/users.php", {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)
