@@ -112,6 +112,8 @@ async function showUserUpdateModal(id)
         }
 
         if (user.Societe_ID) {
+            console.log(user);
+            console.log(user.Societe_ID);
             document.getElementById('editLaSociete').value = user.Societe_ID;
         }
         
