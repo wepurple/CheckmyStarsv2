@@ -74,13 +74,13 @@
             <div class="row">
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
-                            <button type="button" class="btn" data-bs-toggle="modal">Voir le devis</button>
+                            <button type="button" class="btn" data-bs-toggle="info modal">Voir le devis</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #2b2b2b !important;">
-                            <button type="button" class="btn" data-bs-toggle="modal">Voir la facture</button>
+                            <button type="button" class="btn" data-bs-toggle="info modal">Voir la facture</button>
                         </div>
                     </div>
                 </div>
@@ -90,13 +90,13 @@
             <div class="row">
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
-                            <button type="button" class="btn" data-bs-toggle="modal">Voir l'evolution</button>
+                            <button type="button" class="btn" data-bs-toggle="info modal">Voir l'evolution</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #2b2b2b !important;">
-                            <button type="button" class="btn" data-bs-toggle="modal">Voir l'adresse</button>
+                            <button type="button" class="btn" data-bs-toggle="info modal">Voir l'adresse</button>
                         </div>
                     </div>
                 </div>
@@ -106,13 +106,13 @@
             <div class="row">
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
-                            <button type="button" class="btn" data-bs-toggle="modal">Voir la date du RDV</button>
+                            <button type="button" class="btn" data-bs-toggle="info modal">Voir la date du RDV</button>
                         </div>
                     </div>
                 </div>
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #2b2b2b !important;">
-                            <button type="button" class="btn" data-bs-toggle="modal">Voir l'etat du dossier</button>
+                            <button type="button" class="btn" data-bs-toggle="info modal">Voir l'etat du dossier</button>
                         </div>
                     </div>
                 </div>
