@@ -25,7 +25,6 @@ function getAllCompany($connexion)
     return $query;
 }
 ?>
-?>
 
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="dark">
