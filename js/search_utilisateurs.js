@@ -1,3 +1,7 @@
+// Déclarer les variables modals au DÉBUT du fichier
+let seeModal = null;
+let editModal = null;
+
 async function getAllusers()
 {
     const url = "models/Read/users.php";
@@ -9,7 +13,6 @@ async function getAllusers()
     });
 
     const result = await response.json();
-
     return result;
 }
 
@@ -25,7 +28,6 @@ async function getUserById(id)
 
     const result = await response.json();
     console.log("Données reçues:", result);
-
     return result;
 }
 
@@ -37,7 +39,7 @@ async function updateUserById()
         const prenom = document.getElementById('editLePrenom').value;
         const email = document.getElementById('editLeMail').value;
         const civilite = document.getElementById('editLeGenre').value;
-        const societe_id = 7/*document.getElementById('editLaSociete').value*/;
+        const societe_id = 7;
         const telephone = document.getElementById('editLeTel').value;
         const num_rue = document.getElementById('editLeNumRue').value;
         const nom_rue = document.getElementById('editLaAdresse').value;
@@ -61,15 +63,18 @@ async function updateUserById()
         console.log("Réponse:", result);
 
         if (result.success) {
-            editModal.hide();
-            loadTable();
+            // CORRECTION : Vérifier que editModal existe avant de l'utiliser
+            if (editModal) {
+                editModal.hide();
+            }
+            await loadTable(); // Attendre le rechargement du tableau
             alert("Utilisateur modifié avec succès!");
         } else {
             alert("Erreur: " + result.error);
         }
     } catch (error) {
         console.error("Erreur:", error);
-        alert("Une erreur s'est produite :", error);
+        alert("Une erreur s'est produite : " + error.message);
     }
 }
 
@@ -77,6 +82,7 @@ async function showUserUpdateModal(id)
 {
     try
     {
+        // Initialiser le modal s'il n'existe pas
         if (!editModal) {
             const editModalElement = document.getElementById('editModal');
             if (editModalElement) {
@@ -87,7 +93,7 @@ async function showUserUpdateModal(id)
             }
         }
 
-        var user = await getUserById(id)
+        var user = await getUserById(id);
 
         document.getElementById('editIdUser').value = user.Utilisateur_ID;
         document.getElementById('editLeNom').value = user.Utilisateur_Nom;
@@ -96,34 +102,33 @@ async function showUserUpdateModal(id)
 
         switch(user["Utilisateur_Civilite"]){
             case "Monsieur" :
-                document.getElementById('editLeGenre').value = "1"
+                document.getElementById('editLeGenre').value = "1";
                 break;
             case "Madame" :
-                document.getElementById('editLeGenre').value = "2"
+                document.getElementById('editLeGenre').value = "2";
                 break;
             case "Iel" :
-                document.getElementById('editLeGenre').value = "3"
+                document.getElementById('editLeGenre').value = "3";
                 break;
             default :
-                document.getElementById('editLeGenre').value = "3"
+                document.getElementById('editLeGenre').value = "3";
         }
 
         document.getElementById('editLaSociete').value = "TODO";
-        document.getElementById('editLeTel').value = user.Utilisateur_Telephone;
-        document.getElementById('editLeNumRue').value = user.AdressePostale_NumeroRue;
-        document.getElementById('editLaAdresse').value = user.AdressePostale_NomRue;
-        document.getElementById('editLeComplement').value = user.AdressePostale_Complement;
-        document.getElementById('editLeCode').value = user.AdressePostale_CodePostal;
-        document.getElementById('editLaVille').value = user.AdressePostale_Ville;
-        document.getElementById('editLePays').value = user.AdressePostale_Pays;
+        document.getElementById('editLeTel').value = user.Utilisateur_Telephone || '';
+        document.getElementById('editLeNumRue').value = user.AdressePostale_NumeroRue || '';
+        document.getElementById('editLaAdresse').value = user.AdressePostale_NomRue || '';
+        document.getElementById('editLeComplement').value = user.AdressePostale_Complement || '';
+        document.getElementById('editLeCode').value = user.AdressePostale_CodePostal || '';
+        document.getElementById('editLaVille').value = user.AdressePostale_Ville || '';
+        document.getElementById('editLePays').value = user.AdressePostale_Pays || '';
 
-        if (editModal) {
-            editModal.show();
-        }
+        editModal.show();
 
     } catch (error) 
     {
         console.error("Erreur:", error);
+        alert("Impossible d'ouvrir le modal: " + error.message);
     }
 }
 
@@ -142,7 +147,7 @@ async function showUserInfoModal(id)
             }
         }
 
-        var user = await getUserById(id)
+        var user = await getUserById(id);
 
         const fields = {
             'seeLeNom': user.Utilisateur_Nom || "",
@@ -168,12 +173,11 @@ async function showUserInfoModal(id)
             }
         }
 
-        if (seeModal) {
-            seeModal.show();
-        }
+        seeModal.show();
     } catch (error) 
     {
         console.error("Erreur:", error);
+        alert("Impossible d'ouvrir le modal: " + error.message);
     }
 }
 
@@ -181,29 +185,33 @@ async function loadTable()
 {
     try 
     {
-        var users = await getAllusers()
+        var users = await getAllusers();
         var tab = document.getElementById("table-body");
+        
+        if (!tab) {
+            console.error("Element 'table-body' not found!");
+            return;
+        }
+
         tab.innerHTML = "";
 
         for (var i = 0; i < users.length; i++)
         {
             var user = users[i];
-            
             var tr = document.createElement("tr");
-
-            var roleUser;
+            var roleUser = "Non défini";
 
             if (user && user.admin == 1)
             {
-                roleUser = "Administrateur"
+                roleUser = "Administrateur";
             }
             else if (user && user.inspecteur == 1)
             {
-                roleUser = "Inspecteur"
+                roleUser = "Inspecteur";
             }
             else if (user && user.proprietaire == 1)
             {
-                roleUser = "Proprietaire"
+                roleUser = "Proprietaire";
             }
             
             tr.innerHTML = `
@@ -221,16 +229,35 @@ async function loadTable()
             `;
             tab.appendChild(tr);
         }
+        
+        console.log(`Tableau chargé avec ${users.length} utilisateurs`);
     } catch (error) 
     {
-        console.error("Erreur:", error);
+        console.error("Erreur lors du chargement du tableau:", error);
+        alert("Impossible de charger les données: " + error.message);
     }
 }
 
-let seeModal;
-let editModal;
-
-// Charger le tableau au démarrage de la page
+// Charger le tableau et initialiser les modals au démarrage de la page
 document.addEventListener("DOMContentLoaded", function() {
-    loadTable()
+    console.log("Page chargée, initialisation...");
+    
+    // Initialiser les modals
+    const editModalElement = document.getElementById('editModal');
+    const seeModalElement = document.getElementById('seeModal');
+    
+    if (editModalElement) {
+        editModal = new bootstrap.Modal(editModalElement);
+    } else {
+        console.error("editModal element not found in DOM!");
+    }
+    
+    if (seeModalElement) {
+        seeModal = new bootstrap.Modal(seeModalElement);
+    } else {
+        console.error("seeModal element not found in DOM!");
+    }
+    
+    // Charger le tableau
+    loadTable();
 });
