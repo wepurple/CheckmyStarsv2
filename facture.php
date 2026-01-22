@@ -357,7 +357,7 @@ require_once('includes/mariadb.php');
                                                 $stmt = $db->prepare($sql);
                                                 $stmt->execute();
                                                 
-                                                echo '<select class="form-control" id="client_nom_devis" onchange="test()" ">';
+                                                echo '<select class="form-control" id="client_nom" onchange="test()" ">';
                                                 echo '<option selected disabled>Choisir un client</option>';
                                                 
                                                 if ($stmt->rowCount() > 0) {
