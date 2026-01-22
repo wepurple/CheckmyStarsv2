@@ -8,7 +8,6 @@ async function getInfos() {
     })
 
     const result = JSON.parse(await response.text())["utilisateur"]
-    remplirTab(result)
     return result
 }
 
@@ -37,7 +36,7 @@ async function remplirTab(liste) {//remplit le tablo
 document.addEventListener("DOMContentLoaded", async function() {//quand la page est chargée
     const list = await getInfos()
     console.log(list)
-
+    remplirTab(list)
     //remplissage du tablo
 
 });
