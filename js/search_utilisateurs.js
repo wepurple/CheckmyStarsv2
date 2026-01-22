@@ -107,7 +107,9 @@ async function showUserUpdateModal(id)
         document.getElementById('editLaVille').value = user.AdressePostale_Ville;
         document.getElementById('editLePays').value = user.AdressePostale_Pays;
 
-        editModal.show()
+        if (editModal) {
+            editModal.show();
+        }
 
     } catch (error) 
     {
@@ -134,7 +136,9 @@ async function showUserInfoModal(id)
         document.getElementById('seeLaVille').value = user.AdressePostale_Ville;
         document.getElementById('seeLePays').value = user.AdressePostale_Pays;
 
-        seeModal.show()
+        if (seeModal) {
+            seeModal.show();
+        }
     } catch (error) 
     {
         console.error("Erreur:", error);
@@ -191,10 +195,21 @@ async function loadTable()
     }
 }
 
+let seeModal;
+let editModal;
+
 // Charger le tableau au démarrage de la page
 document.addEventListener("DOMContentLoaded", function() {
     loadTable()
 
-    seeModal = new bootstrap.Modal(document.getElementById('seeModal'))
-    editModal = new bootstrap.Modal(document.getElementById('editModal'))
+    // Initialiser les modales avec vérification
+    const seeModalElement = document.getElementById('seeModal');
+    const editModalElement = document.getElementById('editModal');
+    
+    if (seeModalElement) {
+        seeModal = new bootstrap.Modal(seeModalElement);
+    }
+    if (editModalElement) {
+        editModal = new bootstrap.Modal(editModalElement);
+    }
 });
