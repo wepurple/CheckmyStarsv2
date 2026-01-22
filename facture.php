@@ -79,7 +79,7 @@ require_once('includes/mariadb.php');
                 // Requête POST
                 xhr.open("POST","ajaxtest/ajaxDevis.php",true);
                 xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-                xhr.send("Utilisateur_ID="+idclient);
+                xhr.send("Client_ID="+idclient);
             }
         </script>
     <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
