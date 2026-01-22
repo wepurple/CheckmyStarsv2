@@ -140,7 +140,7 @@
 
                                         if ($stmt->rowCount() > 0) {
                                             while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                                echo "<td>" . htmlspecialchars($row['AdressePostale_NumeroRue']) . " " . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>" . "</br>" ;
+                                                echo "<td>" . htmlspecialchars($row['AdressePostale_NumeroRue']) . " " . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>" . " " . htmlspecialchars($row['AdressePostale_Complement']) . "</td>" . "</br>" ;
                                                 echo "<td>" . htmlspecialchars($row['AdressePostale_CodePostal']) . "</td>" . "</br>" ;
                                                 echo "<td>" . htmlspecialchars($row['AdressePostale_Ville']) . "</td>" . "</br>" ;
                                                 echo "<td>" . htmlspecialchars($row['AdressePostale_Pays']) . "</td>" . "</br>";
