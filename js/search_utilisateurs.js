@@ -135,7 +135,7 @@ async function showUserUpdateModal(id)
             document.getElementById('editLaSociete').value = user.Societe_ID;
         }
 
-        var roleUser = "0";
+        var roleUser;
 
         if (user && user.admin == 1)
         {
@@ -189,7 +189,7 @@ async function showUserInfoModal(id)
 
         var user = await getUserById(id);
 
-        var roleUser = "Non défini";
+        var roleUser;
 
         if (user && user.admin == 1)
         {
@@ -260,7 +260,7 @@ async function loadTable()
         {
             var user = users[i];
             var tr = document.createElement("tr");
-            var roleUser = "Non défini";
+            var roleUser;
 
             if (user && user.admin == 1)
             {
