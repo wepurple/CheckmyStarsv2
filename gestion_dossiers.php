@@ -141,7 +141,7 @@
                         echo "<tr><td colspan='7' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
                     } else {
                         try {
-                            $sql = "CALL Get_Dossier;";
+                            $sql = "CALL Get_Dossier();";
                             $stmt = $db->prepare($sql);
                             $stmt->execute();
                             
