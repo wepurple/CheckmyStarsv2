@@ -57,24 +57,25 @@ require_once('includes/mariadb.php');
                                 alert('Erreur : ' + data.error);
                             } else {
                                 // Remplir les champs avec les données reçues
-                                document.getElementById('client_adresse_devis').value = data.adresse;
-                                document.getElementById('client_cp_devis').value = data.codepostal;
-                                document.getElementById('client_ville_devis').value = data.ville;
-                                
-                                // document.getElementById('leNumRue').value = data.numerorue;
-                                // document.getElementById('laAdresse').value = data.nomrue;
-                                // document.getElementById('laVille').value = data.ville;
-                                // document.getElementById('lePays').value = data.pays;
+                                document.getElementById('client_adresse_devis').value = data.adresse || '';
+                                document.getElementById('client_cp_devis').value = data.codepostal || '';
+                                document.getElementById('client_ville_devis').value = data.ville || '';
                             }
                         } catch(e) {
-                            alert('Erreur de traitement de la réponse');
+                            console.error('Erreur de traitement:', e);
+                            alert('Erreur de traitement de la réponse: ' + e.message);
                         }
                     }
                 }
  
-                // Récupérer l'ID du client sélectionné
-                sel = document.getElementById('client_nom_devis');
-                idclient = sel.options[sel.selectedIndex].value;
+                // Récupérer l'ID du client sélectionné depuis l'attribut data-id
+                var sel = document.getElementById('client_nom_devis');
+                var idclient = sel.options[sel.selectedIndex].getAttribute('data-id');
+                
+                if (!idclient) {
+                    alert('Erreur : impossibile récupérer l\'ID du client');
+                    return;
+                }
                 
                 // Requête POST
                 xhr.open("POST","ajaxtest/ajaxDevis.php",true);
@@ -363,7 +364,7 @@ require_once('includes/mariadb.php');
                                                 if ($stmt->rowCount() > 0) {
                                                     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                         $fullName = htmlspecialchars($row['Utilisateur_Nom'] . ' ' . $row['Utilisateur_Prenom']);
-                                                        echo '<option value="' . htmlspecialchars($row['Utilisateur_ID']) . '">' . $fullName . '</option>';
+                                                        echo '<option value="' . $fullName . '" data-id="' . htmlspecialchars($row['Utilisateur_ID']) . '">' . $fullName . '</option>';
                                                     }
                                                 } else {
                                                     echo '<option disabled>Aucun client trouvé</option>';
