@@ -61,14 +61,16 @@
 
             <hr>
 
-            <div class="navbar-nav ms-auto mb-2 mb-lg-0 text-light" onclick="header('./profile.php')">
-                <span class="nav-text">Connecté<?php if(isset($_SESSION['Prenom']) && isset($_SESSION['Nom'])){ echo " en tant que " . $_SESSION['Prenom'] . " " . $_SESSION['Nom']; } ?></span>
-            </div>
-
             <ul class="navbar-nav ms-2 mb-2 mb-lg-0">
 
+                <li class="nav-item text-light">
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/profil.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/profil.php"){ echo ' aria-current="page"'; } ?> href = "./profil.php">
+                        Connecté<?php if(isset($_SESSION['Prenom']) && isset($_SESSION['Nom'])){ echo " en tant que " . $_SESSION['Prenom'] . " " . $_SESSION['Nom']; } ?>
+                    </a>
+                </li>
+
                 <li class="nav-item">
-                    <a class="nav-link" href="deco.php">Déconnexion</a>
+                    <a class="nav-link" href="./deco.php">Déconnexion</a>
                 </li>
 
             </ul>
