@@ -83,14 +83,19 @@
                             <button type="button" class="btn">Voir la facture</button>
                         </div>
                     </div>
+                <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #2b2b2b !important;">
                             <button type="button" class="btn">Voir l'evolution</button>
                         </div>
                     </div>
+                </div>
+                <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #2b2b2b !important;">
                             <button type="button" class="btn">Voir l'adresse</button>
                         </div>
                     </div>
+                </div>
+                <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #2b2b2b !important;">
                             <button type="button" class="btn">Voir la date du RDV</button>
                         </div>
