@@ -38,7 +38,7 @@ async function updateUserById()
         const prenom = document.getElementById('editLePrenom').value;
         const email = document.getElementById('editLeMail').value;
         const civilite = document.getElementById('editLeGenre').value;
-        const societe_id = 7;
+        const societe_id = document.getElementById('editLaSociete').value;
         const telephone = document.getElementById('editLeTel').value;
         const num_rue = document.getElementById('editLeNumRue').value;
         const nom_rue = document.getElementById('editLaAdresse').value;
@@ -111,7 +111,7 @@ async function showUserUpdateModal(id)
                 document.getElementById('editLeGenre').value = "3";
         }
 
-        document.getElementById('editLaSociete').value = "TODO";
+        document.getElementById('editLaSociete').value = user.Societe_Nom || "",
         document.getElementById('editLeTel').value = user.Utilisateur_Telephone || '';
         document.getElementById('editLeNumRue').value = user.AdressePostale_NumeroRue || '';
         document.getElementById('editLaAdresse').value = user.AdressePostale_NomRue || '';
