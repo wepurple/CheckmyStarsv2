@@ -7,17 +7,22 @@ async function getInfos() {
         }
     })
 
-    const result = JSON.parse(await response.text())["utilisateur"][0]
+    const result = JSON.parse(await response.text())["utilisateur"]
+    remplirTab(result)
     return result
 }
 
 async function viderTab() {//vide le tablo
-    tab = document.getElementById("table-body")
+    tab = document.getElementById("tabloBody")
     child = tab.lastElementChild
     while (child){
         tab.removeChild(child)
         child = tab.lastElementChild
     }
+}
+
+async function remplirTab(liste) {//remplit le tablo
+    tab = document.getElementById("tabloBody")
 }
 
 document.addEventListener("DOMContentLoaded", async function() {//quand la page est chargée
