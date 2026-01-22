@@ -12,7 +12,7 @@
 
             try {
                 $this->connexion = new PDO($this->dns, $this->utilisateur, $this->motDePasse);
-                $this->connexion->exec("USE checkmystars2");
+                $this->connexion->exec("USE checkmystars3");
                 $this->connexion->query("SET NAMES utf8");
             } catch (PDOException $e) {
                 $this->connexion = (array('0'=>false, '1' => mb_convert_encoding($e->getMessage(), "UTF-8")));
