@@ -13,9 +13,9 @@
             $this->connexion = $db;
         }
 
-        public function updateUserById($nom, $prenom, $email, $civilite, $societe_id, $telephone, $num_rue, $nom_rue, $complement, $code_postal, $ville, $pays, $id)
+        public function updateUserById($nom, $prenom, $email, $civilite, $societe_id, $role_id, $telephone, $num_rue, $nom_rue, $complement, $code_postal, $ville, $pays, $id)
         {
-            $sql = "SELECT Update_User(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) AS result";
+            $sql = "SELECT Update_User(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) AS result";
             $query = $this->connexion->prepare($sql);
             
             // ORDRE : Nom, Prenom, Societe, Mail, Genre, Telephone, NumRue, Complement, CP, Adresse, Ville, Pays, ID
@@ -23,6 +23,7 @@
                 $nom,           // 1. Nom
                 $prenom,        // 2. Prenom
                 $societe_id,    // 3. Societe
+                $role_id,
                 $email,         // 4. Mail
                 $civilite,      // 5. Genre
                 $telephone,     // 6. Telephone
@@ -69,6 +70,7 @@
                 $data['email'] ?? '',
                 $data['civilite'] ?? '',
                 !empty($data['societe_id']) ? intval($data['societe_id']) : 7,
+                !empty($data['role_id']) ? intval($data['role_id']) : 0,
                 $data['telephone'] ?? '',
                 $data['num_rue'] ?? '',
                 $data['nom_rue'] ?? '',
