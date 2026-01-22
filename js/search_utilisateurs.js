@@ -30,15 +30,31 @@ async function getUserById(id)
     return result;
 }
 
-async function updateUserById()
-{
+async function updateUserById() {
     try {
         const id = document.getElementById('editIdUser').value;
         const nom = document.getElementById('editLeNom').value;
         const prenom = document.getElementById('editLePrenom').value;
         const email = document.getElementById('editLeMail').value;
-        const civilite = document.getElementById('editLeGenre').value;
+        const civiliteValue = document.getElementById('editLeGenre').value;
+        
+        let civilite;
+        switch(civiliteValue) {
+            case "1":
+                civilite = "Monsieur";
+                break;
+            case "2":
+                civilite = "Madame";
+                break;
+            case "3":
+                civilite = "Iel";
+                break;
+            default:
+                civilite = "Iel";
+        }
+        
         const societe_id = document.getElementById('editLaSociete').value;
+        const role_id = document.getElementById('editLeRole').value;
         const telephone = document.getElementById('editLeTel').value;
         const num_rue = document.getElementById('editLeNumRue').value;
         const nom_rue = document.getElementById('editLaAdresse').value;
@@ -48,7 +64,7 @@ async function updateUserById()
         const pays = document.getElementById('editLePays').value;
 
         const data = {
-            id, nom, prenom, email, civilite, societe_id, telephone, 
+            id, nom, prenom, email, civilite, societe_id, role_id, telephone, 
             num_rue, nom_rue, complement, code_postal, ville, pays
         };
 
