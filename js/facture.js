@@ -746,6 +746,10 @@ function resetDevisForm() {
 window.saveDevis = saveDevis;
 window.loadDevisFromDropdown = loadDevisFromDropdown;
 window.initNewDevis = initNewDevis;
+window.updatePreview = updatePreview;
+window.downloadPDF = downloadPDF;
+window.addLigne = addLigne;
+window.handlePreview = handlePreview;
 
 // ========== CONVERSION DEVIS → FACTURE ==========
 
