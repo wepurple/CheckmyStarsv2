@@ -140,17 +140,23 @@
             <div class="row">
                 <div class="col-md rounded">
                     <div class="card text-white bg-dark rounded shadow-md border" >
-                        <p>salut</p>
+                        <div class="card-body">
+                            <p>salut</p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md rounded">
                     <div class="card text-white bg-dark rounded shadow-md border" >
-                        <p>salut</p>
+                        <div class="card-body">
+                            <p>salut</p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md rounded">
                     <div class="card text-white bg-dark rounded shadow-md border" >
-                        <p>salut</p>
+                        <div class="card-body">
+                            <p>salut</p>
+                        </div>
                     </div>
                 </div>
             </div>
