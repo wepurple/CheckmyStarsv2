@@ -137,6 +137,18 @@
                                         $sql = "CALL Get_Dossier();";
                                         $stmt = $db->prepare($sql);
                                         $stmt->execute();
+
+                                        if ($stmt->rowCount() > 0) {
+                                            while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                                echo "<td>" . htmlspecialchars($row['AdressePostale_NumeroRue']) . " " . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>";
+                                                echo "<td>" . htmlspecialchars($row['AdressePostale_CodePostal']) . "</td>";
+                                                echo "<td>" . htmlspecialchars($row['AdressePostale_Ville']) . "</td>";
+                                                echo "<td>" . htmlspecialchars($row['AdressePostale_Pays']) . "</td>";
+                                                
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
+                                        }
                                     
                                     } catch(PDOException $e) {
                                         echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
