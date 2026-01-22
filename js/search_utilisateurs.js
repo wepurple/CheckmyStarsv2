@@ -111,7 +111,6 @@ async function showUserUpdateModal(id)
                 document.getElementById('editLeGenre').value = "3";
         }
 
-        // ✅ CORRECTION : Utiliser Societe_ID au lieu de Societe_Nom
         if (user.Societe_ID) {
             document.getElementById('editLaSociete').value = user.Societe_ID;
         }
