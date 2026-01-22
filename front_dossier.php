@@ -141,6 +141,12 @@
                 <div class="col">
                     <p>salut</p>
                 </div>
+                <div class="col">
+                    <p>salut</p>
+                </div>
+                <div class="col">
+                    <p>salut</p>
+                </div>
             </div>
         </div>
     </body>
