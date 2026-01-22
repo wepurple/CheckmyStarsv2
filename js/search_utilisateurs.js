@@ -258,19 +258,23 @@ function openDeleteModal(id, nom, prenom) {
 
 async function deleteUserById(id) {
     const resp = await fetch('models/Delete/users.php', {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id })
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: id })
     });
 
+    if (!resp.ok) {
+        throw new Error(`Erreur HTTP ${resp.status}`);
+    }
 
-  const text = await resp.text();
-  let result;
-  try { result = JSON.parse(text); }
-  catch { throw new Error(`Réponse non-JSON (HTTP ${resp.status}) : ${text.slice(0, 80)}...`); }
-
-  if (!resp.ok || !result.success) throw new Error(result.error || 'Suppression impossible');
+    const result = await resp.json();
+    
+    if (!result.success) {
+        throw new Error(result.error || 'Suppression impossible');
+    }
+    
+    return result;
 }
 
 
