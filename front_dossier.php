@@ -126,7 +126,7 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div header class="header">
-                        <h5 class="modal-title">Informations</h5>
+                        <h5 class="modal-title"> Informations</h5>
                         <div class="modal-body">
                             <p>
                                 <?php
