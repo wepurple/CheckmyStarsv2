@@ -4,7 +4,7 @@ header('Content-Type: application/json');
 
 require_once __DIR__ . '/../../includes/mariadb.php';
 
-if (empty($_SESSION['RoleAdministrateur'])) {
+if (!isset($_SESSION['RoleAdministrateur']) || !$_SESSION['RoleAdministrateur']) {
   http_response_code(403);
   echo json_encode(['success' => false, 'error' => 'Accès refusé']);
   exit;
