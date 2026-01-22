@@ -91,6 +91,8 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="container">
             <div class="row">
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #2b2b2b !important;">
