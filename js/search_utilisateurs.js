@@ -260,7 +260,7 @@ async function loadTable()
         {
             var user = users[i];
             var tr = document.createElement("tr");
-            var roleUser = "Non défini";
+            var roleUser;
 
             if (user && user.admin == 1)
             {
