@@ -24,12 +24,11 @@ function __construct($db)
     $this->connexion = $db;
 }
 
-function getAllCompany()
+function getAllCompany($connexion)
 {
-    $sql = "SELECT Societe_Nom FROM societes;";
-    $query = $this->connexion->prepare($sql);
+    $sql = "SELECT Societe_ID, Societe_Nom FROM societes ORDER BY Societe_Nom;";
+    $query = $connexion->prepare($sql);
     $query->execute();
-
     return $query;
 }
 ?>
@@ -264,12 +263,12 @@ function getAllCompany()
                             <div class="col-md-6 form-floating mb-3">
                                 <select class="form-select" id="editLaSociete">
                                     <?php
-                                        $companyName = getAllCompany();
 
-                                        while ($row = $companyName->fetch_assoc())
-                                        {
-                                            ?><option value="<?php echo $row['Societe_Nom'] ?>"> <?php echo $row['Societe_Nom'] ?> <?php
-                                        }
+                                    $companies = getAllCompany($db);
+                                    
+                                    while ($row = $companies->fetch()) {
+                                        echo '<option value="' . $row['Societe_ID'] . '">' . htmlspecialchars($row['Societe_Nom']) . '</option>';
+                                    }
                                     ?>
                                 </select>
                                 <label for="editLaSociete">Société *</label>
