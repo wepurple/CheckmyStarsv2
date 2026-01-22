@@ -123,14 +123,14 @@ async function showUserInfoModal(id)
     {
         var user = await getUserById(id)
 
-        document.getElementById('seeLeNom').value = user.Utilisateur_Nom;
-        document.getElementById('seeLePrenom').value = user.Utilisateur_Prenom;
-        document.getElementById('seeLeMail').value = user.Utilisateur_Mail;
-        document.getElementById('seeGenre').value = user.Utilisateur_Civilite;
-        document.getElementById('seeLaSociete').value = user.Societe_Nom;
-        document.getElementById('seeLeTel').value = user.Utilisateur_Telephone;
-        document.getElementById('seeLeNumRue').value = user.AdressePostale_NumeroRue;
-        document.getElementById('seeLaAdresse').value = user.AdressePostale_NomRue;
+        document.getElementById('seeLeNom').value = user.Utilisateur_Nom || "";
+        document.getElementById('seeLePrenom').value = user.Utilisateur_Prenom || "";
+        document.getElementById('seeLeMail').value = user.Utilisateur_Mail || "";
+        document.getElementById('seeGenre').value = user.Utilisateur_Civilite || "";
+        document.getElementById('seeLaSociete').value = user.Societe_Nom || "";
+        document.getElementById('seeLeTel').value = user.Utilisateur_Telephone || "";
+        document.getElementById('seeLeNumRue').value = user.AdressePostale_NumeroRue || "";
+        document.getElementById('seeLaAdresse').value = user.AdressePostale_NomRue || "";
         document.getElementById('seeLeComplement').value = user.AdressePostale_Complement;
         document.getElementById('seeLeCode').value = user.AdressePostale_CodePostal;
         document.getElementById('seeLaVille').value = user.AdressePostale_Ville;
