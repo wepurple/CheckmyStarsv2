@@ -116,6 +116,23 @@ async function showUserUpdateModal(id)
             console.log(user.Societe_ID);
             document.getElementById('editLaSociete').value = user.Societe_ID;
         }
+
+        var roleUser = "Non défini";
+
+        if (user && user.admin == 1)
+        {
+            roleUser = "Administrateur";
+        }
+        else if (user && user.inspecteur == 1)
+        {
+            roleUser = "Inspecteur";
+        }
+        else if (user && user.proprietaire == 1)
+        {
+            roleUser = "Proprietaire";
+        }
+
+        document.getElementById('editLeRole').value = roleUser;
         
         document.getElementById('editLeTel').value = user.Utilisateur_Telephone || '';
         document.getElementById('editLeNumRue').value = user.AdressePostale_NumeroRue || '';
