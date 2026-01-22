@@ -30,38 +30,46 @@
         <?php 
             require("./includes/navbar.php");
 
+            // Connexion à la base de données
+            require_once './includes/mariadb.php';
+            $database = new Database();
+            $db = $database->getConnection();
 
+            // Récupération de l'ID du dossier depuis l'URL
             $dossierId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-            $utilisateurId = filter_input(INPUT_GET, '', FILTER_SANITIZE_NUMBER_INT);
-            
-            var_dump($dossierId);
-            var_dump($utilisateurId);
-            
 
+            // Requête pour obtenir le numéro du dossier
+            $NumDossier = "SELECT Dossier_Numero FROM dossiers WHERE Dossier_ID = '$dossierId'";
 
+            // Exécution de la requête
+            $result = $db->query($NumDossier);
+            $numeroDossier = $result->fetchColumn();
         ?>
         
         <div>
             <div>
-                <button type="button" class="btn btn-success" onclick="window.location.href='front_dossier.php?id=<?php echo $utilisateurId ; ?>'">
-                <i class="bi bi-arrow-return-left"></i>
-                </button>
+                <div class="d-flex align-items-center gap-3 p-3">
+                    <a href="front_dossier.php?id=<?php echo $dossierId; ?>" class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                        <i class="bi bi-arrow-left-short fs-3 text-dark"></i>
+                    </a>
 
-                <div class="box-title text-center">
-                    <p>Dossier en cours : <?php echo $dossierId; ?></p>
+                    <div class="bg-white rounded-pill shadow-sm px-4 py-2 border">
+                        <span class="fw-medium text-secondary">
+                            Dossier en cours : <span class="text-dark fw-bold"><?php echo $numeroDossier; ?></span>
+                        </span>
+                    </div>
                 </div>
             </div>
-            <div>
                 <div>
-                    <label for="pet-select">Sélectionner le nombre d'étoiles :</label>
+                    <label for="etoiles-select">Sélectionner le nombre d'étoiles :</label>
 
-                    <select name="pets" id="pet-select">
+                    <select name="etoiles" id="etoiles-select">
                         <option value="">--étoile--</option>
-                        <option value="dog">1</option>
-                        <option value="cat">2</option>
-                        <option value="hamster">3</option>
-                        <option value="parrot">4</option>
-                        <option value="spider">5</option>
+                        <option value="un">1</option>
+                        <option value="deux">2</option>
+                        <option value="trois">3</option>
+                        <option value="quatre">4</option>
+                        <option value="cinq">5</option>
                     </select>
 
                     <button>
