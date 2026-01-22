@@ -25,12 +25,7 @@ function remplirTab(liste) {//remplit le tablo
     if (liste.length>0){
         viderTab()
         for (let i = 0; i < liste.length; i++){
-            const tr = document.createElement("tr")
-            tr.style.cursor = "pointer"
-            tr.onclick = () => {
-                window.location.href = "front_dossier.php?id=" + liste[i]["Utilisateur_Nom"]
-            }
-            tab.appendChild(tr)
+            tab.appendChild(document.createElement("tr"))
 
             e=tab.lastElementChild
             e.appendChild(document.createElement('td'))
