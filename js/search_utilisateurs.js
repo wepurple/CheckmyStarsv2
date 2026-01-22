@@ -257,17 +257,17 @@ function openDeleteModal(id, nom, prenom) {
 }
 
 async function deleteUserById(id) {
-  const resp = await fetch('models/Delete/users.php', {
+  const resp = await fetch('/models/Delete/users.php', {
     method: 'POST',
+    credentials: 'same-origin',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ id })
   });
 
   const result = await resp.json();
-  if (!resp.ok || !result.success) {
-    throw new Error(result.error || 'Suppression impossible');
-  }
+  if (!resp.ok || !result.success) throw new Error(result.error || 'Suppression impossible');
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const btn = document.getElementById('supprConfirm');
