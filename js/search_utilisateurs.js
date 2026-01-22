@@ -179,6 +179,10 @@ async function showUserInfoModal(id)
         {
             roleUser = "Inspecteur";
         }
+        else if (user && user.donneurordre == 1)
+        {
+            roleUser = "Donneur d'ordre";
+        }
         else if (user && user.proprietaire == 1)
         {
             roleUser = "Proprietaire";
