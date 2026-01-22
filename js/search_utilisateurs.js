@@ -125,9 +125,13 @@ async function showUserUpdateModal(id)
         {
             roleUser = "2";
         }
-        else if (user && user.proprietaire == 1)
+        else if (user && user.donneurordre == 1)
         {
             roleUser = "1";
+        }
+        else if (user && user.proprietaire == 1)
+        {
+            roleUser = "0";
         }
 
         document.getElementById('editLeRole').value = roleUser;
