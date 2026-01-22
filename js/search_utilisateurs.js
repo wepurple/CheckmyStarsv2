@@ -287,72 +287,53 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-async function loadTable()
-{
-    try 
-    {
-        var users = await getAllusers();
-        console.log(users);
-        var tab = document.getElementById("table-body");
-        
-        if (!tab) {
-            console.error("Element 'table-body' not found!");
-            return;
-        }
+async function loadTable() {
+  try {
+    const users = await getAllusers();
+    const tab = document.getElementById("table-body");
+    if (!tab) return;
 
-        tab.innerHTML = "";
+    tab.innerHTML = "";
 
-        for (var i = 0; i < users.length; i++)
-        {
-            var user = users[i];
-            var tr = document.createElement("tr");
-            var roleUser;
+    for (const user of users) {
+      const userId = user.Utilisateur_ID ?? user.UtilisateurID ?? user.IdPersonne;
+      const nom = user.Utilisateur_Nom ?? user.UtilisateurNom ?? '';
+      const prenom = user.Utilisateur_Prenom ?? user.UtilisateurPrenom ?? '';
 
-            if (user && user.admin == 1)
-            {
-                roleUser = "Administrateur";
-            }
-            else if (user && user.inspecteur == 1)
-            {
-                roleUser = "Inspecteur";
-            }
-            else if (user && user.donneurordre == 1)
-            {
-                roleUser = "Donneur d'ordre";
-            }
-            else if (user && user.proprietaire == 1)
-            {
-                roleUser = "Proprietaire";
-            }
-            
-            tr.innerHTML = `
-                <td>${user.Utilisateur_ID || user.IdPersonne || ''}</td>
-                <td>${user.Utilisateur_Nom || ''}</td>
-                <td>${user.Utilisateur_Prenom || ''}</td>
-                <td>${user.Utilisateur_Mail || ''}</td>
-                <td>${roleUser}</td>
-                <td>${user.Societe_Nom || ''}</td>
-                <td class="text-end">
-                    <button class="btn btn-secondary btn-sm me-2" onclick="showUserInfoModal(${user.Utilisateur_ID})"> <i class="fa-solid fa-eye"></i> </button>
-                    <button class="btn btn-sm btn-warning me-2" onclick="showUserUpdateModal(${user.Utilisateur_ID})">Modifier</button>
-                    <button class="btn btn-sm btn-danger"
-                        onclick="openDeleteModal(${user.UtilisateurID}, '${(user.UtilisateurNom ?? '').replace(/'/g, "\\'")}', '${(user.UtilisateurPrenom ?? '').replace(/'/g, "\\'")}')">
-                        Supprimer
-                    </button>
-                </td>
-            `;
-            tab.appendChild(tr);
-        }
-        
-        console.log(`Tableau chargé avec ${users.length} utilisateurs`);
-    } catch (error) 
-    {
-        console.error("Erreur lors du chargement du tableau:", error);
-        alert("Impossible de charger les données: " + error.message);
+      let roleUser = "";
+      if (user && user.admin == 1) roleUser = "Administrateur";
+      else if (user && user.inspecteur == 1) roleUser = "Inspecteur";
+      else if (user && user.donneurordre == 1) roleUser = "Donneur d'ordre";
+      else if (user && user.proprietaire == 1) roleUser = "Proprietaire";
+
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td>${userId ?? ''}</td>
+        <td>${nom}</td>
+        <td>${prenom}</td>
+        <td>${user.Utilisateur_Mail ?? user.UtilisateurMail ?? ''}</td>
+        <td>${roleUser}</td>
+        <td>${user.Societe_Nom ?? user.SocieteNom ?? ''}</td>
+        <td class="text-end">
+          <button class="btn btn-secondary btn-sm me-2">Voir</button>
+          <button class="btn btn-sm btn-warning me-2">Edit</button>
+          <button class="btn btn-sm btn-danger">Supprimer</button>
+        </td>
+      `;
+
+      const btns = tr.querySelectorAll('button');
+      btns[0].addEventListener('click', () => showUserInfoModal(userId));
+      btns[1].addEventListener('click', () => showUserUpdateModal(userId));
+      btns[2].addEventListener('click', () => openDeleteModal(userId, nom, prenom));
+
+      tab.appendChild(tr);
     }
+  } catch (error) {
+    console.error("Erreur lors du chargement du tableau:", error);
+    alert("Impossible de charger les données: " + error.message);
+  }
 }
 
-// Charger le tableau et initialiser les modals au démarrage de la page
 document.addEventListener("DOMContentLoaded", function() {
   loadTable();
 });
