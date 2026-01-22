@@ -144,8 +144,7 @@ class User {
                 LEFT JOIN societes AS s ON s.Societe_ID = u.Societe_ID
                 GROUP BY 
                     u.Utilisateur_ID, u.Utilisateur_Nom, u.Utilisateur_Prenom,
-                    u.Utilisateur_Telephone, u.Utilisateur_Mail,
-                    s.Societe_ID, s.Societe_Nom";
+                    u.Utilisateur_Telephone, u.Utilisateur_Mail";
 
         $query = $this->connexion->prepare($sql);
         $query->execute();
