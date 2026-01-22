@@ -1,9 +1,11 @@
 <?php
     session_start();
+    require_once('./includes/mariadb.php');
 
     $id = isset($_GET['id']) ? intval ($_GET['id']) : null;
 
     
+
 ?>
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="dark">
