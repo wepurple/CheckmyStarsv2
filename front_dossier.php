@@ -130,7 +130,7 @@
                         <div class="modal-body">
                             <p>
                                 <?php
-                                    echo var_dump($id);
+                                    echo $id;
                                 ?>
                             </p>
                         </div>
