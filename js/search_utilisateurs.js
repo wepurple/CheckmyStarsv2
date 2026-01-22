@@ -1,4 +1,3 @@
-// Déclarer les variables modals au DÉBUT du fichier
 let seeModal = null;
 let editModal = null;
 
@@ -81,7 +80,6 @@ async function showUserUpdateModal(id)
 {
     try
     {
-        // Initialiser le modal s'il n'existe pas
         if (!editModal) {
             const editModalElement = document.getElementById('editModal');
             if (editModalElement) {
@@ -135,7 +133,6 @@ async function showUserInfoModal(id)
 {
     try 
     {
-        // Initialiser le modal s'il n'existe pas
         if (!seeModal) {
             const seeModalElement = document.getElementById('seeModal');
             if (seeModalElement) {
@@ -239,24 +236,5 @@ async function loadTable()
 
 // Charger le tableau et initialiser les modals au démarrage de la page
 document.addEventListener("DOMContentLoaded", function() {
-    console.log("Page chargée, initialisation...");
-    
-    // Initialiser les modals
-    const editModalElement = document.getElementById('editModal');
-    const seeModalElement = document.getElementById('seeModal');
-    
-    if (editModalElement) {
-        editModal = new bootstrap.Modal(editModalElement);
-    } else {
-        console.error("editModal element not found in DOM!");
-    }
-    
-    if (seeModalElement) {
-        seeModal = new bootstrap.Modal(seeModalElement);
-    } else {
-        console.error("seeModal element not found in DOM!");
-    }
-    
-    // Charger le tableau
-    loadTable();
+  loadTable();
 });
