@@ -123,18 +123,29 @@ async function showUserInfoModal(id)
     {
         var user = await getUserById(id)
 
-        document.getElementById('seeLeNom').value = user.Utilisateur_Nom || "";
-        document.getElementById('seeLePrenom').value = user.Utilisateur_Prenom || "";
-        document.getElementById('seeLeMail').value = user.Utilisateur_Mail || "";
-        document.getElementById('seeGenre').value = user.Utilisateur_Civilite || "";
-        document.getElementById('seeLaSociete').value = user.Societe_Nom || "";
-        document.getElementById('seeLeTel').value = user.Utilisateur_Telephone || "";
-        document.getElementById('seeLeNumRue').value = user.AdressePostale_NumeroRue || "";
-        document.getElementById('seeLaAdresse').value = user.AdressePostale_NomRue || "";
-        document.getElementById('seeLeComplement').value = user.AdressePostale_Complement;
-        document.getElementById('seeLeCode').value = user.AdressePostale_CodePostal;
-        document.getElementById('seeLaVille').value = user.AdressePostale_Ville;
-        document.getElementById('seeLePays').value = user.AdressePostale_Pays;
+        const fields = {
+            'seeLeNom': user.Utilisateur_Nom || "",
+            'seeLePrenom': user.Utilisateur_Prenom || "",
+            'seeLeMail': user.Utilisateur_Mail || "",
+            'seeGenre': user.Utilisateur_Civilite || "",
+            'seeLaSociete': user.Societe_Nom || "",
+            'seeLeTel': user.Utilisateur_Telephone || "",
+            'seeLeNumRue': user.AdressePostale_NumeroRue || "",
+            'seeLaAdresse': user.AdressePostale_NomRue || "",
+            'seeLeComplement': user.AdressePostale_Complement || "",
+            'seeLeCode': user.AdressePostale_CodePostal || "",
+            'seeLaVille': user.AdressePostale_Ville || "",
+            'seeLePays': user.AdressePostale_Pays || ""
+        };
+
+        for (const [fieldId, value] of Object.entries(fields)) {
+            const element = document.getElementById(fieldId);
+            if (element) {
+                element.value = value;
+            } else {
+                console.warn(`Element with id '${fieldId}' not found in the DOM`);
+            }
+        }
 
         if (seeModal) {
             seeModal.show();
