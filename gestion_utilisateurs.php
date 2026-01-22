@@ -336,14 +336,19 @@ function getAllCompany($connexion)
                                 <label for="seeLePrenom">Prénom</label>
                             </div>
 
-                            <div class="col-md-6 form-floating mb-3">
-                                <input type="text" class="form-control" id="seeGenre" placeholder="" disabled>
-                                <label for="seeGenre">Civilité</label>
+                            <div class="col-md-8 form-floating mb-3">
+                                <input type="text" class="form-control" id="seeLeMail" placeholder="" disabled>
+                                <label for="seeLeMail">Mail</label>
+                            </div>
+
+                            <div class="col-md-4 form-floating mb-3">
+                                <input type="text" class="form-control" id="seeLeTel" placeholder="" disabled>
+                                <label for="seeLeTel">Téléphone</label>
                             </div>
 
                             <div class="col-md-6 form-floating mb-3">
-                                <input type="text" class="form-control" id="seeLeMail" placeholder="" disabled>
-                                <label for="seeLeMail">Mail</label>
+                                <input type="text" class="form-control" id="seeGenre" placeholder="" disabled>
+                                <label for="seeGenre">Civilité</label>
                             </div>
 
                             <div class="col-md-6 form-floating mb-3">
@@ -351,42 +356,37 @@ function getAllCompany($connexion)
                                 <label for="seeLaSociete">Société</label>
                             </div>
 
-                            <div class="col-md-6 form-floating mb-3">
-                                <input type="text" class="form-control" id="seeLeTel" placeholder="" disabled>
-                                <label for="seeLeTel">Téléphone</label>
-                            </div>
-
-                            <div class="col-md-6 form-floating mb-3">
+                            <div class="col-md-12 form-floating mb-3">
                                 <input type="text" class="form-control" id="seeRole" placeholder="" disabled>
                                 <label for="seeRole">Role</label>
                             </div>
 
-                            <div class="col-md-4 form-floating mb-3">
+                            <div class="col-md-2 form-floating mb-3">
                                 <input type="text" class="form-control" id="seeLeNumRue" placeholder="" disabled>
                                 <label for="seeLeNumRue">N° rue</label>
                             </div>
 
-                            <div class="col-md-8 form-floating mb-3">
+                            <div class="col-md-10 form-floating mb-3">
                                 <input type="text" class="form-control" id="seeLaAdresse" placeholder="" disabled>
                                 <label for="seeLaAdresse">Adresse</label>
                             </div>
 
-                            <div class="col-md-6 form-floating mb-3">
+                            <div class="col-md-12 form-floating mb-3">
                                 <input type="text" class="form-control" id="seeLeComplement" placeholder="" disabled>
                                 <label for="seeLeComplement">Complément</label>
                             </div>
 
-                            <div class="col-md-6 form-floating mb-3">
+                            <div class="col-md-4 form-floating mb-3">
                                 <input type="text" class="form-control" id="seeLeCode" placeholder="" disabled>
                                 <label for="seeLeCode">Code postal</label>
                             </div>
 
-                            <div class="col-md-6 form-floating mb-3">
+                            <div class="col-md-4 form-floating mb-3">
                                 <input type="text" class="form-control" id="seeLaVille" placeholder="" disabled>
                                 <label for="seeLaVille">Ville</label>
                             </div>
 
-                            <div class="col-md-6 form-floating mb-3">
+                            <div class="col-md-4 form-floating mb-3">
                                 <input type="text" class="form-control" id="seeLePays" placeholder="" disabled>
                                 <label for="seeLePays">Pays</label>
                             </div>
