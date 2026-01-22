@@ -371,37 +371,15 @@ $pdf->Cell(0, 4, 'Capital social : ' . $entreprise['capital'] . ' - TVA : ' . $e
 // GÉNÉRATION DU PDF
 // ========================================
 
-// 1. Enregistrer le PDF dans storage/factures
-$storageDir = __DIR__ . '/storage/factures';
-if (!is_dir($storageDir)) {
-    mkdir($storageDir, 0775, true);
-}
-
 $sanitizedNumber = preg_replace('/[^A-Za-z0-9_-]/', '_', $devis['numero']);
 $filename = 'devis_' . $sanitizedNumber . '_' . date('Ymd_His') . '.pdf';
-$filePath = $storageDir . '/' . $filename;
 
-// Sauvegarder le fichier sur le serveur
-$pdf->Output($filePath, 'F');
-
-// 2. Forcer le téléchargement dans le navigateur
-if (file_exists($filePath)) {
-    // Nettoyer le buffer de sortie pour éviter la corruption du PDF
-    if (ob_get_length()) {
-        ob_end_clean();
-    }
-    
-    header('Content-Type: application/pdf');
-    header('Content-Disposition: attachment; filename="' . basename($filename) . '"');
-    header('Content-Length: ' . filesize($filePath));
-    header('Cache-Control: private, max-age=0, must-revalidate');
-    header('Pragma: public');
-    
-    readfile($filePath);
-    exit;
-} else {
-    http_response_code(500);
-    echo "Erreur: Impossible de générer le PDF. Vérifiez les permissions du dossier storage/factures";
-    exit;
+// Nettoyer le buffer de sortie pour éviter la corruption du PDF
+if (ob_get_length()) {
+    ob_end_clean();
 }
+
+// Envoyer directement le PDF au navigateur
+$pdf->Output($filename, 'D');
+exit;
 ?>

@@ -42,13 +42,28 @@ require_once('includes/mariadb.php');
         <div class="facture-wrapper">
             <!-- FORMULAIRE D'ÉDITION -->
             <div class="formulaire-section">
-                <div class="d-flex gap-3 mb-4 justify-content-center">
-                    <button class="btn btn-primary btn-lg px-4" id="btn-facture" onclick="handlePreview('FACTURE')">
-                        <i class="fa-solid fa-file-invoice me-2"></i> Créer une facture
-                    </button>
-                    <button class="btn btn-success btn-lg px-4" id="btn-devis" onclick="handlePreview('DEVIS')">
-                        <i class="fa-solid fa-file-lines me-2"></i> Créer un devis
-                    </button>
+                <div class="top-actions d-flex flex-wrap align-items-center justify-content-between mb-4">
+                    <div class="d-flex gap-2 flex-wrap action-group">
+                        <button class="btn btn-success btn-lg px-4" id="btn-devis" onclick="initNewDevis(); handlePreview('DEVIS')">
+                            Créer un devis
+                        </button>
+                    </div>
+                    <div class="d-flex gap-2 align-items-center flex-wrap action-group">
+                        <!-- Sélecteur de devis existants -->
+                        <div class="input-group" style="max-width: 320px;">
+                            <span class="input-group-text bg-success text-white">D</span>
+                            <select id="devisSelector" class="form-select" onchange="if(this.value) loadDevisFromDropdown()">
+                                <option value="">-- Charger un devis --</option>
+                            </select>
+                        </div>
+                        <!-- Sélecteur de factures existantes -->
+                        <div class="input-group" style="max-width: 320px;">
+                            <span class="input-group-text bg-primary text-white">F</span>
+                            <select id="factureSelector" class="form-select" onchange="if(this.value) loadFacture()">
+                                <option value="">-- Charger une facture --</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
                 <!-- Conteneur principal Facture / Devis (sans collapse) -->
                 <div class="form-sections" id="formulairePrincipal">
@@ -63,11 +78,11 @@ require_once('includes/mariadb.php');
                                         <!-- Informations Entreprise -->
                                         <div class="accordion-item">
                                             <h2 class="accordion-header">
-                                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEntreprise">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEntreprise">
                                                     <i class="bi bi-building me-2"></i> Informations Entreprise
                                                 </button>
                                             </h2>
-                                            <div id="collapseEntreprise" class="accordion-collapse collapse show" data-bs-parent="#formulaireAccordionFacture">
+                                            <div id="collapseEntreprise" class="accordion-collapse collapse" data-bs-parent="#formulaireAccordionFacture">
                                                 <div class="accordion-body">
                                                     <div class="row">
                                                         <div class="col-md-6 mb-2">
@@ -245,7 +260,7 @@ require_once('includes/mariadb.php');
                                                     <div class="row">
                                                         <div class="col-md-6 mb-2">
                                                             <label class="form-label">N° Devis</label>
-                                                            <input type="text" class="form-control" id="devis_numero" value="DEV-2026-001">
+                                                            <input type="text" class="form-control" id="devis_numero" readonly placeholder="Génération automatique...">
                                                         </div>
                                                         <div class="col-md-6 mb-2">
                                                             <label class="form-label">Date</label>
@@ -318,14 +333,24 @@ require_once('includes/mariadb.php');
             <!-- PRÉVISUALISATION PDF -->
             <div class="apercu-section">
                 <div class="sticky-actions">
-                    <div class="d-flex gap-2 mb-3">
-                        <button class="btn btn-primary flex-fill" onclick="updatePreview()">
-                            <i class="bi bi-arrow-clockwise"></i> Actualiser l'aperçu
+                    <!-- Barre d'actions principale -->
+                    <div class="d-flex gap-2 mb-3 align-items-center flex-wrap">
+                        <button class="btn btn-primary" onclick="updatePreview()">
+                            Actualiser
                         </button>
-                        <button class="btn btn-success flex-fill" onclick="downloadPDF()">
-                            <i class="bi bi-download"></i> Télécharger PDF
+                        <button class="btn btn-success" onclick="downloadPDF()">
+                            Télécharger PDF
+                        </button>
+                        <button class="btn btn-warning" onclick="saveDevis()" id="btn-save-devis">
+                            Sauvegarder
+                        </button>
+                        <button class="btn btn-info" onclick="convertDevisToFacture()" id="btn-convert-facture">
+                            Convertir en facture
                         </button>
                     </div>
+                    
+                    <!-- Badge lecture seule (affiché dynamiquement) -->
+                    <div id="readonly-badge-container"></div>
                     
                     <div class="preview-container">
                         <h3 class="mb-3" id="preview-title">Aperçu de la Facture</h3>
