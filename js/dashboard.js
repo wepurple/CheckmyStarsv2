@@ -25,7 +25,11 @@ function remplirTab(liste) {//remplit le tablo
     if (liste.length>0){
         viderTab()
         for (let i = 0; i < liste.length; i++){
-            tab.appendChild(document.createElement("tr"))
+            const tr = document.createElement("tr");
+
+            tr.addEventListener("click", function () {
+                window.location.href = "utilisateur.php?id=" + liste[i]["Utilisateur_ID"];
+            });
 
             e=tab.lastElementChild
             e.appendChild(document.createElement('td'))
