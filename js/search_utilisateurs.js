@@ -320,7 +320,7 @@ async function loadTable() {
         <td>${user.Societe_Nom ?? user.SocieteNom ?? ''}</td>
         <td class="text-end">
           <button class="btn btn-secondary btn-sm me-2">Voir</button>
-          <button class="btn btn-sm btn-warning me-2">Edit</button>
+          <button class="btn btn-sm btn-warning me-2">Modifier</button>
           <button class="btn btn-sm btn-danger">Supprimer</button>
         </td>
       `;
