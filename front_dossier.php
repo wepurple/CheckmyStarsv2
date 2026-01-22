@@ -1,5 +1,9 @@
 <?php
     session_start();
+
+    $id = isset($_GET['id']) ? intval ($_GET['id']) : null;
+
+    
 ?>
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="dark">

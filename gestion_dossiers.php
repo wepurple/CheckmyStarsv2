@@ -90,7 +90,7 @@
                                 a.AdressePostale_Pays, 
                                 d.status 
                             FROM dossiers AS d 
-                            INNER JOIN utilisateurs AS u ON d.Utilisateur_ID = u.Utilisateur_ID 
+                            INNER JOIN utilisateurs AS u ON d.Inspecteur_Id = u.Utilisateur_ID 
                             INNER JOIN biens AS b ON b.Bien_ID = d.Bien_ID
                             INNER JOIN adressespostales AS a ON a.AdressePostale_ID = b.AdressePostale_ID 
                             INNER JOIN typeshebergements AS t ON t.TypeHebergement_ID = b.TypeHebergement_ID
