@@ -70,7 +70,7 @@
                 $data['nom'] ?? '',
                 $data['prenom'] ?? '',
                 $data['email'] ?? '',
-                $data['civilite'] ?? '',
+                $data['civilite'] ?? 'Iel',
                 !empty($data['societe_id']) ? intval($data['societe_id']) : 7,
                 !empty($data['role_id']) ? intval($data['role_id']) : 0,
                 $data['telephone'] ?? '',
