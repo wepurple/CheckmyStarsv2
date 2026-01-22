@@ -45,9 +45,21 @@ function remplirTab(liste) {//remplit le tablo
 
             e.appendChild(document.createElement('td'))
             e.lastElementChild.textContent = liste[i]["Nombre_Dossiers"]
+            
+            let statusGlobal = liste[i]["Status_Global"];
+            let statusText = statusGlobal == 1 ? "Terminé" : "En cours";
+            let statusClass = statusGlobal == 1
+                ? "badge bg-success"
+                : "badge bg-warning text-dark";
 
-            e.appendChild(document.createElement('td'))
-            e.lastElementChild.textContent = liste[i]["Status_Global"]
+            let tdStatus = document.createElement("td");
+            let spanStatus = document.createElement("span");
+
+            spanStatus.className = statusClass;
+            spanStatus.textContent = statusText;
+
+            tdStatus.appendChild(spanStatus);
+            e.appendChild(tdStatus);
         }
     }
 }
