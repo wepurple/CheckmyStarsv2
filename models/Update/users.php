@@ -2,7 +2,7 @@
     ob_clean();
     header('Content-Type: application/json');
     
-    require_once(dirname(__FILE__) . "/../../../../includes/mariadb.php");
+    require_once("../../includes/mariadb.php");
     
     class Users
     {
@@ -15,12 +15,29 @@
 
         public function updateUserById($nom, $prenom, $email, $civilite, $societe_id, $telephone, $num_rue, $nom_rue, $complement, $code_postal, $ville, $pays, $id)
         {
-            $sql = "SELECT Update_User(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $sql = "SELECT Update_User(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) AS result";
             $query = $this->connexion->prepare($sql);
-            $query->execute([$nom, $prenom, $email, $civilite, $societe_id, $telephone, $num_rue, $nom_rue, $complement, $code_postal, $ville, $pays, $id]);
-
+            
+            // ORDRE : Nom, Prenom, Societe, Mail, Genre, Telephone, NumRue, Complement, CP, Adresse, Ville, Pays, ID
+            $query->execute([
+                $nom,           // 1. Nom
+                $prenom,        // 2. Prenom
+                $societe_id,    // 3. Societe
+                $email,         // 4. Mail
+                $civilite,      // 5. Genre
+                $telephone,     // 6. Telephone
+                $num_rue,       // 7. NumRue
+                $complement,    // 8. Complement
+                $code_postal,   // 9. CP
+                $nom_rue,       // 10. Adresse (nom de rue)
+                $ville,         // 11. Ville
+                $pays,          // 12. Pays
+                $id             // 13. ID
+            ]);
+            
             return $query;
         }
+
     }
     
     try {

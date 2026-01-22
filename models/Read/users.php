@@ -28,6 +28,7 @@
         public $CodePostal;
         public $Ville;
         public $Pays;
+        public $Role;
         public $Societe;
         public $MotPasse;
         public $Signature;

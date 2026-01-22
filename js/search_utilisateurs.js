@@ -38,7 +38,7 @@ async function updateUserById()
         const prenom = document.getElementById('editLePrenom').value;
         const email = document.getElementById('editLeMail').value;
         const civilite = document.getElementById('editLeGenre').value;
-        const societe_id = 7;
+        const societe_id = document.getElementById('editLaSociete').value;
         const telephone = document.getElementById('editLeTel').value;
         const num_rue = document.getElementById('editLeNumRue').value;
         const nom_rue = document.getElementById('editLaAdresse').value;
@@ -52,7 +52,7 @@ async function updateUserById()
             num_rue, nom_rue, complement, code_postal, ville, pays
         };
 
-        const response = await fetch("models/crud/Update/users.php", {
+        const response = await fetch("models/Update/users.php", {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(data)
@@ -111,7 +111,27 @@ async function showUserUpdateModal(id)
                 document.getElementById('editLeGenre').value = "3";
         }
 
-        document.getElementById('editLaSociete').value = "TODO";
+        if (user.Societe_ID) {
+            document.getElementById('editLaSociete').value = user.Societe_ID;
+        }
+
+        var roleUser = 0;
+
+        if (user && user.admin == 1)
+        {
+            roleUser = 3;
+        }
+        else if (user && user.inspecteur == 1)
+        {
+            roleUser = 2;
+        }
+        else if (user && user.proprietaire == 1)
+        {
+            roleUser = 1;
+        }
+
+        document.getElementById('editLeRole').value = roleUser;
+        
         document.getElementById('editLeTel').value = user.Utilisateur_Telephone || '';
         document.getElementById('editLeNumRue').value = user.AdressePostale_NumeroRue || '';
         document.getElementById('editLaAdresse').value = user.AdressePostale_NomRue || '';
@@ -145,12 +165,28 @@ async function showUserInfoModal(id)
 
         var user = await getUserById(id);
 
+        var roleUser = "Non défini";
+
+        if (user && user.admin == 1)
+        {
+            roleUser = "Administrateur";
+        }
+        else if (user && user.inspecteur == 1)
+        {
+            roleUser = "Inspecteur";
+        }
+        else if (user && user.proprietaire == 1)
+        {
+            roleUser = "Proprietaire";
+        }
+
         const fields = {
             'seeLeNom': user.Utilisateur_Nom || "",
             'seeLePrenom': user.Utilisateur_Prenom || "",
             'seeLeMail': user.Utilisateur_Mail || "",
             'seeGenre': user.Utilisateur_Civilite || "",
             'seeLaSociete': user.Societe_Nom || "",
+            'seeRole': roleUser,
             'seeLeTel': user.Utilisateur_Telephone || "",
             'seeLeNumRue': user.AdressePostale_NumeroRue || "",
             'seeLaAdresse': user.AdressePostale_NomRue || "",
