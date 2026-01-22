@@ -150,7 +150,7 @@
                                     
                                     } catch(PDOException $e) {
                                         echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
-                                    }
+                                    };
                                 ?>
                             </p>
                         </div>
