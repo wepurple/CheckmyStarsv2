@@ -74,9 +74,7 @@
             <div class="row">
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
-                        <div class="card-body">
-                                <button type="button" class="btn">Voir le devis</button>
-                            </div>
+                            <button type="button" class="btn">Voir le devis</button>
                         </div>
                     </div>
                 </div>
