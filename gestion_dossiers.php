@@ -22,6 +22,70 @@
 
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
+
+        <script type='text/javascript'>
+ 
+            function getXhr(){
+                                var xhr = null; 
+                if(window.XMLHttpRequest) // Firefox et autres
+                   xhr = new XMLHttpRequest(); 
+                else if(window.ActiveXObject){ // Internet Explorer 
+                   try {
+                            xhr = new ActiveXObject("Msxml2.XMLHTTP");
+                        } catch (e) {
+                            xhr = new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                }
+                else { // XMLHttpRequest non supporté par le navigateur 
+                   alert("Votre navigateur ne supporte pas les objets XMLHTTPRequest..."); 
+                   xhr = false; 
+                } 
+                                return xhr;
+            }
+ 
+            /**
+            * Méthode qui sera appelée sur le clic du bouton
+            */
+            function test(){
+                var xhr = getXhr();
+                // On définit ce qu'on va faire quand on aura la réponse
+                xhr.onreadystatechange = function(){
+                    // On ne fait quelque chose que si on a tout reçu et que le serveur est OK
+                    if(xhr.readyState == 4 && xhr.status == 200){
+                        try {
+                            var data = JSON.parse(xhr.responseText);
+                            if (data.error) {
+                                alert('Erreur : ' + data.error);
+                            } else {
+                                // Remplir les champs avec les données reçues
+                                document.getElementById('leMail').value = data.mail;
+                                document.getElementById('leTel').value = data.telephone;
+                                document.getElementById('laSociete').value = data.societe;
+                                
+                                // 
+                                // document.getElementById('leCode').value = data.codepostal;
+                                // document.getElementById('leNumRue').value = data.numerorue;
+                                // document.getElementById('laAdresse').value = data.nomrue;
+                                // document.getElementById('laVille').value = data.ville;
+                                // document.getElementById('lePays').value = data.pays;
+                            }
+                        } catch(e) {
+                            alert('Erreur de traitement de la réponse');
+                        }
+                    }
+                }
+ 
+                // Récupérer l'ID du client sélectionné
+                sel = document.getElementById('leClient');
+                idclient = sel.options[sel.selectedIndex].value;
+                
+                // Requête POST
+                xhr.open("POST","ajaxtest/ajaxDossier.php",true);
+                xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+                xhr.send("Utilisateur_ID="+idclient);
+            }
+        </script>
+
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
         <script src="js/search_inspecteurs.js"></script>
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
@@ -155,7 +219,7 @@
                                                 $stmt = $db->prepare($sql);
                                                 $stmt->execute();
                                                 
-                                                echo '<select class="form-select" id="leClient" ">';
+                                                echo '<select class="form-select" id="leClient" onchange="test()" ">';
                                                 echo '<option selected disabled>Choisir un client</option>';
                                                 
                                                 if ($stmt->rowCount() > 0) {
@@ -184,12 +248,12 @@
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="lePrenom" placeholder="" required>
                                     <label for="floatingInput">Prenom *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="leMail" placeholder="" required>
-                                    <label for="floatingInput">Adresse Mail *</label>
                                 </div> -->
+
+                                <div id="mail" class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="leMail" placeholder="" value="" required>
+                                    <label for="floatingInput">Adresse Mail *</label>
+                                </div>
 
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="typedebien" aria-label="Floating label select example">
@@ -207,7 +271,7 @@
                                     <label for="floatingInput">Société *</label>
                                 </div>
 
-                                <div class="form-floating mb-3">
+                                <div id = "tel" class="form-floating mb-3">
                                     <input type="tel" class="form-control" id="leTel" placeholder="" required>
                                     <label for="floatingInput">Téléphone *</label>
                                 </div>
