@@ -112,24 +112,22 @@ async function showUserUpdateModal(id)
         }
 
         if (user.Societe_ID) {
-            console.log(user);
-            console.log(user.Societe_ID);
             document.getElementById('editLaSociete').value = user.Societe_ID;
         }
 
-        var roleUser = "Non défini";
+        var roleUser = 0;
 
         if (user && user.admin == 1)
         {
-            roleUser = "Administrateur";
+            roleUser = 3;
         }
         else if (user && user.inspecteur == 1)
         {
-            roleUser = "Inspecteur";
+            roleUser = 2;
         }
         else if (user && user.proprietaire == 1)
         {
-            roleUser = "Proprietaire";
+            roleUser = 1;
         }
 
         document.getElementById('editLeRole').value = roleUser;
