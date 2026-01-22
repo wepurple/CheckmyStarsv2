@@ -100,7 +100,7 @@
                 </div>
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #2b2b2b !important;">
-                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#info_modal">Voir l'adresse</button>
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#adresse_modal">Voir l'adresse</button>
                         </div>
                     </div>
                 </div>
@@ -122,7 +122,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal" id="info_modal" tabindex="-1">
+        <div class="modal" id="adresse_modal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div header class="header">
@@ -140,9 +140,9 @@
 
                                         if ($stmt->rowCount() > 0) {
                                             while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                                echo "<td>" . htmlspecialchars($row['AdressePostale_NumeroRue']) . " " . "</br>" . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>" . "</br>" .;
-                                                echo "<td>" . htmlspecialchars($row['AdressePostale_CodePostal']) . "</td>" . "</br>" .;
-                                                echo "<td>" . htmlspecialchars($row['AdressePostale_Ville']) . "</td>" . "</br>" .;
+                                                echo "<td>" . htmlspecialchars($row['AdressePostale_NumeroRue']) . " " . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>" . "</br>" ;
+                                                echo "<td>" . htmlspecialchars($row['AdressePostale_CodePostal']) . "</td>" . "</br>" ;
+                                                echo "<td>" . htmlspecialchars($row['AdressePostale_Ville']) . "</td>" . "</br>" ;
                                             }
                                         } else {
                                             echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
@@ -150,7 +150,7 @@
                                     
                                     } catch(PDOException $e) {
                                         echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
-                                    }
+                                    };
                                 ?>
                             </p>
                         </div>
