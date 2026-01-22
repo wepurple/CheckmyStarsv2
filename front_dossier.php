@@ -84,9 +84,19 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
                             <button type="button" class="btn">Voir l'evolution</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md rounded">
+                    <div class="card text-white rounded shadow-md border" style="background-color: #2b2b2b !important;">
+                            <button type="button" class="btn">Voir l'adresse</button>
                         </div>
                     </div>
                 </div>
@@ -94,19 +104,13 @@
         </div>
         <div class="container">
             <div class="row">
-                <div class="col-sm rounded">
-                    <div class="card text-white rounded shadow-md border" style="background-color: #2b2b2b !important;">
-                            <button type="button" class="btn">Voir l'adresse</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm rounded">
+                <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
                             <button type="button" class="btn">Voir la date du RDV</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-sm rounded">
+                <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #2b2b2b !important;">
                             <button type="button" class="btn">Voir l'etat du dossier</button>
                         </div>
