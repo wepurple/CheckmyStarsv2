@@ -12,8 +12,6 @@
         die();
     }
 ?>
-
-
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="dark">
     <head>
@@ -34,8 +32,10 @@
 
 
             $dossierId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-            $utilisateurId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+            $utilisateurId = filter_input(INPUT_GET, '', FILTER_SANITIZE_NUMBER_INT);
             
+            var_dump($dossierId);
+            var_dump($utilisateurId);
             
 
 
@@ -48,11 +48,26 @@
                 </button>
 
                 <div class="box-title text-center">
-                    <h2>Dossier en cours : <?php echo $dossierId; ?></h2>
+                    <p>Dossier en cours : <?php echo $dossierId; ?></p>
                 </div>
             </div>
             <div>
+                <div>
+                    <label for="pet-select">Sélectionner le nombre d'étoiles :</label>
 
+                    <select name="pets" id="pet-select">
+                        <option value="">--étoile--</option>
+                        <option value="dog">1</option>
+                        <option value="cat">2</option>
+                        <option value="hamster">3</option>
+                        <option value="parrot">4</option>
+                        <option value="spider">5</option>
+                    </select>
+
+                    <button>
+                        valider
+                    </button>
+                </div>
             </div>
         </div>
     </body>
