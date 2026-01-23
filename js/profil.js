@@ -26,6 +26,11 @@ const elements = [
     "AdressePostale_Ville",
     "AdressePostale_Pays"
 ]
+const modalElements = [
+    "oldPassword",
+    "newPassword",
+    "confirmPassword"
+]
     
 async function getInfos() {
     const url = "models/crud/myInfo.php"
@@ -72,7 +77,6 @@ function cancel(){
 function valider(){
     let verif = true
     for (let k = 0 ; k<ids.length ; k++){
-        console.log(document.getElementById(ids[k]).value == "")
         if(document.getElementById(ids[k]).value == ""){
             verif = false
             document.getElementById(ids[k]).classList.add('is-invalid')
@@ -82,10 +86,44 @@ function valider(){
     }
     if(verif){
         console.log("ok")
+    }
+}
+
+function cancelPassword(){//reset les infos dans le modal
+    for (let x = 0 ; x<modalElements.length ; x++){
+        document.getElementById(modalElements[x]).value = ""
+        document.getElementById(modalElements[x]).classList.remove('is-invalid')
+    }
+}
+
+function submitPassword(){
+    const minCara = 12 //minimum de caractères pour le mdp
+    const specialCara = ["#", "?", "!", "@", "$", "%", "^", "&", "*", "-", "'", "+", "(", ")", "_", "[", "]"]
+
+    //vérifie si tous les champs sont remplis
+    let verifRempli = true
+    for (let k = 0 ; k<modalElements.length ; k++){
+        if(document.getElementById(modalElements[k]).value == ""){
+            verifRempli = false
+            document.getElementById(modalElements[k]).classList.add('is-invalid')
+        }else{
+            document.getElementById(modalElements[k]).classList.remove('is-invalid')
+        }
+    }
+
+    if(verifRempli){
+        //vérifie 
         
     }
 }
 
 document.addEventListener("DOMContentLoaded", async function() {//quand la page est chargée
     updateInfos()
+
+    //déclaration des modals
+    modalEditMdp = new bootstrap.Modal(document.getElementById('modalPassword'))
 });
+
+function editPasswordBtn(){
+    modalEditMdp.show()
+}
