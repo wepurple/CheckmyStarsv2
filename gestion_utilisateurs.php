@@ -69,7 +69,7 @@ function getAllCompany($connexion)
                     <option value="6">Société</option>
                 </select>
 
-                <div class="mb-3">
+                <div>
                     <input type="text" 
                         id="searchInput" 
                         class="form-control" 
