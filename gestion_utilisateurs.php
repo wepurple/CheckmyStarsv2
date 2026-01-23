@@ -48,36 +48,38 @@ function getAllCompany($connexion)
 <div class="container-fluid p-3">
 
     <!-- Barre de recherche + bouton ajouter -->
-    <nav class="navbar">
-        <div class="container-fluid d-flex flex-row mb-2">
-            <div class="input-group">
-
-                <!-- Bouton Ajout -->
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
-                    <i class="fa-solid fa-plus"></i>
-                    Ajouter un utilisateur
-                </button>
-
-                <span class="input-group-text">Rechercher par</span>
-
-                <select class="form-select max-w-10" id="type">
-                    <option selected value="1">ID</option>
-                    <option value="2">Nom</option>
-                    <option value="3">Prénom</option>
-                    <option value="4">Mail</option>
-                    <option value="5">Role</option>
-                    <option value="6">Société</option>
-                </select>
-
-                <div>
+    <div class="container-fluid mb-4">
+        <div class="d-flex flex-column flex-md-row gap-3 align-items-stretch align-items-md-center">
+            <!-- Bouton Ajout -->
+            <button type="button" class="btn btn-success btn-lg shadow-sm" data-bs-toggle="modal" data-bs-target="#addModal">
+                <i class="fa-solid fa-plus me-2"></i>
+                Ajouter
+            </button>
+            
+            <!-- Barre de recherche -->
+            <div class="flex-grow-1">
+                <div class="input-group input-group-lg">
+                    <span class="input-group-text bg-white">
+                        <i class="fa-solid fa-magnifying-glass text-primary"></i>
+                    </span>
+                    <select class="form-select fw-semibold text-muted" id="type" style="max-width: 130px; font-size: 0.95rem;">
+                        <option selected value="1">ID</option>
+                        <option value="2">Nom</option>
+                        <option value="3">Prénom</option>
+                        <option value="4">Email</option>
+                        <option value="5">Rôle</option>
+                        <option value="6">Société</option>
+                    </select>
                     <input type="text" 
                         id="searchInput" 
                         class="form-control" 
-                        placeholder="Rechercher par ID, nom, prénom, rôle ou société...">
+                        placeholder="Rechercher un utilisateur..."
+                        style="font-size: 0.95rem;">
                 </div>
             </div>
         </div>
-    </nav>
+    </div>
+
 
     <!-- Tableau -->
     <div class="table-responsive">
