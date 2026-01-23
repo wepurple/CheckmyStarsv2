@@ -2,6 +2,17 @@
     session_start();
     require_once('./includes/mariadb.php');
 
+    //verifie le rôle de l'utilisateur connecté
+    if(isset($_SESSION['Role']['Administrateur']) || isset($_SESSION['Role']['Inspecteur'])){
+        if(!$_SESSION['Role']['Administrateur'] && !$_SESSION['Role']['Inspecteur']){
+            header('Location: deco.php');
+            die();
+        }
+    } else {
+        header('Location: deco.php');
+        die();
+    }
+
     $id = isset($_GET['id']) ? intval ($_GET['id']) : null;
 
 ?>
@@ -154,6 +165,21 @@
                                     };
                                 ?>
                             </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="info_modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div header class="header">
+                        <h5 class="modal-title">Informations</h5>
+                        <div class="modal-body">
+                            <p> En cours de développement ... </p>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
