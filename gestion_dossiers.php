@@ -143,13 +143,7 @@
                         try {
                             $sql = "CALL Get_Dossier();";
 
-                            if (isset($_SESSION['Role']['Inspecteur']) && $_SESSION['Role']['Inspecteur']) {
-                                // Si l'utilisateur est un inspecteur, filtrer les dossiers assignés
-                                $inspecteurID = $_SESSION['Utilisateur_ID'];
-                                $sql = "CALL Get_Dossier_By_Inspecteur(:inspecteurID);";
-                                $stmt = $db->prepare($sql);
-                                $stmt->bindParam(':inspecteurID', $inspecteurID, PDO::PARAM_INT);
-                            } else {
+                            if (isset($_SESSION['Role']))
                             $stmt = $db->prepare($sql);
                             $stmt->execute();
                             
