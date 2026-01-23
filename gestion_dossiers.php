@@ -141,8 +141,13 @@
                         echo "<tr><td colspan='7' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
                     } else {
                         try {
+
+                        if (isset($_SESSION['Role']['Administrateur']) && $_SESSION['Role']['Administrateur']) {
                             $sql = "CALL Get_Dossier();";
-                            
+                        } elseif (isset($_SESSION['Role']['Inspecteur']) && $_SESSION['Role']['Inspecteur']) {
+                            $inspecteurID = $_SESSION['Utilisateur_ID'];
+                            $sql = "CALL Get_Dossier_By_Inspecteur(:inspecteurID);";
+                        }
                             $stmt = $db->prepare($sql);
                             $stmt->execute();
                             

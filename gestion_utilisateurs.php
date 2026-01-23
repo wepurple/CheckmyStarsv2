@@ -1,19 +1,12 @@
 <?php
 session_start();
 
-require_once("includes/mariadb.php");
-
-// Même protection que gestion_inspecteurs.php : réservé admin
-if (isset($_SESSION['Role']['Administrateur'])) {
-    if (!$_SESSION['Role']['Administrateur']) {
-        header('Location: deco.php');
-        die();
-    }
-} else {
+if(!isset($_SESSION['Role']) || !$_SESSION['Role']['Administrateur']){
     header('Location: deco.php');
     die();
 }
 
+require_once("includes/mariadb.php");
 $database = new Database();
 $db = $database->getConnection();
 
@@ -25,83 +18,140 @@ function getAllCompany($connexion)
     return $query;
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gestion utilisateurs - CheckMyStars</title>
-
-    <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.css">
-    <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
-     <link rel="stylesheet" href="bootstrap 5.3/css/style1.css">
+    <title>Gestion des utilisateurs - CheckMyStars</title>
+    <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
-
-    <script src="bootstrap 5.3/js/bootstrap.js"></script>
-    <script src="js/search_utilisateurs.js"></script>
+    <style>
+        .search-card {
+            border-left: 4px solid #0d6efd;
+        }
+        .table-actions {
+            white-space: nowrap;
+        }
+    </style>
 </head>
-
 <body class="bg-secondary">
-<?php require("./includes/navbar.php"); ?>
+    <?php require("./includes/navbar.php"); ?>
 
-<div class="container-fluid p-3">
+    <div class="container-fluid py-4">
 
-    <!-- Barre de recherche + bouton ajouter -->
-    <nav class="navbar">
-        <div class="container-fluid d-flex flex-row mb-2">
-            <div class="input-group">
+        <!-- En-tête avec bouton ajouter -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex align-items-center justify-content-between gap-3">
+                    <div>
+                        <h2 class="mb-0">Gestion des utilisateurs</h2>
+                        <p class="text-muted mb-0">Administration des comptes utilisateurs</p>
+                    </div>
 
-                <!-- Bouton Ajout -->
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
-                    <i class="fa-solid fa-plus"></i>
-                    Ajouter un utilisateur
-                </button>
-
-                <div class="mb-3">
-                    <input type="text" 
-                        id="searchInput" 
-                        class="form-control" 
-                        placeholder="Rechercher par ID, nom, prénom, rôle ou société...">
+                    <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#addModal">
+                        <i class="fas fa-user-plus"></i> Ajouter un utilisateur
+                    </button>
                 </div>
-
-                <select class="form-select max-w-10" id="type">
-                    <option selected value="1">ID</option>
-                    <option value="2">Nom</option>
-                    <option value="3">Prénom</option>
-                    <option value="4">Mail</option>
-                    <option value="5">Role</option>
-                    <option value="6">Société</option>
-                </select>
-
-                <input type="text" class="form-control" id="recherche" placeholder="Votre recherche...">
-
-                <button onclick="loadTable()">test</button>
             </div>
         </div>
-    </nav>
 
-    <!-- Tableau -->
-    <div class="table-responsive">
-        <table class="table table-dark table-striped table-hover align-middle">
-            <thead>
-            <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Nom</th>
-                <th scope="col">Prénom</th>
-                <th scope="col">Mail</th>
-                <th scope="col">Role</th>
-                <th scope="col">Société</th>
-                <th scope="col" class="text-end">Actions</th>
-            </tr>
-            </thead>
-            <tbody id="table-body">
-            <!-- Rempli en JS -->
-            <tr>
-                <td colspan="7" class="text-center">Chargement...</td>
-            </tr>
-            </tbody>
-        </table>
+        <!-- Card de recherche et filtres -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card search-card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                            </svg>
+                            Recherche et filtres
+                        </h5>
+                        <div class="row g-3">
+                            <div class="col-md-4 col-lg-3">
+                                <label for="filterType" class="form-label small text-muted">Type de filtre</label>
+                                <select id="filterType" class="form-select">
+                                    <option value="all">Tous les champs</option>
+                                    <option value="id">ID</option>
+                                    <option value="nom">Nom</option>
+                                    <option value="prenom">Prénom</option>
+                                    <option value="email">Email</option>
+                                    <option value="role">Rôle</option>
+                                    <option value="societe">Société</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8 col-lg-9">
+                                <label for="searchInput" class="form-label small text-muted">Terme de recherche</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                        </svg>
+                                    </span>
+                                    <input type="text" 
+                                        id="searchInput" 
+                                        class="form-control" 
+                                        placeholder="Rechercher un utilisateur...">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="clearSearch()">
+                                        ✕ Effacer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card du tableau -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">
+                                <path d="M7 14s-1 0-1-1 1-4 5-4 5 3 5 4-1 1-1 1H7Zm4-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.784 6A2.238 2.238 0 0 1 5 13c0-1.355.68-2.75 1.936-3.72A6.325 6.325 0 0 0 5 9c-4 0-5 3-5 4s1 1 1 1h4.216ZM4.5 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z"/>
+                            </svg>
+                            Liste des utilisateurs
+                        </h5>
+                        <span class="badge bg-light text-dark" id="userCount">0 utilisateur(s)</span>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-hover table-striped mb-0" id="usersTable">
+                                <thead class="table-dark sticky-top">
+                                    <tr>
+                                        <th class="text-center"><small>ID</small></th>
+                                        <th><small>Nom</small></th>
+                                        <th><small>Prénom</small></th>
+                                        <th><small>Rôle</small></th>
+                                        <th><small>Société</small></th>
+                                        <th class="text-center"><small>Actions</small></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="table-body">
+                                    <tr>
+                                        <td colspan="6" class="text-center py-5">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Chargement...</span>
+                                            </div>
+                                            <p class="mt-3 text-muted">Chargement des données...</p>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card-footer text-muted small">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span id="resultInfo">Affichage de tous les utilisateurs</span>
+                            <span class="text-end">CheckMyStars © 2026</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <!-- Modal confirmation suppression -->
