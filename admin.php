@@ -23,20 +23,19 @@
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
+        <link rel="stylesheet" href="bootstrap 5.3/css/notes.css">  
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
     </head>
 
     <body  class="bg-secondary">
-        <?php        
-            require("./includes/navbar.php");
-            var_dump($_SESSION);
 
-            //var_dump(hash("sha3-512", "pass123"));
-
-            var_dump(password_hash("pass123", PASSWORD_BCRYPT));
-
-            var_dump(password_verify("pass123", '$2y$10$D3Jo4foDq6DvbNzsHt5RYeX6034SSXd/22dzgn9xDVjA0RNduqxLW'));
-            //var_dump(password_algos());
-        ?>
+        <?php include 'includes/navbar.php'; ?>
+    <div class="container">
+      <div class="title">
+        <button class="btn">Créer une note </button>
+      </div>
+    </div>
+    <div class="notes-container"></div>
     </body>
+    <script src="bootstrap 5.3/js/notes.js"></script>
 </html>

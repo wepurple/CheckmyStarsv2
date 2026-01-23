@@ -30,10 +30,12 @@
             require("./includes/navbar.php");
         ?>
 
+        <!-- conteneur -->
         <div class="container mt-4 p-3 rounded shadow bg-light text-dark">
 
             <div class="row">
 
+                <!-- colonne infos personelles -->
                 <div class="col m-2 p-2 rounded">
                     
                     <h2>Mes informations</h2>
@@ -51,7 +53,11 @@
 
                     <div class="input-group mb-1">
                         <span class="input-group-text">Civilité</span>
-                        <input id="civilite" type="text" class="form-control" placeholder="ex: Civilité" disabled>
+                        <select id="civilite" class="form-select" disabled>
+                            <option value="Monsieur">Monsieur</option>
+                            <option value="Madame">Madame</option>
+                            <option value="Iel" selected>Non-binaire</option>
+                        </select>
                     </div>
 
                     <div class="input-group mb-1">
@@ -69,8 +75,15 @@
                         <input id="societe" type="text" class="form-control" placeholder="ex: Pedro & Cie" disabled>
                     </div>
 
+                    <div class="input-group mb-1">
+                        <span class="input-group-text">Mot de passe</span>
+                        <input id="password" type="password" class="form-control" placeholder="*************" disabled>
+                        <button class="btn btn-secondary" type="button" onclick="editPasswordBtn()">Modifier</button>
+                    </div>
+
                 </div>
 
+                <!-- colonne adresse -->
                 <div class="col m-2 p-2 rounded">
                     <h2>Mon adresse</h2>
 
@@ -131,6 +144,26 @@
                 </div>
             </div>
 
+        </div>
+
+        
+        <!-- Modal changement mdp -->
+        <div class="modal fade" id="modalPassword">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+                </div>
+            </div>
         </div>
 
     </body>

@@ -352,10 +352,8 @@ function addCancel() {
     }
 }
 
-// Fonction pour ajouter un utilisateur
 async function addUser() {
     try {
-        // Récupérer les valeurs du formulaire
         const nom = document.getElementById('leNom').value.trim();
         const prenom = document.getElementById('lePrenom').value.trim();
         const civiliteValue = document.getElementById('leGenre').value;
@@ -371,27 +369,23 @@ async function addUser() {
         const pays = document.getElementById('lePays').value.trim();
         const password = document.getElementById('leMdp').value;
 
-        // Validation des champs obligatoires
         if (!nom || !prenom || !email || !societe_id || !role_id || !telephone || 
             !num_rue || !nom_rue || !code_postal || !ville || !pays || !password) {
             alert("Veuillez remplir tous les champs obligatoires (*)");
             return;
         }
 
-        // Validation email
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
             alert("Veuillez entrer un email valide");
             return;
         }
 
-        // Validation mot de passe
         if (password.length < 8) {
             alert("Le mot de passe doit contenir au moins 8 caractères");
             return;
         }
 
-        // Convertir la civilité
         let civilite;
         switch(civiliteValue) {
             case "1":
@@ -407,7 +401,6 @@ async function addUser() {
                 civilite = "Iel";
         }
 
-        // Préparer les données
         const data = {
             nom,
             prenom,
@@ -427,7 +420,6 @@ async function addUser() {
 
         console.log("Données envoyées:", data);
 
-        // Envoyer la requête
         const response = await fetch("models/Create/users.php", {
             method: "POST",
             headers: {'Content-Type': 'application/json'},
@@ -438,20 +430,16 @@ async function addUser() {
         console.log("Réponse:", result);
 
         if (result.success) {
-            // Fermer le modal
             const addModalElement = document.getElementById('addModal');
             const addModal = bootstrap.Modal.getInstance(addModalElement);
             if (addModal) {
                 addModal.hide();
             }
             
-            // Réinitialiser le formulaire
             document.getElementById('addForm').reset();
             
-            // Recharger le tableau
             await loadTable();
             
-            // Afficher le message de succès
             alert("Utilisateur créé avec succès ! ID: " + (result.new_user_id || 'N/A'));
         } else {
             alert("Erreur lors de la création : " + result.error);

@@ -43,6 +43,8 @@ try {
 
     $stmt = $db->prepare("CALL Create_User(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
+    $passwordHash = password_hash($data['password'], PASSWORD_BCRYPT);
+
     $stmt->execute([
         $data['num_rue'] ?? null,
         $data['nom_rue'] ?? null,
@@ -55,8 +57,8 @@ try {
         $data['prenom'],
         $data['civilite'] ?? 'Iel',
 
-        $data['password'],      // MDP
-        $data['email'],         // Mail
+        $passwordHash,
+        $data['email'],
 
         $data['telephone'] ?? null,
         $data['signature'] ?? null,
