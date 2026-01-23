@@ -461,35 +461,30 @@ function searchTable() {
         const cells = row.getElementsByTagName('td');
         
         if (cells.length > 0) {
-            // Récupère les valeurs des colonnes (ID, Nom, Prénom, Rôle, Société)
             const id = cells[0]?.textContent.toLowerCase() || '';
             const nom = cells[1]?.textContent.toLowerCase() || '';
             const prenom = cells[2]?.textContent.toLowerCase() || '';
             const role = cells[3]?.textContent.toLowerCase() || '';
             const societe = cells[4]?.textContent.toLowerCase() || '';
             
-            // Vérifie si le terme de recherche correspond à l'une des colonnes
             const match = id.includes(filterValue) ||
                          nom.includes(filterValue) ||
                          prenom.includes(filterValue) ||
                          role.includes(filterValue) ||
                          societe.includes(filterValue);
             
-            // Affiche ou masque la ligne selon le résultat
             row.style.display = match ? '' : 'none';
         }
     }
 }
 
-// Initialisation de la recherche au chargement de la page
+
 document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('searchInput');
     
     if (searchInput) {
-        // Recherche en temps réel à chaque frappe
         searchInput.addEventListener('keyup', searchTable);
         
-        // Recherche également lors du collage de texte
         searchInput.addEventListener('paste', () => {
             setTimeout(searchTable, 10);
         });
