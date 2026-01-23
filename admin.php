@@ -26,7 +26,7 @@
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
     </head>
 
-    <body  class="bg-secondary">
+    <body>
 
         <?php include 'includes/navbar.php'; ?>
     <div class="container">
@@ -36,4 +36,6 @@
       </div>
     </div>
     <div class="notes-container"></div>
+    
+    </body>
 </html>
