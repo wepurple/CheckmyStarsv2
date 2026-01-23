@@ -127,7 +127,7 @@
                 </div>
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #2b2b2b !important;">
-                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#info_modal">Voir l'etat du dossier</button>
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#statuts_modal">Voir l'etat du dossier</button>
                         </div>
                     </div>
                 </div>
@@ -155,6 +155,45 @@
                                                 echo "<td>" . htmlspecialchars($row['AdressePostale_Pays']) . "</td>" . "</br>";
                                                 echo "<td>" . htmlspecialchars($row['AdressePostale_Ville']) . "</td>" . "</br>" ;
                                                 echo "<td>" . htmlspecialchars($row['AdressePostale_CodePostal']) . "</td>" . "</br>" ;
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
+                                        }
+                                    
+                                    } catch(PDOException $e) {
+                                        echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
+                                    };
+                                ?>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="statuts_modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div header class="header">
+                        <h5 class="modal-title">Informations</h5>
+                        <div class="modal-body">
+                            <p>
+                                <?php
+                                    $database = new Database();
+                                    $db = $database->getConnection();
+
+                                    try {
+                                        $sql = "CALL Get_Dossier_Statut($id);";
+                                        $stmt = $db->prepare($sql);
+                                        $stmt->execute();
+
+                                        if ($stmt->rowCount() > 0) {
+                                            while($row = $stmt->fetch(PDO::FETCH_ASSOC)) { 
+                                                $statusText = $row['status'] == 1 ?  'terminé' : 'en cours';
+                                                $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
+                                                echo "<h4> Le dossier est actuellement : </h4><td><span class='badge $statusClass'>$statusText</span></td>";
                                             }
                                         } else {
                                             echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
