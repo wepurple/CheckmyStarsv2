@@ -194,7 +194,7 @@
                                                 $statusText = $row['status'] == 1 ?  'terminé' : 'en cours';
                                                 $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
                                                 echo "<h5> Le dossier est actuellement : </h5><td><span class='badge $statusClass'>$statusText</span></td></br>";
-                                                echo "</br> <h5> Assigné à : </h5></br>";
+                                                echo "</br> <h5> Assigné à : </h5>";
                                                 echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>"  . " " ;
                                                 echo "<td>" . htmlspecialchars($row['Utilisateur_Prenom']) . "</td>" . "</br>";
                                                 echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>" . "</br>";
