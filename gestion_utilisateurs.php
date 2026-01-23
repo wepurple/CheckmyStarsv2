@@ -480,5 +480,6 @@ function getAllCompany($connexion)
         </div>
     </div>
 </div>
+<script src="js/search_utilisateurs.js"></script>
 </body>
 </html>
