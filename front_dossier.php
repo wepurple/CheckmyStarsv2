@@ -196,7 +196,7 @@
                                                 echo "<h5> Le dossier est actuellement : </h5><td><span class='badge $statusClass'>$statusText</span></td></br>";
                                                 echo "<h5> Assigné à </h5>"
                                                 echo "<td>" . htmlspecialchars($row['Utilisateurs_Nom']) . "</td>" . "</br>" . " " ;
-                                                echo "<td>" . htmlspecialchars($row['Utilisateurs_Prenom']) . "</td>";
+                                                echo "<td>" . htmlspecialchars($row['Utilisateurs_Prenom']) . "</td>" .;
                                                 echo "<td>" . htmlspecialchars($row['Utilisateurs_Mail']) . "</td>" . "</br>";
                                                 echo "<td>" . htmlspecialchars($row['Utilisateurs_Telephone']) . "</td>" . "</br>";
                                             }
