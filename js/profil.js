@@ -59,6 +59,10 @@ function edit(){
 }
 
 function cancel(){
+    for (let j = 0 ; j<ids.length ; j++){
+        document.getElementById(ids[j]).setAttribute("disabled", "")
+        document.getElementById(ids[j]).classList.remove('is-invalid')
+    }
     document.getElementById("validerButton").setAttribute("disabled", "")
     document.getElementById("cancelButton").setAttribute("disabled", "")
     document.getElementById("editButton").removeAttribute("disabled")
@@ -66,7 +70,20 @@ function cancel(){
 }
 
 function valider(){
-    
+    let verif = true
+    for (let k = 0 ; k<ids.length ; k++){
+        console.log(document.getElementById(ids[k]).value == "")
+        if(document.getElementById(ids[k]).value == ""){
+            verif = false
+            document.getElementById(ids[k]).classList.add('is-invalid')
+        }else{
+            document.getElementById(ids[k]).classList.remove('is-invalid')
+        }
+    }
+    if(verif){
+        console.log("ok")
+        
+    }
 }
 
 document.addEventListener("DOMContentLoaded", async function() {//quand la page est chargée

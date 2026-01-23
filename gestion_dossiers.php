@@ -142,6 +142,8 @@
                     } else {
                         try {
                             $sql = "CALL Get_Dossier();";
+
+                            if (isset($_SESSION['Role']))
                             $stmt = $db->prepare($sql);
                             $stmt->execute();
                             
