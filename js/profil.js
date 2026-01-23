@@ -53,7 +53,20 @@ function edit(){
     for (let j = 0 ; j<ids.length ; j++){
         document.getElementById(ids[j]).removeAttribute("disabled")
     }
-    document.getElementById("valider").removeAttribute("disabled")
+    document.getElementById("validerButton").removeAttribute("disabled")
+    document.getElementById("cancelButton").removeAttribute("disabled")
+    document.getElementById("editButton").setAttribute("disabled", "")
+}
+
+function cancel(){
+    document.getElementById("validerButton").setAttribute("disabled", "")
+    document.getElementById("cancelButton").setAttribute("disabled", "")
+    document.getElementById("editButton").removeAttribute("disabled")
+    updateInfos()
+}
+
+function valider(){
+    
 }
 
 document.addEventListener("DOMContentLoaded", async function() {//quand la page est chargée

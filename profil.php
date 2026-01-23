@@ -113,14 +113,19 @@
             <div class="row">
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
 
-                    <button type="button" class="btn btn-outline-warning" onclick="edit()">
+                    <button id="editButton" type="button" class="btn btn-outline-warning" onclick="edit()">
                         <i class="fa-solid fa-pen-to-square"></i>
                         Modifier mes informations
                     </button>
 
-                    <button id="valider" type="button" class="btn btn-outline-success" onclick="" disabled>
+                    <button id="validerButton" type="button" class="btn btn-outline-success" onclick="valider()" disabled>
                         <i class="fa-solid fa-check"></i>
                         Valider
+                    </button>
+
+                    <button id="cancelButton" type="button" class="btn btn-outline-danger" onclick="cancel()" disabled>
+                        <i class="fa-solid fa-xmark"></i>
+                        Annuler
                     </button>
 
                 </div>
