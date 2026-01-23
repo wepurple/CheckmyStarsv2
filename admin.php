@@ -32,7 +32,6 @@
         <?php include 'includes/navbar.php'; ?>
     <div class="container">
       <div class="title">
-        <h2>Espace de notes</h2>
         <button class="btn">Créer une note </button>
       </div>
     </div>
