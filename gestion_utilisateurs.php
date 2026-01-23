@@ -47,7 +47,7 @@ function getAllCompany($connexion)
                 <div class="d-flex align-items-center justify-content-between gap-3">
                     <div>
                         <h2 class="mb-0">Gestion des utilisateurs</h2>
-                        <p class="text-muted mb-0">Administration des comptes utilisateurs</p>
+                        <p class="text-muted mb-0">Administration des comptes</p>
                     </div>
 
                     <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#addModal">
