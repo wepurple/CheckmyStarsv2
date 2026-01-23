@@ -58,7 +58,12 @@ function getAllCompany($connexion)
                     Ajouter un utilisateur
                 </button>
 
-                <span class="input-group-text">Rechercher par</span>
+                <div class="mb-3">
+                    <input type="text" 
+                        id="searchInput" 
+                        class="form-control" 
+                        placeholder="Rechercher par ID, nom, prénom, rôle ou société...">
+                </div>
 
                 <select class="form-select max-w-10" id="type">
                     <option selected value="1">ID</option>
