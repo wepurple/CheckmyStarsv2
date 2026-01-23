@@ -193,7 +193,7 @@
                                             while($row = $stmt->fetch(PDO::FETCH_ASSOC)) { 
                                                 $statusText = $row['status'] == 1 ?  'terminé' : 'en cours';
                                                 $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
-                                                echo "<h4> Le dossier est actuellement : </h4><td><span class='badge $statusClass'>$statusText</span></td>";
+                                                echo "<h5> Le dossier est actuellement : </h5><td><span class='badge $statusClass'>$statusText</span></td>";
                                             }
                                         } else {
                                             echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
