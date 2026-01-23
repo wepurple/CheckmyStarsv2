@@ -191,7 +191,6 @@
 
                                         if ($stmt->rowCount() > 0) {
                                             while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                                echo "<td>" . htmlspecialchars($row['Dossier_Status']) . "</td>" . "</br>";
                                                 $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
                                                 $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
                                                 echo "<td><span class='badge $statusClass'>$statusText</span></td>";
