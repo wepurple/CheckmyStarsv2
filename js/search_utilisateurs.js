@@ -3,30 +3,26 @@ let editModal = null;
 let deleteUserId = null;
 let confirmModal = null;
 
-async function getAllusers()
-{
+async function getAllusers() {
     const url = "models/Read/users.php";
     const response = await fetch(url, {
-        method : "GET",
-        headers : {
-            'Content-Type' : "application/json"
+        method: "GET",
+        headers: {
+            'Content-Type': "application/json"
         }
     });
-
     const result = await response.json();
     return result;
 }
 
-async function getUserById(id)
-{
-    const url = "models/Read/users.php?IdPersonne="+id;
+async function getUserById(id) {
+    const url = "models/Read/users.php?IdPersonne=" + id;
     const response = await fetch(url, {
-        method : "GET",
-        headers : {
-            'Content-Type' : "application/json"
+        method: "GET",
+        headers: {
+            'Content-Type': "application/json"
         }
     });
-
     const result = await response.json();
     console.log("Données reçues:", result);
     return result;
@@ -98,10 +94,8 @@ async function updateUserById() {
     }
 }
 
-async function showUserUpdateModal(id) 
-{
-    try
-    {
+async function showUserUpdateModal(id) {
+    try {
         if (!editModal) {
             const editModalElement = document.getElementById('editModal');
             if (editModalElement) {
@@ -119,17 +113,17 @@ async function showUserUpdateModal(id)
         document.getElementById('editLePrenom').value = user.Utilisateur_Prenom;
         document.getElementById('editLeMail').value = user.Utilisateur_Mail;
 
-        switch(user["Utilisateur_Civilite"]){
-            case "Monsieur" :
+        switch(user["Utilisateur_Civilite"]) {
+            case "Monsieur":
                 document.getElementById('editLeGenre').value = "1";
                 break;
-            case "Madame" :
+            case "Madame":
                 document.getElementById('editLeGenre').value = "2";
                 break;
-            case "Iel" :
+            case "Iel":
                 document.getElementById('editLeGenre').value = "3";
                 break;
-            default :
+            default:
                 document.getElementById('editLeGenre').value = "3";
         }
 
@@ -139,20 +133,13 @@ async function showUserUpdateModal(id)
 
         var roleUser;
 
-        if (user && user.admin == 1)
-        {
+        if (user && user.admin == 1) {
             roleUser = "3";
-        }
-        else if (user && user.inspecteur == 1)
-        {
+        } else if (user && user.inspecteur == 1) {
             roleUser = "2";
-        }
-        else if (user && user.donneurordre == 1)
-        {
+        } else if (user && user.donneurordre == 1) {
             roleUser = "1";
-        }
-        else if (user && user.proprietaire == 1)
-        {
+        } else if (user && user.proprietaire == 1) {
             roleUser = "0";
         }
 
@@ -168,17 +155,14 @@ async function showUserUpdateModal(id)
 
         editModal.show();
 
-    } catch (error) 
-    {
+    } catch (error) {
         console.error("Erreur:", error);
         alert("Impossible d'ouvrir le modal: " + error.message);
     }
 }
 
-async function showUserInfoModal(id)
-{
-    try 
-    {
+async function showUserInfoModal(id) {
+    try {
         if (!seeModal) {
             const seeModalElement = document.getElementById('seeModal');
             if (seeModalElement) {
@@ -193,20 +177,13 @@ async function showUserInfoModal(id)
 
         var roleUser;
 
-        if (user && user.admin == 1)
-        {
+        if (user && user.admin == 1) {
             roleUser = "Administrateur";
-        }
-        else if (user && user.inspecteur == 1)
-        {
+        } else if (user && user.inspecteur == 1) {
             roleUser = "Inspecteur";
-        }
-        else if (user && user.donneurordre == 1)
-        {
+        } else if (user && user.donneurordre == 1) {
             roleUser = "Donneur d'ordre";
-        }
-        else if (user && user.proprietaire == 1)
-        {
+        } else if (user && user.proprietaire == 1) {
             roleUser = "Proprietaire";
         }
 
@@ -236,24 +213,23 @@ async function showUserInfoModal(id)
         }
 
         seeModal.show();
-    } catch (error) 
-    {
+    } catch (error) {
         console.error("Erreur:", error);
         alert("Impossible d'ouvrir le modal: " + error.message);
     }
 }
 
 function openDeleteModal(id, nom, prenom) {
-  deleteUserId = id;
+    deleteUserId = id;
 
-  const p = document.getElementById('supprText');
-  if (p) p.textContent = `Voulez-vous vraiment supprimer l'utilisateur ${nom} ${prenom} (ID ${id}) ?`;
+    const p = document.getElementById('supprText');
+    if (p) p.textContent = `Voulez-vous vraiment supprimer l'utilisateur ${nom} ${prenom} (ID ${id}) ?`;
 
-  if (!confirmModal) {
-    const el = document.getElementById('confirmModal');
-    confirmModal = new bootstrap.Modal(el);
-  }
-  confirmModal.show();
+    if (!confirmModal) {
+        const el = document.getElementById('confirmModal');
+        confirmModal = new bootstrap.Modal(el);
+    }
+    confirmModal.show();
 }
 
 async function deleteUserById(id) {
@@ -277,70 +253,192 @@ async function deleteUserById(id) {
     return result;
 }
 
+// Fonction de recherche avec filtres
+function searchTable() {
+    const searchInput = document.getElementById('searchInput');
+    const filterType = document.getElementById('filterType');
+    const filterValue = searchInput.value.toLowerCase().trim();
+    const selectedFilter = filterType ? filterType.value : 'all';
+    const tableBody = document.getElementById('table-body');
+    const rows = tableBody.getElementsByTagName('tr');
+    
+    let visibleCount = 0;
 
-document.addEventListener('DOMContentLoaded', () => {
-  const btn = document.getElementById('supprConfirm');
-  if (!btn) return;
-
-  btn.addEventListener('click', async () => {
-    try {
-      if (!deleteUserId) return;
-      await deleteUserById(deleteUserId);
-      if (confirmModal) confirmModal.hide();
-      deleteUserId = null;
-      await loadTable();
-      alert('Utilisateur supprimé.');
-    } catch (e) {
-      alert(e.message);
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        const cells = row.getElementsByTagName('td');
+        
+        // Vérifier que ce n'est pas la ligne de chargement
+        if (cells.length >= 6) {
+            // Ordre: ID (0), Nom (1), Prénom (2), Rôle (3), Société (4), Actions (5)
+            const id = cells[0]?.textContent.toLowerCase() || '';
+            const nom = cells[1]?.textContent.toLowerCase() || '';
+            const prenom = cells[2]?.textContent.toLowerCase() || '';
+            const role = cells[3]?.textContent.toLowerCase() || '';
+            const societe = cells[4]?.textContent.toLowerCase() || '';
+            
+            let match = false;
+            
+            // Filtre selon le type sélectionné
+            switch(selectedFilter) {
+                case 'all':
+                    match = id.includes(filterValue) ||
+                           nom.includes(filterValue) ||
+                           prenom.includes(filterValue) ||
+                           role.includes(filterValue) ||
+                           societe.includes(filterValue);
+                    break;
+                case 'id':
+                    match = id.includes(filterValue);
+                    break;
+                case 'nom':
+                    match = nom.includes(filterValue);
+                    break;
+                case 'prenom':
+                    match = prenom.includes(filterValue);
+                    break;
+                case 'email':
+                    match = nom.includes(filterValue) || prenom.includes(filterValue);
+                    break;
+                case 'role':
+                    match = role.includes(filterValue);
+                    break;
+                case 'societe':
+                    match = societe.includes(filterValue);
+                    break;
+            }
+            
+            row.style.display = match ? '' : 'none';
+            if (match) visibleCount++;
+        }
     }
-  });
-});
+    
+    updateResultInfo(visibleCount);
+}
 
+// Met à jour les informations de résultat
+function updateResultInfo(visibleCount) {
+    const resultInfo = document.getElementById('resultInfo');
+    const searchInput = document.getElementById('searchInput');
+    
+    if (resultInfo) {
+        if (searchInput.value.trim() !== '') {
+            resultInfo.textContent = `${visibleCount} résultat${visibleCount > 1 ? 's' : ''} trouvé${visibleCount > 1 ? 's' : ''}`;
+        } else {
+            resultInfo.textContent = 'Affichage de tous les utilisateurs';
+        }
+    }
+}
+
+// Efface la recherche
+function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    const filterType = document.getElementById('filterType');
+    if (filterType) {
+        filterType.value = 'all';
+    }
+    searchTable();
+}
+
+// Charge le tableau
 async function loadTable() {
-  try {
-    const users = await getAllusers();
-    const tab = document.getElementById("table-body");
-    if (!tab) return;
+    try {
+        const users = await getAllusers();
+        const tab = document.getElementById("table-body");
+        const userCount = document.getElementById("userCount");
+        
+        if (!tab) return;
+        
+        tab.innerHTML = "";
+        
+        if (!users || users.length === 0) {
+            tab.innerHTML = `
+                <tr>
+                    <td colspan="6" class="text-center py-4">
+                        <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                        <p class="text-muted">Aucun utilisateur trouvé</p>
+                    </td>
+                </tr>
+            `;
+            if (userCount) userCount.textContent = "0 utilisateur";
+            return;
+        }
+        
+        if (userCount) {
+            userCount.textContent = `${users.length} utilisateur${users.length > 1 ? 's' : ''}`;
+        }
 
-    tab.innerHTML = "";
+        for (const user of users) {
+            const userId = user.Utilisateur_ID ?? user.UtilisateurID ?? user.IdPersonne;
+            const nom = user.Utilisateur_Nom ?? user.UtilisateurNom ?? '';
+            const prenom = user.Utilisateur_Prenom ?? user.UtilisateurPrenom ?? '';
+            const societe = user.Societe_Nom ?? user.SocieteNom ?? 'N/A';
 
-    for (const user of users) {
-      const userId = user.Utilisateur_ID ?? user.UtilisateurID ?? user.IdPersonne;
-      const nom = user.Utilisateur_Nom ?? user.UtilisateurNom ?? '';
-      const prenom = user.Utilisateur_Prenom ?? user.UtilisateurPrenom ?? '';
+            let roleUser = "Donneur d'ordre";
+            let roleClass = "secondary";
+            
+            if (user.admin == 1) {
+                roleUser = "Administrateur";
+                roleClass = "danger";
+            } else if (user.inspecteur == 1) {
+                roleUser = "Inspecteur";
+                roleClass = "warning";
+            } else if (user.donneurordre == 1) {
+                roleUser = "Donneur d'ordre";
+                roleClass = "info";
+            } else if (user.proprietaire == 1) {
+                roleUser = "Propriétaire";
+                roleClass = "success";
+            }
 
-      let roleUser = "Donneur d'ordre";
-      if (user && user.admin == 1) roleUser = "Administrateur";
-      else if (user && user.inspecteur == 1) roleUser = "Inspecteur";
-      else if (user && user.donneurordre == 1) roleUser = "Donneur d'ordre";
-      else if (user && user.proprietaire == 1) roleUser = "Proprietaire";
+            const tr = document.createElement("tr");
+            // Ordre: ID, Nom, Prénom, Rôle, Société, Actions
+            tr.innerHTML = `
+                <td class="text-center align-middle"><strong>${userId}</strong></td>
+                <td class="align-middle">${nom}</td>
+                <td class="align-middle">${prenom}</td>
+                <td class="align-middle">
+                    <span class="badge bg-${roleClass}">${roleUser}</span>
+                </td>
+                <td class="align-middle">${societe}</td>
+                <td class="text-center align-middle table-actions">
+                    <button class="btn btn-sm btn-info me-1" title="Voir les détails">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn btn-sm btn-warning me-1" title="Modifier">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                    <button class="btn btn-sm btn-danger" title="Supprimer">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </td>
+            `;
 
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${userId ?? ''}</td>
-        <td>${nom}</td>
-        <td>${prenom}</td>
-        <td>${user.Utilisateur_Mail ?? user.UtilisateurMail ?? ''}</td>
-        <td>${roleUser}</td>
-        <td>${user.Societe_Nom ?? user.SocieteNom ?? ''}</td>
-        <td class="text-end">
-          <button class="btn btn-secondary btn-sm me-2">Voir</button>
-          <button class="btn btn-sm btn-warning me-2">Modifier</button>
-          <button class="btn btn-sm btn-danger">Supprimer</button>
-        </td>
-      `;
+            const btns = tr.querySelectorAll('button');
+            btns[0].addEventListener('click', () => showUserInfoModal(userId));
+            btns[1].addEventListener('click', () => showUserUpdateModal(userId));
+            btns[2].addEventListener('click', () => openDeleteModal(userId, nom, prenom));
 
-      const btns = tr.querySelectorAll('button');
-      btns[0].addEventListener('click', () => showUserInfoModal(userId));
-      btns[1].addEventListener('click', () => showUserUpdateModal(userId));
-      btns[2].addEventListener('click', () => openDeleteModal(userId, nom, prenom));
+            tab.appendChild(tr);
+        }
+        
+        updateResultInfo(users.length);
 
-      tab.appendChild(tr);
+    } catch (error) {
+        console.error("Erreur lors du chargement du tableau:", error);
+        const tab = document.getElementById("table-body");
+        if (tab) {
+            tab.innerHTML = `
+                <tr>
+                    <td colspan="6" class="text-center py-4 text-danger">
+                        <i class="fas fa-exclamation-triangle fa-3x mb-3"></i>
+                        <p>Erreur lors du chargement des données</p>
+                        <small>${error.message}</small>
+                    </td>
+                </tr>
+            `;
+        }
     }
-  } catch (error) {
-    console.error("Erreur lors du chargement du tableau:", error);
-    alert("Impossible de charger les données: " + error.message);
-  }
 }
 
 function addCancel() {
@@ -450,47 +548,40 @@ async function addUser() {
     }
 }
 
-function searchTable() {
-    const searchInput = document.getElementById('searchInput');
-    const filterValue = searchInput.value.toLowerCase().trim();
-    const tableBody = document.getElementById('table-body');
-    const rows = tableBody.getElementsByTagName('tr');
-
-    for (let i = 0; i < rows.length; i++) {
-        const row = rows[i];
-        const cells = row.getElementsByTagName('td');
-        
-        if (cells.length > 0) {
-            const id = cells[0]?.textContent.toLowerCase() || '';
-            const nom = cells[1]?.textContent.toLowerCase() || '';
-            const prenom = cells[2]?.textContent.toLowerCase() || '';
-            const role = cells[3]?.textContent.toLowerCase() || '';
-            const societe = cells[4]?.textContent.toLowerCase() || '';
-            
-            const match = id.includes(filterValue) ||
-                         nom.includes(filterValue) ||
-                         prenom.includes(filterValue) ||
-                         role.includes(filterValue) ||
-                         societe.includes(filterValue);
-            
-            row.style.display = match ? '' : 'none';
-        }
-    }
-}
-
-
+// Initialisation au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
+    // Charger le tableau
+    loadTable();
+    
+    // Gestion du bouton de suppression
+    const supprConfirm = document.getElementById('supprConfirm');
+    if (supprConfirm) {
+        supprConfirm.addEventListener('click', async () => {
+            try {
+                if (!deleteUserId) return;
+                await deleteUserById(deleteUserId);
+                if (confirmModal) confirmModal.hide();
+                deleteUserId = null;
+                await loadTable();
+                alert('Utilisateur supprimé.');
+            } catch (e) {
+                alert(e.message);
+            }
+        });
+    }
+    
+    // Gestion de la recherche
     const searchInput = document.getElementById('searchInput');
+    const filterType = document.getElementById('filterType');
     
     if (searchInput) {
-        searchInput.addEventListener('keyup', searchTable);
-        
+        searchInput.addEventListener('input', searchTable);
         searchInput.addEventListener('paste', () => {
             setTimeout(searchTable, 10);
         });
     }
-});
-
-document.addEventListener("DOMContentLoaded", function() {
-  loadTable();
+    
+    if (filterType) {
+        filterType.addEventListener('change', searchTable);
+    }
 });
