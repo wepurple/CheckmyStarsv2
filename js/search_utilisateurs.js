@@ -233,24 +233,36 @@ function openDeleteModal(id, nom, prenom) {
 }
 
 async function deleteUserById(id) {
-    const resp = await fetch('models/Delete/users.php', {
-        method: 'POST',
-        credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ id: id })
-    });
-
-    if (!resp.ok) {
-        throw new Error(`Erreur HTTP ${resp.status}`);
-    }
-
-    const result = await resp.json();
+    console.log("Tentative de suppression de l'utilisateur ID:", id);
     
-    if (!result.success) {
-        throw new Error(result.error || 'Suppression impossible');
+    try {
+        const resp = await fetch('models/Delete/users.php', {
+            method: 'POST',
+            credentials: 'include',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ IdPersonne: id })
+        });
+
+        console.log("Statut de la réponse:", resp.status);
+
+        if (!resp.ok) {
+            const errorText = await resp.text();
+            console.error("Erreur serveur:", errorText);
+            throw new Error(`Erreur HTTP ${resp.status}`);
+        }
+
+        const result = await resp.json();
+        console.log("Résultat de la suppression:", result);
+        
+        if (!result.success) {
+            throw new Error(result.error || 'Suppression impossible');
+        }
+        
+        return result;
+    } catch (error) {
+        console.error("Erreur complète:", error);
+        throw error;
     }
-    
-    return result;
 }
 
 // Fonction de recherche avec filtres
