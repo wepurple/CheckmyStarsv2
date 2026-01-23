@@ -6,7 +6,7 @@ if(!isset($_SESSION['Role']) || !$_SESSION['Role']['Administrateur']){
     die();
 }
 
-require_once("models/connexionBDD.php");
+require_once("includes/mariadb.php");
 $connexion = getConnection();
 
 function getAllCompany($connexion) {
