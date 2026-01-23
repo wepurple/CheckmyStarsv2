@@ -191,9 +191,9 @@
 
                                         if ($stmt->rowCount() > 0) {
                                             while($row = $stmt->fetch(PDO::FETCH_ASSOC)) { 
-                                                $statusText = $row['status'] == 1 ? . " Le dossier est actuellement " . 'terminé' : 'en cours';
+                                                $statusText = $row['status'] == 1 ?  'terminé' : 'en cours';
                                                 $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
-                                                echo "<td><span class='badge $statusClass'>$statusText</span></td>";
+                                                echo "<p> Le dossier est actuellement </p><td><span class='badge $statusClass'>$statusText</span></td>";
                                             }
                                         } else {
                                             echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
