@@ -309,7 +309,7 @@ async function loadTable() {
       const nom = user.Utilisateur_Nom ?? user.UtilisateurNom ?? '';
       const prenom = user.Utilisateur_Prenom ?? user.UtilisateurPrenom ?? '';
 
-      let roleUser = "";
+      let roleUser = "Donneur d'ordre";
       if (user && user.admin == 1) roleUser = "Administrateur";
       else if (user && user.inspecteur == 1) roleUser = "Inspecteur";
       else if (user && user.donneurordre == 1) roleUser = "Donneur d'ordre";
