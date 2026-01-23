@@ -232,38 +232,54 @@ function openDeleteModal(id, nom, prenom) {
     confirmModal.show();
 }
 
-async function deleteUserById(id) {
-    console.log("Tentative de suppression de l'utilisateur ID:", id);
-    
+async function deleteUserById(id) {   
     try {
+        const payload = { id: parseInt(id) };
+        console.log("Payload envoyé:", JSON.stringify(payload));
+        
         const resp = await fetch('models/Delete/users.php', {
             method: 'POST',
             credentials: 'include',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ IdPersonne: id })
+            headers: { 
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
         });
 
-        console.log("Statut de la réponse:", resp.status);
+        console.log("Status HTTP:", resp.status);
+        
+        // Lire la réponse brute d'abord
+        const responseText = await resp.text();
+        console.log("Réponse brute:", responseText);
 
         if (!resp.ok) {
-            const errorText = await resp.text();
-            console.error("Erreur serveur:", errorText);
-            throw new Error(`Erreur HTTP ${resp.status}`);
+            throw new Error(`Erreur HTTP ${resp.status}: ${responseText}`);
         }
 
-        const result = await resp.json();
-        console.log("Résultat de la suppression:", result);
+        // Parser le JSON
+        let result;
+        try {
+            result = JSON.parse(responseText);
+        } catch (e) {
+            throw new Error("Réponse JSON invalide: " + responseText);
+        }
+        
+        console.log("Résultat parsé:", result);
         
         if (!result.success) {
             throw new Error(result.error || 'Suppression impossible');
         }
         
         return result;
+        
     } catch (error) {
-        console.error("Erreur complète:", error);
+        console.error("=== ERREUR ===");
+        console.error("Message:", error.message);
+        console.error("Stack:", error.stack);
         throw error;
     }
 }
+
 
 // Fonction de recherche avec filtres
 function searchTable() {
