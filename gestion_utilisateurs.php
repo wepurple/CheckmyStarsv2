@@ -75,8 +75,6 @@ function getAllCompany($connexion)
                         class="form-control" 
                         placeholder="Rechercher par ID, nom, prénom, rôle ou société...">
                 </div>
-
-                <button onclick="loadTable()">test</button>
             </div>
         </div>
     </nav>
