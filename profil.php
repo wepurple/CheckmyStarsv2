@@ -76,6 +76,37 @@
                     </div>
 
                     <div class="input-group mb-1">
+                        <span class="input-group-text">Rôle</span>
+                        <input id="role" type="text" class="form-control" placeholder="" disabled value="<?php
+                            if($_SESSION['Role']["Administrateur"]){
+                                switch($_SESSION['Civilite']){
+                                    case "Monsieur":
+                                        echo('Administrateur');
+                                        break;
+                                    case "Madame":
+                                        echo('Administratrice');
+                                        break;
+                                    default:
+                                        echo('Administrateur.ice');
+                                }
+                            }elseif($_SESSION['Role']["Inspecteur"]){
+                                switch($_SESSION['Civilite']){
+                                    case "Monsieur":
+                                        echo('Inspecteur');
+                                        break;
+                                    case "Madame":
+                                        echo('Inspectrice');
+                                        break;
+                                    default:
+                                        echo('Inspecteur.ice');
+                                }
+                            }else{
+                                echo('N/A');
+                            }
+                        ?>">
+                    </div>
+
+                    <div class="input-group mb-1">
                         <span class="input-group-text">Mot de passe</span>
                         <input id="password" type="password" class="form-control" placeholder="*************" disabled>
                         <button class="btn btn-secondary" type="button" onclick="editPasswordBtn()">Modifier</button>
@@ -184,6 +215,18 @@
 
                 </div>
 
+            </div>
+        </div>
+
+        <!-- Toast -->
+        <div class="toast-container position-fixed top-0 end-0 me-2 mt-5 pt-5">
+            <div id="toast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        Lorem Ipsum
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
             </div>
         </div>
 
