@@ -9,7 +9,7 @@ createBtn.addEventListener("click", () => {
   let image = document.createElement("img");
   input.classList.add("notes");
   input.setAttribute("contenteditable", "true");
-  image.src = "images/bootstrap-icons/trash3-fill.svg";
+  image.src = "images/bootstrap5.3/trash.svg";
   notesContainer.appendChild(input).appendChild(image);
 });
 
