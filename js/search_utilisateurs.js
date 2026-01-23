@@ -258,19 +258,23 @@ function openDeleteModal(id, nom, prenom) {
 
 async function deleteUserById(id) {
     const resp = await fetch('models/Delete/users.php', {
-    method: 'POST',
-    credentials: 'include',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ id })
+        method: 'POST',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: id })
     });
 
+    if (!resp.ok) {
+        throw new Error(`Erreur HTTP ${resp.status}`);
+    }
 
-  const text = await resp.text();
-  let result;
-  try { result = JSON.parse(text); }
-  catch { throw new Error(`Réponse non-JSON (HTTP ${resp.status}) : ${text.slice(0, 80)}...`); }
-
-  if (!resp.ok || !result.success) throw new Error(result.error || 'Suppression impossible');
+    const result = await resp.json();
+    
+    if (!result.success) {
+        throw new Error(result.error || 'Suppression impossible');
+    }
+    
+    return result;
 }
 
 
@@ -305,7 +309,7 @@ async function loadTable() {
       const nom = user.Utilisateur_Nom ?? user.UtilisateurNom ?? '';
       const prenom = user.Utilisateur_Prenom ?? user.UtilisateurPrenom ?? '';
 
-      let roleUser = "";
+      let roleUser = "Donneur d'ordre";
       if (user && user.admin == 1) roleUser = "Administrateur";
       else if (user && user.inspecteur == 1) roleUser = "Inspecteur";
       else if (user && user.donneurordre == 1) roleUser = "Donneur d'ordre";
@@ -337,6 +341,125 @@ async function loadTable() {
     console.error("Erreur lors du chargement du tableau:", error);
     alert("Impossible de charger les données: " + error.message);
   }
+}
+
+function addCancel() {
+    document.getElementById('addForm').reset();
+    const addModalElement = document.getElementById('addModal');
+    const addModal = bootstrap.Modal.getInstance(addModalElement);
+    if (addModal) {
+        addModal.hide();
+    }
+}
+
+// Fonction pour ajouter un utilisateur
+async function addUser() {
+    try {
+        // Récupérer les valeurs du formulaire
+        const nom = document.getElementById('leNom').value.trim();
+        const prenom = document.getElementById('lePrenom').value.trim();
+        const civiliteValue = document.getElementById('leGenre').value;
+        const email = document.getElementById('leMail').value.trim();
+        const societe_id = document.getElementById('laSociete').value;
+        const role_id = document.getElementById('leRole').value;
+        const telephone = document.getElementById('leTel').value.trim();
+        const num_rue = document.getElementById('leNumRue').value.trim();
+        const nom_rue = document.getElementById('laAdresse').value.trim();
+        const complement = document.getElementById('leComplement').value.trim();
+        const code_postal = document.getElementById('leCode').value.trim();
+        const ville = document.getElementById('laVille').value.trim();
+        const pays = document.getElementById('lePays').value.trim();
+        const password = document.getElementById('leMdp').value;
+
+        // Validation des champs obligatoires
+        if (!nom || !prenom || !email || !societe_id || !role_id || !telephone || 
+            !num_rue || !nom_rue || !code_postal || !ville || !pays || !password) {
+            alert("Veuillez remplir tous les champs obligatoires (*)");
+            return;
+        }
+
+        // Validation email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            alert("Veuillez entrer un email valide");
+            return;
+        }
+
+        // Validation mot de passe
+        if (password.length < 8) {
+            alert("Le mot de passe doit contenir au moins 8 caractères");
+            return;
+        }
+
+        // Convertir la civilité
+        let civilite;
+        switch(civiliteValue) {
+            case "1":
+                civilite = "Monsieur";
+                break;
+            case "2":
+                civilite = "Madame";
+                break;
+            case "3":
+                civilite = "Iel";
+                break;
+            default:
+                civilite = "Iel";
+        }
+
+        // Préparer les données
+        const data = {
+            nom,
+            prenom,
+            civilite,
+            email,
+            password,
+            societe_id: societe_id === "" ? null : societe_id,
+            role_id: parseInt(role_id),
+            telephone,
+            num_rue,
+            nom_rue,
+            complement,
+            code_postal,
+            ville,
+            pays
+        };
+
+        console.log("Données envoyées:", data);
+
+        // Envoyer la requête
+        const response = await fetch("models/Create/users.php", {
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        console.log("Réponse:", result);
+
+        if (result.success) {
+            // Fermer le modal
+            const addModalElement = document.getElementById('addModal');
+            const addModal = bootstrap.Modal.getInstance(addModalElement);
+            if (addModal) {
+                addModal.hide();
+            }
+            
+            // Réinitialiser le formulaire
+            document.getElementById('addForm').reset();
+            
+            // Recharger le tableau
+            await loadTable();
+            
+            // Afficher le message de succès
+            alert("Utilisateur créé avec succès ! ID: " + (result.new_user_id || 'N/A'));
+        } else {
+            alert("Erreur lors de la création : " + result.error);
+        }
+    } catch (error) {
+        console.error("Erreur:", error);
+        alert("Une erreur s'est produite : " + error.message);
+    }
 }
 
 document.addEventListener("DOMContentLoaded", function() {

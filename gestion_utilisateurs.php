@@ -156,12 +156,27 @@ function getAllCompany($connexion)
                                 <label for="leMail">Mail *</label>
                             </div>
 
-                            <!-- Société : tu peux le laisser en input OU passer en select alimenté par l’API societes -->
                             <div class="col-md-6 form-floating mb-3">
                                 <select class="form-select" id="laSociete">
                                     <option value="">Sélectionner...</option>
+                                    <?php
+                                    $companies = getAllCompany($db);
+                                    while ($row = $companies->fetch()) {
+                                        echo '<option value="' . $row['Societe_ID'] . '">' . htmlspecialchars($row['Societe_Nom']) . '</option>';
+                                    }
+                                    ?>
                                 </select>
                                 <label for="laSociete">Société *</label>
+                            </div>
+
+                            <div class="col-md-6 form-floating mb-3">
+                                <select class="form-select" id="leRole">
+                                    <option value="0">Propriétaire</option>
+                                    <option value="1">Donneur d'ordre</option>
+                                    <option value="2">Inspecteur</option>
+                                    <option value="3">Administrateur</option>
+                                </select>
+                                <label for="leRole">Rôle *</label>
                             </div>
 
                             <div class="col-md-6 form-floating mb-3">
