@@ -39,4 +39,11 @@
             //var_dump(password_algos());
         ?>
     </body>
+    <div class="container">
+      <div class="title">
+        <h2>Do you want to create notes</h2>
+        <button class="btn">Create Notes 📝</button>
+      </div>
+    </div>
+    <div class="notes-container"></div>
 </html>
