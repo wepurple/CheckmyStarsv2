@@ -51,7 +51,11 @@
 
                     <div class="input-group mb-1">
                         <span class="input-group-text">Civilité</span>
-                        <input id="civilite" type="text" class="form-control" placeholder="ex: Civilité" disabled>
+                        <select id="civilite" class="form-select" disabled>
+                            <option value="Monsieur">Monsieur</option>
+                            <option value="Madame">Madame</option>
+                            <option value="Iel" selected>Non-binaire</option>
+                        </select>
                     </div>
 
                     <div class="input-group mb-1">
@@ -67,6 +71,12 @@
                     <div class="input-group mb-1">
                         <span class="input-group-text">Société</span>
                         <input id="societe" type="text" class="form-control" placeholder="ex: Pedro & Cie" disabled>
+                    </div>
+
+                    <div class="input-group mb-1">
+                        <span class="input-group-text">Mot de passe</span>
+                        <input id="password" type="password" class="form-control" placeholder="*************" disabled>
+                        <button class="btn btn-secondary" type="button">Modifier</button>
                     </div>
 
                 </div>
