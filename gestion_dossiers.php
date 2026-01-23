@@ -146,7 +146,9 @@
                             $sql = "CALL Get_Dossier();";
                         } elseif (isset($_SESSION['Role']['Inspecteur']) && $_SESSION['Role']['Inspecteur']) {
                             $inspecteurID = $_SESSION['Utilisateur_ID'];
-                            $sql = "CALL Get_Dossier_By_Inspecteur($inspecteurID);";
+                            $sql = "CALL Get_Dossier_Inspecteur($inspecteurID);";
+                            
+                            var_dump($inspecteurID);
                         }
                             $stmt = $db->prepare($sql);
                             $stmt->execute();
