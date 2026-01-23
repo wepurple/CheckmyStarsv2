@@ -47,7 +47,7 @@
 
             <?php } ?>
 
-            <?php if($_SESSION['Role']['Inspecteur']){ ?>
+            <?php if($_SESSION['Role']['Inspecteur'] || $_SESSION['Role']['Administrateur']){ ?>
 
                 <li class="nav-item">
                     <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/facture.php" || strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/facture.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/facture.php"){ echo ' aria-current="page"'; } ?> href="facture">
