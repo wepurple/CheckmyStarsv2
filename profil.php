@@ -149,20 +149,41 @@
         
         <!-- Modal changement mdp -->
         <div class="modal fade" id="modalPassword">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
+
                 <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Modifier mon mot de passe</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+
+                        <div class="form-floating mb-2">
+                            <input type="password" class="form-control" id="oldPassword" placeholder="" required>
+                            <label for="oldPassword">Ancien mot de passe</label>
+                        </div>
+
+                        <div class="form-floating mb-2">
+                            <input type="password" class="form-control" id="newPassword" placeholder="" required>
+                            <label for="newPassword">Nouveau mot de passe</label>
+                        </div>
+
+                        <div class="form-floating">
+                            <input type="password" class="form-control" id="confirmPassword" placeholder="Mot de passe" required>
+                            <label for="confirmPassword">Confirmer nouveau mot de passe</label>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="cancelPassword()">Annuler</button>
+                        <button type="button" class="btn btn-primary" onclick="submitPassword()">Valider</button>
+                    </div>
+
                 </div>
-                <div class="modal-body">
-                    ...
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-                </div>
+
             </div>
         </div>
 
