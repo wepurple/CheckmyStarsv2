@@ -145,7 +145,7 @@
                                     $db = $database->getConnection();
 
                                     try {
-                                        $sql = "CALL Get_Dossier_Statut($id);";
+                                        $sql = "CALL Get_Adresse_Dossier($id);";
                                         $stmt = $db->prepare($sql);
                                         $stmt->execute();
 
@@ -185,7 +185,7 @@
                                     $db = $database->getConnection();
 
                                     try {
-                                        $sql = "CALL Get_Dossier_Status($id);";
+                                        $sql = "CALL Get_Dossier_Statut($id);";
                                         $stmt = $db->prepare($sql);
                                         $stmt->execute();
 
