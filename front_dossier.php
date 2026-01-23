@@ -185,7 +185,7 @@
                                     $db = $database->getConnection();
 
                                     try {
-                                        $sql = "CALL Get_Dossier_Statut($id);";
+                                        $sql = "CALL Get_Dossier_Etat($id);";
                                         $stmt = $db->prepare($sql);
                                         $stmt->execute();
 
@@ -193,7 +193,12 @@
                                             while($row = $stmt->fetch(PDO::FETCH_ASSOC)) { 
                                                 $statusText = $row['status'] == 1 ?  'terminé' : 'en cours';
                                                 $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
-                                                echo "<h5> Le dossier est actuellement : </h5><td><span class='badge $statusClass'>$statusText</span></td>";
+                                                echo "<h5> Le dossier est actuellement : </h5><td><span class='badge $statusClass'>$statusText</span></td></br>";
+                                                echo "<h5> Assigné à </h5>"
+                                                echo "<td>" . htmlspecialchars($row['Utilisateurs_Nom']) . "</td>" . "</br>" . " " ;
+                                                echo "<td>" . htmlspecialchars($row['Utilisateurs_Prenom']) . "</td>";
+                                                echo "<td>" . htmlspecialchars($row['Utilisateurs_Mail']) . "</td>" . "</br>";
+                                                echo "<td>" . htmlspecialchars($row['Utilisateurs_Telephone']) . "</td>" . "</br>";
                                             }
                                         } else {
                                             echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
