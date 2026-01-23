@@ -195,10 +195,10 @@
                                                 $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
                                                 echo "<h5> Le dossier est actuellement : </h5><td><span class='badge $statusClass'>$statusText</span></td></br>";
                                                 echo "</br> <h5> Assigné à : </h5></br>";
-                                                echo "<td>" . htmlspecialchars($row['Utilisateurs_Nom']) . "</td>" . "</br>" . " " ;
-                                                echo "<td>" . htmlspecialchars($row['Utilisateurs_Prenom']) . "</td>";
-                                                echo "<td>" . htmlspecialchars($row['Utilisateurs_Mail']) . "</td>" . "</br>";
-                                                echo "<td>" . htmlspecialchars($row['Utilisateurs_Telephone']) . "</td>" . "</br>";
+                                                echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>" . "</br>" . " " ;
+                                                echo "<td>" . htmlspecialchars($row['Utilisateur_Prenom']) . "</td>";
+                                                echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>" . "</br>";
+                                                echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>" . "</br>";
                                             }
                                         } else {
                                             echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
