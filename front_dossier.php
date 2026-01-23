@@ -3,8 +3,8 @@
     require_once('./includes/mariadb.php');
 
     //verifie le rôle de l'utilisateur connecté
-    if(isset($_SESSION['Role']['Administrateur'])){
-        if(!$_SESSION['Role']['Administrateur']){
+    if(isset($_SESSION['Role']['Administrateur']) || isset($_SESSION['Role']['Inspecteur'])){
+        if(!$_SESSION['Role']['Administrateur'] && !$_SESSION['Role']['Inspecteur']){
             header('Location: deco.php');
             die();
         }
