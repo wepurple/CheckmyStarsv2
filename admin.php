@@ -23,19 +23,20 @@
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
+        <link rel="stylesheet" href="bootstrap 5.3/css/notes.css">  
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
     </head>
 
-    <body>
+    <body  class="bg-secondary">
 
         <?php include 'includes/navbar.php'; ?>
     <div class="container">
       <div class="title">
         <h2>Espace de notes</h2>
-        <button class="btn">Créer une note</button>
+        <button class="btn">Créer une note </button>
       </div>
     </div>
     <div class="notes-container"></div>
-    
     </body>
+    <script src="bootstrap 5.3/js/notes.js"></script>
 </html>
