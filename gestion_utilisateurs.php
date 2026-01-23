@@ -7,9 +7,11 @@ if(!isset($_SESSION['Role']) || !$_SESSION['Role']['Administrateur']){
 }
 
 require_once("includes/mariadb.php");
-$connexion = getConnection();
+$database = new Database();
+$db = $database->getConnection();
 
-function getAllCompany($connexion) {
+function getAllCompany($connexion)
+{
     $sql = "SELECT Societe_ID, Societe_Nom FROM societes ORDER BY Societe_Nom;";
     $query = $connexion->prepare($sql);
     $query->execute();
