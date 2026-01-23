@@ -29,8 +29,8 @@
             <?php if($_SESSION['Role']['Administrateur']){ ?>
             
                 <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_inspecteurs.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_inspecteurs.php"){ echo ' aria-current="page"'; } ?> href="gestion_inspecteurs">
-                        Gestion des inspecteurs
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_utilisateurs.php"){ echo ' active'; } ?>"<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_utilisateurs.php"){ echo ' aria-current="page"'; } ?> href="gestion_utilisateurs">
+                        Gestion des utilisateurs
                     </a>
                 </li>
 
