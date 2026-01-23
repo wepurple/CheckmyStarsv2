@@ -4,7 +4,7 @@ require_once('includes/mariadb.php');
 
 // Vérifier si l'utilisateur est connecté en tant qu'inspecteur
     if(isset($_SESSION['Role'])){
-        if(!$_SESSION['Role']['Inspecteur'] || !$_SESSION['Role']['Administrateur']){
+        if($_SESSION['Role']['Inspecteur'] || $_SESSION['Role']['Administrateur']){
             header('Location: deco.php');
             die();
         }

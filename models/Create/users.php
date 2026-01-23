@@ -41,7 +41,6 @@ foreach ($required_fields as $field) {
 try {
     $db = (new Database())->getConnection();
 
-    // 15 paramètres (si ta procédure est bien dans cet ordre)
     $stmt = $db->prepare("CALL Create_User(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     $stmt->execute([
@@ -66,11 +65,9 @@ try {
         (int)$data['role_id'],
     ]);
 
-    // Si la procédure fait un SELECT (voir section suivante), on peut fetch ici
     $result = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Nettoyage des result sets (utile quand une procédure renvoie plusieurs jeux de résultats)
-    while ($stmt->nextRowset()) {} // nextRowset sert à avancer dans les jeux de résultats [web:15][web:12]
+    while ($stmt->nextRowset()) {}
 
     echo json_encode([
         'success' => true,
