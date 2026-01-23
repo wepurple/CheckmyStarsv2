@@ -173,6 +173,46 @@
                 </div>
             </div>
         </div>
+        <div class="modal" id="adresse_modal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div header class="header">
+                        <h5 class="modal-title">Informations</h5>
+                        <div class="modal-body">
+                            <p>
+                                <?php
+                                    $database = new Database();
+                                    $db = $database->getConnection();
+
+                                    try {
+                                        $sql = "CALL Get_Dossier_Status($id);";
+                                        $stmt = $db->prepare($sql);
+                                        $stmt->execute();
+
+                                        if ($stmt->rowCount() > 0) {
+                                            while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                                echo "<td>" . htmlspecialchars($row['Dossier_Status']) . "</td>" . "</br>";
+                                                $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
+                                                $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
+                                                echo "<td><span class='badge $statusClass'>$statusText</span></td>";
+                                            }
+                                        } else {
+                                            echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
+                                        }
+                                    
+                                    } catch(PDOException $e) {
+                                        echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
+                                    };
+                                ?>
+                            </p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal" id="info_modal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
