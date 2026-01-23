@@ -26,6 +26,7 @@ function getAllCompany($connexion)
     <title>Gestion des utilisateurs - CheckMyStars</title>
     <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="bootstrap 5.3/js/bootstrap.js"></script>
     <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
     <style>
         .search-card {
@@ -47,7 +48,7 @@ function getAllCompany($connexion)
                 <div class="d-flex align-items-center justify-content-between gap-3">
                     <div>
                         <h2 class="mb-0">Gestion des utilisateurs</h2>
-                        <p class="text-muted mb-0">Administration des comptes utilisateurs</p>
+                        <p class="text-muted mb-0">Administration des comptes</p>
                     </div>
 
                     <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#addModal">
@@ -480,5 +481,6 @@ function getAllCompany($connexion)
         </div>
     </div>
 </div>
+<script src="js/search_utilisateurs.js"></script>
 </body>
 </html>
