@@ -142,16 +142,8 @@
                     } else {
                         try {
                             $sql = "CALL Get_Dossier();";
-                                if (isset($_SESSION['Role']['Inspecteur']) && $_SESSION['Role']['Inspecteur'] && 
-                                    !$_SESSION['Role']['Administrateur']) {
-                                    $sql .= " WHERE d.Inspecteur_Id = :inspecteur_id";
-                                    $inspecteurId = $_SESSION['ID'];
-                            $stmt = $db->prepare($sql);
-
-                            if (isset($inspecteurId)) {
-                             $stmt->bindParam(':inspecteur_id', $inspecteurId, PDO::PARAM_INT);
-                            }
                             
+                            $stmt = $db->prepare($sql);
                             $stmt->execute();
                             
                             if ($stmt->rowCount() > 0) {
