@@ -27,22 +27,12 @@
     </head>
 
     <body  class="bg-secondary">
-        <?php        
-            require("./includes/navbar.php");
-            var_dump($_SESSION);
 
-            //var_dump(hash("sha3-512", "pass123"));
-
-            var_dump(password_hash("pass123", PASSWORD_BCRYPT));
-
-            var_dump(password_verify("pass123", '$2y$10$D3Jo4foDq6DvbNzsHt5RYeX6034SSXd/22dzgn9xDVjA0RNduqxLW'));
-            //var_dump(password_algos());
-        ?>
-    </body>
+        <?php include 'includes/navbar.php'; ?>
     <div class="container">
       <div class="title">
-        <h2>Do you want to create notes</h2>
-        <button class="btn">Create Notes 📝</button>
+        <h2>Espace de notes</h2>
+        <button class="btn">Créer une note</button>
       </div>
     </div>
     <div class="notes-container"></div>
