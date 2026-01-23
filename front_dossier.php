@@ -127,7 +127,7 @@
                 </div>
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #2b2b2b !important;">
-                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#info_modal">Voir l'etat du dossier</button>
+                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#statuts_modal">Voir l'etat du dossier</button>
                         </div>
                     </div>
                 </div>
@@ -173,7 +173,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal" id="adresse_modal" tabindex="-1">
+        <div class="modal" id="statuts_modal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div header class="header">
