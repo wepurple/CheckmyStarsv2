@@ -39,7 +39,7 @@
         <div class="container-sm">
             <div class="row justify-content-center">
                 <div class="col-md 4 p-3 rounded">
-                    <div id="Carousel" class="carousel slide"  data-bs-ride="carousel" data-bs-interval="2000" data-bs-pause="false">
+                    <div id="Carousel" class="carousel slide carousel-fade">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img src="img\hotel_img3.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 3">
