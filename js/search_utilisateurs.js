@@ -507,7 +507,7 @@ async function addUser() {
         const password = document.getElementById('leMdp').value;
 
         if (!nom || !prenom || !email || !societe_id || !role_id || !telephone || 
-            !num_rue || !nom_rue || !code_postal || !ville || !pays || !password) {
+            !password) {
             showToast("Veuillez remplir tous les champs obligatoires (*)", "warning");
             return;
         }
@@ -579,7 +579,7 @@ async function addUser() {
             
             showToast("Utilisateur créé avec succès !", "success");
         } else {
-            showToast("Erreur lors de la création : " + error.message, "error");
+            showToast("Erreur lors de la création : " + result.error, "error");
         }
     } catch (error) {
         console.error("Erreur:", error);
