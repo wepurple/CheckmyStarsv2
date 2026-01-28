@@ -2,7 +2,7 @@
     session_start();
 
     //Si on tente d'accéder à la page via l'url sans être connecté, on se fait dégager avant de charger la page
-    if(isset($_SESSION['Role']['Administrateur']) && isset($_SESSION['Role']['Inspecteur'])){
+    if(isset($_SESSION['Role']['Administrateur']) || isset($_SESSION['Role']['Inspecteur'])){
         if(!$_SESSION['Role']['Administrateur'] && !$_SESSION['Role']['Inspecteur']){
             header('Location: deco.php');
             die();
