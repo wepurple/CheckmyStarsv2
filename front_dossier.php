@@ -53,6 +53,12 @@
                             </div>
                         </div>
                     </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#Carousel1" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#Carousel1" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
                 </div>
             </div>
         </div>
