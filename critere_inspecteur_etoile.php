@@ -14,7 +14,6 @@
     require_once './includes/mariadb.php';
 
     $id = isset($_GET['id']) ? intval ($_GET['id']) : null;
-    echo $id;
 
 ?>
 
@@ -31,6 +30,7 @@
         
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
         <script src="js/search_inspecteurs.js"></script>
+        <script src="js/etoiles.js"></script>
     </head>
     <body class="bg-secondary">
     <?php require("./includes/navbar.php"); ?>
