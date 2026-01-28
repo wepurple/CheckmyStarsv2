@@ -251,7 +251,8 @@ function getAllCompany($connexion)
                             </div>
 
                             <div class="col-md-8 form-floating mb-3">
-                                <input type="text" class="form-control" id="laAdresse" placeholder="">
+                                <input id="laAdresse" class="form-control" list="adresseSuggestionsAdd" placeholder="Adresse">
+                                <datalist id="adresseSuggestionsAdd"></datalist>
                                 <label for="laAdresse">Adresse *</label>
                             </div>
 
@@ -364,7 +365,8 @@ function getAllCompany($connexion)
                             </div>
 
                             <div class="col-md-10 form-floating mb-3">
-                                <input type="text" class="form-control" id="editLaAdresse" placeholder="">
+                                <input id="editLaAdresse" class="form-control" list="adresseSuggestionsEdit" placeholder="Adresse">
+                                <datalist id="adresseSuggestionsEdit"></datalist>
                                 <label for="editLaAdresse">Adresse *</label>
                             </div>
 

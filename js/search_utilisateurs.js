@@ -619,103 +619,87 @@ function showToast(message, type = 'success') {
   });
 }
 
-// Fonction pour initialiser l'autocomplétion sur un champ adresse
-function initAddressAutocomplete(inputId, fieldsMapping) {
-    const input = document.getElementById(inputId);
-    const resultsContainer = document.createElement('div');
-    resultsContainer.className = 'autocomplete-results';
-    resultsContainer.style.cssText = 'position: absolute; z-index: 1000; background: white; border: 1px solid #ddd; max-height: 300px; overflow-y: auto; display: none;';
-    input.parentNode.style.position = 'relative';
-    input.parentNode.appendChild(resultsContainer);
+function setupAdresseAutocomplete({ adresseId, numRueId, codeId, villeId, paysId, datalistId }) {
+  const adresseInput = document.getElementById(adresseId);
+  const numRueInput = document.getElementById(numRueId);
+  const codeInput = document.getElementById(codeId);
+  const villeInput = document.getElementById(villeId);
+  const paysInput = document.getElementById(paysId);
+  const datalist = document.getElementById(datalistId);
 
-    let fetchTrigger = null;
+  if (!adresseInput || !datalist) return;
 
-    input.addEventListener('input', function() {
-        clearTimeout(fetchTrigger);
-        const query = this.value.trim();
+  let lastFeatures = [];
+  let abortController = null;
 
-        if (query.length < 3) {
-            resultsContainer.style.display = 'none';
-            return;
-        }
+  adresseInput.addEventListener("input", async () => {
+    const q = adresseInput.value.trim();
+    if (q.length < 3) {
+      datalist.innerHTML = "";
+      lastFeatures = [];
+      return;
+    }
 
-        // Délai de 300ms avant de lancer la requête
-        fetchTrigger = setTimeout(async () => {
-            try {
-                const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}&limit=10&autocomplete=1`);
-                const data = await response.json();
+    if (abortController) abortController.abort();
+    abortController = new AbortController();
 
-                if (data.features && data.features.length > 0) {
-                    displayResults(data.features, resultsContainer, fieldsMapping);
-                } else {
-                    resultsContainer.style.display = 'none';
-                }
-            } catch (error) {
-                console.error('Erreur API Adresse:', error);
-            }
-        }, 300);
-    });
+    const url = `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(q)}&limit=6`;
 
-    // Fermer les résultats si on clique ailleurs
-    document.addEventListener('click', function(e) {
-        if (e.target !== input && !resultsContainer.contains(e.target)) {
-            resultsContainer.style.display = 'none';
-        }
-    });
+    try {
+      const resp = await fetch(url, { signal: abortController.signal });
+      if (!resp.ok) return;
+
+      const data = await resp.json();
+      lastFeatures = data.features || [];
+
+      datalist.innerHTML = lastFeatures
+        .map(f => `<option value="${(f.properties?.label || "").replaceAll('"', "&quot;")}"></option>`)
+        .join("");
+    } catch (e) {
+      // ignore abort
+    }
+  });
+
+  // Quand l’utilisateur choisit une suggestion
+  adresseInput.addEventListener("change", () => {
+    const selected = adresseInput.value;
+    const feature = lastFeatures.find(f => f.properties?.label === selected);
+    if (!feature) return;
+
+    const p = feature.properties || {};
+
+    // Remplissage
+    if (numRueInput && p.housenumber) numRueInput.value = p.housenumber;
+    // Tu peux garder "label" dans l'adresse, ou mettre street/name selon ton besoin
+    adresseInput.value = p.street || p.name || selected;
+    if (codeInput && p.postcode) codeInput.value = p.postcode;
+    if (villeInput && p.city) villeInput.value = p.city;
+
+    // API Adresse = France -> tu peux fixer le pays (ou laisser saisie manuelle)
+    if (paysInput && !paysInput.value) paysInput.value = "France";
+  });
 }
 
-function displayResults(features, container, fieldsMapping) {
-    container.innerHTML = '';
-    container.style.display = 'block';
+// Branche sur AJOUT + EDIT (tes IDs existent déjà dans ton HTML) [file:1]
+document.addEventListener("DOMContentLoaded", () => {
+  setupAdresseAutocomplete({
+    adresseId: "laAdresse",
+    numRueId: "leNumRue",
+    codeId: "leCode",
+    villeId: "laVille",
+    paysId: "lePays",
+    datalistId: "adresseSuggestionsAdd",
+  });
 
-    features.forEach(feature => {
-        const item = document.createElement('div');
-        item.className = 'autocomplete-item';
-        item.style.cssText = 'padding: 10px; cursor: pointer; border-bottom: 1px solid #eee;';
-        item.textContent = feature.properties.label;
-
-        item.addEventListener('mouseenter', function() {
-            this.style.backgroundColor = '#f0f0f0';
-        });
-
-        item.addEventListener('mouseleave', function() {
-            this.style.backgroundColor = 'white';
-        });
-
-        item.addEventListener('click', function() {
-            fillAddressFields(feature.properties, fieldsMapping);
-            container.style.display = 'none';
-        });
-
-        container.appendChild(item);
-    });
-}
-
-function fillAddressFields(properties, fieldsMapping) {
-    // Extraction des données de l'adresse
-    const housenumber = properties.housenumber || '';
-    const street = properties.street || properties.name || '';
-    const postcode = properties.postcode || '';
-    const city = properties.city || '';
-    const country = 'France'; // Par défaut pour l'API française
-
-    // Remplissage des champs selon le mapping fourni
-    if (fieldsMapping.numRue) {
-        document.getElementById(fieldsMapping.numRue).value = housenumber;
-    }
-    if (fieldsMapping.nomRue) {
-        document.getElementById(fieldsMapping.nomRue).value = street;
-    }
-    if (fieldsMapping.codePostal) {
-        document.getElementById(fieldsMapping.codePostal).value = postcode;
-    }
-    if (fieldsMapping.ville) {
-        document.getElementById(fieldsMapping.ville).value = city;
-    }
-    if (fieldsMapping.pays) {
-        document.getElementById(fieldsMapping.pays).value = country;
-    }
-}
+  setupAdresseAutocomplete({
+    adresseId: "editLaAdresse",
+    numRueId: "editLeNumRue",
+    codeId: "editLeCode",
+    villeId: "editLaVille",
+    paysId: "editLePays",
+    datalistId: "adresseSuggestionsEdit",
+  });
+});
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -750,12 +734,4 @@ document.addEventListener('DOMContentLoaded', () => {
     if (filterType) {
         filterType.addEventListener('change', searchTable);
     }
-
-    initAddressAutocomplete('editLaAdresse', {
-        numRue: 'editLeNumRue',
-        nomRue: 'editLaAdresse',
-        codePostal: 'editLeCode',
-        ville: 'editLaVille',
-        pays: 'editLePays'
-    });
 });
