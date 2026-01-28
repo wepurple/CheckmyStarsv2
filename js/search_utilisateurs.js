@@ -50,82 +50,92 @@ async function getUserById(id) {
 }
 
 async function updateUserById() {
-    try {
-        const id = document.getElementById('editIdUser').value;
-        const nom = document.getElementById('editLeNom').value;
-        const prenom = document.getElementById('editLePrenom').value;
-        const email = document.getElementById('editLeMail').value;
-        const civiliteValue = document.getElementById('editLeGenre').value;
+  try {
+    const v = {
+      id: document.getElementById('editIdUser').value,
+      nom: document.getElementById('editLeNom').value.trim(),
+      prenom: document.getElementById('editLePrenom').value.trim(),
+      email: document.getElementById('editLeMail').value.trim(),
+      civiliteValue: document.getElementById('editLeGenre').value,
+      societe_id: document.getElementById('editLaSociete').value,
+      role_id: document.getElementById('editLeRole').value,
+      telephone: document.getElementById('editLeTel').value.trim(),
+      num_rue: document.getElementById('editLeNumRue').value.trim(),
+      nom_rue: document.getElementById('editLaAdresse').value.trim(),
+      complement: document.getElementById('editLeComplement').value.trim(),
+      code_postal: document.getElementById('editLeCode').value.trim(),
+      ville: document.getElementById('editLaVille').value.trim(),
+      pays: document.getElementById('editLePays').value.trim(),
+    };
 
-        let civilite;
-        switch(civiliteValue) {
-            case "1":
-                civilite = "Monsieur";
-                break;
-            case "2":
-                civilite = "Madame";
-                break;
-            case "3":
-                civilite = "Iel";
-                break;
-            default:
-                civilite = "Iel";
-        }
+    if (!checkRequired('editLeNom', v.nom, "Nom obligatoire")) return;
+    if (!checkRequired('editLePrenom', v.prenom, "Prénom obligatoire")) return;
+    if (!checkRequired('editLeMail', v.email, "Email obligatoire")) return;
+    if (!checkRequired('editLaSociete', v.societe_id, "Société obligatoire")) return;
+    if (!checkRequired('editLeRole', v.role_id, "Rôle obligatoire")) return;
+    if (!checkRequired('editLeTel', v.telephone, "Téléphone obligatoire")) return;
 
-        if (!civilite || civilite.trim() === '') {
-            civilite = "Iel";
-        }
-        
-        const societe_id = document.getElementById('editLaSociete').value;
-        const role_id = document.getElementById('editLeRole').value;
-        const telephone = document.getElementById('editLeTel').value;
-        const num_rue = document.getElementById('editLeNumRue').value;
-        const nom_rue = document.getElementById('editLaAdresse').value;
-        const complement = document.getElementById('editLeComplement').value;
-        const code_postal = document.getElementById('editLeCode').value;
-        const ville = document.getElementById('editLaVille').value;
-        const pays = document.getElementById('editLePays').value;
+    if (!checkRequired('editLeNumRue', v.num_rue, "Numéro de rue obligatoire")) return;
+    if (!checkRequired('editLaAdresse', v.nom_rue, "Nom de rue obligatoire")) return;
+    if (!checkRequired('editLeCode', v.code_postal, "Code postal obligatoire")) return;
+    if (!checkRequired('editLaVille', v.ville, "Ville obligatoire")) return;
+    if (!checkRequired('editLePays', v.pays, "Pays obligatoire")) return;
 
-        if (!nom || !prenom || !email || !societe_id || !role_id || !telephone || 
-            !num_rue || !nom_rue || !code_postal || !ville || !pays) {
-            showToast("Veuillez remplir tous les champs obligatoires (*)", "warning");
-            return;
-        }
+    if (!checkRegex('editLeNom', v.nom, REGEX.nom, "Nom invalide")) return;
+    if (!checkRegex('editLePrenom', v.prenom, REGEX.prenom, "Prénom invalide")) return;
+    if (!checkRegex('editLeMail', v.email, REGEX.email, "Email invalide")) return;
+    if (!checkRegex('editLeTel', v.telephone, REGEX.telFR, "Téléphone invalide")) return;
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            showToast("Veuillez entrer un email valide", "warning");
-            return;
-        }
+    if (!checkRegex('editLeGenre', v.civiliteValue, REGEX.civiliteValue, "Civilité invalide")) return;
+    if (!checkRegex('editLeRole', String(v.role_id), REGEX.roleId, "Rôle invalide")) return;
+    if (!checkRegex('editLaSociete', String(v.societe_id), REGEX.societeId, "Société invalide")) return;
 
-        const data = {
-            id, nom, prenom, email, civilite, societe_id, role_id, telephone, 
-            num_rue, nom_rue, complement, code_postal, ville, pays
-        };
+    if (!checkRegex('editLeNumRue', v.num_rue, REGEX.numRue, "Numéro de rue invalide")) return;
+    if (!checkRegex('editLaAdresse', v.nom_rue, REGEX.nomRue, "Adresse invalide")) return;
+    if (v.complement !== "" && !checkRegex('editLeComplement', v.complement, REGEX.complement, "Complément invalide")) return;
+    if (!checkRegex('editLeCode', v.code_postal, REGEX.codePostal, "Code postal invalide (5 chiffres)")) return;
+    if (!checkRegex('editLaVille', v.ville, REGEX.ville, "Ville invalide")) return;
+    if (!checkRegex('editLePays', v.pays, REGEX.pays, "Pays invalide")) return;
 
-        const response = await fetch("models/Update/users.php", {
-            method: "POST",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data)
-        });
+    const civilite = v.civiliteValue === "1" ? "Monsieur" : v.civiliteValue === "2" ? "Madame" : "Iel";
 
-        const result = await response.json();
-        console.log("Réponse:", result);
+    const data = {
+      id: v.id,
+      nom: v.nom,
+      prenom: v.prenom,
+      email: v.email,
+      civilite,
+      societe_id: v.societe_id,
+      role_id: v.role_id,
+      telephone: v.telephone,
+      num_rue: v.num_rue,
+      nom_rue: v.nom_rue,
+      complement: v.complement,
+      code_postal: v.code_postal,
+      ville: v.ville,
+      pays: v.pays
+    };
 
-        if (result.success) {
-            if (editModal) {
-                editModal.hide();
-            }
-            await loadTable();
-            showToast("Utilisateur modifié avec succès!", "success");;
-        } else {
-            showToast("Erreur: " + result.error, "error");
-        }
-    } catch (error) {
-        console.error("Erreur:", error);
-        showToast("Une erreur s'est produite : " + error.message, "error");
+    const response = await fetch("models/Update/users.php", {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+    if (result.success) {
+      if (editModal) editModal.hide();
+      await loadTable();
+      showToast("Utilisateur modifié avec succès!", "success");
+    } else {
+      showToast("Erreur: " + result.error, "error");
     }
+  } catch (error) {
+    console.error("Erreur:", error);
+    showToast("Une erreur s'est produite : " + error.message, "error");
+  }
 }
+
 
 async function showUserUpdateModal(id) {
     try {
@@ -319,7 +329,6 @@ async function deleteUserById(id) {
         throw error;
     }
 }
-
 
 function searchTable() {
     const searchInput = document.getElementById('searchInput');
@@ -529,7 +538,6 @@ async function addUser() {
       password: document.getElementById('leMdp').value
     };
 
-    // Obligatoires (comme ton code actuel)
     if (!checkRequired('leNom', v.nom, "Nom obligatoire")) return;
     if (!checkRequired('lePrenom', v.prenom, "Prénom obligatoire")) return;
     if (!checkRequired('leMail', v.email, "Email obligatoire")) return;
@@ -538,21 +546,17 @@ async function addUser() {
     if (!checkRequired('leTel', v.telephone, "Téléphone obligatoire")) return;
     if (!checkRequired('leMdp', v.password, "Mot de passe obligatoire")) return;
 
-    // Regex identité / contact
     if (!checkRegex('leNom', v.nom, REGEX.nom, "Nom invalide")) return;
     if (!checkRegex('lePrenom', v.prenom, REGEX.prenom, "Prénom invalide")) return;
     if (!checkRegex('leMail', v.email, REGEX.email, "Email invalide")) return;
     if (!checkRegex('leTel', v.telephone, REGEX.telFR, "Téléphone invalide (ex: 06 12 34 56 78 ou +33 6 12 34 56 78)")) return;
 
-    // Selects / IDs
     if (!checkRegex('leGenre', v.civiliteValue, REGEX.civiliteValue, "Civilité invalide")) return;
     if (!checkRegex('leRole', String(v.role_id), REGEX.roleId, "Rôle invalide")) return;
     if (!checkRegex('laSociete', String(v.societe_id), REGEX.societeId, "Société invalide")) return;
 
-    // Password (plus fort que “>= 8”)
     if (!checkRegex('leMdp', v.password, REGEX.password, "Mot de passe trop faible (min 8, maj/min/chiffre/spécial)")) return;
 
-    // Adresse: si tu veux la rendre obligatoire, force checkRequired sur les 5 champs.
     if (addressBlockTouched(v)) {
       if (!checkRequired('leNumRue', v.num_rue, "Numéro de rue obligatoire")) return;
       if (!checkRequired('laAdresse', v.nom_rue, "Nom de rue obligatoire")) return;
@@ -567,11 +571,9 @@ async function addUser() {
       if (!checkRegex('laVille', v.ville, REGEX.ville, "Ville invalide")) return;
       if (!checkRegex('lePays', v.pays, REGEX.pays, "Pays invalide")) return;
     } else {
-      // si pas d'adresse saisie, on nettoie visuellement
       ['leNumRue','laAdresse','leComplement','leCode','laVille','lePays'].forEach(id => markField(id, true));
     }
 
-    // Civilité (même logique que chez toi)
     const civilite = v.civiliteValue === "1" ? "Monsieur" : v.civiliteValue === "2" ? "Madame" : "Iel";
 
     const data = {
