@@ -2,7 +2,6 @@ let seeModal = null;
 let editModal = null;
 let deleteUserId = null;
 let confirmModal = null;
-let cofirmEditModal = null;
 
 async function getAllusers() {
     const url = "models/Read/users.php";
@@ -233,20 +232,6 @@ function openDeleteModal(id, nom, prenom) {
     }
     confirmModal.show();
 }
-
-function openEditeModal(id, nom, prenom) {
-    editUserId = id;
-
-    const p = document.getElementById('editText');
-    if (p) p.textContent = `Voulez-vous vraiment modifier l'utilisateur ${nom} ${prenom} (ID ${id}) ?`;
-
-    if (!cofirmEditModal) {
-        const el = document.getElementById('cofirmEditModal');
-        cofirmEditModal = new bootstrap.Modal(el);
-    }
-    cofirmEditModal.show();
-}
-
 
 async function deleteUserById(id) {   
     try {
