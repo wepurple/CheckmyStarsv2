@@ -511,101 +511,107 @@ function addCancel() {
 }
 
 async function addUser() {
-    try {
-        const nom = document.getElementById('leNom').value.trim();
-        const prenom = document.getElementById('lePrenom').value.trim();
-        const civiliteValue = document.getElementById('leGenre').value;
-        const email = document.getElementById('leMail').value.trim();
-        const societe_id = document.getElementById('laSociete').value;
-        const role_id = document.getElementById('leRole').value;
-        const telephone = document.getElementById('leTel').value.trim();
-        const num_rue = document.getElementById('leNumRue').value.trim();
-        const nom_rue = document.getElementById('laAdresse').value.trim();
-        const complement = document.getElementById('leComplement').value.trim();
-        const code_postal = document.getElementById('leCode').value.trim();
-        const ville = document.getElementById('laVille').value.trim();
-        const pays = document.getElementById('lePays').value.trim();
-        const password = document.getElementById('leMdp').value;
+  try {
+    const v = {
+      nom: document.getElementById('leNom').value.trim(),
+      prenom: document.getElementById('lePrenom').value.trim(),
+      civiliteValue: document.getElementById('leGenre').value,
+      email: document.getElementById('leMail').value.trim(),
+      societe_id: document.getElementById('laSociete').value,
+      role_id: document.getElementById('leRole').value,
+      telephone: document.getElementById('leTel').value.trim(),
+      num_rue: document.getElementById('leNumRue').value.trim(),
+      nom_rue: document.getElementById('laAdresse').value.trim(),
+      complement: document.getElementById('leComplement').value.trim(),
+      code_postal: document.getElementById('leCode').value.trim(),
+      ville: document.getElementById('laVille').value.trim(),
+      pays: document.getElementById('lePays').value.trim(),
+      password: document.getElementById('leMdp').value
+    };
 
-        if (!nom || !prenom || !email || !societe_id || !role_id || !telephone || 
-            !password) {
-            showToast("Veuillez remplir tous les champs obligatoires (*)", "warning");
-            return;
-        }
+    // Obligatoires (comme ton code actuel)
+    if (!checkRequired('leNom', v.nom, "Nom obligatoire")) return;
+    if (!checkRequired('lePrenom', v.prenom, "Prénom obligatoire")) return;
+    if (!checkRequired('leMail', v.email, "Email obligatoire")) return;
+    if (!checkRequired('laSociete', v.societe_id, "Société obligatoire")) return;
+    if (!checkRequired('leRole', v.role_id, "Rôle obligatoire")) return;
+    if (!checkRequired('leTel', v.telephone, "Téléphone obligatoire")) return;
+    if (!checkRequired('leMdp', v.password, "Mot de passe obligatoire")) return;
 
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            showToast("Veuillez entrer un email valide", "warning");
-            return;
-        }
+    // Regex identité / contact
+    if (!checkRegex('leNom', v.nom, REGEX.nom, "Nom invalide")) return;
+    if (!checkRegex('lePrenom', v.prenom, REGEX.prenom, "Prénom invalide")) return;
+    if (!checkRegex('leMail', v.email, REGEX.email, "Email invalide")) return;
+    if (!checkRegex('leTel', v.telephone, REGEX.telFR, "Téléphone invalide (ex: 06 12 34 56 78 ou +33 6 12 34 56 78)")) return;
 
-        if (password.length < 8) {
-            showToast("Le mot de passe doit contenir au moins 8 caractères", "warning");
-            return;
-        }
+    // Selects / IDs
+    if (!checkRegex('leGenre', v.civiliteValue, REGEX.civiliteValue, "Civilité invalide")) return;
+    if (!checkRegex('leRole', String(v.role_id), REGEX.roleId, "Rôle invalide")) return;
+    if (!checkRegex('laSociete', String(v.societe_id), REGEX.societeId, "Société invalide")) return;
 
-        let civilite;
-        switch(civiliteValue) {
-            case "1":
-                civilite = "Monsieur";
-                break;
-            case "2":
-                civilite = "Madame";
-                break;
-            case "3":
-                civilite = "Iel";
-                break;
-            default:
-                civilite = "Iel";
-        }
+    // Password (plus fort que “>= 8”)
+    if (!checkRegex('leMdp', v.password, REGEX.password, "Mot de passe trop faible (min 8, maj/min/chiffre/spécial)")) return;
 
-        const data = {
-            nom,
-            prenom,
-            civilite,
-            email,
-            password,
-            societe_id: societe_id === "" ? null : societe_id,
-            role_id: parseInt(role_id),
-            telephone,
-            num_rue,
-            nom_rue,
-            complement,
-            code_postal,
-            ville,
-            pays
-        };
+    // Adresse: si tu veux la rendre obligatoire, force checkRequired sur les 5 champs.
+    if (addressBlockTouched(v)) {
+      if (!checkRequired('leNumRue', v.num_rue, "Numéro de rue obligatoire")) return;
+      if (!checkRequired('laAdresse', v.nom_rue, "Nom de rue obligatoire")) return;
+      if (!checkRequired('leCode', v.code_postal, "Code postal obligatoire")) return;
+      if (!checkRequired('laVille', v.ville, "Ville obligatoire")) return;
+      if (!checkRequired('lePays', v.pays, "Pays obligatoire")) return;
 
-        console.log("Données envoyées:", data);
-
-        const response = await fetch("models/Create/users.php", {
-            method: "POST",
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(data)
-        });
-
-        const result = await response.json();
-        console.log("Réponse:", result);
-
-        if (result.success) {
-            const addModalElement = document.getElementById('addModal');
-            const addModal = bootstrap.Modal.getInstance(addModalElement);
-            if (addModal) {
-                addModal.hide();
-            }
-            
-            document.getElementById('addForm').reset();
-            
-            await loadTable();
-            
-            showToast("Utilisateur créé avec succès !", "success");
-        } else {
-            showToast("Erreur lors de la création : " + result.error, "error");
-        }
-    } catch (error) {
-        console.error("Erreur:", error);
-        showToast("Une erreur s'est produite : " + error.message, "error");
+      if (!checkRegex('leNumRue', v.num_rue, REGEX.numRue, "Numéro de rue invalide (ex: 12, 12 bis, 12B)")) return;
+      if (!checkRegex('laAdresse', v.nom_rue, REGEX.nomRue, "Adresse invalide")) return;
+      if (v.complement !== "" && !checkRegex('leComplement', v.complement, REGEX.complement, "Complément invalide")) return;
+      if (!checkRegex('leCode', v.code_postal, REGEX.codePostal, "Code postal invalide (5 chiffres)")) return;
+      if (!checkRegex('laVille', v.ville, REGEX.ville, "Ville invalide")) return;
+      if (!checkRegex('lePays', v.pays, REGEX.pays, "Pays invalide")) return;
+    } else {
+      // si pas d'adresse saisie, on nettoie visuellement
+      ['leNumRue','laAdresse','leComplement','leCode','laVille','lePays'].forEach(id => markField(id, true));
     }
+
+    // Civilité (même logique que chez toi)
+    const civilite = v.civiliteValue === "1" ? "Monsieur" : v.civiliteValue === "2" ? "Madame" : "Iel";
+
+    const data = {
+      nom: v.nom,
+      prenom: v.prenom,
+      civilite,
+      email: v.email,
+      password: v.password,
+      societe_id: v.societe_id === "" ? null : v.societe_id,
+      role_id: parseInt(v.role_id, 10),
+      telephone: v.telephone,
+      num_rue: v.num_rue,
+      nom_rue: v.nom_rue,
+      complement: v.complement,
+      code_postal: v.code_postal,
+      ville: v.ville,
+      pays: v.pays
+    };
+
+    const response = await fetch("models/Create/users.php", {
+      method: "POST",
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(data)
+    });
+
+    const result = await response.json();
+    if (result.success) {
+      const addModalElement = document.getElementById('addModal');
+      const addModal = bootstrap.Modal.getInstance(addModalElement);
+      if (addModal) addModal.hide();
+      document.getElementById('addForm').reset();
+      await loadTable();
+      showToast("Utilisateur créé avec succès !", "success");
+    } else {
+      showToast("Erreur lors de la création : " + result.error, "error");
+    }
+  } catch (error) {
+    console.error("Erreur:", error);
+    showToast("Une erreur s'est produite : " + error.message, "error");
+  }
 }
 
 function showToast(message, type = 'success') {
