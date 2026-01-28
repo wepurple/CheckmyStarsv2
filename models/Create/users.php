@@ -1,6 +1,9 @@
 <?php
 session_start();
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
+
+mb_internal_encoding('UTF-8');
+mb_http_output('UTF-8');
 
 require_once __DIR__ . '/../../includes/mariadb.php';
 
