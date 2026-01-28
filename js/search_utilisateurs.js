@@ -35,18 +35,6 @@ async function updateUserById() {
         const prenom = document.getElementById('editLePrenom').value;
         const email = document.getElementById('editLeMail').value;
         const civiliteValue = document.getElementById('editLeGenre').value;
-        
-        if (!nom || !prenom || !email || !societe_id || !role_id || !telephone || 
-            !num_rue || !nom_rue || !code_postal || !ville || !pays || !password) {
-            showToast("Veuillez remplir tous les champs obligatoires (*)", "warning");
-            return;
-        }
-
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            showToast("Veuillez entrer un email valide", "warning");
-            return;
-        }
 
         let civilite;
         switch(civiliteValue) {
@@ -76,6 +64,18 @@ async function updateUserById() {
         const code_postal = document.getElementById('editLeCode').value;
         const ville = document.getElementById('editLaVille').value;
         const pays = document.getElementById('editLePays').value;
+
+        if (!nom || !prenom || !email || !societe_id || !role_id || !telephone || 
+            !num_rue || !nom_rue || !code_postal || !ville || !pays || !password) {
+            showToast("Veuillez remplir tous les champs obligatoires (*)", "warning");
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showToast("Veuillez entrer un email valide", "warning");
+            return;
+        }
 
         const data = {
             id, nom, prenom, email, civilite, societe_id, role_id, telephone, 
