@@ -248,7 +248,7 @@ function getAllCompany($connexion)
                             <div class="col-md-12 form-floating mb-3">
                                 <input type="text" class="form-control" id="laAdresseComplete" placeholder="">
                                 <label for="laAdresseComplete">
-                                    <i class="fas fa-map-marker-alt"></i> Adresse complète *
+                                    Adresse complète *
                                 </label>
                                 <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
                             </div>
@@ -347,41 +347,25 @@ function getAllCompany($connexion)
                                 <label for="editLeRole">Rôle *</label>
                             </div>
 
-                            <div class="col-md-2 form-floating mb-3">
-                                <input type="text" class="form-control" id="editLeNumRue" placeholder="">
-                                <label for="editLeNumRue">N° rue *</label>
+                            <div class="col-md-12 form-floating mb-3">
+                                <input type="text" class="form-control" id="editLaAdresseComplete" placeholder="">
+                                <label for="editLaAdresseComplete">
+                                    Adresse complète *
+                                </label>
+                                <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
                             </div>
 
-                            <div class="col-md-10 form-floating mb-3">
-                                <input type="text"
-                                        class="form-control"
-                                        id="editLaAdresse"
-                                        list="adresseSuggestionsEdit"
-                                        placeholder="Adresse">
-                                <label for="editLaAdresse">Adresse</label>
-                            </div>
-                            <datalist id="adresseSuggestionsEdit"></datalist>
-
+                            <input type="hidden" id="editLeNumRue">
+                            <input type="hidden" id="editLaAdresse">
+                            <input type="hidden" id="editLeCode">
+                            <input type="hidden" id="editLaVille">
+                            <input type="hidden" id="editLePays">
 
                             <div class="col-md-12 form-floating mb-3">
                                 <input type="text" class="form-control" id="editLeComplement" placeholder="">
                                 <label for="editLeComplement">Complément</label>
                             </div>
 
-                            <div class="col-md-4 form-floating mb-3">
-                                <input type="text" class="form-control" id="editLeCode" placeholder="">
-                                <label for="editLeCode">Code postal *</label>
-                            </div>
-
-                            <div class="col-md-4 form-floating mb-3">
-                                <input type="text" class="form-control" id="editLaVille" placeholder="">
-                                <label for="editLaVille">Ville *</label>
-                            </div>
-
-                            <div class="col-md-4 form-floating mb-3">
-                                <input type="text" class="form-control" id="editLePays" placeholder="">
-                                <label for="editLePays">Pays *</label>
-                            </div>
                         </div>
                     </form>
                 </div>
