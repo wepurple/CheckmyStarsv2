@@ -133,7 +133,7 @@
             <div class="row">
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
-                            <button onclick="window.location.href='critere_inspecteur_etoile.php'" type="button" class="btn">Voir l'evaluation</button>
+                            <button onclick="window.location.href='critere_inspecteur_etoile.php?id=<?php $id; ?>'" type="button" class="btn">Voir l'evaluation</button>
                         </div>
                     </div>
                 </div>
