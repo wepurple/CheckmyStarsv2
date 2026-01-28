@@ -579,7 +579,7 @@ async function addUser() {
             
             showToast("Utilisateur créé avec succès !", "success");
         } else {
-            showToast("Erreur lors de la création : " + error.message, "error");
+            showToast("Erreur lors de la création : " + result.error, "error");
         }
     } catch (error) {
         console.error("Erreur:", error);
