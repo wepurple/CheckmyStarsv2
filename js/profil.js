@@ -96,9 +96,15 @@ function cancelPassword(){//reset les infos dans le modal
     }
 }
 
-function submitPassword(){
-    const minCara = 12 //minimum de caractères pour le mdp
-    const specialCara = ["#", "?", "!", "@", "$", "%", "^", "&", "*", "-", "'", "+", "(", ")", "_", "[", "]"]
+async function submitPassword(){
+    const pwRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$/
+    /**
+     * une majuscule
+     * une minuscule
+     * un chiffre
+     * 12 caractères minimum
+     * 1 caractère spécial
+    */
 
     //vérifie si tous les champs sont remplis
     let verifRempli = true
@@ -111,10 +117,58 @@ function submitPassword(){
         }
     }
 
-    if(verifRempli){
-        //vérifie 
-
+    if(verifRempli){//si tous les champs sont remplis
+        if(pwRegex.test(document.getElementById(modalElements[1]).value)){//si le regex est ok
+            if(document.getElementById(modalElements[1]).value == document.getElementById(modalElements[2]).value){//si la confirmation est confirmée avec validation validée
+                //envoi de la requete de changement de mdp
+                const url = 'models/crud/updatePwd.php'
+                const data = {
+                    old: document.getElementById(modalElements[0]).value,
+                    new: document.getElementById(modalElements[1]).value,
+                }
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const responseText = await response.text();
+                console.log('Réponse brute :', responseText);
+            }else{
+                toastColor("warning")
+                document.getElementById('toastText').textContent = "Les champs ne correspondent pas"
+                leToast.show()
+            }
+        }else{
+            toastColor("warning")
+            document.getElementById('toastText').textContent = "Mot de passe trop faible"
+            leToast.show()
+        }
     }
+}
+
+function toastColor(couleur) {//change la couleur du toast
+    const t = document.getElementById("toast")
+    const u = ["text-bg-primary", "text-bg-success", "text-bg-danger", "text-bg-warning"]
+    for (let gg = 0 ; gg<u.length ; gg++){
+        t.classList.remove(u[gg])
+    }
+    switch (couleur){
+        case "success":
+            t.classList.add(u[1])
+            break;
+        case "danger":
+            t.classList.add(u[2])
+            break;
+        case "warning":
+            t.classList.add(u[3])
+            break;
+        default :
+            t.classList.add(u[0])
+    }
+    //leToast.show()
 }
 
 document.addEventListener("DOMContentLoaded", async function() {//quand la page est chargée
@@ -123,6 +177,26 @@ document.addEventListener("DOMContentLoaded", async function() {//quand la page 
     //déclaration des modals & toasts
     modalEditMdp = new bootstrap.Modal(document.getElementById('modalPassword'))
     leToast = new bootstrap.Toast(document.getElementById('toast'))
+
+    //déclencheurs qui réagissent à la touche entrée
+    document.getElementById("oldPassword").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("newPassword").focus();
+    }
+    });
+    document.getElementById("newPassword").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("confirmPassword").focus();
+    }
+    });
+    document.getElementById("confirmPassword").addEventListener("keypress", function(event) {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("submitPwBtn").click();
+    }
+    });
 });
 
 function editPasswordBtn(){

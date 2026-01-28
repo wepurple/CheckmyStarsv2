@@ -206,11 +206,21 @@
                             <label for="confirmPassword">Confirmer nouveau mot de passe</label>
                         </div>
 
+                        <div id="passwordHelpBlock" class="form-text mt-2">
+                            <ul class="list-group-flush mb-0">
+                                <li class="list-group-item">12 caractères minimum</li>
+                                <li class="list-group-item">1 caractère spécial #?!@$%^&*-</li>
+                                <li class="list-group-item">1 majuscule</li>
+                                <li class="list-group-item">1 minuscule</li>
+                                <li class="list-group-item">1 chiffre</li>
+                            </ul>
+                        </div>
+
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="cancelPassword()">Annuler</button>
-                        <button type="button" class="btn btn-primary" onclick="submitPassword()">Valider</button>
+                        <button id="submitPwBtn" type="button" class="btn btn-primary" onclick="submitPassword()">Valider</button>
                     </div>
 
                 </div>
@@ -220,9 +230,9 @@
 
         <!-- Toast -->
         <div class="toast-container position-fixed top-0 end-0 me-2 mt-5 pt-5">
-            <div id="toast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div id="toast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="d-flex">
-                    <div class="toast-body">
+                    <div id="toastText" class="toast-body">
                         Lorem Ipsum
                     </div>
                     <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
