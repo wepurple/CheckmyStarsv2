@@ -2,7 +2,7 @@
     session_start();
 
     //Si on tente d'accéder à la page via l'url sans être connecté, on se fait dégager avant de charger la page
-    if(isset($_SESSION['Role']['Administrateur']) && isset($_SESSION['Role']['Inspecteur'])){
+    if(isset($_SESSION['Role']['Administrateur']) || isset($_SESSION['Role']['Inspecteur'])){
         if(!$_SESSION['Role']['Administrateur'] && !$_SESSION['Role']['Inspecteur']){
             header('Location: deco.php');
             die();
@@ -11,31 +11,10 @@
         header('Location: deco.php');
         die();
     }
-
     require_once './includes/mariadb.php';
 
-    $database = new Database();
-    $db = $database->getConnection();
-
-    //var_dump($db);
-
-    // Vérification si la connexion a réussi et est bien un objet
-    if (!is_object($db)) {
-        die("Erreur de connexion : La base de données n'a pas retourné un objet valide.");
-    }
-
-    $dossierId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-
-    if ($dossierId) {
-        // Utilisation d'une requête préparée pour éviter les erreurs SQL et les injections
-        $stmt = $db->prepare("SELECT Dossier_Numero FROM dossiers WHERE Dossier_ID = :id");
-        $stmt->execute(['id' => $dossierId]);
-        $numeroDossier = $stmt->fetchColumn();
-    } else {
-        $numeroDossier = "Inconnu";
-    }
-
-
+    $id = isset($_GET['id']) ? intval ($_GET['id']) : null;
+    echo $id;
 
 ?>
 
@@ -93,7 +72,7 @@
                             <th>Poids</th>
                         </tr>
                         <?php
-                        $stmt = $db->prepare("SELECT c.Critere_description, c.Critere_statut, Critere_point FROM criteres c JOIN contient ct ON c.Critere_ID = ct.Critere_ID JOIN listescriteres_etoiles lce ON ct.ListeCritere_ID = lce.ListeCritere_ID WHERE lce.etoiles = 1");
+                        $stmt = $db->prepare("SELECT c.Critere_description, c.Critere_statut, Critere_points FROM criteres c JOIN contient ct ON c.Critere_ID = ct.Critere_ID JOIN listescriteres_etoiles lce ON ct.ListeCritere_ID = lce.ListeCritere_ID WHERE lce.etoiles = 1");
                         $stmt->execute();
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             echo "<tr>";
@@ -113,13 +92,6 @@
                 </div>
             </div>
         </div>
-
-
-
-
-
-
-
         <script>
         document.getElementById('selectEtoiles').addEventListener('change', function() {
             // Masquer tous les contenus qui commencent par "contenu-"
