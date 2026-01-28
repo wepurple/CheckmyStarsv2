@@ -248,7 +248,6 @@ async function deleteUserById(id) {
 
         console.log("Status HTTP:", resp.status);
         
-        // Lire la réponse brute d'abord
         const responseText = await resp.text();
         console.log("Réponse brute:", responseText);
 
@@ -256,7 +255,6 @@ async function deleteUserById(id) {
             throw new Error(`Erreur HTTP ${resp.status}: ${responseText}`);
         }
 
-        // Parser le JSON
         let result;
         try {
             result = JSON.parse(responseText);
@@ -281,7 +279,6 @@ async function deleteUserById(id) {
 }
 
 
-// Fonction de recherche avec filtres
 function searchTable() {
     const searchInput = document.getElementById('searchInput');
     const filterType = document.getElementById('filterType');
@@ -296,9 +293,7 @@ function searchTable() {
         const row = rows[i];
         const cells = row.getElementsByTagName('td');
         
-        // Vérifier que ce n'est pas la ligne de chargement
         if (cells.length >= 6) {
-            // Ordre: ID (0), Nom (1), Prénom (2), Rôle (3), Société (4), Actions (5)
             const id = cells[0]?.textContent.toLowerCase() || '';
             const nom = cells[1]?.textContent.toLowerCase() || '';
             const prenom = cells[2]?.textContent.toLowerCase() || '';
@@ -307,7 +302,6 @@ function searchTable() {
             
             let match = false;
             
-            // Filtre selon le type sélectionné
             switch(selectedFilter) {
                 case 'all':
                     match = id.includes(filterValue) ||
@@ -344,7 +338,6 @@ function searchTable() {
     updateResultInfo(visibleCount);
 }
 
-// Met à jour les informations de résultat
 function updateResultInfo(visibleCount) {
     const resultInfo = document.getElementById('resultInfo');
     const searchInput = document.getElementById('searchInput');
@@ -358,7 +351,6 @@ function updateResultInfo(visibleCount) {
     }
 }
 
-// Efface la recherche
 function clearSearch() {
     document.getElementById('searchInput').value = '';
     const filterType = document.getElementById('filterType');
@@ -368,7 +360,6 @@ function clearSearch() {
     searchTable();
 }
 
-// Charge le tableau
 async function loadTable() {
     try {
         const users = await getAllusers();
@@ -420,7 +411,6 @@ async function loadTable() {
             }
 
             const tr = document.createElement("tr");
-            // Ordre: ID, Nom, Prénom, Rôle, Société, Actions
             tr.innerHTML = `
                 <td class="text-center align-middle"><strong>${userId}</strong></td>
                 <td class="align-middle">${nom}</td>
@@ -576,12 +566,9 @@ async function addUser() {
     }
 }
 
-// Initialisation au chargement de la page
 document.addEventListener('DOMContentLoaded', () => {
-    // Charger le tableau
     loadTable();
     
-    // Gestion du bouton de suppression
     const supprConfirm = document.getElementById('supprConfirm');
     if (supprConfirm) {
         supprConfirm.addEventListener('click', async () => {
@@ -598,7 +585,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Gestion de la recherche
     const searchInput = document.getElementById('searchInput');
     const filterType = document.getElementById('filterType');
     
