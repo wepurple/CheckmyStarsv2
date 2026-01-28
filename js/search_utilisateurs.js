@@ -84,14 +84,13 @@ async function updateUserById() {
                 editModal.hide();
             }
             await loadTable();
-            //confirmModifModal
-            alert("Utilisateur modifié avec succès!");
+            showToast("Utilisateur modifié avec succès!", "success");;
         } else {
-            alert("Erreur: " + result.error);
+            showToast("Erreur: " + result.error, "error");
         }
     } catch (error) {
         console.error("Erreur:", error);
-        alert("Une erreur s'est produite : " + error.message);
+        showToast("Une erreur s'est produite : " + error.message, "error");
     }
 }
 
@@ -158,7 +157,7 @@ async function showUserUpdateModal(id) {
 
     } catch (error) {
         console.error("Erreur:", error);
-        alert("Impossible d'ouvrir le modal: " + error.message);
+        showToast("Impossible d'ouvrir le modal : " + error.message, "error");
     }
 }
 
@@ -216,7 +215,7 @@ async function showUserInfoModal(id) {
         seeModal.show();
     } catch (error) {
         console.error("Erreur:", error);
-        alert("Impossible d'ouvrir le modal: " + error.message);
+        showToast("Impossible d'ouvrir le modal : " + error.message, "error");
     }
 }
 
@@ -488,18 +487,18 @@ async function addUser() {
 
         if (!nom || !prenom || !email || !societe_id || !role_id || !telephone || 
             !num_rue || !nom_rue || !code_postal || !ville || !pays || !password) {
-            alert("Veuillez remplir tous les champs obligatoires (*)");
+            showToast("Veuillez remplir tous les champs obligatoires (*)", "warning");
             return;
         }
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            alert("Veuillez entrer un email valide");
+            showToast("Veuillez entrer un email valide", "warning");
             return;
         }
 
         if (password.length < 8) {
-            alert("Le mot de passe doit contenir au moins 8 caractères");
+            showToast("Le mot de passe doit contenir au moins 8 caractères", "warning");
             return;
         }
 
@@ -557,15 +556,57 @@ async function addUser() {
             
             await loadTable();
             
-            alert("Utilisateur créé avec succès ! ID: " + (result.new_user_id || 'N/A'));
+            showToast("Utilisateur créé avec succès !", "success");
         } else {
-            alert("Erreur lors de la création : " + result.error);
+            showToast("Erreur lors de la création : " + error.message, "error");
         }
     } catch (error) {
         console.error("Erreur:", error);
-        alert("Une erreur s'est produite : " + error.message);
+        showToast("Une erreur s'est produite : " + error.message, "error");
     }
 }
+
+function showToast(message, type = 'success') {
+  const typeConfig = {
+    success: { bg: 'bg-success', icon: '✓', title: 'Succès' },
+    error: { bg: 'bg-danger', icon: '✗', title: 'Erreur' },
+    warning: { bg: 'bg-warning', icon: '⚠', title: 'Attention' },
+    info: { bg: 'bg-info', icon: 'ℹ', title: 'Information' }
+  };
+  
+  const config = typeConfig[type] || typeConfig['info'];
+  
+  // Créer l'élément toast
+  const toastHTML = `
+    <div class="toast align-items-center text-white ${config.bg} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          <strong>${config.icon}</strong> ${message}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  `;
+  
+  // Ajouter le toast au conteneur
+  const container = document.querySelector('.toast-container');
+  container.insertAdjacentHTML('beforeend', toastHTML);
+  
+  // Initialiser et afficher le toast
+  const toastElement = container.lastElementChild;
+  const toast = new bootstrap.Toast(toastElement, {
+    autohide: true,
+    delay: type === 'error' ? 5000 : 3000
+  });
+  
+  toast.show();
+  
+  // Supprimer le toast du DOM après fermeture
+  toastElement.addEventListener('hidden.bs.toast', () => {
+    toastElement.remove();
+  });
+}
+
 
 document.addEventListener('DOMContentLoaded', () => {
     loadTable();
@@ -579,9 +620,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (confirmModal) confirmModal.hide();
                 deleteUserId = null;
                 await loadTable();
-                alert('Utilisateur supprimé.');
+                showToast("Utilisateur supprimé.", "success");
             } catch (e) {
-                alert(e.message);
+                showToast("Erreur : " + e.message, "error");
             }
         });
     }
