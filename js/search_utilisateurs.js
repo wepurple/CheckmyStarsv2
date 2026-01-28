@@ -3,6 +3,27 @@ let editModal = null;
 let deleteUserId = null;
 let confirmModal = null;
 
+const REGEX = {
+  nom: /^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,50}$/,
+  prenom: /^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,50}$/,
+
+  email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  telFR: /^(?:(?:\+33)\s?|0)[1-9](?:[\s.-]?\d{2}){4}$/,
+
+  password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,64}$/,
+
+  numRue: /^(?:\d{1,5})(?:\s?(?:bis|ter|quater|[A-Za-z]))?$/i,
+  nomRue: /^[0-9A-Za-zÀ-ÖØ-öø-ÿ'’().,\-\/\s]{2,100}$/,
+  complement: /^[0-9A-Za-zÀ-ÖØ-öø-ÿ'’().,\-\/\s]{0,100}$/,
+  codePostal: /^\d{5}$/,
+  ville: /^[0-9A-Za-zÀ-ÖØ-öø-ÿ'’\-\/\s]{2,80}$/,
+  pays: /^[A-Za-zÀ-ÖØ-öø-ÿ'’\-\/\s]{2,60}$/,
+
+  civiliteValue: /^[1-3]$/,
+  roleId: /^[0-3]$/,
+  societeId: /^\d+$/
+};
+
 async function getAllusers() {
     const url = "models/Read/users.php";
     const response = await fetch(url, {
@@ -787,7 +808,38 @@ function setupAdresseAutocomplete({ adresseCompleteId, numRueId, adresseId, code
   }
 }
 
+function markField(id, ok) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle('is-invalid', !ok);
+  el.classList.toggle('is-valid', ok);
+}
 
+function checkRegex(id, value, regex, msg) {
+  const ok = regex.test(value);
+  markField(id, ok);
+  if (!ok) {
+    showToast(msg, "warning");
+    const el = document.getElementById(id);
+    if (el) el.focus();
+  }
+  return ok;
+}
+
+function checkRequired(id, value, msg) {
+  const ok = value !== "";
+  markField(id, ok);
+  if (!ok) {
+    showToast(msg, "warning");
+    const el = document.getElementById(id);
+    if (el) el.focus();
+  }
+  return ok;
+}
+
+function addressBlockTouched(v) {
+  return [v.num_rue, v.nom_rue, v.complement, v.code_postal, v.ville, v.pays].some(x => (x || "").trim() !== "");
+}
 
 document.addEventListener("DOMContentLoaded", () => {
 setupAdresseAutocomplete({
