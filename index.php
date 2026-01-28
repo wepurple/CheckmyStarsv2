@@ -54,7 +54,7 @@
         </div>
 
         <div class="form-floating mb-3">
-          <input type="password" class="form-control" id="password" name="mdp" placeholder="Mot de passe" value="pass123" required>
+          <input type="password" class="form-control" id="password" name="mdp" placeholder="Mot de passe" value="ep9ATgYuvZb%" required>
           <label for="password"><i class="fas fa-lock me-2"></i>Mot de passe</label>
         </div>
 

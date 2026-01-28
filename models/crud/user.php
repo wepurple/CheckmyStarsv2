@@ -149,8 +149,6 @@ class User {
         $query = $this->connexion->prepare($sql);
         $query->bindParam(':identifiant', $id);
         $query->bindParam(':newMdp', $newPassword);
-        echo($newPassword);
-        echo($query->debugDumpParams());
         $query->execute();
         return $query;
     }
