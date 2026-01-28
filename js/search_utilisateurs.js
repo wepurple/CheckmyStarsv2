@@ -66,7 +66,7 @@ async function updateUserById() {
         const pays = document.getElementById('editLePays').value;
 
         if (!nom || !prenom || !email || !societe_id || !role_id || !telephone || 
-            !num_rue || !nom_rue || !code_postal || !ville || !pays || !password) {
+            !num_rue || !nom_rue || !code_postal || !ville || !pays) {
             showToast("Veuillez remplir tous les champs obligatoires (*)", "warning");
             return;
         }
