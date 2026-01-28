@@ -245,39 +245,23 @@ function getAllCompany($connexion)
                                 <label for="leTel">Téléphone *</label>
                             </div>
 
-                            <div class="col-md-4 form-floating mb-3">
-                                <input type="text" class="form-control" id="leNumRue" placeholder="">
-                                <label for="leNumRue">N° rue *</label>
+                            <div class="col-md-12 form-floating mb-3">
+                                <input type="text" class="form-control" id="laAdresseComplete" placeholder="">
+                                <label for="laAdresseComplete">
+                                    <i class="fas fa-map-marker-alt"></i> Adresse complète *
+                                </label>
+                                <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
                             </div>
 
-                            <div class="col-md-8 form-floating mb-3">
-                                <input type="text"
-                                        class="form-control"
-                                        id="laAdresse"
-                                        list="adresseSuggestionsAdd"
-                                        placeholder="Adresse">
-                                <label for="laAdresse">Adresse</label>
-                            </div>
-                            <datalist id="adresseSuggestionsAdd"></datalist>
+                            <input type="hidden" id="leNumRue">
+                            <input type="hidden" id="laAdresse">
+                            <input type="hidden" id="leCode">
+                            <input type="hidden" id="laVille">
+                            <input type="hidden" id="lePays">
 
-                            <div class="col-md-6 form-floating mb-3">
+                            <div class="col-md-12 form-floating mb-3">
                                 <input type="text" class="form-control" id="leComplement" placeholder="">
-                                <label for="leComplement">Complément</label>
-                            </div>
-
-                            <div class="col-md-6 form-floating mb-3">
-                                <input type="text" class="form-control" id="leCode" placeholder="">
-                                <label for="leCode">Code postal *</label>
-                            </div>
-
-                            <div class="col-md-6 form-floating mb-3">
-                                <input type="text" class="form-control" id="laVille" placeholder="">
-                                <label for="laVille">Ville *</label>
-                            </div>
-
-                            <div class="col-md-6 form-floating mb-3">
-                                <input type="text" class="form-control" id="lePays" placeholder="">
-                                <label for="lePays">Pays *</label>
+                                <label for="leComplement">Complément (bâtiment, étage...)</label>
                             </div>
 
                             <div class="col-md-12 form-floating mb-3">
