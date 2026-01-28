@@ -42,13 +42,13 @@
                 <div id="Carousel1" class="carousel slide carousel-fade">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <div class="col-4">
+                            <div class="col-md-4">
                                 <img src="img\hotel_img3.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 3">
                             </div>
-                            <div class="col-4">
+                            <div class="col-md-4">
                                 <img src="img\hotel_img2.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 2">
                             </div>
-                            <div class="col-4">
+                            <div class="col-md-4">
                                 <img src="img\hotel_img1.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 1">
                             </div>
                         </div>
