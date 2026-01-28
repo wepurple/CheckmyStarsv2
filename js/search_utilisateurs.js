@@ -619,23 +619,40 @@ function showToast(message, type = 'success') {
   });
 }
 
-function setupAdresseAutocomplete({ adresseId, numRueId, codeId, villeId, paysId, datalistId }) {
+function setupAdresseAutocomplete({ adresseId, numRueId, codeId, villeId, paysId }) {
   const adresseInput = document.getElementById(adresseId);
   const numRueInput = document.getElementById(numRueId);
   const codeInput = document.getElementById(codeId);
   const villeInput = document.getElementById(villeId);
   const paysInput = document.getElementById(paysId);
-  const datalist = document.getElementById(datalistId);
 
-  if (!adresseInput || !datalist) return;
+  if (!adresseInput) return;
 
   let lastFeatures = [];
   let abortController = null;
 
+  // Créer une div pour les suggestions
+  const suggestionsDiv = document.createElement('div');
+  suggestionsDiv.className = 'autocomplete-suggestions';
+  suggestionsDiv.style.cssText = `
+    position: absolute;
+    z-index: 9999;
+    background: #2b3035;
+    border: 1px solid #495057;
+    border-radius: 4px;
+    max-height: 250px;
+    overflow-y: auto;
+    display: none;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+  `;
+  adresseInput.parentElement.style.position = 'relative';
+  adresseInput.parentElement.appendChild(suggestionsDiv);
+
   adresseInput.addEventListener("input", async () => {
     const q = adresseInput.value.trim();
     if (q.length < 3) {
-      datalist.innerHTML = "";
+      suggestionsDiv.style.display = 'none';
+      suggestionsDiv.innerHTML = '';
       lastFeatures = [];
       return;
     }
@@ -643,7 +660,7 @@ function setupAdresseAutocomplete({ adresseId, numRueId, codeId, villeId, paysId
     if (abortController) abortController.abort();
     abortController = new AbortController();
 
-    const url = `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(q)}&limit=6`;
+    const url = `https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(q)}&limit=8`;
 
     try {
       const resp = await fetch(url, { signal: abortController.signal });
@@ -652,54 +669,123 @@ function setupAdresseAutocomplete({ adresseId, numRueId, codeId, villeId, paysId
       const data = await resp.json();
       lastFeatures = data.features || [];
 
-      datalist.innerHTML = lastFeatures
-        .map(f => `<option value="${(f.properties?.label || "").replaceAll('"', "&quot;")}"></option>`)
-        .join("");
+      if (lastFeatures.length === 0) {
+        suggestionsDiv.style.display = 'none';
+        return;
+      }
+
+      suggestionsDiv.innerHTML = lastFeatures
+        .map((f, idx) => `
+          <div class="suggestion-item" data-idx="${idx}" style="
+            padding: 10px 12px;
+            cursor: pointer;
+            border-bottom: 1px solid #3a3f44;
+            color: #dee2e6;
+            font-size: 14px;
+          ">
+            <i class="fas fa-map-marker-alt" style="margin-right: 8px; color: #0d6efd;"></i>
+            ${f.properties?.label || ''}
+          </div>
+        `)
+        .join('');
+
+      suggestionsDiv.style.display = 'block';
+      suggestionsDiv.style.width = adresseInput.offsetWidth + 'px';
+
+      // Hover effect
+      suggestionsDiv.querySelectorAll('.suggestion-item').forEach(item => {
+        item.addEventListener('mouseenter', () => {
+          item.style.backgroundColor = '#495057';
+        });
+        item.addEventListener('mouseleave', () => {
+          item.style.backgroundColor = 'transparent';
+        });
+        item.addEventListener('click', () => {
+          const idx = parseInt(item.dataset.idx);
+          selectAddress(lastFeatures[idx]);
+        });
+      });
+
     } catch (e) {
       // ignore abort
     }
   });
 
-  // Quand l’utilisateur choisit une suggestion
-  adresseInput.addEventListener("change", () => {
-    const selected = adresseInput.value;
-    const feature = lastFeatures.find(f => f.properties?.label === selected);
+  function selectAddress(feature) {
     if (!feature) return;
-
     const p = feature.properties || {};
 
-    // Remplissage
     if (numRueInput && p.housenumber) numRueInput.value = p.housenumber;
-    // Tu peux garder "label" dans l'adresse, ou mettre street/name selon ton besoin
-    adresseInput.value = p.street || p.name || selected;
+    adresseInput.value = p.street || p.name || p.label || '';
     if (codeInput && p.postcode) codeInput.value = p.postcode;
     if (villeInput && p.city) villeInput.value = p.city;
-
-    // API Adresse = France -> tu peux fixer le pays (ou laisser saisie manuelle)
     if (paysInput && !paysInput.value) paysInput.value = "France";
+
+    suggestionsDiv.style.display = 'none';
+    suggestionsDiv.innerHTML = '';
+  }
+
+  // Fermer les suggestions si clic ailleurs
+  document.addEventListener('click', (e) => {
+    if (!adresseInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
+      suggestionsDiv.style.display = 'none';
+    }
   });
+
+  // Navigation clavier (optionnel mais pro)
+  let selectedIndex = -1;
+  adresseInput.addEventListener('keydown', (e) => {
+    const items = suggestionsDiv.querySelectorAll('.suggestion-item');
+    if (items.length === 0) return;
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
+      updateSelection(items);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      selectedIndex = Math.max(selectedIndex - 1, 0);
+      updateSelection(items);
+    } else if (e.key === 'Enter' && selectedIndex >= 0) {
+      e.preventDefault();
+      const idx = parseInt(items[selectedIndex].dataset.idx);
+      selectAddress(lastFeatures[idx]);
+      selectedIndex = -1;
+    } else if (e.key === 'Escape') {
+      suggestionsDiv.style.display = 'none';
+      selectedIndex = -1;
+    }
+  });
+
+  function updateSelection(items) {
+    items.forEach((item, i) => {
+      if (i === selectedIndex) {
+        item.style.backgroundColor = '#495057';
+      } else {
+        item.style.backgroundColor = 'transparent';
+      }
+    });
+  }
 }
 
+
 document.addEventListener("DOMContentLoaded", () => {
-    setupAdresseAutocomplete({
-        adresseId: "laAdresse",
-        numRueId: "leNumRue",
-        codeId: "leCode",
-        villeId: "laVille",
-        paysId: "lePays",
-        datalistId: "adresseSuggestionsAdd",
-    });
+  setupAdresseAutocomplete({
+    adresseId: "laAdresse",
+    numRueId: "leNumRue",
+    codeId: "leCode",
+    villeId: "laVille",
+    paysId: "lePays"
+  });
 
-    setupAdresseAutocomplete({
-        adresseId: "editLaAdresse",
-        numRueId: "editLeNumRue",
-        codeId: "editLeCode",
-        villeId: "editLaVille",
-        paysId: "editLePays",
-        datalistId: "adresseSuggestionsEdit",
-    });
+  setupAdresseAutocomplete({
+    adresseId: "editLaAdresse",
+    numRueId: "editLeNumRue",
+    codeId: "editLeCode",
+    villeId: "editLaVille",
+    paysId: "editLePays"
+  });
 
-    // Ton init existant
     loadTable();
     
     const supprConfirm = document.getElementById('supprConfirm');
