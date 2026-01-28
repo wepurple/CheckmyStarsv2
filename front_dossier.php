@@ -51,6 +51,14 @@
                                 <img src="img\hotel_img2.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 2">
                             </div>
                         </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#Carousel" >
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#Carousel" >
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
                     </div>
                 </div>
                 <div class="col-md 4 p-3 rounded">
