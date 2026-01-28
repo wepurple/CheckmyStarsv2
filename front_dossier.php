@@ -105,7 +105,7 @@
             <div class="row">
                 <div class="col-md rounded">
                     <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
-                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#info_modal">Voir l'evaluation</button>
+                            <button onclick="window.location.href='critere_inspecteur_etoile.php'" type="button" class="btn">Voir l'evaluation</button>
                         </div>
                     </div>
                 </div>
@@ -194,11 +194,11 @@
                                                 $statusText = $row['status'] == 1 ?  'terminé' : 'en cours';
                                                 $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
                                                 echo "<h5> Le dossier est actuellement : </h5><td><span class='badge $statusClass'>$statusText</span></td></br>";
-                                                echo "<h5> Assigné à </h5>";
-                                                echo "<td>" . htmlspecialchars($row['Utilisateurs_Nom']) . "</td>" . "</br>" . " " ;
-                                                echo "<td>" . htmlspecialchars($row['Utilisateurs_Prenom']) . "</td>";
-                                                echo "<td>" . htmlspecialchars($row['Utilisateurs_Mail']) . "</td>" . "</br>";
-                                                echo "<td>" . htmlspecialchars($row['Utilisateurs_Telephone']) . "</td>" . "</br>";
+                                                echo "</br> <h5> Assigné à : </h5>";
+                                                echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>"  . " " ;
+                                                echo "<td>" . htmlspecialchars($row['Utilisateur_Prenom']) . "</td>" . "</br>";
+                                                echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>" . "</br>";
+                                                echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>" . "</br>";
                                             }
                                         } else {
                                             echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
