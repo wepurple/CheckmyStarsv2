@@ -36,6 +36,18 @@ async function updateUserById() {
         const email = document.getElementById('editLeMail').value;
         const civiliteValue = document.getElementById('editLeGenre').value;
         
+        if (!nom || !prenom || !email || !societe_id || !role_id || !telephone || 
+            !num_rue || !nom_rue || !code_postal || !ville || !pays || !password) {
+            showToast("Veuillez remplir tous les champs obligatoires (*)", "warning");
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showToast("Veuillez entrer un email valide", "warning");
+            return;
+        }
+
         let civilite;
         switch(civiliteValue) {
             case "1":
