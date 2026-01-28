@@ -11,31 +11,10 @@
         header('Location: deco.php');
         die();
     }
-
     require_once './includes/mariadb.php';
 
-    $database = new Database();
-    $db = $database->getConnection();
-
-    //var_dump($db);
-
-    // Vérification si la connexion a réussi et est bien un objet
-    if (!is_object($db)) {
-        die("Erreur de connexion : La base de données n'a pas retourné un objet valide.");
-    }
-
-    $dossierId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
-
-    if ($dossierId) {
-        // Utilisation d'une requête préparée pour éviter les erreurs SQL et les injections
-        $stmt = $db->prepare("SELECT Dossier_Numero FROM dossiers WHERE Dossier_ID = :id");
-        $stmt->execute(['id' => $dossierId]);
-        $numeroDossier = $stmt->fetchColumn();
-    } else {
-        $numeroDossier = "Inconnu";
-    }
-
-
+    $id = isset($_GET['id']) ? intval ($_GET['id']) : null;
+    echo $id;
 
 ?>
 
