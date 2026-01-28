@@ -713,7 +713,6 @@ function setupAdresseAutocomplete({ adresseCompleteId, numRueId, adresseId, code
       suggestionsDiv.style.display = 'block';
       suggestionsDiv.style.width = adresseCompleteInput.offsetWidth + 'px';
 
-      // Events
       suggestionsDiv.querySelectorAll('.suggestion-item').forEach(item => {
         item.addEventListener('mouseenter', () => {
           item.style.backgroundColor = '#495057';
@@ -728,7 +727,7 @@ function setupAdresseAutocomplete({ adresseCompleteId, numRueId, adresseId, code
       });
 
     } catch (e) {
-      // ignore abort
+
     }
   });
 
@@ -736,10 +735,8 @@ function setupAdresseAutocomplete({ adresseCompleteId, numRueId, adresseId, code
     if (!feature) return;
     const p = feature.properties || {};
 
-    // Remplir le champ visible avec l'adresse complète formatée
     adresseCompleteInput.value = p.label || '';
 
-    // Segmenter dans les champs cachés
     if (numRueInput) numRueInput.value = p.housenumber || '';
     if (adresseInput) adresseInput.value = p.street || p.name || '';
     if (codeInput) codeInput.value = p.postcode || '';
@@ -749,19 +746,16 @@ function setupAdresseAutocomplete({ adresseCompleteId, numRueId, adresseId, code
     suggestionsDiv.style.display = 'none';
     suggestionsDiv.innerHTML = '';
 
-    // Feedback visuel
     adresseCompleteInput.classList.add('is-valid');
     setTimeout(() => adresseCompleteInput.classList.remove('is-valid'), 2000);
   }
 
-  // Fermer si clic ailleurs
   document.addEventListener('click', (e) => {
     if (!adresseCompleteInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
       suggestionsDiv.style.display = 'none';
     }
   });
 
-  // Navigation clavier
   let selectedIndex = -1;
   adresseCompleteInput.addEventListener('keydown', (e) => {
     const items = suggestionsDiv.querySelectorAll('.suggestion-item');
