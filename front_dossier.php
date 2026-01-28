@@ -38,39 +38,16 @@
         ?>
         <div class="container-sm">
             <div class="row justify-content-center">
-                <div class="col-md 4 p-3 rounded">
-                    <div id="Carousel" class="carousel slide carousel-fade">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="img\hotel_img3.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 3">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img\hotel_img1.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 1">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img\hotel_img2.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 2">
-                            </div>
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#Carousel" >
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#Carousel" >
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
-                </div>
                 <div id="carouselExampleFade" class="carousel slide carousel-fade">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                        <img src="..." class="d-block w-100" alt="...">
+                        <img src="img\hotel_img3.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 3">
                         </div>
                         <div class="carousel-item">
-                        <img src="..." class="d-block w-100" alt="...">
+                        <img src="img\hotel_img2.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 2">
                         </div>
                         <div class="carousel-item">
-                        <img src="..." class="d-block w-100" alt="...">
+                        <img src="img\hotel_img1.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 1">
                         </div>
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
@@ -82,6 +59,8 @@
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
+
+                
                 <div class="col-md 4 p-3 rounded">
                     <div id="Carousel" class="carousel slide"  data-bs-ride="carousel" data-bs-interval="2000" data-bs-pause="false">
                         <div class="carousel-inner">
