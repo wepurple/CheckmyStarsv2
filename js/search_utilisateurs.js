@@ -133,6 +133,7 @@ async function updateUserById() {
     const result = await response.json();
     if (result.success) {
       if (editModal) editModal.hide();
+      clearValidationClasses('editForm');
       await loadTable();
       showToast("Utilisateur modifié avec succès!", "success");
     } else {
@@ -156,6 +157,7 @@ async function showUserUpdateModal(id) {
             }
         }
 
+        clearValidationClasses('editForm');
         var user = await getUserById(id);
 
         document.getElementById('editIdUser').value = user.Utilisateur_ID;
@@ -518,6 +520,7 @@ async function loadTable() {
 }
 
 function addCancel() {
+    clearValidationClasses('addForm');
     document.getElementById('addForm').reset();
     const addModalElement = document.getElementById('addModal');
     const addModal = bootstrap.Modal.getInstance(addModalElement);
@@ -614,6 +617,7 @@ async function addUser() {
       const addModalElement = document.getElementById('addModal');
       const addModal = bootstrap.Modal.getInstance(addModalElement);
       if (addModal) addModal.hide();
+      clearValidationClasses('addForm');
       document.getElementById('addForm').reset();
       await loadTable();
       showToast("Utilisateur créé avec succès !", "success");
@@ -874,6 +878,31 @@ async function checkEmailExists(email, excludeUserId = null) {
   }
 }
 
+function clearValidationClasses(formId) {
+  const form = document.getElementById(formId);
+  if (!form) return;
+  
+  const inputs = form.querySelectorAll('.is-valid, .is-invalid');
+  inputs.forEach(input => {
+    input.classList.remove('is-valid', 'is-invalid');
+  });
+}
+
+function resetModalForm(modalId, formId) {
+  const modalElement = document.getElementById(modalId);
+  if (!modalElement) return;
+  
+  modalElement.addEventListener('hidden.bs.modal', () => {
+    clearValidationClasses(formId);
+    const form = document.getElementById(formId);
+    if (form) form.reset();
+  });
+  
+  modalElement.addEventListener('show.bs.modal', () => {
+    clearValidationClasses(formId);
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 setupAdresseAutocomplete({
     adresseCompleteId: "laAdresseComplete",
@@ -884,7 +913,7 @@ setupAdresseAutocomplete({
     paysId: "lePays"
   });
 
-  setupAdresseAutocomplete({
+setupAdresseAutocomplete({
     adresseCompleteId: "editLaAdresseComplete",
     numRueId: "editLeNumRue",
     adresseId: "editLaAdresse",
@@ -892,6 +921,9 @@ setupAdresseAutocomplete({
     villeId: "editLaVille",
     paysId: "editLePays"
   });
+
+    resetModalForm('addModal', 'addForm');
+    resetModalForm('editModal', 'editForm');
 
     loadTable();
     
