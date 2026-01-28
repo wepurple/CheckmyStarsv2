@@ -251,10 +251,14 @@ function getAllCompany($connexion)
                             </div>
 
                             <div class="col-md-8 form-floating mb-3">
-                                <input id="laAdresse" class="form-control" list="adresseSuggestionsAdd" placeholder="Adresse">
-                                <datalist id="adresseSuggestionsAdd"></datalist>
-                                <label for="laAdresse">Adresse *</label>
+                                <input type="text"
+                                        class="form-control"
+                                        id="laAdresse"
+                                        list="adresseSuggestionsAdd"
+                                        placeholder="Adresse">
+                                <label for="laAdresse">Adresse</label>
                             </div>
+                            <datalist id="adresseSuggestionsAdd"></datalist>
 
                             <div class="col-md-6 form-floating mb-3">
                                 <input type="text" class="form-control" id="leComplement" placeholder="">
@@ -365,10 +369,15 @@ function getAllCompany($connexion)
                             </div>
 
                             <div class="col-md-10 form-floating mb-3">
-                                <input id="editLaAdresse" class="form-control" list="adresseSuggestionsEdit" placeholder="Adresse">
-                                <datalist id="adresseSuggestionsEdit"></datalist>
-                                <label for="editLaAdresse">Adresse *</label>
+                                <input type="text"
+                                        class="form-control"
+                                        id="editLaAdresse"
+                                        list="adresseSuggestionsEdit"
+                                        placeholder="Adresse">
+                                <label for="editLaAdresse">Adresse</label>
                             </div>
+                            <datalist id="adresseSuggestionsEdit"></datalist>
+
 
                             <div class="col-md-12 form-floating mb-3">
                                 <input type="text" class="form-control" id="editLeComplement" placeholder="">
