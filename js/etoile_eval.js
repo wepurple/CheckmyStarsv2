@@ -3,6 +3,6 @@ const liste = document.getElementById('selectEtoiles');
 liste.addEventListener('change', function() {
     
     const etoiles = this.value 
-    println(etoiles);
-
+    Window.print(etoiles);
+    
 });
