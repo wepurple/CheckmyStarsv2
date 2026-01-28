@@ -27,7 +27,6 @@
         <link rel="stylesheet" href="bootstrap 5.3/css/styleimg.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
         <script src="js/search_inspecteurs.js"></script>
-        <script src="js/carousel.js"></script>
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
