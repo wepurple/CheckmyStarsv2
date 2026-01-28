@@ -84,6 +84,14 @@ async function updateUserById() {
     if (!checkRegex('editLeNom', v.nom, REGEX.nom, "Nom invalide")) return;
     if (!checkRegex('editLePrenom', v.prenom, REGEX.prenom, "Prénom invalide")) return;
     if (!checkRegex('editLeMail', v.email, REGEX.email, "Email invalide")) return;
+    const emailExists = await checkEmailExists(v.email, v.id);
+    if (emailExists) 
+    {
+      markField('editLeMail', false);
+      showToast("Cet email est déjà utilisé par un autre utilisateur", "error");
+      document.getElementById('editLeMail').focus();
+      return;
+    }
     if (!checkRegex('editLeTel', v.telephone, REGEX.telFR, "Téléphone invalide")) return;
 
     if (!checkRegex('editLeGenre', v.civiliteValue, REGEX.civiliteValue, "Civilité invalide")) return;
@@ -135,7 +143,6 @@ async function updateUserById() {
     showToast("Une erreur s'est produite : " + error.message, "error");
   }
 }
-
 
 async function showUserUpdateModal(id) {
     try {
@@ -549,6 +556,13 @@ async function addUser() {
     if (!checkRegex('leNom', v.nom, REGEX.nom, "Nom invalide")) return;
     if (!checkRegex('lePrenom', v.prenom, REGEX.prenom, "Prénom invalide")) return;
     if (!checkRegex('leMail', v.email, REGEX.email, "Email invalide")) return;
+    const emailExists = await checkEmailExists(v.email);
+    if (emailExists) {
+      markField('leMail', false);
+      showToast("Cet email est déjà utilisé", "error");
+      document.getElementById('leMail').focus();
+      return;
+    }
     if (!checkRegex('leTel', v.telephone, REGEX.telFR, "Téléphone invalide (ex: 06 12 34 56 78 ou +33 6 12 34 56 78)")) return;
 
     if (!checkRegex('leGenre', v.civiliteValue, REGEX.civiliteValue, "Civilité invalide")) return;
@@ -847,6 +861,21 @@ function checkRequired(id, value, msg) {
 
 function addressBlockTouched(v) {
   return [v.num_rue, v.nom_rue, v.complement, v.code_postal, v.ville, v.pays].some(x => (x || "").trim() !== "");
+}
+
+async function checkEmailExists(email, excludeUserId = null) {
+  try {
+    const url = `models/Read/checkEmail.php?email=${encodeURIComponent(email)}${excludeUserId ? `&excludeId=${excludeUserId}` : ''}`;
+    const response = await fetch(url, {
+      method: "GET",
+      headers: { 'Content-Type': "application/json" }
+    });
+    const result = await response.json();
+    return result.exists;
+  } catch (error) {
+    console.error("Erreur vérification email:", error);
+    return false;
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
