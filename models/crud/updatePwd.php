@@ -34,7 +34,7 @@ try{
                         echo json_encode(["response" => "Nouveau mot de passe trop faible"]);
                     }
                 }else{//si l'ancien mot de passe n'est pas valide
-                    http_response_code(402);
+                    http_response_code(401);
                     echo json_encode(["response" => "Ancien mot de passe incorrect"]);
                 }
 

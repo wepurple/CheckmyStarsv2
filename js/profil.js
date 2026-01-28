@@ -135,7 +135,19 @@ async function submitPassword(){
                 });
                 
                 const responseText = await response.text();
-                console.log('Réponse brute :', responseText);
+                state = await response.status()
+                const test = await JSON.parse(responseText)
+
+                if (state==200){
+                    toastColor("success")
+                }else{
+                    toastColor("warning")
+                }
+                toastColor("success")
+                document.getElementById('toastText').textContent = test["response"]
+                leToast.show()
+                modalEditMdp.hide()
+                cancelPassword()
             }else{
                 toastColor("warning")
                 document.getElementById('toastText').textContent = "Les champs ne correspondent pas"
