@@ -507,7 +507,7 @@ async function addUser() {
         const password = document.getElementById('leMdp').value;
 
         if (!nom || !prenom || !email || !societe_id || !role_id || !telephone || 
-            !num_rue || !nom_rue || !code_postal || !ville || !pays || !password) {
+            !password) {
             showToast("Veuillez remplir tous les champs obligatoires (*)", "warning");
             return;
         }
