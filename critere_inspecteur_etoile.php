@@ -93,7 +93,7 @@
                             <th>Poids</th>
                         </tr>
                         <?php
-                        $stmt = $db->prepare("SELECT c.Critere_description, c.Critere_statut, Critere_point FROM criteres c JOIN contient ct ON c.Critere_ID = ct.Critere_ID JOIN listescriteres_etoiles lce ON ct.ListeCritere_ID = lce.ListeCritere_ID WHERE lce.etoiles = 1");
+                        $stmt = $db->prepare("SELECT c.Critere_description, c.Critere_statut, Critere_points FROM criteres c JOIN contient ct ON c.Critere_ID = ct.Critere_ID JOIN listescriteres_etoiles lce ON ct.ListeCritere_ID = lce.ListeCritere_ID WHERE lce.etoiles = 1");
                         $stmt->execute();
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                             echo "<tr>";
