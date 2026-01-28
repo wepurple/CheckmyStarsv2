@@ -39,7 +39,7 @@
         <div class="container-sm">
             <div class="row justify-content-center">
                 <div class="col-md 4 p-3 rounded">
-                    <div id="Carousel" class="carousel slide carousel-fade">
+                    <div id="Carousel1" class="carousel slide carousel-fade">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img src="img\hotel_img3.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 3">
@@ -51,14 +51,14 @@
                                 <img src="img\hotel_img1.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 1">
                             </div>
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#Carousel" data-bs-slide="prev">
+                        <button class="carousel-control-prev" type="button" data-bs-target="#Carousel1 #Carousel2 #Carousel3" data-bs-slide="prev">
                             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Previous</span>
                         </button>
                     </div>
                 </div>
                 <div class="col-md 4 p-3 rounded">
-                    <div id="Carousel" class="carousel slide carousel-fade">
+                    <div id="Carouse2" class="carousel slide carousel-fade">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img src="img\hotel_img3.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 3">
@@ -73,7 +73,7 @@
                     </div>
                 </div>
                  <div class="col-md 4 p-3 rounded">
-                    <div id="Carousel" class="carousel slide carousel-fade">
+                    <div id="Carousel3" class="carousel slide carousel-fade">
                         <div class="carousel-inner">
                             <div class="carousel-item active">
                                 <img src="img\hotel_img3.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 3">
@@ -85,7 +85,7 @@
                                 <img src="img\hotel_img1.jpg" style="border-radius: 20px;" class="d-block w-100" alt="Image 1">
                             </div>
                         </div>
-                        <button class="carousel-control-next" type="button" data-bs-target="#Carousel" data-bs-slide="next">
+                        <button class="carousel-control-next" type="button" data-bs-target="#Carousel1 #Carousel2 #Carousel3" data-bs-slide="next">
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
