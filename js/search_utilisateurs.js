@@ -680,29 +680,26 @@ function setupAdresseAutocomplete({ adresseId, numRueId, codeId, villeId, paysId
   });
 }
 
-// Branche sur AJOUT + EDIT (tes IDs existent déjà dans ton HTML) [file:1]
 document.addEventListener("DOMContentLoaded", () => {
-  setupAdresseAutocomplete({
-    adresseId: "laAdresse",
-    numRueId: "leNumRue",
-    codeId: "leCode",
-    villeId: "laVille",
-    paysId: "lePays",
-    datalistId: "adresseSuggestionsAdd",
-  });
+    setupAdresseAutocomplete({
+        adresseId: "laAdresse",
+        numRueId: "leNumRue",
+        codeId: "leCode",
+        villeId: "laVille",
+        paysId: "lePays",
+        datalistId: "adresseSuggestionsAdd",
+    });
 
-  setupAdresseAutocomplete({
-    adresseId: "editLaAdresse",
-    numRueId: "editLeNumRue",
-    codeId: "editLeCode",
-    villeId: "editLaVille",
-    paysId: "editLePays",
-    datalistId: "adresseSuggestionsEdit",
-  });
-});
+    setupAdresseAutocomplete({
+        adresseId: "editLaAdresse",
+        numRueId: "editLeNumRue",
+        codeId: "editLeCode",
+        villeId: "editLaVille",
+        paysId: "editLePays",
+        datalistId: "adresseSuggestionsEdit",
+    });
 
-
-document.addEventListener('DOMContentLoaded', () => {
+    // Ton init existant
     loadTable();
     
     const supprConfirm = document.getElementById('supprConfirm');
