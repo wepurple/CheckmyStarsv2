@@ -712,50 +712,37 @@ function setupAdresseAutocomplete({ adresseId, numRueId, codeId, villeId, paysId
   });
 
   function selectAddress(feature) {
-    if (!feature) return;
-    const p = feature.properties || {};
+  if (!feature) return;
+  const p = feature.properties || {};
 
-    if (numRueInput && p.housenumber) numRueInput.value = p.housenumber;
-    adresseInput.value = p.street || p.name || p.label || '';
-    if (codeInput && p.postcode) codeInput.value = p.postcode;
-    if (villeInput && p.city) villeInput.value = p.city;
-    if (paysInput && !paysInput.value) paysInput.value = "France";
-
-    suggestionsDiv.style.display = 'none';
-    suggestionsDiv.innerHTML = '';
+  // Remplir les champs selon ce que l'API retourne
+  if (numRueInput && p.housenumber) {
+    numRueInput.value = p.housenumber;
+  }
+  
+  // Pour l'adresse : prendre "street" (nom de rue sans numéro)
+  // Si "street" n'existe pas, fallback sur "name"
+  if (p.street) {
+    adresseInput.value = p.street;
+  } else if (p.name) {
+    adresseInput.value = p.name;
+  }
+  
+  if (codeInput && p.postcode) {
+    codeInput.value = p.postcode;
+  }
+  
+  if (villeInput && p.city) {
+    villeInput.value = p.city;
+  }
+  
+  if (paysInput) {
+    paysInput.value = "France";
   }
 
-  // Fermer les suggestions si clic ailleurs
-  document.addEventListener('click', (e) => {
-    if (!adresseInput.contains(e.target) && !suggestionsDiv.contains(e.target)) {
-      suggestionsDiv.style.display = 'none';
-    }
-  });
-
-  // Navigation clavier (optionnel mais pro)
-  let selectedIndex = -1;
-  adresseInput.addEventListener('keydown', (e) => {
-    const items = suggestionsDiv.querySelectorAll('.suggestion-item');
-    if (items.length === 0) return;
-
-    if (e.key === 'ArrowDown') {
-      e.preventDefault();
-      selectedIndex = Math.min(selectedIndex + 1, items.length - 1);
-      updateSelection(items);
-    } else if (e.key === 'ArrowUp') {
-      e.preventDefault();
-      selectedIndex = Math.max(selectedIndex - 1, 0);
-      updateSelection(items);
-    } else if (e.key === 'Enter' && selectedIndex >= 0) {
-      e.preventDefault();
-      const idx = parseInt(items[selectedIndex].dataset.idx);
-      selectAddress(lastFeatures[idx]);
-      selectedIndex = -1;
-    } else if (e.key === 'Escape') {
-      suggestionsDiv.style.display = 'none';
-      selectedIndex = -1;
-    }
-  });
+  suggestionsDiv.style.display = 'none';
+  suggestionsDiv.innerHTML = '';
+}
 
   function updateSelection(items) {
     items.forEach((item, i) => {
