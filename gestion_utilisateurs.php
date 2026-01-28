@@ -176,6 +176,27 @@ function getAllCompany($connexion)
         </div>
     </div>
 
+    <!-- Modal confirmation modification -->
+    <div class="modal fade" tabindex="-1" id="cofirmEditModal">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirmation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <p id="editText">Voulez-vous vraiment modifier les informations de l'utilisateur ?</p>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-danger" id="modifConfirm">Confirmer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Modal ajout utilisateur -->
     <div class="modal fade" tabindex="-1" id="addModal">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
