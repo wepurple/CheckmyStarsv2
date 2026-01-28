@@ -12,30 +12,31 @@
         die();
     }
 
-
-
     require_once './includes/mariadb.php';
 
     $database = new Database();
-        $db = $database->getConnection();
+    $db = $database->getConnection();
 
-        //var_dump($db);
+    //var_dump($db);
 
-        // Vérification si la connexion a réussi et est bien un objet
-        if (!is_object($db)) {
-            die("Erreur de connexion : La base de données n'a pas retourné un objet valide.");
-        }
+    // Vérification si la connexion a réussi et est bien un objet
+    if (!is_object($db)) {
+        die("Erreur de connexion : La base de données n'a pas retourné un objet valide.");
+    }
 
-        $dossierId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+    $dossierId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
-        if ($dossierId) {
-            // Utilisation d'une requête préparée pour éviter les erreurs SQL et les injections
-            $stmt = $db->prepare("SELECT Dossier_Numero FROM dossiers WHERE Dossier_ID = :id");
-            $stmt->execute(['id' => $dossierId]);
-            $numeroDossier = $stmt->fetchColumn();
-        } else {
-            $numeroDossier = "Inconnu";
-        }
+    if ($dossierId) {
+        // Utilisation d'une requête préparée pour éviter les erreurs SQL et les injections
+        $stmt = $db->prepare("SELECT Dossier_Numero FROM dossiers WHERE Dossier_ID = :id");
+        $stmt->execute(['id' => $dossierId]);
+        $numeroDossier = $stmt->fetchColumn();
+    } else {
+        $numeroDossier = "Inconnu";
+    }
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -68,43 +69,45 @@
                         </span>
                     </div>
 
-                    <div class="d-flex align-items-center gap-3 p-3">
-                            <div class="bg-white rounded-pill shadow-sm d-flex align-items-center ps-4 pe-2 py-1 border">
-                                <span class="me-3 fw-medium text-dark">Sélectionner le nombre d'étoile :</span>
-                                
-                                <select id="selectEtoiles" class="form-select border-0 rounded-pill bg-light fw-bold text-center text-dark" style="width: 80px; background-color: #adb5bd !important;">
-                                    <option value="">--</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                </select>
-                            </div>
+                    <div class="bg-white rounded-pill shadow-sm d-flex align-items-center ps-4 pe-2 py-1 border">
+                        <span class="me-3 fw-medium text-dark">Sélectionner le nombre d'étoile :</span>
+                        
+                        <select id="selectEtoiles" class="form-select border-0 rounded-pill bg-light fw-bold text-center text-dark" style="width: 80px; background-color: #adb5bd !important;">
+                            <option value="">-</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
                     </div>
                 </div>
                 <div>
                     <div class="d-flex flex-column gap-4 p-4">
-                        <div id="contenu-1" class="mt-4 p-4 bg-white rounded shadow-sm d-none text-dark">
-                            <h5>Critères pour 1 étoile</h5>
-                            <p>Critères 1, 2, 3, ....</p>
-                            <button type="submit" class="btn btn-white bg-white rounded-pill px-4 py-2 shadow-sm fw-bold border-0">
-                        Valider
-                    </button>
-                        </div>
+                        <div id="contenu-1" class="d-none">
 
-                        <div id="contenu-2" class="mt-4 p-4 bg-white rounded shadow-sm d-none text-dark">
-                            <h5>Critères pour 2 étoiles</h5>
-                            <p>Critères 1, 2, 3, ....</p>
-                            <button type="submit" class="btn btn-white bg-white rounded-pill px-4 py-2 shadow-sm fw-bold border-0">
-                        Valider
-                    </button>
-                        </div>
-
-                        <div id="contenu-3" class="mt-4 p-4 bg-white rounded shadow-sm d-none text-dark">
-                            <h5>Critères pour 3 étoiles</h5>
-                            <p>Critères 1, 2, 3, ....</p>
-                            <button type="submit" class="btn btn-white bg-white rounded-pill px-4 py-2 shadow-sm fw-bold border-0">
-                        Valider
-                    </button>
+                        <table>
+                        <tr>
+                            <th>Critère</th>
+                            <th>Description</th>
+                            <th>Poids</th>
+                        </tr>
+                        <?php
+                        $stmt = $db->prepare("SELECT c.Critere_description, c.Critere_statut, Critere_point FROM criteres c JOIN contient ct ON c.Critere_ID = ct.Critere_ID JOIN listescriteres_etoiles lce ON ct.ListeCritere_ID = lce.ListeCritere_ID WHERE lce.etoiles = 1");
+                        $stmt->execute();
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($row['Critere_Nom']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Critere_Description']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['Critere_Poids']) . "</td>";
+                            echo "</tr>";
+                        }
+                        ?></table>
+                           
+                            
+                            <button type="submit" class="btn btn-black bg-white rounded-pill px-4 py-2 shadow-sm fw-bold border-0">
+                                Valider
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -136,5 +139,6 @@
             }
         });
         </script>
+        <script src="js/criteriaStarBack.js"></script>
     </body>
 </html>
