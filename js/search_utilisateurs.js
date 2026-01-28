@@ -580,10 +580,10 @@ async function addUser() {
 
 function showToast(message, type = 'success') {
   const typeConfig = {
-    success: { bg: 'bg-success', icon: '✓', title: 'Succès' },
-    error: { bg: 'bg-danger', icon: '✗', title: 'Erreur' },
-    warning: { bg: 'bg-warning', icon: '⚠', title: 'Attention' },
-    info: { bg: 'bg-info', icon: 'ℹ', title: 'Information' }
+    success: { bg: 'bg-success', icon: '<i class="fa-solid fa-check"></i>', title: 'Succès' },
+    error: { bg: 'bg-danger', icon: '<i class="fa-solid fa-bug"></i>', title: 'Erreur' },
+    warning: { bg: 'bg-warning', icon: '<i class="fa-solid fa-triangle-exclamation"></i>', title: 'Attention' },
+    info: { bg: 'bg-info', icon: '<i class="fa-solid fa-info"></i>', title: 'Information' }
   };
   
   const config = typeConfig[type] || typeConfig['info'];
