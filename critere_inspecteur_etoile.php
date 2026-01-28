@@ -30,7 +30,7 @@
         
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
         <script src="js/search_inspecteurs.js"></script>
-        <script src="js/etoiles.js"></script>
+        <script src="js/etoile_eval.js"></script>
     </head>
     <body class="bg-secondary">
     <?php require("./includes/navbar.php"); ?>
