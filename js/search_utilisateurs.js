@@ -158,9 +158,18 @@ async function showUserUpdateModal(id) {
         document.getElementById('editLeRole').value = roleUser;
         
         document.getElementById('editLeTel').value = user.Utilisateur_Telephone || '';
+       
+        const adresseComplete = [
+        user.AdressePostale_NumeroRue,
+        user.AdressePostale_NomRue,
+        user.AdressePostale_CodePostal,
+        user.AdressePostale_Ville
+        ].filter(Boolean).join(' ');
+
+        document.getElementById('editLaAdresseComplete').value = adresseComplete;
+
         document.getElementById('editLeNumRue').value = user.AdressePostale_NumeroRue || '';
         document.getElementById('editLaAdresse').value = user.AdressePostale_NomRue || '';
-        document.getElementById('editLeComplement').value = user.AdressePostale_Complement || '';
         document.getElementById('editLeCode').value = user.AdressePostale_CodePostal || '';
         document.getElementById('editLaVille').value = user.AdressePostale_Ville || '';
         document.getElementById('editLePays').value = user.AdressePostale_Pays || '';
