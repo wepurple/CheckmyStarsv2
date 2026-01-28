@@ -37,8 +37,8 @@
         <?php
             require_once "./includes/navbar.php";
         ?>
-        <div class="container-sm">
-            <div class="row justify-content-center">
+        <div class="container-sfluid">
+            <div class="row g-3 justify-content-center">
                 <div id="Carousel1" class="carousel slide carousel-fade">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
