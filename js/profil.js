@@ -113,15 +113,16 @@ function submitPassword(){
 
     if(verifRempli){
         //vérifie 
-        
+
     }
 }
 
 document.addEventListener("DOMContentLoaded", async function() {//quand la page est chargée
     updateInfos()
 
-    //déclaration des modals
+    //déclaration des modals & toasts
     modalEditMdp = new bootstrap.Modal(document.getElementById('modalPassword'))
+    leToast = new bootstrap.Toast(document.getElementById('toast'))
 });
 
 function editPasswordBtn(){

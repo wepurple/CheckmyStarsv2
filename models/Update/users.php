@@ -12,17 +12,14 @@ class Users
         $this->connexion = $db;
     }
 
-    // Nouvelle fonction : vérifier si l'utilisateur a des dépendances
     public function checkUserDependencies($user_id, $current_role, $new_role)
     {
-        // Si le rôle ne change pas, pas de problème
         if ($current_role == $new_role) {
             return ['can_change' => true];
         }
 
         $issues = [];
 
-        // Si c'était un donneur d'ordre, vérifier les biens
         if ($current_role == 1) {
             $sql = "SELECT COUNT(*) as count FROM biens WHERE Donneur_ID = ?";
             $query = $this->connexion->prepare($sql);
@@ -34,7 +31,6 @@ class Users
             }
         }
 
-        // Si c'était un inspecteur, vérifier les dossiers
         if ($current_role == 2) {
             $sql = "SELECT COUNT(*) as count FROM dossiers WHERE Inspecteur_Id = ?";
             $query = $this->connexion->prepare($sql);
@@ -46,7 +42,6 @@ class Users
             }
         }
 
-        // Si c'était un propriétaire, vérifier les biens
         if ($current_role == 0) {
             $sql = "SELECT COUNT(*) as count FROM biens WHERE Utilisateur_ID = ?";
             $query = $this->connexion->prepare($sql);
@@ -64,7 +59,6 @@ class Users
         ];
     }
 
-    // Récupérer le rôle actuel de l'utilisateur
     public function getCurrentRole($user_id)
     {
         $sql = "SELECT 
@@ -134,10 +128,8 @@ try {
         $user_id = intval($data['id']);
         $new_role = !empty($data['role_id']) ? intval($data['role_id']) : 0;
         
-        // Récupérer le rôle actuel
         $current_role = $users->getCurrentRole($user_id);
         
-        // Vérifier les dépendances si le rôle change
         $check = $users->checkUserDependencies($user_id, $current_role, $new_role);
         
         if (!$check['can_change']) {
@@ -148,7 +140,6 @@ try {
             );
         }
 
-        // Si tout est OK, procéder à la mise à jour
         $result = $users->updateUserById(
             $data['nom'] ?? '',
             $data['prenom'] ?? '',

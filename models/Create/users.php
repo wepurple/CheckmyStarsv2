@@ -23,7 +23,6 @@ if (!is_array($data)) {
     exit;
 }
 
-// Validation: ne pas utiliser empty() pour role_id (0 est valide)
 $required_fields = ['nom', 'prenom', 'email', 'password', 'societe_id', 'role_id'];
 foreach ($required_fields as $field) {
     if (!array_key_exists($field, $data)) {

@@ -70,13 +70,11 @@
         
         $users = new Users($db);
         
-        // Vérifier si on cherche un utilisateur spécifique par ID
         if (isset($_GET['IdPersonne']) && !empty($_GET['IdPersonne'])) {
             $id = intval($_GET['IdPersonne']);
             $result = $users->getUserById($id);
             $data = $result->fetch(PDO::FETCH_ASSOC);
         } else {
-            // Sinon, retourner tous les utilisateurs
             $result = $users->getAllUsers();
             $data = $result->fetchAll(PDO::FETCH_ASSOC);
         }

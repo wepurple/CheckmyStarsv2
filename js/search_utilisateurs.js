@@ -35,7 +35,7 @@ async function updateUserById() {
         const prenom = document.getElementById('editLePrenom').value;
         const email = document.getElementById('editLeMail').value;
         const civiliteValue = document.getElementById('editLeGenre').value;
-        
+
         let civilite;
         switch(civiliteValue) {
             case "1":
@@ -65,6 +65,18 @@ async function updateUserById() {
         const ville = document.getElementById('editLaVille').value;
         const pays = document.getElementById('editLePays').value;
 
+        if (!nom || !prenom || !email || !societe_id || !role_id || !telephone || 
+            !num_rue || !nom_rue || !code_postal || !ville || !pays) {
+            showToast("Veuillez remplir tous les champs obligatoires (*)", "warning");
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            showToast("Veuillez entrer un email valide", "warning");
+            return;
+        }
+
         const data = {
             id, nom, prenom, email, civilite, societe_id, role_id, telephone, 
             num_rue, nom_rue, complement, code_postal, ville, pays
@@ -84,13 +96,13 @@ async function updateUserById() {
                 editModal.hide();
             }
             await loadTable();
-            alert("Utilisateur modifié avec succès!");
+            showToast("Utilisateur modifié avec succès!", "success");;
         } else {
-            alert("Erreur: " + result.error);
+            showToast("Erreur: " + result.error, "error");
         }
     } catch (error) {
         console.error("Erreur:", error);
-        alert("Une erreur s'est produite : " + error.message);
+        showToast("Une erreur s'est produite : " + error.message, "error");
     }
 }
 
@@ -157,7 +169,7 @@ async function showUserUpdateModal(id) {
 
     } catch (error) {
         console.error("Erreur:", error);
-        alert("Impossible d'ouvrir le modal: " + error.message);
+        showToast("Impossible d'ouvrir le modal : " + error.message, "error");
     }
 }
 
@@ -215,7 +227,7 @@ async function showUserInfoModal(id) {
         seeModal.show();
     } catch (error) {
         console.error("Erreur:", error);
-        alert("Impossible d'ouvrir le modal: " + error.message);
+        showToast("Impossible d'ouvrir le modal : " + error.message, "error");
     }
 }
 
@@ -223,7 +235,7 @@ function openDeleteModal(id, nom, prenom) {
     deleteUserId = id;
 
     const p = document.getElementById('supprText');
-    if (p) p.textContent = `Voulez-vous vraiment supprimer l'utilisateur ${nom} ${prenom} (ID ${id}) ?`;
+    if (p) p.textContent = `Voulez-vous vraiment supprimer l'utilisateur ${nom} ${prenom} (ID : ${id}) ?`;
 
     if (!confirmModal) {
         const el = document.getElementById('confirmModal');
@@ -248,7 +260,6 @@ async function deleteUserById(id) {
 
         console.log("Status HTTP:", resp.status);
         
-        // Lire la réponse brute d'abord
         const responseText = await resp.text();
         console.log("Réponse brute:", responseText);
 
@@ -256,7 +267,6 @@ async function deleteUserById(id) {
             throw new Error(`Erreur HTTP ${resp.status}: ${responseText}`);
         }
 
-        // Parser le JSON
         let result;
         try {
             result = JSON.parse(responseText);
@@ -281,7 +291,6 @@ async function deleteUserById(id) {
 }
 
 
-// Fonction de recherche avec filtres
 function searchTable() {
     const searchInput = document.getElementById('searchInput');
     const filterType = document.getElementById('filterType');
@@ -296,9 +305,7 @@ function searchTable() {
         const row = rows[i];
         const cells = row.getElementsByTagName('td');
         
-        // Vérifier que ce n'est pas la ligne de chargement
         if (cells.length >= 6) {
-            // Ordre: ID (0), Nom (1), Prénom (2), Rôle (3), Société (4), Actions (5)
             const id = cells[0]?.textContent.toLowerCase() || '';
             const nom = cells[1]?.textContent.toLowerCase() || '';
             const prenom = cells[2]?.textContent.toLowerCase() || '';
@@ -307,7 +314,6 @@ function searchTable() {
             
             let match = false;
             
-            // Filtre selon le type sélectionné
             switch(selectedFilter) {
                 case 'all':
                     match = id.includes(filterValue) ||
@@ -344,7 +350,6 @@ function searchTable() {
     updateResultInfo(visibleCount);
 }
 
-// Met à jour les informations de résultat
 function updateResultInfo(visibleCount) {
     const resultInfo = document.getElementById('resultInfo');
     const searchInput = document.getElementById('searchInput');
@@ -358,7 +363,6 @@ function updateResultInfo(visibleCount) {
     }
 }
 
-// Efface la recherche
 function clearSearch() {
     document.getElementById('searchInput').value = '';
     const filterType = document.getElementById('filterType');
@@ -368,7 +372,6 @@ function clearSearch() {
     searchTable();
 }
 
-// Charge le tableau
 async function loadTable() {
     try {
         const users = await getAllusers();
@@ -420,7 +423,6 @@ async function loadTable() {
             }
 
             const tr = document.createElement("tr");
-            // Ordre: ID, Nom, Prénom, Rôle, Société, Actions
             tr.innerHTML = `
                 <td class="text-center align-middle"><strong>${userId}</strong></td>
                 <td class="align-middle">${nom}</td>
@@ -497,18 +499,18 @@ async function addUser() {
 
         if (!nom || !prenom || !email || !societe_id || !role_id || !telephone || 
             !num_rue || !nom_rue || !code_postal || !ville || !pays || !password) {
-            alert("Veuillez remplir tous les champs obligatoires (*)");
+            showToast("Veuillez remplir tous les champs obligatoires (*)", "warning");
             return;
         }
 
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         if (!emailRegex.test(email)) {
-            alert("Veuillez entrer un email valide");
+            showToast("Veuillez entrer un email valide", "warning");
             return;
         }
 
         if (password.length < 8) {
-            alert("Le mot de passe doit contenir au moins 8 caractères");
+            showToast("Le mot de passe doit contenir au moins 8 caractères", "warning");
             return;
         }
 
@@ -566,22 +568,159 @@ async function addUser() {
             
             await loadTable();
             
-            alert("Utilisateur créé avec succès ! ID: " + (result.new_user_id || 'N/A'));
+            showToast("Utilisateur créé avec succès !", "success");
         } else {
-            alert("Erreur lors de la création : " + result.error);
+            showToast("Erreur lors de la création : " + error.message, "error");
         }
     } catch (error) {
         console.error("Erreur:", error);
-        alert("Une erreur s'est produite : " + error.message);
+        showToast("Une erreur s'est produite : " + error.message, "error");
     }
 }
 
-// Initialisation au chargement de la page
+function showToast(message, type = 'success') {
+  const typeConfig = {
+    success: { bg: 'bg-success', icon: '<i class="fa-solid fa-check"></i>', title: 'Succès' },
+    error: { bg: 'bg-danger', icon: '<i class="fa-solid fa-bug"></i>', title: 'Erreur' },
+    warning: { bg: 'bg-warning', icon: '<i class="fa-solid fa-triangle-exclamation"></i>', title: 'Attention' },
+    info: { bg: 'bg-info', icon: '<i class="fa-solid fa-info"></i>', title: 'Information' }
+  };
+  
+  const config = typeConfig[type] || typeConfig['info'];
+  
+  // Créer l'élément toast
+  const toastHTML = `
+    <div class="toast align-items-center text-white ${config.bg} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          <strong>${config.icon}</strong> ${message}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  `;
+  
+  // Ajouter le toast au conteneur
+  const container = document.querySelector('.toast-container');
+  container.insertAdjacentHTML('beforeend', toastHTML);
+  
+  // Initialiser et afficher le toast
+  const toastElement = container.lastElementChild;
+  const toast = new bootstrap.Toast(toastElement, {
+    autohide: true,
+    delay: type === 'error' ? 5000 : 3000
+  });
+  
+  toast.show();
+  
+  // Supprimer le toast du DOM après fermeture
+  toastElement.addEventListener('hidden.bs.toast', () => {
+    toastElement.remove();
+  });
+}
+
+// Fonction pour initialiser l'autocomplétion sur un champ adresse
+function initAddressAutocomplete(inputId, fieldsMapping) {
+    const input = document.getElementById(inputId);
+    const resultsContainer = document.createElement('div');
+    resultsContainer.className = 'autocomplete-results';
+    resultsContainer.style.cssText = 'position: absolute; z-index: 1000; background: white; border: 1px solid #ddd; max-height: 300px; overflow-y: auto; display: none;';
+    input.parentNode.style.position = 'relative';
+    input.parentNode.appendChild(resultsContainer);
+
+    let fetchTrigger = null;
+
+    input.addEventListener('input', function() {
+        clearTimeout(fetchTrigger);
+        const query = this.value.trim();
+
+        if (query.length < 3) {
+            resultsContainer.style.display = 'none';
+            return;
+        }
+
+        // Délai de 300ms avant de lancer la requête
+        fetchTrigger = setTimeout(async () => {
+            try {
+                const response = await fetch(`https://api-adresse.data.gouv.fr/search/?q=${encodeURIComponent(query)}&limit=10&autocomplete=1`);
+                const data = await response.json();
+
+                if (data.features && data.features.length > 0) {
+                    displayResults(data.features, resultsContainer, fieldsMapping);
+                } else {
+                    resultsContainer.style.display = 'none';
+                }
+            } catch (error) {
+                console.error('Erreur API Adresse:', error);
+            }
+        }, 300);
+    });
+
+    // Fermer les résultats si on clique ailleurs
+    document.addEventListener('click', function(e) {
+        if (e.target !== input && !resultsContainer.contains(e.target)) {
+            resultsContainer.style.display = 'none';
+        }
+    });
+}
+
+function displayResults(features, container, fieldsMapping) {
+    container.innerHTML = '';
+    container.style.display = 'block';
+
+    features.forEach(feature => {
+        const item = document.createElement('div');
+        item.className = 'autocomplete-item';
+        item.style.cssText = 'padding: 10px; cursor: pointer; border-bottom: 1px solid #eee;';
+        item.textContent = feature.properties.label;
+
+        item.addEventListener('mouseenter', function() {
+            this.style.backgroundColor = '#f0f0f0';
+        });
+
+        item.addEventListener('mouseleave', function() {
+            this.style.backgroundColor = 'white';
+        });
+
+        item.addEventListener('click', function() {
+            fillAddressFields(feature.properties, fieldsMapping);
+            container.style.display = 'none';
+        });
+
+        container.appendChild(item);
+    });
+}
+
+function fillAddressFields(properties, fieldsMapping) {
+    // Extraction des données de l'adresse
+    const housenumber = properties.housenumber || '';
+    const street = properties.street || properties.name || '';
+    const postcode = properties.postcode || '';
+    const city = properties.city || '';
+    const country = 'France'; // Par défaut pour l'API française
+
+    // Remplissage des champs selon le mapping fourni
+    if (fieldsMapping.numRue) {
+        document.getElementById(fieldsMapping.numRue).value = housenumber;
+    }
+    if (fieldsMapping.nomRue) {
+        document.getElementById(fieldsMapping.nomRue).value = street;
+    }
+    if (fieldsMapping.codePostal) {
+        document.getElementById(fieldsMapping.codePostal).value = postcode;
+    }
+    if (fieldsMapping.ville) {
+        document.getElementById(fieldsMapping.ville).value = city;
+    }
+    if (fieldsMapping.pays) {
+        document.getElementById(fieldsMapping.pays).value = country;
+    }
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
-    // Charger le tableau
     loadTable();
     
-    // Gestion du bouton de suppression
     const supprConfirm = document.getElementById('supprConfirm');
     if (supprConfirm) {
         supprConfirm.addEventListener('click', async () => {
@@ -591,14 +730,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (confirmModal) confirmModal.hide();
                 deleteUserId = null;
                 await loadTable();
-                alert('Utilisateur supprimé.');
+                showToast("Utilisateur supprimé.", "success");
             } catch (e) {
-                alert(e.message);
+                showToast("Erreur : " + e.message, "error");
             }
         });
     }
     
-    // Gestion de la recherche
     const searchInput = document.getElementById('searchInput');
     const filterType = document.getElementById('filterType');
     
@@ -612,4 +750,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (filterType) {
         filterType.addEventListener('change', searchTable);
     }
+
+    initAddressAutocomplete('editLaAdresse', {
+        numRue: 'editLeNumRue',
+        nomRue: 'editLaAdresse',
+        codePostal: 'editLeCode',
+        ville: 'editLaVille',
+        pays: 'editLePays'
+    });
 });
