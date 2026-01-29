@@ -123,7 +123,7 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
                                 </thead>
                                 <tbody id="table-body">
                                     <tr>
-                                        <td colspan="4" class="text-center py-5">
+                                        <td colspan="6" class="text-center py-5">
                                             <div class="spinner-border text-primary" role="status">
                                                 <span class="visually-hidden">Chargement...</span>
                                             </div>
