@@ -148,10 +148,12 @@ document.addEventListener('DOMContentLoaded', function() {
     return etoiles;
 
     });
-
-    
-
 });
+
+let status_X = "";
+let status_O = "";
+let status_NA = "";
+let status_ONC= "";
 
 let total = 0;
 
@@ -160,6 +162,7 @@ function pointsTotal() {
     for (let j =0; j < i; j++) {
         const checkbox = document.getElementById(`checkbox-${j}`);
         console.log('Checkbox ', j, ': ', checkbox.checked);
+        console.log(critere.Critere_statut);
     }
     console.log('Total:', Number(total));
 }
