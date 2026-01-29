@@ -46,9 +46,10 @@ function jsonError(string $message, $debug = null): void {
  * Vérifier si une table existe
  */
 function tableExists(PDO $pdo, string $name): bool {
-    $q = $pdo->prepare("SHOW TABLES LIKE ?");
-    $q->execute([$name]);
-    return (bool)$q->fetchColumn();
+    // Nettoyer le nom de table pour éviter injection SQL
+    $name = preg_replace('/[^a-zA-Z0-9_]/', '', $name);
+    $result = $pdo->query("SHOW TABLES LIKE '$name'");
+    return $result && $result->fetchColumn() !== false;
 }
 
 /**
