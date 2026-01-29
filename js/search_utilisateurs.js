@@ -963,22 +963,23 @@ async function submitSociete() {
 
     const data = await response.json();
 
-    if (data.success) {
+  if (data.success) {
     societeModal.hide();
-    
-    // ← AJOUTE ÇA : refresh la liste
+
     await refreshSocietes();
-    
-    // Sélectionne la nouvelle société
+
     const select = document.getElementById('laSociete');
-    select.value = data.new_societe_id; // ou data.new_user_id selon ton PHP
-    
-    showToast(`Société "${v.nom}" créée !`, "success");
-    
-    // Réouvre modal utilisateur (optionnel)
+    if (data.new_societe_id) {
+        select.value = data.new_societe_id;
+    } else if (data.new_user_id) {
+        select.value = data.new_user_id;
+    }
+
     const addModalEl = document.getElementById('addModal');
     const addModal = new bootstrap.Modal(addModalEl);
     addModal.show();
+    
+    showToast(`Société "${v.nom}" créée !`, "success");
     } else {
       showToast(data.error || "Erreur création société", "error");
     }

@@ -1,18 +1,21 @@
 <?php
-    ob_clean();
-    header('Content-Type: application/json');
+ob_clean();
+header('Content-Type: application/json; charset=utf-8');
+
+require_once __DIR__ . '/../../includes/mariadb.php';
+
+try {
+    $db = (new Database())->getConnection();
+    $stmt = $db->prepare("CALL Get_Companies()");
+    $stmt->execute();
     
-    require_once("../../includes/mariadb.php");
-
-    class companies
-    {
-        public function getAllCompanies()
-        {
-            $sql = "CALL Get_Companies;";
-            $query = $this->connexion->prepare($sql);
-            $query->execute();
-
-            return $query;
-        }
-    }
+    $companies = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    while ($stmt->nextRowset());
+    
+    echo json_encode($companies);
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['error' => $e->getMessage()]);
+}
 ?>
