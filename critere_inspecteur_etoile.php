@@ -148,7 +148,7 @@
                                         </table>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary m-3" onclick="calculerTotal();">
+                                <button class="btn btn-primary m-3" onclick="pointsTotal();">
                                     Evaluer
                                 </button>
                                 <div class="card-footer text-muted small">
