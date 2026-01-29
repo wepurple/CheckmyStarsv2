@@ -8,6 +8,7 @@
         die();
     }
 
+
     $dossier_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
     $images = [];
     $bien_id = 0;
@@ -189,7 +190,7 @@
                                     $db = $database->getConnection();
 
                                     try {
-                                        $sql = "CALL Get_Adresse_Dossier($id);";
+                                        $sql = "CALL Get_Adresse_Dossier($dossier_id);";
                                         $stmt = $db->prepare($sql);
                                         $stmt->execute();
 
@@ -229,7 +230,7 @@
                                     $db = $database->getConnection();
 
                                     try {
-                                        $sql = "CALL Get_Dossier_Etat($id);";
+                                        $sql = "CALL Get_Dossier_Etat($dossier_id);";
                                         $stmt = $db->prepare($sql);
                                         $stmt->execute();
 

@@ -91,7 +91,7 @@
                                                     id="searchBar" 
                                                     class="form-control" 
                                                     placeholder="Rechercher dans les critères...">
-                                                <button class="btn btn-dark" type="button" onclick="document.getElementById('searchBar').value=''; document.getElementById('searchBar').dispatchEvent(new Event('input'));">
+                                                <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('searchBar').value=''; document.getElementById('searchBar').dispatchEvent(new Event('input'));">
                                                     ✕ Effacer
                                                 </button>
                                             </div>

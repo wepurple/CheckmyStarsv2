@@ -166,5 +166,9 @@ function pointsTotal() {
     console.log('Total:', Number(total));
 }
 
+function savePoints(
+    
+)
+
 
     
