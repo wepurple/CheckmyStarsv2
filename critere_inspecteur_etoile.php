@@ -143,11 +143,11 @@
                                                             <p class="mt-3 text-muted">Choisissez une étoile pour afficher les critères</p>
                                                         </td>
                                                     </tr>
-                                                    <div class="button">
-                                                        <button type="submit" class="btn btn-primary d-none" id="submitBtn">Enregistrer les modifications</button>
-                                                    </div>
                                                 </form>
                                             </tbody>
+                                            <div class="button">
+                                                <button type="submit" class="btn btn-primary d-none" id="submitBtn">Enregistrer les modifications</button>
+                                            </div>
                                         </table>
                                     </div>
                                 </div>
