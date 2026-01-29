@@ -159,6 +159,10 @@ function pointsTotal() {
     points_O = 0;
     points_NA = 0;
     points_XONC = 0;
+    points_X_Max = 0;
+    points_O_Max = 0;
+    points_NA_Max = 0;
+    points_XONC_Max = 0;
     invalide = true;
     result = "";
     for (let j =0; j < i; j++) {
@@ -168,6 +172,10 @@ function pointsTotal() {
         console.log('Checkbox ', j, ': ', checkbox.checked);
         console.log('statut ', j, ': ', status.textContent);
         console.log('points ', j, ': ', points);
+        points_X_Max += 0;
+        points_O_Max += 0;
+        points_NA_Max += 0;
+        points_XONC_Max += 0;
         if (checkbox.checked) {
             if (status.textContent === "O") {
                 points_O += points;
@@ -199,6 +207,10 @@ function pointsTotal() {
     console.log('Points NA :', points_NA);
     console.log('Points ONC :', points_XONC);
     console.log(result);
+    console.log('Points O :', points_O_Max);
+    console.log('Points X :', points_X_Max);
+    console.log('Points NA :', points_NA_Max);
+    console.log('Points ONC :', points_XONC_Max);
 }
 
 
