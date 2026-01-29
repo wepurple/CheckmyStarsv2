@@ -165,15 +165,8 @@ function pointsTotal() {
     points_XONC_Max = 0;
     invalide = true;
     result = "";
-
-    document.getElementById('checkAll').addEventListener('change', function() {
-        const isChecked = this.checked;
-    });
-
     for (let j =0; j < i; j++) {
-
         const checkbox = document.getElementById(`checkbox-${j}`);
-        checkbox.checked = isChecked;
         const status = document.getElementById(`statut-${j}`);
         const points = Number(document.getElementById(`points-${j}`).textContent);
         console.log('Checkbox ', j, ': ', checkbox.checked);
@@ -220,8 +213,15 @@ function pointsTotal() {
     console.log('Points ONC :', points_XONC_Max);
 }
 
-
-
+document.getElementById('checkAll').addEventListener('change', function() {
+    // Parcourir toutes les checkboxes
+    for (let j = 0; j < i; j++) {
+        const checkbox = document.getElementById(`case-${j}`);
+        if (checkbox) {
+            checkbox.checked = this.checked; // Applique l'état de checkAll
+        }
+    }
+});
 
 
     
