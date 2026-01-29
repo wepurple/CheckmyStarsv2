@@ -37,7 +37,7 @@
             <div>
                 <div class="d-flex align-items-center gap-3 p-3">
                     <a href="front_dossier.php?id=<?php echo $id; ?>" class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
-                        <i class="bi bi-arrow-left-short fs-3 text-dark"></i>
+                        <i class="fa-solid fa-arrow-left"></i>
                     </a>
 
                     <div class="bg-white rounded-pill shadow-sm px-4 py-2 border">
