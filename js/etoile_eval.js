@@ -4,29 +4,36 @@ let etoiles = null;
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    let liste = document.getElementById('selectEtoiles');
-
-    liste.addEventListener('change', function() {
-        
-        etoiles = this.value 
-        
-        fetch(`models/crud/getCriteriaByEtoile.php?star=${etoiles}`)
-            .then(response => {
-                console.log('Reponse fetch; ', response);
-                return response.json();
-            })
-            .then(data => {
-                console.log("Données recues: ", data);
-                allData = data;
-                displayData(data);
-                setupFilters();
-            })
-            .catch(error => console.log("Erreur fetch : ", error));
-
-    return etoiles;
-
-    });
+    initializeApp();
 });
+
+function initializeApp() {
+    const liste = document.getElementById("selectEtoile");
+
+    if (!liste) {
+        console.error("Erreur: selectEtoile introuvable");
+        return;
+    }
+
+    liste.addEventListener("change", handleEtoilesChange());
+}
+
+function handleEtoilesChange(event) {
+    const etoiles = event.target.value;
+    loadCritere(etoiles);
+}
+
+function loadCritere(etoiles) {
+    fetch(`models/crud/getCriteriaByEtoile.php?etoiles=${etoiles}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log("Données recues:", data);
+            allData = data;
+            displayData(data);
+            setupFilters();
+        })
+        .catch(error => { console.error("Erreur lors de la récupération des données:", error); });
+}
 
 function displayData(data) {
     const tbody = document.getElementById('table-body');
