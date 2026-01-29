@@ -147,10 +147,10 @@ function updateResultCount(count) {
     countElement.textContent = `${count} résultat(s)`;
 }
 
-let points_X = "";
-let points_O = "";
-let points_NA = "";
-let points_ONC = "";
+let points_X = 0;
+let points_O = 0;
+let points_NA = 0;
+let points_ONC = 0;
 
 let total = 0;
 
