@@ -50,8 +50,8 @@ try {
 
     echo json_encode([
         'success' => true,
-        'message' => 'Société créé avec succès',
-        'new_user_id' => $result['new_user_id'] ?? null
+        'message' => 'Société créée avec succès',
+        'new_societe_id' => $result['new_societe_id'] ?? null
     ]);
 
 } catch (Exception $e) {
