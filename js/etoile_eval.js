@@ -1,9 +1,11 @@
+let i = 0;
+
 document.addEventListener('DOMContentLoaded', function() {
     let liste = document.getElementById('selectEtoiles');
 
     let allData = [];
 
-    let i = 0;
+    
 
     liste.addEventListener('change', function() {
         
@@ -150,14 +152,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-let Nb_case_max = 10;
-
 let total = 0;
 
 function pointsTotal() {
-        for (let i =0; i < Nb_case_max; i++) {
-            const elementTest = document.getElementById(`case-${i}`).value || 0;
-            console.log('Element ', i, ': ', elementTest);
+        for (let j =0; j < i; j++) {
+            const elementTest = document.getElementById(`case-${j}`).value || 0;
+            console.log('Element ', j, ': ', elementTest);
 
             total += Number(elementTest);
             console.log('Total intermédiaire:', total);
