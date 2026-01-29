@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let etoiles = this.value 
         
-        fetch(`models/crud/getCriteresByEtoile.php?star=${etoiles}`)
+        fetch(`models/crud/getCriteriaByEtoile.php?star=${etoiles}`)
             .then(response => {
                 console.log('Reponse fetch; ', response);
                 return response.json();
