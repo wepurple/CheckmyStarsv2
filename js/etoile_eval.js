@@ -170,6 +170,7 @@ function pointsTotal() {
         }
     }
     console.log('Total:', Number(total));
+    console.log('Points O:', points_O);
 }
 
 
