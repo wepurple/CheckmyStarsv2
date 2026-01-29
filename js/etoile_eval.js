@@ -150,7 +150,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
-let Nb_case_max = 1000;
+let Nb_case_max = 10;
 
 let total = 0;
 
