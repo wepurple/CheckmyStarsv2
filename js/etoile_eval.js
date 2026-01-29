@@ -186,10 +186,18 @@ function pointsTotal() {
         console.log('Checkbox ', j, ': ', checkbox.checked);
         console.log('statut ', j, ': ', status.textContent);
         console.log('points ', j, ': ', points);
-        points_X_Max += 0;
-        points_O_Max += 0;
-        points_NA_Max += 0;
-        points_XONC_Max += 0;
+        if (status.textContent === "O") {
+            points_O_Max += points;
+        }
+        else if (status.textContent === "X") {
+            points_X_Max += points;
+        }
+        else if (status.textContent === "NA") {
+            points_NA_Max += points;
+        }
+        else if (status.textContent === "X ONC") {
+            points_XONC_Max += points;
+        }
         if (checkbox.checked) {
             if (status.textContent === "O") {
                 points_O += points;
@@ -221,10 +229,10 @@ function pointsTotal() {
     console.log('Points NA :', points_NA);
     console.log('Points ONC :', points_XONC);
     console.log(result);
-    console.log('Points O :', points_O_Max);
-    console.log('Points X :', points_X_Max);
-    console.log('Points NA :', points_NA_Max);
-    console.log('Points ONC :', points_XONC_Max);
+    console.log('Points Max O :', points_O_Max);
+    console.log('Points Max X :', points_X_Max);
+    console.log('Points Max NA :', points_NA_Max);
+    console.log('Points Max ONC :', points_XONC_Max);
 }
 
 
