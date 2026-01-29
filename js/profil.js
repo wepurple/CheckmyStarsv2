@@ -136,8 +136,6 @@ async function submitPassword(){
                 
                 const responseText = await response.text();
                 const state = await response.status
-                console.log(state)
-                console.log(await state == 200)
                 const test = await JSON.parse(responseText)
 
                 if (await state == 200){
