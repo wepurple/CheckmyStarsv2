@@ -32,7 +32,7 @@ const modalElements = [
     "confirmPassword"
 ]
     
-async function getInfos() {
+async function getInfos() {//va chercher les infos relatives à la personne connectée
     const url = "models/crud/myInfo.php"
     const response = await fetch(url, {
         method : "GET",

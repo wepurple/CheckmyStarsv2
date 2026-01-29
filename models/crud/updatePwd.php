@@ -24,18 +24,23 @@ try{
                 $data = json_decode(file_get_contents("php://input"));
                 $regex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$/";
 
-                if(password_verify($data->old, $result[0]["pwd"])){
-                    if(preg_match($regex, $data->new)){
-                        $user->editPassword($id, password_hash($data->new, PASSWORD_DEFAULT));
-                        http_response_code(200);
-                        echo json_encode(["response" => "Mot de passe modifié avec succès"]);
-                    }else{//si le mot de passe ne respecte pas le regex
-                        http_response_code(403);
-                        echo json_encode(["response" => "Nouveau mot de passe trop faible"]);
+                if(isset($data->new) && isset($data->old)){
+                    if(password_verify($data->old, $result[0]["pwd"])){
+                        if(preg_match($regex, $data->new)){
+                            $user->editPassword($id, password_hash($data->new, PASSWORD_DEFAULT));
+                            http_response_code(200);
+                            echo json_encode(["response" => "Mot de passe modifié avec succès"]);
+                        }else{//si le mot de passe ne respecte pas le regex
+                            http_response_code(403);
+                            echo json_encode(["response" => "Nouveau mot de passe trop faible"]);
+                        }
+                    }else{//si l'ancien mot de passe n'est pas valide
+                        http_response_code(401);
+                        echo json_encode(["response" => "Ancien mot de passe incorrect"]);
                     }
-                }else{//si l'ancien mot de passe n'est pas valide
+                }else{
                     http_response_code(401);
-                    echo json_encode(["response" => "Ancien mot de passe incorrect"]);
+                    echo json_encode(["response" => "Formulaire incomplet"]);
                 }
 
                 /*
