@@ -159,7 +159,7 @@ function pointsTotal() {
     points_O = 0;
     points_NA = 0;
     points_XONC = 0;
-    invalide = false;
+    invalide = true;
     result = "";
     for (let j =0; j < i; j++) {
         const checkbox = document.getElementById(`checkbox-${j}`);
@@ -184,11 +184,16 @@ function pointsTotal() {
         }
         if (!checkbox.checked) {
             if (status.textContent === "X") {
-                result = "Évaluation invalide : un critère obligatoire n'a pas été coché.";
-                invalide = true;
+                invalide = false;
             }
         }
     }
+    if (invalide) {
+        result = "Évaluation valide.";
+    } else {
+        result = "Évaluation invalide : un critère obligatoire n'a pas été coché.";
+    }
+
     console.log('Points O :', points_O);
     console.log('Points X :', points_X);
     console.log('Points NA :', points_NA);
