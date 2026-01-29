@@ -109,7 +109,7 @@ function isDocumentLocked(PDO $pdo, string $type, int $id): bool {
 }
 
 /**
- * Récupère une facture complète avec items et client
+ * Récupère une facture complète avec items et client (utilise Utilisateur_ID si disponible)
  */
 function getFactureComplet(PDO $pdo, int $factureId): ?array {
     $stmt = $pdo->prepare("SELECT * FROM factures_prixtotal WHERE Facture_ID = ?");
@@ -123,10 +123,37 @@ function getFactureComplet(PDO $pdo, int $factureId): ?array {
     $stmt->execute([$factureId]);
     $facture['items'] = $stmt->fetchAll();
     
-    // Client
-    $stmt = $pdo->prepare("SELECT * FROM facture_client WHERE Facture_ID = ?");
+    // Client - avec jointure utilisateur
+    $stmt = $pdo->prepare("
+        SELECT 
+            fc.*,
+            u.Utilisateur_Nom,
+            u.Utilisateur_Prenom,
+            u.Utilisateur_Mail AS email_utilisateur,
+            u.Utilisateur_Telephone AS telephone_utilisateur,
+            CONCAT(u.Utilisateur_Nom, ' ', COALESCE(u.Utilisateur_Prenom, '')) AS nom_complet,
+            CONCAT(a.AdressePostale_NumeroRue, ' ', a.AdressePostale_NomRue) AS adresse_complete,
+            a.AdressePostale_CodePostal AS code_postal,
+            a.AdressePostale_Ville AS ville
+        FROM facture_client fc
+        LEFT JOIN utilisateurs u ON u.Utilisateur_ID = fc.Utilisateur_ID
+        LEFT JOIN adressespostales a ON a.AdressePostale_ID = u.AdressePostale_ID
+        WHERE fc.Facture_ID = ?
+    ");
     $stmt->execute([$factureId]);
-    $facture['client'] = $stmt->fetch() ?: null;
+    $clientData = $stmt->fetch();
+    
+    if ($clientData) {
+        if (!empty($clientData['Utilisateur_ID'])) {
+            $clientData['nom'] = $clientData['nom_complet'] ?: $clientData['nom'];
+            $clientData['adresse'] = $clientData['adresse_complete'] ?: $clientData['adresse'];
+            $clientData['email'] = $clientData['email_utilisateur'] ?: $clientData['email'];
+            $clientData['telephone'] = $clientData['telephone_utilisateur'] ?: $clientData['telephone'];
+        }
+        $facture['client'] = $clientData;
+    } else {
+        $facture['client'] = null;
+    }
     
     // Devis source si lié
     if (!empty($facture['Devis_ID'])) {
@@ -136,11 +163,18 @@ function getFactureComplet(PDO $pdo, int $factureId): ?array {
         $facture['devis_numero'] = $devis ? $devis['Devis_Numero'] : null;
     }
     
+    // Entreprise émettrice
+    if (!empty($facture['Entreprise_ID'])) {
+        $stmt = $pdo->prepare("SELECT * FROM entreprisefacturation WHERE Entreprise_ID = ?");
+        $stmt->execute([$facture['Entreprise_ID']]);
+        $facture['entreprise'] = $stmt->fetch() ?: null;
+    }
+    
     return $facture;
 }
 
 /**
- * Récupère un devis complet avec items et client
+ * Récupère un devis complet avec items et client (utilise Utilisateur_ID si disponible)
  */
 function getDevisComplet(PDO $pdo, int $devisId): ?array {
     $stmt = $pdo->prepare("SELECT * FROM devis WHERE Devis_ID = ?");
@@ -154,10 +188,46 @@ function getDevisComplet(PDO $pdo, int $devisId): ?array {
     $stmt->execute([$devisId]);
     $devis['items'] = $stmt->fetchAll(PDO::FETCH_ASSOC);
     
-    // Client
-    $stmt = $pdo->prepare("SELECT * FROM devis_client WHERE Devis_ID = ?");
+    // Client - utilise la vue si disponible, sinon requête avec jointure
+    $stmt = $pdo->prepare("
+        SELECT 
+            dc.*,
+            u.Utilisateur_Nom,
+            u.Utilisateur_Prenom,
+            u.Utilisateur_Mail AS email_utilisateur,
+            u.Utilisateur_Telephone AS telephone_utilisateur,
+            CONCAT(u.Utilisateur_Nom, ' ', COALESCE(u.Utilisateur_Prenom, '')) AS nom_complet,
+            CONCAT(a.AdressePostale_NumeroRue, ' ', a.AdressePostale_NomRue) AS adresse_complete,
+            a.AdressePostale_CodePostal AS code_postal,
+            a.AdressePostale_Ville AS ville,
+            a.AdressePostale_Pays AS pays
+        FROM devis_client dc
+        LEFT JOIN utilisateurs u ON u.Utilisateur_ID = dc.Utilisateur_ID
+        LEFT JOIN adressespostales a ON a.AdressePostale_ID = u.AdressePostale_ID
+        WHERE dc.Devis_ID = ?
+    ");
     $stmt->execute([$devisId]);
-    $devis['client'] = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    $clientData = $stmt->fetch(PDO::FETCH_ASSOC);
+    
+    if ($clientData) {
+        // Prioriser les données utilisateur si Utilisateur_ID est défini
+        if (!empty($clientData['Utilisateur_ID'])) {
+            $clientData['nom'] = $clientData['nom_complet'] ?: $clientData['nom'];
+            $clientData['adresse'] = $clientData['adresse_complete'] ?: $clientData['adresse'];
+            $clientData['email'] = $clientData['email_utilisateur'] ?: $clientData['email'];
+            $clientData['telephone'] = $clientData['telephone_utilisateur'] ?: $clientData['telephone'];
+        }
+        $devis['client'] = $clientData;
+    } else {
+        $devis['client'] = null;
+    }
+    
+    // Entreprise émettrice
+    if (!empty($devis['Entreprise_ID'])) {
+        $stmt = $pdo->prepare("SELECT * FROM entreprisefacturation WHERE Entreprise_ID = ?");
+        $stmt->execute([$devis['Entreprise_ID']]);
+        $devis['entreprise'] = $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
+    }
     
     return $devis;
 }
