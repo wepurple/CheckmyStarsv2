@@ -11,7 +11,7 @@ function initializeApp() {
     const liste = document.getElementById("selectEtoiles");
 
     if (!liste) {
-        console.error("Erreur: selectEtoile introuvable");
+        console.error("Erreur: selectEtoiles introuvable");
         return;
     }
 
@@ -24,15 +24,18 @@ function handleEtoilesChange(event) {
 }
 
 function loadCritere(etoiles) {
-    fetch(`models/crud/getCriteriaByEtoile.php?star=${star}`)
-        .then(response => response.json())
-        .then(data => {
-            console.log("Données recues:", data);
-            allData = data;
-            displayData(data);
-            setupFilters();
-        })
-        .catch(error => { console.error("Erreur lors de la récupération des données:", error); });
+    fetch(`models/crud/getCriteriaByEtoile.php?star=${etoiles}`)
+            .then(response => {
+                console.log('Reponse fetch; ', response);
+                return response.json();
+            })
+            .then(data => {
+                console.log("Données recues: ", data);
+                allData = data;
+                displayData(data);
+                setupFilters();
+            })
+            .catch(error => console.log("Erreur fetch : ", error));
 }
 
 function displayData(data) {
