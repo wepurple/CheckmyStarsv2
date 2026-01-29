@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(data => {
                 console.log("Données recues: ", data);
                 allData = data;
-                displayDara(data);
+                displayData(data);
                 setupFilters(data);
             })
             .catch(error => console.log("Erreur fetch : ", error));
