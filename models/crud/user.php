@@ -1,4 +1,10 @@
 <?php
+/**
+ * Définition de la classe user
+ * objet user créé à partir d'une ligne de la table utilisateurs et de l'adresse correspondante
+ * 
+ * By Pedro
+ */
 class User {
     private $connexion;
     private $table = "utilisateurs";
