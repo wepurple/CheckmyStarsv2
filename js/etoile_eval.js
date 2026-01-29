@@ -6,9 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     liste.addEventListener('change', function() {
         
         let etoiles = this.value 
-        return etoiles;
-
-    });
+        
 
     fetch(`models/crud/getCriteresByEtoiles.php?star=${etoiles}`)
         .then(response => {
@@ -25,5 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     console.log(etoiles);
 
+    return etoiles;
 
+    });
+    
 });
