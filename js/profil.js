@@ -135,19 +135,20 @@ async function submitPassword(){
                 });
                 
                 const responseText = await response.text();
-                state = await response.status()
+                const state = await response.status
+                console.log(state)
+                console.log(await state == 200)
                 const test = await JSON.parse(responseText)
 
-                if (state==200){
+                if (await state == 200){
                     toastColor("success")
+                    modalEditMdp.hide()
+                    cancelPassword()
                 }else{
                     toastColor("warning")
                 }
-                toastColor("success")
                 document.getElementById('toastText').textContent = test["response"]
                 leToast.show()
-                modalEditMdp.hide()
-                cancelPassword()
             }else{
                 toastColor("warning")
                 document.getElementById('toastText').textContent = "Les champs ne correspondent pas"
