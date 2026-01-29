@@ -4,7 +4,7 @@ class Database {
     private $connexion;
     private $dns = "mysql:host=localhost;port=3307;dbname=checkmystars3;charset=utf8mb4";
     private $utilisateur = "root";
-    private $motDePasse = "password";
+    private $motDePasse = "root";
 
     public function getConnection() {
         $this->connexion = null;

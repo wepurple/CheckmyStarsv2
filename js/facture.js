@@ -21,6 +21,11 @@ let selectedDocType = "DEVIS";
 let previewTimeout;
 let currentDevisNumero = null; // Numéro de devis réservé
 
+// ========== FLAGS DE VERROUILLAGE ==========
+let isInvoiceMode = false; // true si on affiche une facture
+let isLocked = false; // true si le document est verrouillé (facture existante)
+let currentDocumentId = null; // ID du document actuellement chargé
+
 // ========== INITIALISATION ==========
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -490,6 +495,12 @@ function downloadPDF(type = selectedDocType) {
 // ========== SAUVEGARDE EN BDD ==========
 
 function saveDevis(type = selectedDocType) {
+  // === SÉCURITÉ : Bloquer si mode facture verrouillée ===
+  if (isInvoiceMode && isLocked) {
+    alert("❌ Impossible de modifier une facture existante.");
+    return;
+  }
+
   const loading = document.getElementById("loadingOverlay");
   if (loading) loading.classList.add("active");
 
@@ -613,7 +624,30 @@ function hydrateFormFromDevis(devis) {
 
   // Type de document enregistré
   const type = devis.Devis_Document === "FACTURE" ? "FACTURE" : "DEVIS";
-  setDocType(type);
+
+  // Réinitialiser les flags - un devis est modifiable (sauf si verrouillé)
+  const devisVerrouille =
+    devis.Devis_Verrouille === 1 ||
+    devis.Devis_Verrouille === "1" ||
+    devis.locked;
+
+  if (type === "DEVIS" && !devisVerrouille) {
+    // Mode édition pour les devis non verrouillés
+    isInvoiceMode = false;
+    isLocked = false;
+    currentDocumentId = devis.Devis_ID;
+    setDocType(type);
+    setReadOnlyMode(false, type);
+    showLockedBadge(false);
+  } else {
+    // Mode lecture seule pour devis verrouillé ou facture
+    isInvoiceMode = type === "FACTURE";
+    isLocked = true;
+    currentDocumentId = devis.Devis_ID;
+    setDocType(type);
+    setReadOnlyMode(true, type);
+    showLockedBadge(true, devis.Devis_Numero);
+  }
 
   const suffix = DOC_CONFIG[type]?.suffix ?? "";
 
@@ -743,10 +777,31 @@ function fetchDevisList() {
  * Initialise un nouveau devis avec un numéro unique pré-généré
  */
 function initNewDevis() {
+  // Réinitialiser les flags de verrouillage
+  resetLockState();
+
   // Réinitialiser le formulaire
   resetDevisForm();
+
+  // Basculer en mode DEVIS avec édition activée
+  setDocType("DEVIS");
+  setReadOnlyMode(false, "DEVIS");
+
+  // Masquer le badge verrouillé
+  showLockedBadge(false);
+
   // Générer un nouveau numéro unique
   fetchNewDevisNumber();
+}
+
+/**
+ * Réinitialiser l'état de verrouillage (retour au mode édition)
+ */
+function resetLockState() {
+  isInvoiceMode = false;
+  isLocked = false;
+  currentDocumentId = null;
+  window.currentFactureId = null;
 }
 
 /**
@@ -840,6 +895,11 @@ window.updatePreview = updatePreview;
 window.downloadPDF = downloadPDF;
 window.addLigne = addLigne;
 window.handlePreview = handlePreview;
+window.resetLockState = resetLockState;
+
+// Exposer les flags de verrouillage (lecture seule)
+Object.defineProperty(window, "isInvoiceMode", { get: () => isInvoiceMode });
+Object.defineProperty(window, "isLocked", { get: () => isLocked });
 
 // ========== CONVERSION DEVIS → FACTURE ==========
 
@@ -938,10 +998,15 @@ function loadFacture(factureId) {
 function hydrateFormFromFacture(facture) {
   if (!facture) return;
 
+  // Définir les flags de verrouillage
+  isInvoiceMode = true;
+  isLocked = true;
+  currentDocumentId = facture.Facture_ID;
+
   // Basculer en mode FACTURE
   setDocType("FACTURE");
 
-  // Activer le mode lecture seule
+  // Activer le mode lecture seule (masque les sections d'édition)
   setReadOnlyMode(true, "FACTURE");
 
   // Remplir les champs
@@ -1039,30 +1104,90 @@ function setLinesReadOnly(type, items) {
 
 /**
  * Activer/désactiver le mode lecture seule
- * Note: le champ devis_numero reste TOUJOURS readonly
+ * Si locked=true pour une facture, masque complètement les zones d'édition
  */
 function setReadOnlyMode(readonly, type = selectedDocType) {
   const config = DOC_CONFIG[type];
   const suffix = config?.suffix ?? "";
 
+  // Mettre à jour les flags globaux
+  isLocked = readonly;
+  isInvoiceMode = type === "FACTURE" && readonly;
+
   // Le champ numéro de devis reste TOUJOURS readonly
   const devisNumeroEl = document.getElementById("devis_numero");
   if (devisNumeroEl) devisNumeroEl.readOnly = true;
 
-  // Boutons d'action
-  const btnAddLine = document.querySelector(`[onclick*="addLigne"]`);
-  const btnSave = document.querySelector(`[onclick*="saveDevis"]`);
+  // === MASQUER/AFFICHER LES SECTIONS D'ÉDITION ===
+  // Accordions de formulaire (entreprise, client, etc.)
+  const accordionFacture = document.getElementById(
+    "formulaireAccordionFacture",
+  );
+  const accordionDevis = document.getElementById("formulaireAccordionDevis");
 
-  if (btnAddLine) btnAddLine.style.display = readonly ? "none" : "";
-  if (btnSave) btnSave.style.display = readonly ? "none" : "";
+  if (type === "FACTURE" && accordionFacture) {
+    accordionFacture.style.display = readonly ? "none" : "";
+  }
+  if (type === "DEVIS" && accordionDevis) {
+    accordionDevis.style.display = readonly ? "none" : "";
+  }
 
-  // Afficher/masquer boutons spécifiques facture
+  // Conteneur des lignes de prestations (masquer en mode facture verrouillée)
+  const lignesAccordionFacture = document.querySelector(
+    "#section-facture .accordion-item:has(#lignes-container)",
+  );
+  const lignesAccordionDevis = document.querySelector(
+    "#section-devis .accordion-item:has(#lignes-container-devis)",
+  );
+
+  // Alternative si :has() n'est pas supporté
+  const prestationsFacture = document
+    .getElementById("lignes-container")
+    ?.closest(".accordion-item");
+  const prestationsDevis = document
+    .getElementById("lignes-container-devis")
+    ?.closest(".accordion-item");
+
+  if (type === "FACTURE" && prestationsFacture) {
+    prestationsFacture.style.display = readonly ? "none" : "";
+  }
+  if (type === "DEVIS" && prestationsDevis) {
+    prestationsDevis.style.display = readonly ? "none" : "";
+  }
+
+  // Boutons d'action - masquer si verrouillé
+  const btnAddLineFacture = document.querySelector(
+    '#section-facture [onclick*="addLigne"]',
+  );
+  const btnAddLineDevis = document.querySelector(
+    '#section-devis [onclick*="addLigne"]',
+  );
+  const btnSave = document.getElementById("btn-save-devis");
   const btnConvert = document.getElementById("btn-convert-facture");
-  const btnDownloadFacture = document.getElementById("btn-download-facture");
 
+  if (btnAddLineFacture)
+    btnAddLineFacture.style.display =
+      type === "FACTURE" && readonly ? "none" : "";
+  if (btnAddLineDevis)
+    btnAddLineDevis.style.display = type === "DEVIS" && readonly ? "none" : "";
+  if (btnSave) btnSave.style.display = readonly ? "none" : "";
   if (btnConvert) btnConvert.style.display = readonly ? "none" : "";
-  if (btnDownloadFacture)
-    btnDownloadFacture.style.display = readonly ? "" : "none";
+
+  // Bouton télécharger PDF - toujours visible
+  const btnDownload = document.querySelector('[onclick*="downloadPDF"]');
+  if (btnDownload) btnDownload.style.display = "";
+
+  // Mettre à jour le titre de l'aperçu
+  const previewTitle = document.getElementById("preview-title");
+  if (previewTitle) {
+    if (type === "FACTURE" && readonly) {
+      previewTitle.textContent = "Facture (lecture seule)";
+    } else if (type === "FACTURE") {
+      previewTitle.textContent = "Aperçu de la Facture";
+    } else {
+      previewTitle.textContent = "Aperçu du Devis";
+    }
+  }
 
   window.isReadOnlyMode = readonly;
 }
