@@ -25,16 +25,6 @@ const REGEX = {
   societeId: /^\d+$/
 };
 
-const filterLabels = {
-  id: 'ID',
-  nom: 'Nom',
-  prenom: 'Prénom',
-  email: 'Email',
-  role: 'Rôle',
-  societe: 'Société'
-};
-
-
 async function getAllusers() {
     const url = "models/Read/users.php";
     const response = await fetch(url, {
@@ -350,68 +340,29 @@ async function deleteUserById(id) {
     }
 }
 
-function initFilterCheckboxes() {
-  const container = document.getElementById('filterCheckboxes');
-  if (!container) return;
-
-  container.innerHTML = '';
-  Object.entries(filterLabels).forEach(([key, label]) => {
-    const checkbox = document.createElement('div');
-    checkbox.className = 'form-check form-check-inline';
-    checkbox.innerHTML = `
-      <input class="form-check-input" type="checkbox" id="filter_${key}" value="${key}" checked>
-      <label class="form-check-label small text-white-50" for="filter_${key}">${label}</label>
-    `;
-    container.appendChild(checkbox);
-  });
-}
-
 function searchTable() {
-  const searchInput = document.getElementById('searchInput');
-  const filterValue = searchInput.value.toLowerCase().trim();
-  
-  const tableBody = document.getElementById('table-body');
-  const rows = tableBody.getElementsByTagName('tr');
+    const searchInput = document.getElementById('searchInput');
+    const filterValue = searchInput.value.toLowerCase().trim();
+    const tableBody = document.getElementById('table-body');
+    const rows = tableBody.getElementsByTagName('tr');
+    let visibleCount = 0;
 
-  const activeFilters = [];
-  Object.keys(filterLabels).forEach(key => {
-    const cb = document.getElementById(`filter_${key}`);
-    if (cb && cb.checked) activeFilters.push(key);
-  });
-  
-  let visibleCount = 0;
-  for (let i = 0; i < rows.length; i++) {
-    const row = rows[i];
-    const cells = row.getElementsByTagName('td');
-    if (cells.length < 6) continue;
-
-    const id = cells[0]?.textContent.toLowerCase() || '';
-    const nom = cells[1]?.textContent.toLowerCase() || '';
-    const prenom = cells[2]?.textContent.toLowerCase() || '';
-    const role = cells[3]?.textContent.toLowerCase() || '';
-    const societe = cells[4]?.textContent.toLowerCase() || '';
-
-    let match = false;
-    if (activeFilters.length === 0 || activeFilters.includes('all')) {
-      match = [id, nom, prenom, role, societe].some(text => text.includes(filterValue));
-    } else {
-      match = activeFilters.some(filter => {
-        switch(filter) {
-          case 'id': return id.includes(filterValue);
-          case 'nom': return nom.includes(filterValue);
-          case 'prenom': return prenom.includes(filterValue);
-          case 'email': return nom.includes(filterValue);
-          case 'role': return role.includes(filterValue);
-          case 'societe': return societe.includes(filterValue);
-          default: return false;
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i];
+        const cells = row.getElementsByTagName('td');
+        if (cells.length >= 6) {
+            // Recherche unifiée sur ID, nom, prénom, rôle et société
+            const textContent = Array.from(cells)
+                .slice(0, 5)  // ID, nom, prénom, rôle, société
+                .map(cell => cell.textContent.toLowerCase())
+                .join(' ');
+            
+            const match = textContent.includes(filterValue);
+            row.style.display = match ? '' : 'none';
+            if (match) visibleCount++;
         }
-      });
     }
-
-    row.style.display = match ? '' : 'none';
-    if (match) visibleCount++;
-  }
-  updateResultInfo(visibleCount);
+    updateResultInfo(visibleCount);
 }
 
 function updateResultInfo(visibleCount) {
@@ -1096,16 +1047,16 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   }
   
-  initFilterCheckboxes();
-
   const searchInput = document.getElementById('searchInput');
+  const filterType = document.getElementById('filterType');
+  
   if (searchInput) {
-    searchInput.addEventListener('input', searchTable);
-    searchInput.addEventListener('paste', () => setTimeout(searchTable, 10));
+      searchInput.addEventListener('input', searchTable);
+      searchInput.addEventListener('paste', () => {
+          setTimeout(searchTable, 10);
+      });
   }
-
-  document.getElementById('filterCheckboxes')?.addEventListener('change', searchTable);
-
+  
   if (filterType) {
       filterType.addEventListener('change', searchTable);
   }
