@@ -165,7 +165,7 @@ function pointsTotal() {
         console.log('points ', j, ': ', points.textContent);
         if (checkbox.checked) {
             if (status.textContent === "O") {
-                points_O += points.textContent + " + ";
+                points_O += Number(points.textContent);
             }
         }
     }
