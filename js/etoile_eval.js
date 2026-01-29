@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeApp() {
-    const liste = document.getElementById("selectEtoile");
+    const liste = document.getElementById("selectEtoiles");
 
     if (!liste) {
         console.error("Erreur: selectEtoile introuvable");
