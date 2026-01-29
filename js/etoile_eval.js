@@ -161,6 +161,7 @@ function pointsTotal() {
         console.log('Checkbox ', j, ': ', checkbox.checked);
     }
     console.log('Total:', Number(total));
+    console.log(critere.Critere_statut);
 }
 
 
