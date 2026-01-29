@@ -7,24 +7,23 @@ document.addEventListener('DOMContentLoaded', function() {
         
         let etoiles = this.value 
         
+        fetch(`models/crud/getCriteresByEtoile.php?star=${etoiles}`)
+            .then(response => {
+                console.log('Reponse fetch; ', response);
+                return response.json();
+            })
+            .then(data => {
+                console.log("Données recues: ", data);
+                allData = data;
+                displayDara(data);
+                setupFilters(data);
+            })
+            .catch(error => console.log("Erreur fetch : ", error));
 
-    fetch(`models/crud/getCriteresByEtoiles.php?star=${etoiles}`)
-        .then(response => {
-            console.log('Reponse fetch; ', response);
-            return response.json();
-        })
-        .then(data => {
-            console.log("Données recues: ", data);
-            allData = data;
-            displayDara(data);
-            setupFilters(data);
-        })
-        .catch(error => console.log("Erreur fetch : ", error));
-
-    console.log(etoiles);
+        console.log(etoiles);
 
     return etoiles;
 
     });
-    
+
 });
