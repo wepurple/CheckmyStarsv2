@@ -4,13 +4,27 @@ let etoiles = null;
 
 
 document.addEventListener('DOMContentLoaded', function() {
-    let liste = document.getElementById('selectEtoiles');
+    initializeApp();
+});
 
-    liste.addEventListener('change', function() {
-        
-        etoiles = this.value 
-        
-        fetch(`models/crud/getCriteriaByEtoile.php?star=${etoiles}`)
+function initializeApp() {
+    const liste = document.getElementById("selectEtoiles");
+
+    if (!liste) {
+        console.error("Erreur: selectEtoiles introuvable");
+        return;
+    }
+
+    liste.addEventListener("change", handleEtoilesChange());
+}
+
+function handleEtoilesChange() {
+    const etoiles = target.value;
+    loadCritere(etoiles);
+}
+
+function loadCritere(etoiles) {
+    fetch(`models/crud/getCriteriaByEtoile.php?star=${etoiles}`)
             .then(response => {
                 console.log('Reponse fetch; ', response);
                 return response.json();
@@ -22,11 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 setupFilters();
             })
             .catch(error => console.log("Erreur fetch : ", error));
-
-    return etoiles;
-
-    });
-});
+}
 
 function displayData(data) {
     const tbody = document.getElementById('table-body');
