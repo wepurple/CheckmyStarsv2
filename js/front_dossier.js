@@ -29,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function() {
                      data-bs-toggle="modal" 
                      data-bs-target="#uploadModal">
                     <div class="card-body d-flex align-items-center justify-content-center">
-                        <img src="img/ajout-image.png" style="width: 60px;" alt="Ajouter">
+                        <i class="fa-solid fa-circle-plus"></i>
                     </div>
                 </div>
             </div>`;
