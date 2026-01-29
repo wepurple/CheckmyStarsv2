@@ -65,6 +65,18 @@ function displayData(data) {
     });
 }
 
+document.getElementById('checkAll').addEventListener('change', function() {
+    // Sélectionne TOUTES les checkboxes avec name="checkbox"
+    const checkboxes = document.querySelectorAll('input[name="checkbox"]');
+    
+    console.log(`Nombre de checkboxes trouvées: ${checkboxes.length}`);
+    
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = this.checked;
+    });
+});
+
+
 console.log(etoiles);
 
 function setupFilters() {
@@ -213,16 +225,6 @@ function pointsTotal() {
     console.log('Points ONC :', points_XONC_Max);
 }
 
-document.getElementById('checkAll').addEventListener('change', function() {
-    // Sélectionne TOUTES les checkboxes avec name="checkbox"
-    const checkboxes = document.querySelectorAll('input[name="checkbox"]');
-    
-    console.log(`Nombre de checkboxes trouvées: ${checkboxes.length}`);
-    
-    checkboxes.forEach(checkbox => {
-        checkbox.checked = this.checked;
-    });
-});
 
 
     
