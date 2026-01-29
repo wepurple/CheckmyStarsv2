@@ -102,6 +102,58 @@
                         </div>
                     </div>
                 </div>
+                <!-- Card du tableau -->
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card shadow-sm">
+                            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                <h5 class="mb-0">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-table" viewBox="0 0 16 16">
+                                        <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
+                                    </svg>
+                                    Liste des critères
+                                </h5>
+                            </div>
+                            <div class="card-body p-0">
+                                <div class="table-responsive">
+                                    <table class="table table-hover table-striped mb-0" id="criteriaTable">
+                                        <thead class="table-dark sticky-top">
+                                            <tr>
+                                                <th class="text-center">
+                                                    <small>Id</small>
+                                                </th>
+                                                <th>
+                                                    <small>Description</small>
+                                                </th>
+                                                <th class="text-center">
+                                                    <small>Status</small>
+                                                </th>
+                                                <th class="text-center">
+                                                    <small>Points</small>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="table-body">
+                                            <tr>
+                                                <td colspan="4" class="text-center py-5">
+                                                    <div class="spinner-border text-primary" role="status">
+                                                        <span class="visually-hidden">Chargement...</span>
+                                                    </div>
+                                                    <p class="mt-3 text-muted">Chargement des données...</p>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="card-footer text-muted small">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span class="text-end">CheckMyStars © 2026</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
