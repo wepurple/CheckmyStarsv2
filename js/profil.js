@@ -54,7 +54,7 @@ async function updateInfos(){
     }
 }
 
-function edit(){
+function edit(){//active tous les champs et inverse les boutons
     for (let j = 0 ; j<ids.length ; j++){
         document.getElementById(ids[j]).removeAttribute("disabled")
     }
@@ -63,7 +63,7 @@ function edit(){
     document.getElementById("editButton").setAttribute("disabled", "")
 }
 
-function cancel(){
+function cancel(){//désactive tous les champs puis les réinitialise, et inverse les boutons
     for (let j = 0 ; j<ids.length ; j++){
         document.getElementById(ids[j]).setAttribute("disabled", "")
         document.getElementById(ids[j]).classList.remove('is-invalid')
@@ -74,7 +74,7 @@ function cancel(){
     updateInfos()
 }
 
-function valider(){
+function valider(){//s'execute après avoir pressé le bouton valider dans la modification des infos perso
     let verif = true
     for (let k = 0 ; k<ids.length ; k++){
         if(document.getElementById(ids[k]).value == ""){
@@ -96,7 +96,7 @@ function cancelPassword(){//reset les infos dans le modal
     }
 }
 
-async function submitPassword(){
+async function submitPassword(){//s'execute après avoir validé la modification de mdp
     const pwRegex = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$/
     /**
      * une majuscule
