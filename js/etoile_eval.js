@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             tbody.innerHTML = '';
         
-            data.forEach(i++ , critere => {
+            data.forEach(critere => {
                 const row = tbody.insertRow();
                 row.innerHTML = `
                     <td>${critere.Critere_ID}</td>
@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <input type="number" id="case-${i}" name="nombre" min="0" max=${critere.Critere_points}>
                     </td>
                 `;
+                i = i + 1;
             });
         }
 
