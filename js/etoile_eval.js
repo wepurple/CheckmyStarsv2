@@ -156,10 +156,10 @@ let total = 0;
 
 function pointsTotal() {
         for (let i =0; i < Nb_case_max; i++) {
-            const element = document.getElementById(`case-${i}`).value || 0;
-            console.log('Element ', i, ': ', element);
+            const elementTest = document.getElementById(`case-${i}`).value || 0;
+            console.log('Element ', i, ': ', elementTest);
 
-            total += (element);
+            total += elementTest;
         }
         console.log('Total:', total);
     }
