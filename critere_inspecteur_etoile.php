@@ -140,10 +140,7 @@
                                                 <form action="" method="post">
                                                     <tr>
                                                         <td colspan="4" class="text-center py-5">
-                                                            <div class="spinner-border text-primary" role="status">
-                                                                <span class="visually-hidden">Chargement...</span>
-                                                            </div>
-                                                            <p class="mt-3 text-muted">Chargement des données...</p>
+                                                            <p class="mt-3 text-muted">Choisissez une étoile pour afficher les critères</p>
                                                         </td>
                                                     </tr>
                                                 </form>
