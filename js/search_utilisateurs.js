@@ -905,12 +905,20 @@ function resetModalForm(modalId, formId) {
 }
 
 function openSocieteModal() {
-  if (!societeModal) {
+    const addModalEl = document.getElementById('addModal');
+    if (addModalEl) {
+        const addModalInstance = bootstrap.Modal.getInstance(addModalEl);
+        if (addModalInstance) {
+            addModalInstance.hide();
+        }
+    }
+
     const modalEl = document.getElementById('addSocieteModal');
-    societeModal = new bootstrap.Modal(modalEl);
-  }
-  societeModal.show();
-  document.getElementById('addSocieteForm').reset();
+    if (!societeModal) {
+        societeModal = new bootstrap.Modal(modalEl);
+    }
+    societeModal.show();
+    document.getElementById('addSocieteForm').reset();
 }
 
 async function submitSociete() {
@@ -956,18 +964,21 @@ async function submitSociete() {
     const data = await response.json();
 
     if (data.success) {
-      societeModal.hide();
-
-      const select = document.getElementById('laSociete');
-      const newOption = new Option(v.nom, data.new_societe_id);
-      
-      const newOptionRef = select.querySelector('option[value="__new__"]');
-      select.insertBefore(newOption, newOptionRef);
-      
-      select.value = data.new_societe_id;
-      
-      showToast(`Société "${v.nom}" créée avec succès !`, "success");
-      
+    societeModal.hide();
+    
+    // ← AJOUTE ÇA : refresh la liste
+    await refreshSocietes();
+    
+    // Sélectionne la nouvelle société
+    const select = document.getElementById('laSociete');
+    select.value = data.new_societe_id; // ou data.new_user_id selon ton PHP
+    
+    showToast(`Société "${v.nom}" créée !`, "success");
+    
+    // Réouvre modal utilisateur (optionnel)
+    const addModalEl = document.getElementById('addModal');
+    const addModal = new bootstrap.Modal(addModalEl);
+    addModal.show();
     } else {
       showToast(data.error || "Erreur création société", "error");
     }
@@ -977,6 +988,39 @@ async function submitSociete() {
   }
 }
 
+async function refreshSocietes() {
+    try {
+        const response = await fetch('models/Read/companies.php');
+        const companies = await response.json();
+        
+        const addSelect = document.getElementById('laSociete');
+        if (addSelect) {
+            const currentValue = addSelect.value;
+            addSelect.innerHTML = '<option value="">Sélectionner...</option><option value="new_company">Créer une nouvelle entreprise</option>';
+            
+            companies.forEach(company => {
+                const option = new Option(company.Societe_Nom, company.Societe_ID);
+                addSelect.appendChild(option);
+            });
+            
+            addSelect.value = currentValue;
+        }
+        
+        const editSelect = document.getElementById('editLaSociete');
+        if (editSelect) {
+            const currentEditValue = editSelect.value;
+            editSelect.innerHTML = '';
+            companies.forEach(company => {
+                const option = new Option(company.Societe_Nom, company.Societe_ID);
+                editSelect.appendChild(option);
+            });
+            editSelect.value = currentEditValue;
+        }
+        
+    } catch (error) {
+        console.error('Erreur refresh sociétés:', error);
+    }
+}
 
 document.addEventListener("DOMContentLoaded", () => {
   setupAdresseAutocomplete({
