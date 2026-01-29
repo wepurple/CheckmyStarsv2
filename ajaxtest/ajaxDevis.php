@@ -9,9 +9,21 @@ if (isset($_POST["Client_ID"])) {
         echo json_encode(['error' => 'Erreur de connexion à la base de données']);
     } else {
         try {
-            $sql = "SELECT AdressePostale_CodePostal, AdressePostale_Ville,AdressePostale_NumeroRue,AdressePostale_NomRue FROM utilisateurs  
-            JOIN adressespostales ON utilisateurs.AdressePostale_ID= adressespostales.AdressePostale_ID
-            WHERE Utilisateur_ID = :id";
+            $sql = "SELECT 
+                        u.Utilisateur_ID,
+                        u.Utilisateur_Nom,
+                        u.Utilisateur_Prenom,
+                        u.Utilisateur_Mail,
+                        u.Utilisateur_Telephone,
+                        a.AdressePostale_CodePostal, 
+                        a.AdressePostale_Ville,
+                        a.AdressePostale_NumeroRue,
+                        a.AdressePostale_NomRue,
+                        a.AdressePostale_Complement,
+                        a.AdressePostale_Pays
+                    FROM utilisateurs u
+                    JOIN adressespostales a ON u.AdressePostale_ID = a.AdressePostale_ID
+                    WHERE u.Utilisateur_ID = :id";
             $stmt = $db->prepare($sql);
             $stmt->bindParam(':id', $Client_ID, PDO::PARAM_INT);
             $stmt->execute();
@@ -19,15 +31,15 @@ if (isset($_POST["Client_ID"])) {
             
             if ($row) {
                 echo json_encode([
+                    'utilisateur_id' => $row['Utilisateur_ID'],
+                    'nom' => htmlspecialchars($row['Utilisateur_Nom'] . ' ' . $row['Utilisateur_Prenom']),
+                    'email' => htmlspecialchars($row['Utilisateur_Mail'] ?? ''),
+                    'telephone' => htmlspecialchars($row['Utilisateur_Telephone'] ?? ''),
                     'adresse' => htmlspecialchars($row['AdressePostale_NumeroRue'] . ' ' . $row['AdressePostale_NomRue']),
+                    'complement' => htmlspecialchars($row['AdressePostale_Complement'] ?? ''),
                     'codepostal' => htmlspecialchars($row['AdressePostale_CodePostal']),
                     'ville' => htmlspecialchars($row['AdressePostale_Ville']),
-
-                    // 'codepostal' => htmlspecialchars($row['AdressePostale_CodePostal']),
-                    // 'numerorue' => htmlspecialchars($row['AdressePostale_NumeroRue']),
-                    // 'nomrue' => htmlspecialchars($row['AdressePostale_NomRue']),
-                    // 'ville' => htmlspecialchars($row['AdressePostale_Ville']),
-                    // 'pays' => htmlspecialchars($row['AdressePostale_Pays'])
+                    'pays' => htmlspecialchars($row['AdressePostale_Pays'] ?? 'France')
                 ]);
             } else {
                 echo json_encode(['error' => 'Utilisateur non trouvé']);

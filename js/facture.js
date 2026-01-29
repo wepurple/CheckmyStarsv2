@@ -39,6 +39,9 @@ document.addEventListener("DOMContentLoaded", function () {
   fetchDevisList();
   fetchFacturesList();
 
+  // Charger la liste des entreprises
+  loadEntreprisesList();
+
   // Afficher la section Devis par défaut et générer un numéro unique
   setDocType("DEVIS");
   initNewDevis();
@@ -493,34 +496,72 @@ function saveDevis(type = selectedDocType) {
   const config = DOC_CONFIG[type];
   const suffix = config?.suffix ?? "";
 
+  // Validation préalable
+  const errors = [];
+
   const documentInfo =
     type === "FACTURE"
       ? { numero: getValue("facture_numero"), date: getValue("facture_date") }
       : { numero: getValue("devis_numero"), date: getValue("devis_date") };
+
+  if (!documentInfo.numero || documentInfo.numero === "Génération...") {
+    errors.push("Numéro de document manquant");
+  }
+
+  if (!documentInfo.date) {
+    errors.push("Date du document manquante");
+  }
+
+  const entrepriseSelect = document.getElementById("entreprise_select_devis");
+  const entrepriseId =
+    entrepriseSelect && entrepriseSelect.value
+      ? parseInt(entrepriseSelect.value)
+      : null;
+
+  if (!entrepriseId) {
+    errors.push("Sélectionnez une entreprise");
+  }
+
+  const lignes = collectLines(type);
+  if (lignes.length === 0) {
+    errors.push("Ajoutez au moins une prestation");
+  }
+
+  if (errors.length > 0) {
+    alert("❌ Erreurs:\n• " + errors.join("\n• "));
+    if (loading) loading.classList.remove("active");
+    return;
+  }
+
+  // Calcul et validation du total
+  let totalTTC = 0;
+  lignes.forEach((l) => (totalTTC += l.montant_ttc));
+
+  if (totalTTC <= 0) {
+    alert("❌ Le montant total doit être > 0");
+    if (loading) loading.classList.remove("active");
+    return;
+  }
 
   const client = {
     nom: getValue(`client_nom${suffix}`),
     adresse: getValue(`client_adresse${suffix}`),
     cp: getValue(`client_cp${suffix}`),
     ville: getValue(`client_ville${suffix}`),
+    utilisateur_id: getClientUserId(), // Récupérer ID utilisateur
   };
-
-  const lignes = collectLines(type);
-
-  // Calcul des totaux
-  let totalTTC = 0;
-  lignes.forEach((l) => (totalTTC += l.montant_ttc));
-
-  if (!documentInfo.numero || documentInfo.numero === "Génération...") {
-    alert("Veuillez attendre la génération du numéro de document.");
-    if (loading) loading.classList.remove("active");
-    return;
-  }
 
   fetch("api/devis_api.php?action=save_devis", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ type, documentInfo, client, lignes, totalTTC }),
+    body: JSON.stringify({
+      type,
+      documentInfo,
+      client,
+      lignes,
+      totalTTC,
+      entrepriseId,
+    }),
   })
     .then((r) => r.json())
     .then((res) => {
@@ -587,18 +628,52 @@ function hydrateFormFromDevis(devis) {
   if (numEl) numEl.value = devis.Devis_Numero || "";
   if (dateEl) dateEl.value = dateVal;
 
-  // Client
+  // Entreprise - sélectionner dans le dropdown si disponible
+  if (devis.Entreprise_ID || devis.entreprise) {
+    const entrepriseId = devis.Entreprise_ID || devis.entreprise?.Entreprise_ID;
+    const entrepriseSelect = document.getElementById("entreprise_select_devis");
+    if (entrepriseSelect && entrepriseId) {
+      entrepriseSelect.value = entrepriseId;
+      // Déclencher le chargement des données
+      if (typeof loadEntrepriseData === "function") {
+        loadEntrepriseData();
+      }
+    }
+  }
+
+  // Client - sélectionner dans le dropdown si Utilisateur_ID disponible
   if (devis.client) {
     const c = devis.client;
+    const clientSelect = document.getElementById(`client_nom${suffix}`);
+
+    // Si on a un Utilisateur_ID, sélectionner l'option correspondante
+    if (c.Utilisateur_ID && clientSelect) {
+      const options = clientSelect.options;
+      for (let i = 0; i < options.length; i++) {
+        if (options[i].getAttribute("data-id") == c.Utilisateur_ID) {
+          clientSelect.selectedIndex = i;
+          // Charger les données client
+          if (typeof test === "function") {
+            test();
+          }
+          break;
+        }
+      }
+    }
+
+    // Remplir les champs manuellement (fallback ou données legacy)
     const map = {
       [`client_nom${suffix}`]: c.nom || "",
       [`client_adresse${suffix}`]: c.adresse || "",
-      [`client_cp${suffix}`]: c.cp || "",
+      [`client_cp${suffix}`]: c.code_postal || c.cp || "",
       [`client_ville${suffix}`]: c.ville || "",
     };
     Object.entries(map).forEach(([id, val]) => {
       const el = document.getElementById(id);
-      if (el) el.value = val;
+      // Ne pas écraser si c'est un select et qu'on a déjà sélectionné
+      if (el && el.tagName !== "SELECT") {
+        el.value = val;
+      }
     });
   }
 
@@ -686,24 +761,39 @@ function fetchNewDevisNumber() {
   input.readOnly = true;
 
   fetch("api/devis_api.php?action=new_devis_number")
-    .then((r) => r.json())
-    .then((data) => {
-      if (!data.success)
-        throw new Error(data.message || "Erreur génération numéro");
-      currentDevisNumero = data.numero;
-      input.value = data.numero;
-      input.readOnly = true; // Garder readonly pour éviter modification
-      // Réinitialiser le dropdown
-      const select = document.getElementById("devisSelector");
-      if (select) select.value = "";
-      // Mettre à jour la prévisualisation
-      updatePreview("DEVIS");
+    .then((r) => {
+      if (!r.ok) {
+        throw new Error(`HTTP ${r.status}: ${r.statusText}`);
+      }
+      return r.text(); // Lire comme texte d'abord
+    })
+    .then((text) => {
+      // Essayer de parser comme JSON
+      try {
+        const data = JSON.parse(text);
+        if (!data.success)
+          throw new Error(data.message || "Erreur génération numéro");
+        currentDevisNumero = data.numero;
+        input.value = data.numero;
+        input.readOnly = true; // Garder readonly pour éviter modification
+        // Réinitialiser le dropdown
+        const select = document.getElementById("devisSelector");
+        if (select) select.value = "";
+        // Mettre à jour la prévisualisation
+        updatePreview("DEVIS");
+      } catch (parseErr) {
+        // Si ce n'est pas du JSON, c'est probablement une erreur PHP
+        console.error("Réponse serveur (pas du JSON):", text);
+        throw new Error(
+          "Erreur serveur (réponse invalide). Vérifiez la console pour les détails.",
+        );
+      }
     })
     .catch((err) => {
-      console.error(err);
+      console.error("Erreur fetchNewDevisNumber:", err);
       input.value = "";
       input.readOnly = false; // En cas d'erreur, permettre saisie manuelle
-      alert("❌ Impossible de générer un numéro de devis: " + err.message);
+      alert("❌ Impossible de générer un numéro de devis:\n" + err.message);
     });
 }
 
@@ -1110,6 +1200,144 @@ function fetchFacturesList() {
     });
 }
 
+// ========== CHARGEMENT ENTREPRISES ET CLIENTS ==========
+
+/**
+ * Charger la liste des entreprises dans le select
+ */
+function loadEntreprisesList() {
+  const select = document.getElementById("entreprise_select_devis");
+  if (!select) return;
+
+  fetch("api/devis_api.php?action=list_entreprises")
+    .then((r) => r.json())
+    .then((data) => {
+      if (!data.success) throw new Error(data.message);
+
+      // Garder l'option vide par défaut
+      const currentValue = select.value;
+      select.innerHTML =
+        '<option value="">-- Sélectionner une entreprise --</option>';
+
+      data.entreprises.forEach((e) => {
+        const opt = document.createElement("option");
+        opt.value = e.Entreprise_ID;
+        opt.textContent = e.Entreprise_Nom;
+        select.appendChild(opt);
+      });
+
+      // Restaurer la sélection
+      if (currentValue) select.value = currentValue;
+    })
+    .catch((err) => {
+      console.error("Erreur chargement entreprises:", err);
+    });
+}
+
+/**
+ * Charger les données d'une entreprise sélectionnée
+ * Appelle: api/devis_api.php?action=get_entreprise&id=...
+ */
+async function loadEntrepriseData() {
+  const select = document.getElementById("entreprise_select_devis");
+  if (!select || !select.value) {
+    console.warn("Aucune entreprise sélectionnée");
+    return;
+  }
+
+  const entrepriseId = select.value;
+
+  try {
+    // Récupérer les données de l'entreprise
+    const response = await fetch(
+      `api/devis_api.php?action=get_entreprise&id=${encodeURIComponent(entrepriseId)}`,
+    );
+
+    if (!response.ok) throw new Error("Erreur chargement entreprise");
+
+    const data = await response.json();
+    if (!data.success) throw new Error(data.message);
+
+    const entreprise = data.entreprise;
+
+    // Remplir les champs entreprise
+    const suffix = DOC_CONFIG[selectedDocType]?.suffix ?? "";
+
+    [
+      ["entreprise_nom", "Entreprise_Nom"],
+      ["entreprise_siret", "Entreprise_SIRET"],
+      ["entreprise_adresse", "Entreprise_Adresse"],
+      ["entreprise_cp", "Entreprise_CodePostal"],
+      ["entreprise_ville", "Entreprise_Ville"],
+      ["entreprise_tel", "Entreprise_Telephone"],
+      ["entreprise_tva", "Entreprise_TVA_Intra"],
+    ].forEach(([fieldId, dbField]) => {
+      const el = document.getElementById(fieldId + suffix);
+      if (el) el.value = entreprise[dbField] || "";
+    });
+
+    updatePreview(selectedDocType);
+  } catch (error) {
+    console.error("Erreur loadEntrepriseData:", error);
+    alert("❌ Erreur chargement entreprise: " + error.message);
+  }
+}
+
+/**
+ * Charger les données d'un client sélectionné
+ * Appelle: api/devis_api.php?action=get_client_info&id=...
+ */
+async function loadClientData() {
+  const select = document.getElementById("client_nom_devis");
+  if (!select || !select.value) {
+    console.warn("Aucun client sélectionné");
+    return;
+  }
+
+  // Récupérer l'ID utilisateur depuis l'attribut data-id, pas le nom
+  const utilisateurId =
+    select.options[select.selectedIndex]?.getAttribute("data-id");
+  if (!utilisateurId) {
+    console.warn("ID utilisateur non trouvé");
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `api/devis_api.php?action=get_client_info&id=${encodeURIComponent(utilisateurId)}`,
+    );
+
+    if (!response.ok) throw new Error("Erreur chargement client");
+
+    const data = await response.json();
+    if (!data.success) throw new Error(data.message);
+
+    const client = data.client;
+    const suffix = DOC_CONFIG[selectedDocType]?.suffix ?? "";
+
+    // Remplir les champs client
+    [
+      ["client_nom", "nom_complet"],
+      ["client_adresse", "adresse"],
+      ["client_cp", "code_postal"],
+      ["client_ville", "ville"],
+    ].forEach(([fieldId, dbField]) => {
+      const el = document.getElementById(fieldId + suffix);
+      if (el) el.value = client[dbField] || "";
+    });
+
+    updatePreview(selectedDocType);
+  } catch (error) {
+    console.error("Erreur loadClientData:", error);
+    alert("❌ Erreur chargement client: " + error.message);
+  }
+}
+
+window.loadEntreprisesList = loadEntreprisesList;
+window.loadEntrepriseData = loadEntrepriseData;
+window.loadClientData = loadClientData;
+window.test = loadClientData; // Compatibilité avec facture.php
+
 // Exposer les nouvelles fonctions
 window.convertDevisToFacture = convertDevisToFacture;
 window.loadFacture = loadFacture;
@@ -1164,6 +1392,20 @@ function handlePreview(type) {
 }
 
 // ========== UTILITAIRES ==========
+
+/**
+ * Récupérer l'ID utilisateur du client sélectionné
+ */
+function getClientUserId() {
+  const suffix = DOC_CONFIG[selectedDocType]?.suffix ?? "";
+  const clientSelect = document.getElementById(`client_nom${suffix}`);
+  if (!clientSelect || clientSelect.selectedIndex <= 0) return null;
+  return (
+    parseInt(
+      clientSelect.options[clientSelect.selectedIndex].getAttribute("data-id"),
+    ) || null
+  );
+}
 
 function collectLines(type = selectedDocType) {
   const config = DOC_CONFIG[type];

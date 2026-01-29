@@ -24,6 +24,7 @@ async function viderTab() {
 function remplirTab(liste) {
   //remplit le tablo
   tab = document.getElementById("tabloBody");
+
   if (liste.length > 0) {
     viderTab();
     for (let i = 0; i < liste.length; i++) {

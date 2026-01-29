@@ -43,6 +43,24 @@ require_once('includes/mariadb.php');
             }
  
             /**
+            * Charge les données entreprise depuis le select
+            */
+            function loadEntrepriseData(){
+                var sel = document.getElementById('entreprise_select_devis');
+                var opt = sel.options[sel.selectedIndex];
+                
+                if (!opt || !opt.value) return;
+                
+                document.getElementById('entreprise_nom_devis').value = opt.getAttribute('data-nom') || '';
+                document.getElementById('entreprise_adresse_devis').value = opt.getAttribute('data-adresse') || '';
+                document.getElementById('entreprise_cp_devis').value = opt.getAttribute('data-cp') || '';
+                document.getElementById('entreprise_ville_devis').value = opt.getAttribute('data-ville') || '';
+                document.getElementById('entreprise_tel_devis').value = opt.getAttribute('data-tel') || '';
+                document.getElementById('entreprise_siret_devis').value = opt.getAttribute('data-siret') || '';
+                document.getElementById('entreprise_tva_devis').value = opt.getAttribute('data-tva') || '';
+            }
+
+            /**
             * Méthode qui sera appelée sur le clic du bouton
             */
             function test(){
@@ -81,6 +99,28 @@ require_once('includes/mariadb.php');
                 xhr.open("POST","ajaxtest/ajaxDevis.php",true);
                 xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
                 xhr.send("Client_ID="+idclient);
+            }
+            
+            /**
+            * Récupère l'ID de l'entreprise sélectionnée
+            */
+            function getSelectedEntrepriseId(){
+                var sel = document.getElementById('entreprise_select_devis');
+                if (sel && sel.value) {
+                    return parseInt(sel.value);
+                }
+                return 1; // ID par défaut
+            }
+            
+            /**
+            * Récupère l'ID du client sélectionné
+            */
+            function getSelectedClientId(){
+                var sel = document.getElementById('client_nom_devis');
+                if (sel && sel.selectedIndex > 0) {
+                    return sel.options[sel.selectedIndex].getAttribute('data-id');
+                }
+                return null;
             }
         </script>
     <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
@@ -276,33 +316,75 @@ require_once('includes/mariadb.php');
                                             <div id="collapseEntrepriseDevis" class="accordion-collapse collapse show" data-bs-parent="#formulaireAccordionDevis">
                                                 <div class="accordion-body">
                                                     <div class="row">
+                                                        <div class="col-md-12 mb-3">
+                                                            <label class="form-label">Sélectionner une entreprise</label>
+                                                            <?php
+                                                            // Charger les entreprises depuis la BDD
+                                                            $database = new Database();
+                                                            $dbEntreprise = $database->getConnection();
+                                                            
+                                                            if (!is_array($dbEntreprise)) {
+                                                                try {
+                                                                    $sqlEntreprise = "SELECT Entreprise_ID, Entreprise_Nom, Entreprise_Ville, Entreprise_Adresse, Entreprise_CodePostal, Entreprise_Telephone, Entreprise_SIRET, Entreprise_TVA_Intra FROM entreprisefacturation WHERE Entreprise_Actif = 1 ORDER BY Entreprise_Nom ASC";
+                                                                    $stmtEntreprise = $dbEntreprise->prepare($sqlEntreprise);
+                                                                    $stmtEntreprise->execute();
+                                                                    
+                                                                    echo '<select class="form-control" id="entreprise_select_devis" onchange="loadEntrepriseData()">';
+                                                                    echo '<option value="" disabled>Choisir une entreprise</option>';
+                                                                    
+                                                                    $first = true;
+                                                                    while($rowE = $stmtEntreprise->fetch(PDO::FETCH_ASSOC)) {
+                                                                        $selected = $first ? ' selected' : '';
+                                                                        echo '<option value="' . htmlspecialchars($rowE['Entreprise_ID']) . '"';
+                                                                        echo ' data-nom="' . htmlspecialchars($rowE['Entreprise_Nom']) . '"';
+                                                                        echo ' data-adresse="' . htmlspecialchars($rowE['Entreprise_Adresse']) . '"';
+                                                                        echo ' data-cp="' . htmlspecialchars($rowE['Entreprise_CodePostal']) . '"';
+                                                                        echo ' data-ville="' . htmlspecialchars($rowE['Entreprise_Ville']) . '"';
+                                                                        echo ' data-tel="' . htmlspecialchars($rowE['Entreprise_Telephone']) . '"';
+                                                                        echo ' data-siret="' . htmlspecialchars($rowE['Entreprise_SIRET']) . '"';
+                                                                        echo ' data-tva="' . htmlspecialchars($rowE['Entreprise_TVA_Intra']) . '"';
+                                                                        echo $selected . '>';
+                                                                        echo htmlspecialchars($rowE['Entreprise_Nom'] . ' - ' . $rowE['Entreprise_Ville']);
+                                                                        echo '</option>';
+                                                                        $first = false;
+                                                                    }
+                                                                    
+                                                                    echo '</select>';
+                                                                } catch(PDOException $e) {
+                                                                    echo "<p class='text-danger'>Erreur : " . $e->getMessage() . "</p>";
+                                                                }
+                                                            } else {
+                                                                echo "<p class='text-danger'>Erreur de connexion</p>";
+                                                            }
+                                                            ?>
+                                                        </div>
                                                         <div class="col-md-6 mb-2">
                                                             <label class="form-label">Nom</label>
-                                                            <input type="text" class="form-control" id="entreprise_nom_devis" value="CETIRE">
+                                                            <input type="text" class="form-control" id="entreprise_nom_devis" value="CETIRE" readonly>
                                                         </div>
                                                         <div class="col-md-6 mb-2">
                                                             <label class="form-label">SIRET</label>
-                                                            <input type="text" class="form-control" id="entreprise_siret_devis" value="123 456 789 00012">
+                                                            <input type="text" class="form-control" id="entreprise_siret_devis" value="123 456 789 00012" readonly>
                                                         </div>
                                                         <div class="col-md-12 mb-2">
                                                             <label class="form-label">Adresse</label>
-                                                            <input type="text" class="form-control" id="entreprise_adresse_devis" value="51 rue du Faubourg de Bourgogne">
+                                                            <input type="text" class="form-control" id="entreprise_adresse_devis" value="51 rue du Faubourg de Bourgogne" readonly>
                                                         </div>
                                                         <div class="col-md-6 mb-2">
                                                             <label class="form-label">Code Postal</label>
-                                                            <input type="text" class="form-control" id="entreprise_cp_devis" value="45000">
+                                                            <input type="text" class="form-control" id="entreprise_cp_devis" value="45000" readonly>
                                                         </div>
                                                         <div class="col-md-6 mb-2">
                                                             <label class="form-label">Ville</label>
-                                                            <input type="text" class="form-control" id="entreprise_ville_devis" value="ORLEANS">
+                                                            <input type="text" class="form-control" id="entreprise_ville_devis" value="ORLEANS" readonly>
                                                         </div>
                                                         <div class="col-md-6 mb-2">
                                                             <label class="form-label">Téléphone</label>
-                                                            <input type="text" class="form-control" id="entreprise_tel_devis" value="02 38 54 32 10">
+                                                            <input type="text" class="form-control" id="entreprise_tel_devis" value="02 38 54 32 10" readonly>
                                                         </div>
                                                         <div class="col-md-6 mb-2">
                                                             <label class="form-label">N° TVA</label>
-                                                            <input type="text" class="form-control" id="entreprise_tva_devis" value="FR76 102 783 725 001">
+                                                            <input type="text" class="form-control" id="entreprise_tva_devis" value="FR76 102 783 725 001" readonly>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -358,7 +440,7 @@ require_once('includes/mariadb.php');
                                                 $stmt = $db->prepare($sql);
                                                 $stmt->execute();
                                                 
-                                                echo '<select class="form-control" id="client_nom_devis" onchange="test()" ">';
+                                                echo '<select class="form-control" id="client_nom_devis" onchange="loadClientData()">';
                                                 echo '<option selected disabled>Choisir un client</option>';
                                                 
                                                 if ($stmt->rowCount() > 0) {
