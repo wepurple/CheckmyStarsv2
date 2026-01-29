@@ -24,7 +24,7 @@ function handleEtoilesChange(event) {
 }
 
 function loadCritere(etoiles) {
-    fetch(`models/crud/getCriteriaByEtoile.php?etoiles=${etoiles}`)
+    fetch(`models/crud/getCriteriaByEtoile.php?star=${star}`)
         .then(response => response.json())
         .then(data => {
             console.log("Données recues:", data);
