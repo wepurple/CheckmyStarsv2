@@ -59,7 +59,7 @@ function displayData(data) {
         
         i = i + 1;
     });
-    return `${critere.Critere_statut}`,`${critere.Critere_description}`,`${critere.Critere_points}`;
+    return data;
 }
 
 console.log(etoiles);
