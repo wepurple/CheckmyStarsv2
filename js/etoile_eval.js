@@ -45,12 +45,12 @@ document.addEventListener('DOMContentLoaded', function() {
                             </span>
                         </div>
                     </td>
-                    <td>${critere.Critere_statut}</td>
-                    <td>${critere.Critere_points}</td>
+                    <td id="statut-${i}">${critere.Critere_statut}</td>
+                    <td id="points-${i}">${critere.Critere_points}</td>
                     <td>
-                        <label for="case-${i}">Choisir un nombre : </label>
-                        <input type="number" id="case-${i}" name="nombre" min="0" max=${critere.Critere_points}>
+                        <input type="checkbox" id="checkbox-${i}" name="checkbox">
                     </td>
+                    <td id="textarea-${i}"><textarea></textarea></td>
                 `;
                 
                 i = i + 1;
@@ -148,23 +148,25 @@ document.addEventListener('DOMContentLoaded', function() {
     return etoiles;
 
     });
-
-    
-
 });
+
+let status_X = "";
+let status_O = "";
+let status_NA = "";
+let status_ONC= "";
 
 let total = 0;
 
 function pointsTotal() {
-        total = 0;
-        for (let j =0; j < i; j++) {
-            const elementTest = document.getElementById(`case-${j}`).value || 0;
-            console.log('Element ', j, ': ', elementTest);
-
-            total += Number(elementTest);
-            console.log('Total intermédiaire:', total);
-        }
-        console.log('Total:', Number(total));
+    total = 0;
+    for (let j =0; j < i; j++) {
+        const checkbox = document.getElementById(`checkbox-${j}`);
+        console.log('Checkbox ', j, ': ', checkbox.checked);
+        console.log(Critere_statut);
     }
+    console.log('Total:', Number(total));
+}
+
+
 
     

@@ -30,12 +30,30 @@ try {
         case 'convert':
             convertToFacture($pdo);
             break;
+        case 'list_entreprises':
+            listEntreprises($pdo);
+            break;
+        case 'get_client_info':
+            getClientInfo($pdo);
+            break;
+        case 'get_entreprise':
+            getEntreprise($pdo);
+            break;
         default:
             throw new Exception("Action invalide: '$action'");
     }
 
 } catch (Throwable $e) {
-    jsonError($e->getMessage());
+    // Debug: afficher aussi la trace complète
+    $debug = [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine()
+    ];
+    if (strpos($e->getMessage(), 'SQLSTATE') !== false) {
+        $debug['full_error'] = $e->getMessage();
+    }
+    jsonError($e->getMessage(), $debug);
 }
 
 // ============================================================
@@ -99,6 +117,19 @@ function saveDevis(PDO $pdo): void {
     $client = $payload['client'] ?? [];
     $lignes = $payload['lignes'] ?? [];
     $totalTTC = (float)($payload['totalTTC'] ?? 0);
+    $entrepriseId = (int)($payload['entrepriseId'] ?? 1);
+
+    // Validation entreprise
+    $stmt = $pdo->prepare("SELECT Entreprise_ID FROM entreprisefacturation WHERE Entreprise_ID = ? AND Entreprise_Actif = 1");
+    $stmt->execute([$entrepriseId]);
+    if (!$stmt->fetch()) {
+        throw new Exception('Entreprise invalide ou inactive');
+    }
+
+    // Validation montant
+    if ($totalTTC <= 0) {
+        throw new Exception('Le montant total doit être > 0');
+    }
 
     $pdo->beginTransaction();
 
@@ -122,7 +153,7 @@ function saveDevis(PDO $pdo): void {
             }
         }
 
-        // Insérer le devis
+        // Insérer le devis (Entreprise_ID goes to devis_client table)
         $devisId = insertRecord($pdo, 'devis', 'Devis_ID', [
             'Devis_Numero' => $numero,
             'Devis_DateEmission' => $doc['date'] ?? date('Y-m-d'),
@@ -149,17 +180,17 @@ function saveDevis(PDO $pdo): void {
             }
         }
 
-        // Insérer le client
-        if (!empty($client) && tableExists($pdo, 'devis_client')) {
+        // Insérer la relation client (Utilisateur_ID et Entreprise_ID)
+        if (tableExists($pdo, 'devis_client')) {
+            $utilisateurId = isset($client['utilisateur_id']) ? (int)$client['utilisateur_id'] : null;
+            
             $pdo->prepare("
-                INSERT INTO devis_client (Devis_ID, nom, adresse, email, telephone) 
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO devis_client (Devis_ID, Utilisateur_ID, Entreprise_ID) 
+                VALUES (?, ?, ?)
             ")->execute([
                 $devisId,
-                $client['nom'] ?? '',
-                $client['adresse'] ?? '',
-                $client['email'] ?? null,
-                $client['telephone'] ?? null
+                $utilisateurId,
+                $entrepriseId
             ]);
         }
 
@@ -276,13 +307,18 @@ function convertToFacture(PDO $pdo): void {
             }
         }
 
-        // Copier le client
+        // Copier le client avec Utilisateur_ID
         if (!empty($devis['client'])) {
+            $utilisateurId = $devis['client']['Utilisateur_ID'] ?? null;
+            $entrepriseId = $devis['client']['Entreprise_ID'] ?? $devis['Entreprise_ID'] ?? 1;
+            
             $pdo->prepare("
-                INSERT INTO facture_client (Facture_ID, nom, adresse, email, telephone)
-                VALUES (?, ?, ?, ?, ?)
+                INSERT INTO facture_client (Facture_ID, Utilisateur_ID, Entreprise_ID, nom, adresse, email, telephone)
+                VALUES (?, ?, ?, ?, ?, ?, ?)
             ")->execute([
                 $factureId,
+                $utilisateurId,
+                $entrepriseId,
                 $devis['client']['nom'] ?? '',
                 $devis['client']['adresse'] ?? '',
                 $devis['client']['email'] ?? null,
@@ -315,27 +351,142 @@ function convertToFacture(PDO $pdo): void {
  * Insère un enregistrement avec gestion auto-increment ou ID manuel
  */
 function insertRecord(PDO $pdo, string $table, string $idField, array $data): int {
-    $checkAI = $pdo->query("SHOW COLUMNS FROM $table WHERE Field = '$idField'")->fetch();
-    $isAuto = isset($checkAI['Extra']) && strpos($checkAI['Extra'], 'auto_increment') !== false;
+    // Nettoyer les noms
+    $table = preg_replace('/[`]/', '', $table);
+    $idField = preg_replace('/[`]/', '', $idField);
+    
+    if (empty($data)) {
+        throw new Exception("Impossible d'insérer un enregistrement vide dans $table");
+    }
+
+    // Vérifier si ID est auto-increment
+    try {
+        $result = $pdo->query("SHOW COLUMNS FROM `$table` WHERE Field = '$idField'");
+        $col = $result->fetch(PDO::FETCH_ASSOC);
+        $isAuto = !empty($col) && strpos($col['Extra'] ?? '', 'auto_increment') !== false;
+    } catch (Throwable $e) {
+        $isAuto = false;
+    }
 
     $columns = array_keys($data);
-    $placeholders = array_fill(0, count($data), '?');
     $values = array_values($data);
 
+    // Si pas auto-increment, générer un ID manuel
     if (!$isAuto) {
-        $maxId = (int)$pdo->query("SELECT COALESCE(MAX($idField), 0) + 1 FROM $table")->fetchColumn();
+        $maxId = (int)$pdo->query("SELECT COALESCE(MAX(`$idField`), 0) + 1 FROM `$table`")->fetchColumn();
         array_unshift($columns, $idField);
-        array_unshift($placeholders, '?');
         array_unshift($values, $maxId);
     }
 
-    $sql = sprintf(
-        "INSERT INTO %s (%s) VALUES (%s)",
-        $table,
-        implode(', ', $columns),
-        implode(', ', $placeholders)
-    );
+    // Construire requête avec backticks
+    $cols = implode('`, `', $columns);
+    $placeholders = implode(', ', array_fill(0, count($values), '?'));
+    $sql = "INSERT INTO `$table` (`$cols`) VALUES ($placeholders)";
 
-    $pdo->prepare($sql)->execute($values);
+    $stmt = $pdo->prepare($sql);
+    if (!$stmt) {
+        throw new Exception("Erreur requête: " . implode(", ", $pdo->errorInfo()));
+    }
+    
+    if (!$stmt->execute($values)) {
+        throw new Exception("Erreur exécution: " . implode(", ", $stmt->errorInfo()));
+    }
+
     return $isAuto ? (int)$pdo->lastInsertId() : $maxId;
+}
+
+// ============================================================
+// FONCTIONS ENTREPRISES
+// ============================================================
+
+/**
+ * Liste toutes les entreprises de facturation actives
+ */
+function listEntreprises(PDO $pdo): void {
+    $stmt = $pdo->query("
+        SELECT 
+            Entreprise_ID,
+            Entreprise_Nom,
+            Entreprise_Adresse,
+            Entreprise_CodePostal,
+            Entreprise_Ville,
+            Entreprise_Pays,
+            Entreprise_Email,
+            Entreprise_Telephone,
+            Entreprise_SIRET,
+            Entreprise_TVA_Intra
+        FROM entreprisefacturation 
+        WHERE Entreprise_Actif = 1
+        ORDER BY Entreprise_Nom ASC
+    ");
+    jsonSuccess(['entreprises' => $stmt->fetchAll(PDO::FETCH_ASSOC)]);
+}
+
+/**
+ * Récupère les informations complètes d'un client (utilisateur)
+ */
+function getClientInfo(PDO $pdo): void {
+    $id = $_GET['id'] ?? null;
+    if (!$id || !is_numeric($id)) {
+        throw new Exception('Paramètre id manquant');
+    }
+
+    $stmt = $pdo->prepare("
+        SELECT 
+            u.Utilisateur_ID,
+            u.Utilisateur_Nom,
+            u.Utilisateur_Prenom,
+            u.Utilisateur_Mail,
+            u.Utilisateur_Telephone,
+            CONCAT(u.Utilisateur_Nom, ' ', COALESCE(u.Utilisateur_Prenom, '')) AS nom_complet,
+            CONCAT(a.AdressePostale_NumeroRue, ' ', a.AdressePostale_NomRue) AS adresse,
+            a.AdressePostale_Complement AS complement,
+            a.AdressePostale_CodePostal AS code_postal,
+            a.AdressePostale_Ville AS ville,
+            a.AdressePostale_Pays AS pays
+        FROM utilisateurs u
+        LEFT JOIN adressespostales a ON a.AdressePostale_ID = u.AdressePostale_ID
+        WHERE u.Utilisateur_ID = ?
+    ");
+    $stmt->execute([(int)$id]);
+    $client = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$client) {
+        throw new Exception('Client introuvable');
+    }
+
+    jsonSuccess(['client' => $client]);
+}
+/**
+ * Récupère les informations complètes d'une entreprise de facturation
+ */
+function getEntreprise(PDO $pdo): void {
+    $id = $_GET['id'] ?? null;
+    if (!$id || !is_numeric($id)) {
+        throw new Exception('Paramètre id manquant');
+    }
+
+    $stmt = $pdo->prepare("
+        SELECT
+            Entreprise_ID,
+            Entreprise_Nom,
+            Entreprise_Adresse,
+            Entreprise_CodePostal,
+            Entreprise_Ville,
+            Entreprise_Pays,
+            Entreprise_Email,
+            Entreprise_Telephone,
+            Entreprise_SIRET,
+            Entreprise_TVA_Intra
+        FROM entreprisefacturation
+        WHERE Entreprise_ID = ? AND Entreprise_Actif = 1
+    ");
+    $stmt->execute([(int)$id]);
+    $entreprise = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$entreprise) {
+        throw new Exception('Entreprise introuvable');
+    }
+
+    jsonSuccess(['entreprise' => $entreprise]);
 }

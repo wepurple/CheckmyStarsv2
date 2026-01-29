@@ -37,7 +37,7 @@
             <div>
                 <div class="d-flex align-items-center gap-3 p-3">
                     <a href="front_dossier.php?id=<?php echo $id; ?>" class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
-                        <i class="bi bi-arrow-left-short fs-3 text-dark"></i>
+                        <i class="fa-solid fa-arrow-left"></i>
                     </a>
 
                     <div class="bg-white rounded-pill shadow-sm px-4 py-2 border">
@@ -76,7 +76,8 @@
                                                 <option value="id">ID</option>
                                                 <option value="description">Description</option>
                                                 <option value="status">Status</option>
-                                                <option value="points">Points</option>
+                                                <option value="points">Valeurs</option>
+                                                <option value="points">Commentaires</option>
                                             </select>
                                         </div>
                                         <div class="col-md-8 col-lg-9">
@@ -133,13 +134,16 @@
                                                     <th class="text-center">
                                                         <small>Valeurs</small>
                                                     </th>
+                                                    <th class="text-center">
+                                                        <small>Commentaires</small>
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody id="table-body">
                                                 <form action="" method="post">
                                                     <tr>
-                                                        <td colspan="4" class="text-center py-5">
-                                                            <p class="mt-3 text-muted">Chargement des données...</p>
+                                                        <td colspan="6" class="text-center py-5">
+                                                            <p class="mt-3 text-muted">Selectionnez une étoile pour afficher les critères</p>
                                                         </td>
                                                     </tr>
                                                 </form>

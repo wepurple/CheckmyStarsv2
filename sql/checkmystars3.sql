@@ -2,10 +2,10 @@
 -- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Hôte : 127.0.0.1:3307
--- Généré le : jeu. 29 jan. 2026 à 07:53
--- Version du serveur : 11.5.2-MariaDB
--- Version de PHP : 8.3.14
+-- Host: 127.0.0.1:3307
+-- Generation Time: Jan 29, 2026 at 12:11 PM
+-- Server version: 11.5.2-MariaDB
+-- PHP Version: 8.3.14
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -18,13 +18,46 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données : `checkmystars3`
+-- Database: `checkmystars3`
 --
 
 DELIMITER $$
 --
--- Procédures
+-- Procedures
 --
+DROP PROCEDURE IF EXISTS `Create_company`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Create_company` (IN `NumRue` VARCHAR(50), IN `NomRue` VARCHAR(100), IN `Comp` VARCHAR(20), IN `CP` VARCHAR(10), IN `Ville` VARCHAR(100), IN `Pays` VARCHAR(100), IN `Societe_Nom` VARCHAR(150), IN `Societe_Mail` VARCHAR(150), IN `Societe_Telephone` VARCHAR(10))   BEGIN
+    DECLARE v_adresse_id INT;
+    DECLARE v_societes_id INT;
+    
+        INSERT INTO adressespostales (
+        AdressePostale_NumeroRue,
+        AdressePostale_NomRue,
+        AdressePostale_Complement,
+        AdressePostale_CodePostal,
+        AdressePostale_Ville,
+        AdressePostale_Pays
+    )
+    VALUES (
+        NumRue, NomRue, Comp, CP, Ville, Pays
+    );
+    
+    SET v_adresse_id = LAST_INSERT_ID();
+    
+    INSERT INTO societes (
+    	Societe_Nom,
+		Societe_Mail,
+		Societe_Telephone,
+        AdressePostale_ID
+    )
+    VALUES (
+        Societe_Nom, Societe_Mail, Societe_Telephone, v_adresse_id
+    );
+    
+    SET v_societes_id = LAST_INSERT_ID();
+    
+END$$
+
 DROP PROCEDURE IF EXISTS `Create_User`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Create_User` (IN `NumRue` VARCHAR(50), IN `NomRue` VARCHAR(100), IN `Comp` VARCHAR(20), IN `CP` VARCHAR(10), IN `Ville` VARCHAR(50), IN `Pays` VARCHAR(50), IN `Nom` VARCHAR(50), IN `Prenom` VARCHAR(50), IN `Civilite` ENUM('Monsieur','Madame','Iel'), IN `MDP` VARCHAR(255), IN `Mail` VARCHAR(100), IN `Telephone` VARCHAR(50), IN `Signature` VARCHAR(100), IN `Societe` INT(100), IN `Role` INT)   BEGIN
     DECLARE v_adresse_id INT;
@@ -319,7 +352,7 @@ DROP PROCEDURE IF EXISTS `Update_Password`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Update_Password` (IN `identifiant` INT, IN `mdp` VARCHAR(255))   update utilisateurs set utilisateur_password = mdp where utilisateur_id = identifiant$$
 
 --
--- Fonctions
+-- Functions
 --
 DROP FUNCTION IF EXISTS `Update_User`$$
 CREATE DEFINER=`root`@`localhost` FUNCTION `Update_User` (`Nom` VARCHAR(50), `Prenom` VARCHAR(50), `Mail` VARCHAR(50), `Genre` ENUM('Monsieur','Madame','Iel'), `Societe` INT(50), `Telephone` VARCHAR(20), `NumRue` VARCHAR(20), `Adresse` VARCHAR(50), `Complement` VARCHAR(20), `CP` VARCHAR(50), `Ville` VARCHAR(50), `Pays` VARCHAR(50), `ID` INT, `Role` INT) RETURNS INT(11)  BEGIN
@@ -412,7 +445,7 @@ DELIMITER ;
 -- --------------------------------------------------------
 
 --
--- Structure de la table `administrateurs`
+-- Table structure for table `administrateurs`
 --
 
 DROP TABLE IF EXISTS `administrateurs`;
@@ -422,18 +455,19 @@ CREATE TABLE IF NOT EXISTS `administrateurs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
--- Déchargement des données de la table `administrateurs`
+-- Dumping data for table `administrateurs`
 --
 
 INSERT INTO `administrateurs` (`Utilisateur_ID`) VALUES
 (1),
 (41),
-(74);
+(63),
+(75);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `administre`
+-- Table structure for table `administre`
 --
 
 DROP TABLE IF EXISTS `administre`;
@@ -445,7 +479,7 @@ CREATE TABLE IF NOT EXISTS `administre` (
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
--- Déchargement des données de la table `administre`
+-- Dumping data for table `administre`
 --
 
 INSERT INTO `administre` (`Utilisateur_ID`, `Critere_ID`) VALUES
@@ -457,7 +491,7 @@ INSERT INTO `administre` (`Utilisateur_ID`, `Critere_ID`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `adressespostales`
+-- Table structure for table `adressespostales`
 --
 
 DROP TABLE IF EXISTS `adressespostales`;
@@ -470,16 +504,16 @@ CREATE TABLE IF NOT EXISTS `adressespostales` (
   `AdressePostale_Ville` varchar(256) DEFAULT NULL,
   `AdressePostale_Pays` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`AdressePostale_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Déchargement des données de la table `adressespostales`
+-- Dumping data for table `adressespostales`
 --
 
 INSERT INTO `adressespostales` (`AdressePostale_ID`, `AdressePostale_NumeroRue`, `AdressePostale_Complement`, `AdressePostale_CodePostal`, `AdressePostale_NomRue`, `AdressePostale_Ville`, `AdressePostale_Pays`) VALUES
-(1, '10', 'A', '75001', 'Rue de Rivoli', 'Paris', 'France'),
+(1, '10', 'A', '75007', 'Rue de Rivoli', 'Paris', 'France'),
 (2, '25', '', '69002', 'Rue Merciere', 'Lyon', 'France'),
-(3, '5', 'Ter.', '45100', 'Avenue des Fleurs', 'Orléans', 'France'),
+(3, '5', '', '45100', 'Avenue des Fleurs', 'Orléans', 'France'),
 (4, '42', '', '45100', 'La Canebiere', 'Olréans', 'France'),
 (42, '144', 'bis', '41600', 'rue des bruyere', 'chaon', 'France'),
 (53, '154', '', '41600', 'rue du cocelico', 'caca', 'France'),
@@ -492,15 +526,14 @@ INSERT INTO `adressespostales` (`AdressePostale_ID`, `AdressePostale_NumeroRue`,
 (62, '14', '', '41600', 'rue des bruyere', 'Chaon', 'France'),
 (72, '74', 'bis', '45100', 'rue des cartes', 'Orléans', 'France'),
 (76, '32', '', '69000', 'Chatiniere', 'Lyon', 'France'),
-(99, '', '', '', '', '', ''),
-(101, '14', '', '41600', 'Rue des Bruyères', 'Chaon', 'France'),
-(102, '', '', '', '', '', ''),
-(106, '14', '', '41600', 'Rue des Bruyères', 'Chaon', 'France');
+(95, '14', '', '41600', 'Rue des Bruyères', 'Chaon', 'France'),
+(107, '4', '', '45100', 'Rue des Pivoines', 'Orléans', 'France'),
+(109, '67', '', '46130', 'Rue des sapins', 'Chaon', 'France');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `biens`
+-- Table structure for table `biens`
 --
 
 DROP TABLE IF EXISTS `biens`;
@@ -522,7 +555,7 @@ CREATE TABLE IF NOT EXISTS `biens` (
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
--- Déchargement des données de la table `biens`
+-- Dumping data for table `biens`
 --
 
 INSERT INTO `biens` (`Bien_ID`, `Biens_Nom`, `Bien_Telephone`, `Bien_DateEnregistrement`, `Bien_Etoile_Actuelle`, `Donneur_ID`, `AdressePostale_ID`, `TypeHebergement_ID`, `Utilisateur_ID`) VALUES
@@ -533,7 +566,7 @@ INSERT INTO `biens` (`Bien_ID`, `Biens_Nom`, `Bien_Telephone`, `Bien_DateEnregis
 -- --------------------------------------------------------
 
 --
--- Structure de la table `concerne`
+-- Table structure for table `concerne`
 --
 
 DROP TABLE IF EXISTS `concerne`;
@@ -547,7 +580,7 @@ CREATE TABLE IF NOT EXISTS `concerne` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `contient`
+-- Table structure for table `contient`
 --
 
 DROP TABLE IF EXISTS `contient`;
@@ -561,7 +594,7 @@ CREATE TABLE IF NOT EXISTS `contient` (
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
--- Déchargement des données de la table `contient`
+-- Dumping data for table `contient`
 --
 
 INSERT INTO `contient` (`Critere_ID`, `Photo_ID`, `ListesCriteres_ID`) VALUES
@@ -975,7 +1008,7 @@ INSERT INTO `contient` (`Critere_ID`, `Photo_ID`, `ListesCriteres_ID`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `criteres`
+-- Table structure for table `criteres`
 --
 
 DROP TABLE IF EXISTS `criteres`;
@@ -988,7 +1021,7 @@ CREATE TABLE IF NOT EXISTS `criteres` (
 ) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `criteres`
+-- Dumping data for table `criteres`
 --
 
 INSERT INTO `criteres` (`Critere_ID`, `Critere_description`, `Critere_statut`, `Critere_points`) VALUES
@@ -1131,12 +1164,12 @@ INSERT INTO `criteres` (`Critere_ID`, `Critere_description`, `Critere_statut`, `
 -- --------------------------------------------------------
 
 --
--- Structure de la table `devis`
+-- Table structure for table `devis`
 --
 
 DROP TABLE IF EXISTS `devis`;
 CREATE TABLE IF NOT EXISTS `devis` (
-  `Devis_ID` int(11) NOT NULL,
+  `Devis_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Devis_DateAccepattion` datetime DEFAULT NULL,
   `Devis_montant` decimal(10,2) DEFAULT NULL,
   `Devis_Numero` varchar(50) NOT NULL,
@@ -1148,28 +1181,44 @@ CREATE TABLE IF NOT EXISTS `devis` (
   PRIMARY KEY (`Devis_ID`),
   UNIQUE KEY `unique_devis_numero` (`Devis_Numero`),
   UNIQUE KEY `Dossier_ID` (`Dossier_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+
+--
+-- Dumping data for table `devis`
+--
+
+INSERT INTO `devis` (`Devis_ID`, `Devis_DateAccepattion`, `Devis_montant`, `Devis_Numero`, `Devis_DateEmission`, `Devis_Document`, `Dossier_ID`, `Devis_Verrouille`, `Devis_DateVerrouillage`) VALUES
+(1, NULL, 624.00, 'D-2026-00193', '2026-01-29 00:00:00', 'DEVIS', NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `devis_client`
+-- Table structure for table `devis_client`
 --
 
 DROP TABLE IF EXISTS `devis_client`;
 CREATE TABLE IF NOT EXISTS `devis_client` (
   `Client_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Devis_ID` int(11) NOT NULL,
-  `nom` varchar(100) NOT NULL,
-  `adresse` text DEFAULT NULL,
+  `Utilisateur_ID` int(11) DEFAULT NULL,
+  `Entreprise_ID` int(11) DEFAULT NULL,
   PRIMARY KEY (`Client_ID`),
-  KEY `Devis_ID` (`Devis_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  KEY `Devis_ID` (`Devis_ID`),
+  KEY `idx_devis_client_utilisateur` (`Utilisateur_ID`),
+  KEY `idx_devis_client_entreprise` (`Entreprise_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `devis_client`
+--
+
+INSERT INTO `devis_client` (`Client_ID`, `Devis_ID`, `Utilisateur_ID`, `Entreprise_ID`) VALUES
+(1, 1, 63, 2);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `devis_items`
+-- Table structure for table `devis_items`
 --
 
 DROP TABLE IF EXISTS `devis_items`;
@@ -1183,12 +1232,19 @@ CREATE TABLE IF NOT EXISTS `devis_items` (
   `total` decimal(10,2) NOT NULL,
   PRIMARY KEY (`Item_ID`),
   KEY `Devis_ID` (`Devis_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `devis_items`
+--
+
+INSERT INTO `devis_items` (`Item_ID`, `Devis_ID`, `description`, `quantite`, `prix_unitaire`, `tva`, `total`) VALUES
+(2, 1, 'Diagnotic', 1.00, 520.00, 20.00, 624.00);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `document_counters`
+-- Table structure for table `document_counters`
 --
 
 DROP TABLE IF EXISTS `document_counters`;
@@ -1197,20 +1253,20 @@ CREATE TABLE IF NOT EXISTS `document_counters` (
   `year` year(4) NOT NULL,
   `last_number` int(10) UNSIGNED NOT NULL DEFAULT 0,
   PRIMARY KEY (`type`,`year`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Déchargement des données de la table `document_counters`
+-- Dumping data for table `document_counters`
 --
 
 INSERT INTO `document_counters` (`type`, `year`, `last_number`) VALUES
-('DEVIS', '2026', 194),
+('DEVIS', '2026', 230),
 ('FACTURE', '2026', 4);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `donneurordre`
+-- Table structure for table `donneurordre`
 --
 
 DROP TABLE IF EXISTS `donneurordre`;
@@ -1222,7 +1278,7 @@ CREATE TABLE IF NOT EXISTS `donneurordre` (
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
--- Déchargement des données de la table `donneurordre`
+-- Dumping data for table `donneurordre`
 --
 
 INSERT INTO `donneurordre` (`Donneur_ID`, `Societe_ID`) VALUES
@@ -1232,7 +1288,7 @@ INSERT INTO `donneurordre` (`Donneur_ID`, `Societe_ID`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `dossiers`
+-- Table structure for table `dossiers`
 --
 
 DROP TABLE IF EXISTS `dossiers`;
@@ -1245,6 +1301,10 @@ CREATE TABLE IF NOT EXISTS `dossiers` (
   `status` tinyint(1) NOT NULL,
   `Bien_ID` int(11) DEFAULT NULL,
   `Proprietaire_ID` int(255) NOT NULL,
+  `Nb_Points_X` int(255) NOT NULL,
+  `Nb_Points_O` int(255) NOT NULL,
+  `Nb_Points_NA` int(255) NOT NULL,
+  `Nb_Points_ONC` int(255) NOT NULL,
   PRIMARY KEY (`Dossier_ID`),
   KEY `Utilisateur_ID` (`Inspecteur_Id`),
   KEY `fk_dossiers_bien` (`Bien_ID`),
@@ -1252,18 +1312,18 @@ CREATE TABLE IF NOT EXISTS `dossiers` (
 ) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
--- Déchargement des données de la table `dossiers`
+-- Dumping data for table `dossiers`
 --
 
-INSERT INTO `dossiers` (`Dossier_ID`, `Dossier_Numero`, `Dossier_Date`, `Dossier_Etoile_Cible`, `Inspecteur_Id`, `status`, `Bien_ID`, `Proprietaire_ID`) VALUES
-(3, 'DOS-2025-003', '2025-02-10 14:00:00', 3, 2, 1, 3, 35),
-(7, 'DOS-2025-004', '2025-02-10 14:00:00', 5, 2, 0, 1, 45),
-(8, 'DOS-2025-005', '2025-02-10 14:00:00', 1, 2, 1, 5, 45);
+INSERT INTO `dossiers` (`Dossier_ID`, `Dossier_Numero`, `Dossier_Date`, `Dossier_Etoile_Cible`, `Inspecteur_Id`, `status`, `Bien_ID`, `Proprietaire_ID`, `Nb_Points_X`, `Nb_Points_O`, `Nb_Points_NA`, `Nb_Points_ONC`) VALUES
+(3, 'DOS-2025-003', '2025-02-10 14:00:00', 3, 2, 1, 3, 35, 0, 0, 0, 0),
+(7, 'DOS-2025-004', '2025-02-10 14:00:00', 5, 2, 0, 1, 45, 0, 0, 0, 0),
+(8, 'DOS-2025-005', '2025-02-10 14:00:00', 1, 2, 1, 5, 45, 0, 0, 0, 0);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `effectue`
+-- Table structure for table `effectue`
 --
 
 DROP TABLE IF EXISTS `effectue`;
@@ -1277,7 +1337,37 @@ CREATE TABLE IF NOT EXISTS `effectue` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `evaluations`
+-- Table structure for table `entreprisefacturation`
+--
+
+DROP TABLE IF EXISTS `entreprisefacturation`;
+CREATE TABLE IF NOT EXISTS `entreprisefacturation` (
+  `Entreprise_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Entreprise_Nom` varchar(100) NOT NULL,
+  `Entreprise_Adresse` varchar(255) NOT NULL,
+  `Entreprise_CodePostal` varchar(10) NOT NULL,
+  `Entreprise_Ville` varchar(100) NOT NULL,
+  `Entreprise_Pays` varchar(100) DEFAULT 'France',
+  `Entreprise_Email` varchar(100) DEFAULT NULL,
+  `Entreprise_Telephone` varchar(20) DEFAULT NULL,
+  `Entreprise_SIRET` varchar(20) DEFAULT NULL,
+  `Entreprise_TVA_Intra` varchar(30) DEFAULT NULL,
+  `Entreprise_Actif` tinyint(1) NOT NULL,
+  PRIMARY KEY (`Entreprise_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `entreprisefacturation`
+--
+
+INSERT INTO `entreprisefacturation` (`Entreprise_ID`, `Entreprise_Nom`, `Entreprise_Adresse`, `Entreprise_CodePostal`, `Entreprise_Ville`, `Entreprise_Pays`, `Entreprise_Email`, `Entreprise_Telephone`, `Entreprise_SIRET`, `Entreprise_TVA_Intra`, `Entreprise_Actif`) VALUES
+(1, 'CETIRE', '51 rue du Faubourg de Bourgogne', '45000', 'ORLEANS', 'France', NULL, '02 38 54 32 10', '123 456 789 00012', 'FR76 102 783 725 001', 1),
+(2, 'DedSec', '13 rue des fougères', '45000', 'Orleans', 'France', 'dedsec@gmail.com', '0974864890', 'SIRET63674573', 'TVA15735725', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `evaluations`
 --
 
 DROP TABLE IF EXISTS `evaluations`;
@@ -1294,7 +1384,7 @@ CREATE TABLE IF NOT EXISTS `evaluations` (
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
--- Déchargement des données de la table `evaluations`
+-- Dumping data for table `evaluations`
 --
 
 INSERT INTO `evaluations` (`Evaluation_ID`, `Evaluation_Date`, `Evaluation_Document`, `Evaluation_Résultat`, `Bien_ID`, `ListesCriteres_ID`) VALUES
@@ -1303,12 +1393,12 @@ INSERT INTO `evaluations` (`Evaluation_ID`, `Evaluation_Date`, `Evaluation_Docum
 -- --------------------------------------------------------
 
 --
--- Structure de la table `factures_prixtotal`
+-- Table structure for table `factures_prixtotal`
 --
 
 DROP TABLE IF EXISTS `factures_prixtotal`;
 CREATE TABLE IF NOT EXISTS `factures_prixtotal` (
-  `Facture_ID` int(11) NOT NULL,
+  `Facture_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Facture_Numero` varchar(50) NOT NULL,
   `Facture_DateCreation` datetime NOT NULL,
   `Facture_DatePayee` datetime DEFAULT NULL,
@@ -1318,30 +1408,34 @@ CREATE TABLE IF NOT EXISTS `factures_prixtotal` (
   PRIMARY KEY (`Facture_ID`),
   UNIQUE KEY `Devis_ID` (`Devis_ID`),
   UNIQUE KEY `unique_facture_numero` (`Facture_Numero`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `facture_client`
+-- Table structure for table `facture_client`
 --
 
 DROP TABLE IF EXISTS `facture_client`;
 CREATE TABLE IF NOT EXISTS `facture_client` (
   `Client_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Facture_ID` int(11) NOT NULL,
+  `Utilisateur_ID` int(11) DEFAULT NULL,
+  `Entreprise_ID` int(11) DEFAULT NULL,
   `nom` varchar(100) NOT NULL,
   `adresse` text DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `telephone` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`Client_ID`),
-  KEY `Facture_ID` (`Facture_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+  KEY `Facture_ID` (`Facture_ID`),
+  KEY `fk_facture_client_user_idx` (`Utilisateur_ID`),
+  KEY `idx_facture_client_entreprise` (`Entreprise_ID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `facture_items`
+-- Table structure for table `facture_items`
 --
 
 DROP TABLE IF EXISTS `facture_items`;
@@ -1355,12 +1449,12 @@ CREATE TABLE IF NOT EXISTS `facture_items` (
   `total` decimal(10,2) NOT NULL,
   PRIMARY KEY (`Item_ID`),
   KEY `Facture_ID` (`Facture_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_uca1400_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `inspecteurs`
+-- Table structure for table `inspecteurs`
 --
 
 DROP TABLE IF EXISTS `inspecteurs`;
@@ -1370,7 +1464,7 @@ CREATE TABLE IF NOT EXISTS `inspecteurs` (
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
--- Déchargement des données de la table `inspecteurs`
+-- Dumping data for table `inspecteurs`
 --
 
 INSERT INTO `inspecteurs` (`Utilisateur_ID`) VALUES
@@ -1379,7 +1473,7 @@ INSERT INTO `inspecteurs` (`Utilisateur_ID`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `listescriteres`
+-- Table structure for table `listescriteres`
 --
 
 DROP TABLE IF EXISTS `listescriteres`;
@@ -1389,7 +1483,7 @@ CREATE TABLE IF NOT EXISTS `listescriteres` (
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
--- Déchargement des données de la table `listescriteres`
+-- Dumping data for table `listescriteres`
 --
 
 INSERT INTO `listescriteres` (`ListesCriteres_ID`) VALUES
@@ -1409,7 +1503,7 @@ INSERT INTO `listescriteres` (`ListesCriteres_ID`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `listescriteres_etoiles`
+-- Table structure for table `listescriteres_etoiles`
 --
 
 DROP TABLE IF EXISTS `listescriteres_etoiles`;
@@ -1424,7 +1518,7 @@ CREATE TABLE IF NOT EXISTS `listescriteres_etoiles` (
 ) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
--- Déchargement des données de la table `listescriteres_etoiles`
+-- Dumping data for table `listescriteres_etoiles`
 --
 
 INSERT INTO `listescriteres_etoiles` (`id`, `ListesCriteres_ID`, `etoile`, `type_hebergement_id`) VALUES
@@ -1448,31 +1542,34 @@ INSERT INTO `listescriteres_etoiles` (`id`, `ListesCriteres_ID`, `etoile`, `type
 -- --------------------------------------------------------
 
 --
--- Structure de la table `photos`
+-- Table structure for table `photos`
 --
 
 DROP TABLE IF EXISTS `photos`;
 CREATE TABLE IF NOT EXISTS `photos` (
-  `Photo_ID` int(11) NOT NULL,
+  `Photo_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Photo_Lien` varchar(350) DEFAULT NULL,
   `Bien_ID` int(11) NOT NULL,
   PRIMARY KEY (`Photo_ID`),
   KEY `Bien_ID` (`Bien_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
--- Déchargement des données de la table `photos`
+-- Dumping data for table `photos`
 --
 
 INSERT INTO `photos` (`Photo_ID`, `Photo_Lien`, `Bien_ID`) VALUES
 (1, 'photos/hotel_lumiere_1.jpg', 1),
 (2, 'photos/hotel_lumiere_2.jpg', 1),
-(100, '/photos/liste_generique.jpg', 1);
+(100, '/photos/liste_generique.jpg', 1),
+(101, 'img/1769679211_BelleHotelTest.jpg', 1),
+(102, 'img/1769679280_hotel-presidente-4s.jpg', 1),
+(103, 'img/1769679730_chambre_hotel.jpg', 3);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `proprietaires`
+-- Table structure for table `proprietaires`
 --
 
 DROP TABLE IF EXISTS `proprietaires`;
@@ -1482,7 +1579,7 @@ CREATE TABLE IF NOT EXISTS `proprietaires` (
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
--- Déchargement des données de la table `proprietaires`
+-- Dumping data for table `proprietaires`
 --
 
 INSERT INTO `proprietaires` (`Utilisateur_ID`) VALUES
@@ -1492,7 +1589,7 @@ INSERT INTO `proprietaires` (`Utilisateur_ID`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `societes`
+-- Table structure for table `societes`
 --
 
 DROP TABLE IF EXISTS `societes`;
@@ -1504,11 +1601,12 @@ CREATE TABLE IF NOT EXISTS `societes` (
   `AdressePostale_ID` int(11) DEFAULT NULL,
   PRIMARY KEY (`Societe_ID`),
   UNIQUE KEY `uq_societe_nom` (`Societe_Nom`),
-  KEY `Societe_Mail` (`Societe_Mail`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+  KEY `Societe_Mail` (`Societe_Mail`),
+  KEY `AdressePostale_ID` (`AdressePostale_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Déchargement des données de la table `societes`
+-- Dumping data for table `societes`
 --
 
 INSERT INTO `societes` (`Societe_ID`, `Societe_Nom`, `Societe_Mail`, `Societe_Telephone`, `AdressePostale_ID`) VALUES
@@ -1518,32 +1616,34 @@ INSERT INTO `societes` (`Societe_ID`, `Societe_Nom`, `Societe_Mail`, `Societe_Te
 (4, 'Amazon', NULL, NULL, NULL),
 (5, 'terenceINC', NULL, NULL, NULL),
 (6, 'Entreprise Soleil', NULL, NULL, NULL),
-(7, 'NCTS', NULL, NULL, NULL);
+(7, 'NCTS', NULL, NULL, NULL),
+(13, 'NCTS test', 'ncts@gmail.com', '0769155622', 109);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `societe_facturation`
+-- Table structure for table `typehebergement`
 --
 
-DROP TABLE IF EXISTS `societe_facturation`;
-CREATE TABLE IF NOT EXISTS `societe_facturation` (
-  `SocieteFactu_ID` int(11) NOT NULL,
-  KEY `SocieteFactu_ID` (`SocieteFactu_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+DROP TABLE IF EXISTS `typehebergement`;
+CREATE TABLE IF NOT EXISTS `typehebergement` (
+  `TypeHebergement_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TypeHebergement_Nom` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`TypeHebergement_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Déchargement des données de la table `societe_facturation`
+-- Dumping data for table `typehebergement`
 --
 
-INSERT INTO `societe_facturation` (`SocieteFactu_ID`) VALUES
-(1),
-(6);
+INSERT INTO `typehebergement` (`TypeHebergement_ID`, `TypeHebergement_Nom`) VALUES
+(1, 'Gîte'),
+(2, 'Chambre d\'hôte');
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `typeshebergements`
+-- Table structure for table `typeshebergements`
 --
 
 DROP TABLE IF EXISTS `typeshebergements`;
@@ -1554,7 +1654,7 @@ CREATE TABLE IF NOT EXISTS `typeshebergements` (
 ) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
--- Déchargement des données de la table `typeshebergements`
+-- Dumping data for table `typeshebergements`
 --
 
 INSERT INTO `typeshebergements` (`TypeHebergement_ID`, `TypeHebergement_Nom`) VALUES
@@ -1565,7 +1665,7 @@ INSERT INTO `typeshebergements` (`TypeHebergement_ID`, `TypeHebergement_Nom`) VA
 -- --------------------------------------------------------
 
 --
--- Structure de la table `utilisateurs`
+-- Table structure for table `utilisateurs`
 --
 
 DROP TABLE IF EXISTS `utilisateurs`;
@@ -1584,35 +1684,36 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   UNIQUE KEY `unique_email` (`Utilisateur_Mail`),
   KEY `AdressePostale_ID` (`AdressePostale_ID`),
   KEY `fk_utilisateurs_societe` (`Societe_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=76 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Déchargement des données de la table `utilisateurs`
+-- Dumping data for table `utilisateurs`
 --
 
 INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Prenom`, `Utilisateur_Civilite`, `Utilisateur_Password`, `Utilisateur_Mail`, `Utilisateur_Telephone`, `Utilisateur_Signature`, `AdressePostale_ID`, `Societe_ID`) VALUES
 (1, 'Dupont', 'Marie', 'Madame', '$2y$10$zxlVil.jUyzpJbnS9Db3xO.nG/kbJRvDeu3vnhhO/BPrdmrDHsn7G', 'marie.dupont@mail.com', '0648506839', NULL, 1, 1),
 (2, 'Martin', 'Luc', 'Monsieur', '$2a$12$Lfgne5vuYM1GPAAWbyzRg.QhQU2LkZTlwYUmdKWpoRbKSgYxpNV7K', 'luc.martin@mail.com', '0601527602', NULL, 2, 2),
-(3, 'Bernard', 'Julie', 'Madame', '$2y$10$l0lEFUNSVDuaCg1WLRGa3OYagPBJng8TzIxwBcEs.JXbga6FetHuC', 'julie.bernard@mail.com', '0626543245', NULL, 3, 3),
-(4, 'Durand', 'Paul', 'Monsieur', 'testtest1234A', 'paul.durand@mail.com', '0642537644', NULL, 4, 4),
+(3, 'Bernard', 'Julie', 'Madame', '$2a$12$Lfgne5vuYM1GPAAWbyzRg.QhQU2LkZTlwYUmdKWpoRbKSgYxpNV7K', 'julie.bernard@mail.com', '0626543245', NULL, 3, 3),
+(4, 'Durand', 'Paul', 'Monsieur', '$2a$12$Lfgne5vuYM1GPAAWbyzRg.QhQU2LkZTlwYUmdKWpoRbKSgYxpNV7K', 'paul.durand@mail.com', '0642537644', NULL, 4, 4),
 (35, 'Térence', 'Martinant', 'Monsieur', '$2a$12$Lfgne5vuYM1GPAAWbyzRg.QhQU2LkZTlwYUmdKWpoRbKSgYxpNV7K', 'terence@gmail.com', '0781818181', NULL, 61, 7),
-(41, 'Inshape', 'Tibo', 'Madame', '$2y$10$nnJUbav1PzxYJo5HK/620OOxnWLceqVaLr4yXgnTCaicdfAQxjsDe', 'tibo@inshape.ez', '0681672564', 'Null', 72, 1),
+(41, 'Inshape', 'Tibo', 'Madame', '$2a$12$Lfgne5vuYM1GPAAWbyzRg.QhQU2LkZTlwYUmdKWpoRbKSgYxpNV7K', 'tibo@inshape.ez', '0681672564', 'Null', 72, 1),
 (45, 'Paster', 'Micheal', 'Madame', '$2a$12$Lfgne5vuYM1GPAAWbyzRg.QhQU2LkZTlwYUmdKWpoRbKSgYxpNV7K', 'micheal@gmail.com', '0769946994', '', 76, 7),
-(74, 'Bourdon', 'Angel', 'Monsieur', '$2y$10$WwlVLYPI8d8otiGEplL7k.PzMsWFvVpevb4dOhWj97Q5z2V3EFN12', 'angela@gmail.com', '0769155622', NULL, 106, 7);
+(63, 'Bourdon', 'Angel', 'Monsieur', '$2y$10$mxHYvdd702PTZEGuttL/9uH3ITVf7u40/Lm4waKb4hG64bh3pIlbq', 'angel@gmail.com', '67', NULL, 95, 7),
+(75, 'Verdier', 'Pierre-Maxime', 'Monsieur', '$2a$12$Lfgne5vuYM1GPAAWbyzRg.QhQU2LkZTlwYUmdKWpoRbKSgYxpNV7K', 'piverdier@stpbb.org', '0638418795', NULL, 107, 2);
 
 --
--- Contraintes pour les tables déchargées
+-- Constraints for dumped tables
 --
 
 --
--- Contraintes pour la table `administrateurs`
+-- Constraints for table `administrateurs`
 --
 ALTER TABLE `administrateurs`
   ADD CONSTRAINT `administrateurs_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`),
   ADD CONSTRAINT `fk_administrateurs_user` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `administre`
+-- Constraints for table `administre`
 --
 ALTER TABLE `administre`
   ADD CONSTRAINT `administre_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `administrateurs` (`Utilisateur_ID`),
@@ -1620,7 +1721,7 @@ ALTER TABLE `administre`
   ADD CONSTRAINT `fk_administre_user` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `biens`
+-- Constraints for table `biens`
 --
 ALTER TABLE `biens`
   ADD CONSTRAINT `biens_ibfk_1` FOREIGN KEY (`Donneur_ID`) REFERENCES `donneurordre` (`Donneur_ID`),
@@ -1631,14 +1732,14 @@ ALTER TABLE `biens`
   ADD CONSTRAINT `fk_biens_utilisateur` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `concerne`
+-- Constraints for table `concerne`
 --
 ALTER TABLE `concerne`
   ADD CONSTRAINT `concerne_ibfk_1` FOREIGN KEY (`Bien_ID`) REFERENCES `biens` (`Bien_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `concerne_ibfk_2` FOREIGN KEY (`Dossier_ID`) REFERENCES `dossiers` (`Dossier_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `contient`
+-- Constraints for table `contient`
 --
 ALTER TABLE `contient`
   ADD CONSTRAINT `contient_ibfk_1` FOREIGN KEY (`Critere_ID`) REFERENCES `criteres` (`Critere_ID`),
@@ -1646,25 +1747,27 @@ ALTER TABLE `contient`
   ADD CONSTRAINT `contient_ibfk_3` FOREIGN KEY (`ListesCriteres_ID`) REFERENCES `listescriteres` (`ListesCriteres_ID`);
 
 --
--- Contraintes pour la table `devis`
+-- Constraints for table `devis`
 --
 ALTER TABLE `devis`
   ADD CONSTRAINT `devis_ibfk_1` FOREIGN KEY (`Dossier_ID`) REFERENCES `dossiers` (`Dossier_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `devis_client`
+-- Constraints for table `devis_client`
 --
 ALTER TABLE `devis_client`
-  ADD CONSTRAINT `devis_client_ibfk_1` FOREIGN KEY (`Devis_ID`) REFERENCES `devis` (`Devis_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `devis_client_ibfk_1` FOREIGN KEY (`Devis_ID`) REFERENCES `devis` (`Devis_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_devis_client_entreprise` FOREIGN KEY (`Entreprise_ID`) REFERENCES `entreprisefacturation` (`Entreprise_ID`) ON DELETE SET NULL,
+  ADD CONSTRAINT `fk_devis_client_user` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`) ON DELETE SET NULL;
 
 --
--- Contraintes pour la table `devis_items`
+-- Constraints for table `devis_items`
 --
 ALTER TABLE `devis_items`
   ADD CONSTRAINT `devis_items_ibfk_1` FOREIGN KEY (`Devis_ID`) REFERENCES `devis` (`Devis_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `donneurordre`
+-- Constraints for table `donneurordre`
 --
 ALTER TABLE `donneurordre`
   ADD CONSTRAINT `donneurordre_ibfk_1` FOREIGN KEY (`Donneur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`),
@@ -1672,7 +1775,7 @@ ALTER TABLE `donneurordre`
   ADD CONSTRAINT `fk_donneurordre_user` FOREIGN KEY (`Donneur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `dossiers`
+-- Constraints for table `dossiers`
 --
 ALTER TABLE `dossiers`
   ADD CONSTRAINT `FK_Proprietaire_ID` FOREIGN KEY (`Proprietaire_ID`) REFERENCES `proprietaires` (`Utilisateur_ID`),
@@ -1682,7 +1785,7 @@ ALTER TABLE `dossiers`
   ADD CONSTRAINT `fk_dossiers_proprietaire` FOREIGN KEY (`Proprietaire_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `effectue`
+-- Constraints for table `effectue`
 --
 ALTER TABLE `effectue`
   ADD CONSTRAINT `effectue_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `inspecteurs` (`Utilisateur_ID`),
@@ -1690,58 +1793,59 @@ ALTER TABLE `effectue`
   ADD CONSTRAINT `fk_effectue_user` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `evaluations`
+-- Constraints for table `evaluations`
 --
 ALTER TABLE `evaluations`
   ADD CONSTRAINT `evaluations_ibfk_1` FOREIGN KEY (`Bien_ID`) REFERENCES `biens` (`Bien_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `evaluations_ibfk_2` FOREIGN KEY (`ListesCriteres_ID`) REFERENCES `listescriteres` (`ListesCriteres_ID`);
 
 --
--- Contraintes pour la table `factures_prixtotal`
+-- Constraints for table `factures_prixtotal`
 --
 ALTER TABLE `factures_prixtotal`
   ADD CONSTRAINT `factures_prixtotal_ibfk_1` FOREIGN KEY (`Devis_ID`) REFERENCES `devis` (`Devis_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `facture_client`
+-- Constraints for table `facture_client`
 --
 ALTER TABLE `facture_client`
-  ADD CONSTRAINT `facture_client_ibfk_1` FOREIGN KEY (`Facture_ID`) REFERENCES `factures_prixtotal` (`Facture_ID`) ON DELETE CASCADE;
+  ADD CONSTRAINT `facture_client_ibfk_1` FOREIGN KEY (`Facture_ID`) REFERENCES `factures_prixtotal` (`Facture_ID`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_facture_client_user` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`) ON DELETE SET NULL;
 
 --
--- Contraintes pour la table `facture_items`
+-- Constraints for table `facture_items`
 --
 ALTER TABLE `facture_items`
   ADD CONSTRAINT `facture_items_ibfk_1` FOREIGN KEY (`Facture_ID`) REFERENCES `factures_prixtotal` (`Facture_ID`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `inspecteurs`
+-- Constraints for table `inspecteurs`
 --
 ALTER TABLE `inspecteurs`
   ADD CONSTRAINT `fk_inspecteurs_user` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`) ON DELETE CASCADE,
   ADD CONSTRAINT `inspecteurs_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`) ON DELETE CASCADE;
 
 --
--- Contraintes pour la table `photos`
+-- Constraints for table `photos`
 --
 ALTER TABLE `photos`
   ADD CONSTRAINT `photos_ibfk_1` FOREIGN KEY (`Bien_ID`) REFERENCES `biens` (`Bien_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `proprietaires`
+-- Constraints for table `proprietaires`
 --
 ALTER TABLE `proprietaires`
   ADD CONSTRAINT `fk_proprietaires_user` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`) ON DELETE CASCADE,
   ADD CONSTRAINT `proprietaires_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Contraintes pour la table `societe_facturation`
+-- Constraints for table `societes`
 --
-ALTER TABLE `societe_facturation`
-  ADD CONSTRAINT `societe_facturation_ibfk_1` FOREIGN KEY (`SocieteFactu_ID`) REFERENCES `societes` (`Societe_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `societes`
+  ADD CONSTRAINT `societes_ibfk_1` FOREIGN KEY (`AdressePostale_ID`) REFERENCES `adressespostales` (`AdressePostale_ID`);
 
 --
--- Contraintes pour la table `utilisateurs`
+-- Constraints for table `utilisateurs`
 --
 ALTER TABLE `utilisateurs`
   ADD CONSTRAINT `fk_utilisateurs_societe` FOREIGN KEY (`Societe_ID`) REFERENCES `societes` (`Societe_ID`) ON DELETE SET NULL ON UPDATE CASCADE,
