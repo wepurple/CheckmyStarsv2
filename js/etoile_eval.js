@@ -156,15 +156,15 @@ document.addEventListener('DOMContentLoaded', function() {
 let total = 0;
 
 function pointsTotal() {
-        total = 0;
-        for (let j =0; j < i; j++) {
-            const elementTest = document.getElementById(`case-${j}`).value || 0;
-            console.log('Element ', j, ': ', elementTest);
-
-            total += Number(elementTest);
-            console.log('Total intermédiaire:', total);
-        }
-        console.log('Total:', Number(total));
+    total = 0;
+    for (let j =0; j < i; j++) {
+        const elementTest = document.getElementById(`case-${j}`).value || 0;
+        console.log('Element ', j, ': ', elementTest);
+        total += Number(elementTest);
+        console.log('Total intermédiaire:', total);
     }
+    console.log('Total:', Number(total));
+}
+
 
     
