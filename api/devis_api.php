@@ -342,7 +342,9 @@ function convertToFacture(PDO $pdo): void {
  * Insère un enregistrement avec gestion auto-increment ou ID manuel
  */
 function insertRecord(PDO $pdo, string $table, string $idField, array $data): int {
-    $checkAI = $pdo->query("SHOW COLUMNS FROM `$table` WHERE Field = ".$pdo->quote(str_replace('`', '', $idField)))->fetch();
+    $tableClean = str_replace('`', '', $table);
+    $idFieldClean = str_replace('`', '', $idField);
+    $checkAI = $pdo->query("SHOW COLUMNS FROM `$tableClean` WHERE Field = '$idFieldClean'")->fetch();
     $isAuto = isset($checkAI['Extra']) && strpos($checkAI['Extra'], 'auto_increment') !== false;
 
     $columns = array_keys($data);
@@ -350,8 +352,8 @@ function insertRecord(PDO $pdo, string $table, string $idField, array $data): in
     $values = array_values($data);
 
     if (!$isAuto) {
-        $maxId = (int)$pdo->query("SELECT COALESCE(MAX(`$idField`), 0) + 1 FROM `$table`")->fetchColumn();
-        array_unshift($columns, $idField);
+        $maxId = (int)$pdo->query("SELECT COALESCE(MAX(`$idFieldClean`), 0) + 1 FROM `$tableClean`")->fetchColumn();
+        array_unshift($columns, $idFieldClean);
         array_unshift($placeholders, '?');
         array_unshift($values, $maxId);
     }
@@ -359,7 +361,7 @@ function insertRecord(PDO $pdo, string $table, string $idField, array $data): in
     $columns = array_map(fn($col) => "`$col`", $columns);
     $sql = sprintf(
         "INSERT INTO `%s` (%s) VALUES (%s)",
-        str_replace('`', '', $table),
+        $tableClean,
         implode(', ', $columns),
         implode(', ', $placeholders)
     );

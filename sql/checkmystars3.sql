@@ -1398,7 +1398,7 @@ INSERT INTO `evaluations` (`Evaluation_ID`, `Evaluation_Date`, `Evaluation_Docum
 
 DROP TABLE IF EXISTS `factures_prixtotal`;
 CREATE TABLE IF NOT EXISTS `factures_prixtotal` (
-  `Facture_ID` int(11) NOT NULL,
+  `Facture_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Facture_Numero` varchar(50) NOT NULL,
   `Facture_DateCreation` datetime NOT NULL,
   `Facture_DatePayee` datetime DEFAULT NULL,
@@ -1408,7 +1408,7 @@ CREATE TABLE IF NOT EXISTS `factures_prixtotal` (
   PRIMARY KEY (`Facture_ID`),
   UNIQUE KEY `Devis_ID` (`Devis_ID`),
   UNIQUE KEY `unique_facture_numero` (`Facture_Numero`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1420,14 +1420,16 @@ DROP TABLE IF EXISTS `facture_client`;
 CREATE TABLE IF NOT EXISTS `facture_client` (
   `Client_ID` int(11) NOT NULL AUTO_INCREMENT,
   `Facture_ID` int(11) NOT NULL,
+  `Utilisateur_ID` int(11) DEFAULT NULL,
+  `Entreprise_ID` int(11) DEFAULT NULL,
   `nom` varchar(100) NOT NULL,
   `adresse` text DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
   `telephone` varchar(20) DEFAULT NULL,
-  `Utilisateur_ID` int(11) DEFAULT NULL,
   PRIMARY KEY (`Client_ID`),
   KEY `Facture_ID` (`Facture_ID`),
-  KEY `fk_facture_client_user_idx` (`Utilisateur_ID`)
+  KEY `fk_facture_client_user_idx` (`Utilisateur_ID`),
+  KEY `idx_facture_client_entreprise` (`Entreprise_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
