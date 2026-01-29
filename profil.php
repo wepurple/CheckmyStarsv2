@@ -31,7 +31,7 @@
         ?>
 
         <!-- conteneur -->
-        <div class="container mt-4 p-3 rounded shadow bg-light text-dark">
+        <div class="container mt-4 p-3 rounded shadow bg-light-subtle">
 
             <div class="row">
 
@@ -42,17 +42,17 @@
 
                     <div class="input-group mb-1">
 
-                        <span class="input-group-text">Nom</span>
+                        <span class="input-group-text">Nom *</span>
                         <input id="nom" type="text" class="form-control" placeholder="ex: Macron" disabled>
                     </div>
 
                     <div class="input-group mb-1">
-                        <span class="input-group-text">Prénom</span>
+                        <span class="input-group-text">Prénom *</span>
                         <input id="prenom" type="text" class="form-control" placeholder="ex: Emmanuel" disabled>
                     </div>
 
                     <div class="input-group mb-1">
-                        <span class="input-group-text">Civilité</span>
+                        <span class="input-group-text">Civilité *</span>
                         <select id="civilite" class="form-select" disabled>
                             <option value="Monsieur">Monsieur</option>
                             <option value="Madame">Madame</option>
@@ -61,17 +61,17 @@
                     </div>
 
                     <div class="input-group mb-1">
-                        <span class="input-group-text">Adresse Mail</span>
+                        <span class="input-group-text">Adresse Mail *</span>
                         <input id="mail" type="text" class="form-control" placeholder="ex: exemple@mail.com" disabled>
                     </div>
 
                     <div class="input-group mb-1">
-                        <span class="input-group-text">Téléphone</span>
+                        <span class="input-group-text">Téléphone *</span>
                         <input id="tel" type="text" class="form-control" placeholder="ex: 0612345678" disabled>
                     </div>
 
                     <div class="input-group mb-1">
-                        <span class="input-group-text">Société</span>
+                        <span class="input-group-text">Société *</span>
                         <input id="societe" type="text" class="form-control" placeholder="ex: Pedro & Cie" disabled>
                     </div>
 
@@ -120,13 +120,13 @@
 
                     <div class="input-group mb-1">
 
-                        <span class="input-group-text">Numéro de rue</span>
+                        <span class="input-group-text">Numéro de rue *</span>
                         <input id="numRue" type="text" class="form-control" placeholder="ex: 18" disabled>
                     </div>
 
                     <div class="input-group mb-1">
-                        <span class="input-group-text">Nom de voie</span>
-                        <input id="nomRue" type="text" class="form-control" placeholder="ex: Rue du moulin" disabled>
+                        <span class="input-group-text">Nom de voie *</span>
+                        <input id="nomRue" type="text" class="form-control" placeholder="ex: Boulevard Haussmann" disabled>
                     </div>
 
                     <div class="input-group mb-1">
@@ -135,17 +135,17 @@
                     </div>
 
                     <div class="input-group mb-1">
-                        <span class="input-group-text">Code Postal</span>
+                        <span class="input-group-text">Code Postal *</span>
                         <input id="codePost" type="text" class="form-control" placeholder="ex: 75000" disabled>
                     </div>
 
                     <div class="input-group mb-1">
-                        <span class="input-group-text">Ville</span>
+                        <span class="input-group-text">Ville *</span>
                         <input id="ville" type="text" class="form-control" placeholder="ex: Paris" disabled>
                     </div>
 
                     <div class="input-group mb-1">
-                        <span class="input-group-text">Pays</span>
+                        <span class="input-group-text">Pays *</span>
                         <input id="pays" type="text" class="form-control" placeholder="ex: France" disabled>
                     </div>
 
@@ -206,11 +206,21 @@
                             <label for="confirmPassword">Confirmer nouveau mot de passe</label>
                         </div>
 
+                        <div id="passwordHelpBlock" class="form-text mt-2">
+                            <ul class="list-group-flush mb-0">
+                                <li class="list-group-item">12 caractères</li>
+                                <li class="list-group-item">1 caractère spécial #?!@$%^&*-</li>
+                                <li class="list-group-item">1 majuscule</li>
+                                <li class="list-group-item">1 minuscule</li>
+                                <li class="list-group-item">1 chiffre</li>
+                            </ul>
+                        </div>
+
                     </div>
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="cancelPassword()">Annuler</button>
-                        <button type="button" class="btn btn-primary" onclick="submitPassword()">Valider</button>
+                        <button id="submitPwBtn" type="button" class="btn btn-primary" onclick="submitPassword()">Valider</button>
                     </div>
 
                 </div>
@@ -220,9 +230,9 @@
 
         <!-- Toast -->
         <div class="toast-container position-fixed top-0 end-0 me-2 mt-5 pt-5">
-            <div id="toast" class="toast align-items-center text-bg-primary border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div id="toast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
                 <div class="d-flex">
-                    <div class="toast-body">
+                    <div id="toastText" class="toast-body">
                         Lorem Ipsum
                     </div>
                     <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>

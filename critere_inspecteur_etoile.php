@@ -27,9 +27,7 @@
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.css">
         <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
-        
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
-        <script src="js/search_inspecteurs.js"></script>
         <script src="js/etoile_eval.js"></script>
     </head>
     <body class="bg-secondary">
@@ -61,56 +59,107 @@
                         </select>
                     </div>
                 </div>
-                <div>
-                    <div class="d-flex flex-column gap-4 p-4">
-                        <div id="contenu-1" class="d-none">
-
-                        <table>
-                        <tr>
-                            <th>Critère</th>
-                            <th>Description</th>
-                            <th>Poids</th>
-                        </tr>
-                        <?php
-                        $stmt = $db->prepare("SELECT c.Critere_description, c.Critere_statut, Critere_points FROM criteres c JOIN contient ct ON c.Critere_ID = ct.Critere_ID JOIN listescriteres_etoiles lce ON ct.ListeCritere_ID = lce.ListeCritere_ID WHERE lce.etoiles = 1");
-                        $stmt->execute();
-                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                            echo "<tr>";
-                            echo "<td>" . htmlspecialchars($row['Critere_Nom']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Critere_Description']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Critere_Poids']) . "</td>";
-                            echo "</tr>";
-                        }
-                        ?></table>
-                           
-                            
-                            <button type="submit" class="btn btn-black bg-white rounded-pill px-4 py-2 shadow-sm fw-bold border-0">
-                                Valider
-                            </button>
+                <!-- Card de recherche et filtres -->
+                <div class="container-fluid">
+                    <div class="row mb-4">
+                        <div class="col-12">
+                            <div class="card search-card shadow-sm">
+                                <div class="card-body">
+                                    <h5 class="card-title mb-3">
+                                        <i class="bi bi-search"></i> Recherche et filtres
+                                    </h5>
+                                    <div class="row g-3">
+                                        <div class="col-md-4 col-lg-3">
+                                            <label for="filterType" class="form-label small text-muted">Type de filtre</label>
+                                            <select id="filterType" class="form-select">
+                                                <option value="all">Tous les champs</option>
+                                                <option value="id">ID</option>
+                                                <option value="description">Description</option>
+                                                <option value="status">Status</option>
+                                                <option value="points">Points</option>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-8 col-lg-9">
+                                            <label for="searchBar" class="form-label small text-muted">Terme de recherche</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                                    </svg>
+                                                </span>
+                                                <input type="text" 
+                                                    id="searchBar" 
+                                                    class="form-control" 
+                                                    placeholder="Rechercher dans les critères...">
+                                                <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('searchBar').value=''; document.getElementById('searchBar').dispatchEvent(new Event('input'));">
+                                                    ✕ Effacer
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Card du tableau -->
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card shadow-sm">
+                                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-table" viewBox="0 0 16 16">
+                                            <path d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm15 2h-4v3h4V4zm0 4h-4v3h4V8zm0 4h-4v3h3a1 1 0 0 0 1-1v-2zm-5 3v-3H6v3h4zm-5 0v-3H1v2a1 1 0 0 0 1 1h3zm-4-4h4V8H1v3zm0-4h4V4H1v3zm5-3v3h4V4H6zm4 4H6v3h4V8z"/>
+                                        </svg>
+                                        Liste des critères
+                                    </h5>
+                                </div>
+                                <div class="card-body p-0">
+                                    <div class="table-responsive">
+                                        <table class="table table-hover table-striped mb-0" id="criteriaTable">
+                                            <thead class="table-dark sticky-top">
+                                                <tr>
+                                                    <th class="text-center">
+                                                        <small>Id</small>
+                                                    </th>
+                                                    <th>
+                                                        <small>Description</small>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <small>Status</small>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <small>Points</small>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <small>Valeurs</small>
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="table-body">
+                                                <form action="" method="post">
+                                                    <tr>
+                                                        <td colspan="4" class="text-center py-5">
+                                                            <p class="mt-3 text-muted">Chargement des données...</p>
+                                                        </td>
+                                                    </tr>
+                                                </form>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary m-3" onclick="pointsTotal();">
+                                    Evaluer
+                                </button>
+                                <div class="card-footer text-muted small">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <span class="text-end">CheckMyStars © 2026</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <script>
-        document.getElementById('selectEtoiles').addEventListener('change', function() {
-            // Masquer tous les contenus qui commencent par "contenu-"
-            document.querySelectorAll('[id^="contenu-"]').forEach(el => {
-                el.classList.add('d-none');
-            });
-
-            // Récupérer la valeur sélectionnée
-            const valeur = this.value;
-
-            // Afficher le bloc correspondant s'il existe
-            if (valeur) {
-                const cible = document.getElementById('contenu-' + valeur);
-                if (cible) {
-                    cible.classList.remove('d-none');
-                }
-            }
-        });
-        </script>
-        <script src="js/criteriaStarBack.js"></script>
     </body>
 </html>

@@ -21,7 +21,7 @@
                 </li>
             -->
                 <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/dashboard.php"){ echo ' active'; } ?>" href="./Dashboard">
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/dashboard.php"){ echo ' active'; } ?>" href="./dashboard">
                         Tableau de bord
                     </a>
                 </li>
