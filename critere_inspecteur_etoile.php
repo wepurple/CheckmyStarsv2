@@ -131,6 +131,9 @@
                                                     <th class="text-center">
                                                         <small>Points</small>
                                                     </th>
+                                                    <th class="text-center">
+                                                        <small>Valeurs</small>
+                                                    </th>
                                                 </tr>
                                             </thead>
                                             <tbody id="table-body">
