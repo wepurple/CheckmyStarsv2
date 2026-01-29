@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
             countElement.textContent = `${count} résultat(s)`;
         }
 
-    return etoiles;
+    
 
     });
 
@@ -159,5 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     console.log('Total:', total);
+
+    return etoiles;
 
 });
