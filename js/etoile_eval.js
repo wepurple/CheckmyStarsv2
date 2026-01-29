@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             tbody.innerHTML = '';
-        
+            i = 0;
             data.forEach(critere => {
                 const row = tbody.insertRow();
                 row.innerHTML = `
@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <input type="number" id="case-${i}" name="nombre" min="0" max=${critere.Critere_points}>
                     </td>
                 `;
+                
                 i = i + 1;
             });
         }
