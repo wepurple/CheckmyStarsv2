@@ -162,7 +162,7 @@ function pointsTotal() {
     for (let j =0; j < i; j++) {
         const checkbox = document.getElementById(`checkbox-${j}`);
         console.log('Checkbox ', j, ': ', checkbox.checked);
-        console.log(critere.Critere_statut);
+        console.log('${critere.Critere_statut}');
     }
     console.log('Total:', Number(total));
 }
