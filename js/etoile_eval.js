@@ -48,7 +48,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td id="statut-${i}">${critere.Critere_statut}</td>
                     <td id="points-${i}">${critere.Critere_points}</td>
                     <td>
-                        <input type="checkbox" id="case-${i}" name="checkbox">
+                        <input type="checkbox" id="checkbox-${i}" name="checkbox">
                     </td>
                     <td id="textarea-${i}"><textarea></textarea></td>
                 `;
@@ -158,10 +158,8 @@ let total = 0;
 function pointsTotal() {
     total = 0;
     for (let j =0; j < i; j++) {
-        const elementTest = document.getElementById(`case-${j}`).value || 0;
-        console.log('Element ', j, ': ', elementTest);
-        total += Number(elementTest);
-        console.log('Total intermédiaire:', total);
+        const checkbox = document.getElementById(`checkbox-${j}`);
+        console.log('Checkbox ', j, ': ', checkbox.checked);
     }
     console.log('Total:', Number(total));
 }
