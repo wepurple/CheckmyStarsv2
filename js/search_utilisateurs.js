@@ -133,6 +133,7 @@ async function updateUserById() {
     const result = await response.json();
     if (result.success) {
       if (editModal) editModal.hide();
+      clearValidationClasses('editForm');
       await loadTable();
       showToast("Utilisateur modifié avec succès!", "success");
     } else {
@@ -156,6 +157,7 @@ async function showUserUpdateModal(id) {
             }
         }
 
+        clearValidationClasses('editForm');
         var user = await getUserById(id);
 
         document.getElementById('editIdUser').value = user.Utilisateur_ID;
@@ -518,6 +520,7 @@ async function loadTable() {
 }
 
 function addCancel() {
+    clearValidationClasses('addForm');
     document.getElementById('addForm').reset();
     const addModalElement = document.getElementById('addModal');
     const addModal = bootstrap.Modal.getInstance(addModalElement);
@@ -571,22 +574,18 @@ async function addUser() {
 
     if (!checkRegex('leMdp', v.password, REGEX.password, "Mot de passe trop faible (min 8, maj/min/chiffre/spécial)")) return;
 
-    if (addressBlockTouched(v)) {
-      if (!checkRequired('leNumRue', v.num_rue, "Numéro de rue obligatoire")) return;
-      if (!checkRequired('laAdresse', v.nom_rue, "Nom de rue obligatoire")) return;
-      if (!checkRequired('leCode', v.code_postal, "Code postal obligatoire")) return;
-      if (!checkRequired('laVille', v.ville, "Ville obligatoire")) return;
-      if (!checkRequired('lePays', v.pays, "Pays obligatoire")) return;
+    if (!checkRequired('leNumRue', v.num_rue, "Numéro de rue obligatoire")) return;
+    if (!checkRequired('laAdresse', v.nom_rue, "Nom de rue obligatoire")) return;
+    if (!checkRequired('leCode', v.code_postal, "Code postal obligatoire")) return;
+    if (!checkRequired('laVille', v.ville, "Ville obligatoire")) return;
+    if (!checkRequired('lePays', v.pays, "Pays obligatoire")) return;
 
-      if (!checkRegex('leNumRue', v.num_rue, REGEX.numRue, "Numéro de rue invalide (ex: 12, 12 bis, 12B)")) return;
-      if (!checkRegex('laAdresse', v.nom_rue, REGEX.nomRue, "Adresse invalide")) return;
-      if (v.complement !== "" && !checkRegex('leComplement', v.complement, REGEX.complement, "Complément invalide")) return;
-      if (!checkRegex('leCode', v.code_postal, REGEX.codePostal, "Code postal invalide (5 chiffres)")) return;
-      if (!checkRegex('laVille', v.ville, REGEX.ville, "Ville invalide")) return;
-      if (!checkRegex('lePays', v.pays, REGEX.pays, "Pays invalide")) return;
-    } else {
-      ['leNumRue','laAdresse','leComplement','leCode','laVille','lePays'].forEach(id => markField(id, true));
-    }
+    if (!checkRegex('leNumRue', v.num_rue, REGEX.numRue, "Numéro de rue invalide (ex: 12, 12 bis, 12B)")) return;
+    if (!checkRegex('laAdresse', v.nom_rue, REGEX.nomRue, "Adresse invalide")) return;
+    if (v.complement !== "" && !checkRegex('leComplement', v.complement, REGEX.complement, "Complément invalide")) return;
+    if (!checkRegex('leCode', v.code_postal, REGEX.codePostal, "Code postal invalide (5 chiffres)")) return;
+    if (!checkRegex('laVille', v.ville, REGEX.ville, "Ville invalide")) return;
+    if (!checkRegex('lePays', v.pays, REGEX.pays, "Pays invalide")) return;
 
     const civilite = v.civiliteValue === "1" ? "Monsieur" : v.civiliteValue === "2" ? "Madame" : "Iel";
 
@@ -618,6 +617,7 @@ async function addUser() {
       const addModalElement = document.getElementById('addModal');
       const addModal = bootstrap.Modal.getInstance(addModalElement);
       if (addModal) addModal.hide();
+      clearValidationClasses('addForm');
       document.getElementById('addForm').reset();
       await loadTable();
       showToast("Utilisateur créé avec succès !", "success");
@@ -878,6 +878,31 @@ async function checkEmailExists(email, excludeUserId = null) {
   }
 }
 
+function clearValidationClasses(formId) {
+  const form = document.getElementById(formId);
+  if (!form) return;
+  
+  const inputs = form.querySelectorAll('.is-valid, .is-invalid');
+  inputs.forEach(input => {
+    input.classList.remove('is-valid', 'is-invalid');
+  });
+}
+
+function resetModalForm(modalId, formId) {
+  const modalElement = document.getElementById(modalId);
+  if (!modalElement) return;
+  
+  modalElement.addEventListener('hidden.bs.modal', () => {
+    clearValidationClasses(formId);
+    const form = document.getElementById(formId);
+    if (form) form.reset();
+  });
+  
+  modalElement.addEventListener('show.bs.modal', () => {
+    clearValidationClasses(formId);
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
 setupAdresseAutocomplete({
     adresseCompleteId: "laAdresseComplete",
@@ -888,7 +913,7 @@ setupAdresseAutocomplete({
     paysId: "lePays"
   });
 
-  setupAdresseAutocomplete({
+setupAdresseAutocomplete({
     adresseCompleteId: "editLaAdresseComplete",
     numRueId: "editLeNumRue",
     adresseId: "editLaAdresse",
@@ -896,6 +921,9 @@ setupAdresseAutocomplete({
     villeId: "editLaVille",
     paysId: "editLePays"
   });
+
+    resetModalForm('addModal', 'addForm');
+    resetModalForm('editModal', 'editForm');
 
     loadTable();
     

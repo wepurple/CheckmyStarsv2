@@ -135,4 +135,21 @@ class User {
         return $query;
     }
 
+    public function getPassword($id){//retourne le hash du mdp de la personne
+        $sql = "CALL get_password($id)";
+
+        $query = $this->connexion->prepare($sql);
+        $query->execute();
+        return $query;
+    }
+
+    public function editPassword($id, $newPassword){//remplace le mdp de la personne        
+        $sql = "CALL update_password(:identifiant, :newMdp)";
+
+        $query = $this->connexion->prepare($sql);
+        $query->bindParam(':identifiant', $id);
+        $query->bindParam(':newMdp', $newPassword);
+        $query->execute();
+        return $query;
+    }
 }

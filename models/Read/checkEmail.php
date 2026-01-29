@@ -11,6 +11,8 @@ if (empty($email)) {
 }
 
 try {
+    $pdo = (new Database())->getConnection();
+
     if ($excludeId) {
         $stmt = $pdo->prepare("SELECT COUNT(*) FROM utilisateurs WHERE Utilisateur_Mail = :email AND Utilisateur_ID != :id");
         $stmt->execute(['email' => $email, 'id' => $excludeId]);
