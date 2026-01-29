@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let allData = [];
 
+    let i = 0;
+
     liste.addEventListener('change', function() {
         
         let etoiles = this.value 
@@ -30,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             tbody.innerHTML = '';
         
-            data.forEach(critere => {
+            data.forEach(i++ , critere => {
                 const row = tbody.insertRow();
                 row.innerHTML = `
                     <td>${critere.Critere_ID}</td>
@@ -44,8 +46,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td>${critere.Critere_statut}</td>
                     <td>${critere.Critere_points}</td>
                     <td>
-                        <label for"nombre"Choisir un nombre : </label>
-                        <input type="number" id="nombre" name="nombre" min="0" max=${critere.Critere_points}>
+                        <label for="case-${i}">Choisir un nombre : </label>
+                        <input type="number" id="case-${i}" name="nombre" min="0" max=${critere.Critere_points}>
                     </td>
                 `;
             });
