@@ -4,12 +4,15 @@
     
     require_once("../../includes/mariadb.php");
 
-    public function getAllUsers()
+    class companies
     {
-        $sql = "CALL Get_Companies;";
-        $query = $this->connexion->prepare($sql);
-        $query->execute();
+        public function getAllCompanies()
+        {
+            $sql = "CALL Get_Companies;";
+            $query = $this->connexion->prepare($sql);
+            $query->execute();
 
-        return $query;
+            return $query;
+        }
     }
 ?>
