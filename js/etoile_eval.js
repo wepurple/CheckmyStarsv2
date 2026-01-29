@@ -159,7 +159,7 @@ function pointsTotal() {
             const elementTest = document.getElementById(`case-${i}`).value || 0;
             console.log('Element ', i, ': ', elementTest);
 
-            total += elementTest;
+            total += Number(elementTest);
             console.log('Total intermédiaire:', total);
         }
         console.log('Total:', total);
