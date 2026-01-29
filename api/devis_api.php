@@ -44,7 +44,16 @@ try {
     }
 
 } catch (Throwable $e) {
-    jsonError($e->getMessage());
+    // Debug: afficher aussi la trace complète
+    $debug = [
+        'message' => $e->getMessage(),
+        'file' => $e->getFile(),
+        'line' => $e->getLine()
+    ];
+    if (strpos($e->getMessage(), 'SQLSTATE') !== false) {
+        $debug['full_error'] = $e->getMessage();
+    }
+    jsonError($e->getMessage(), $debug);
 }
 
 // ============================================================
