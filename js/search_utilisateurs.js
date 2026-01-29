@@ -342,60 +342,26 @@ async function deleteUserById(id) {
 
 function searchTable() {
     const searchInput = document.getElementById('searchInput');
-    const filterType = document.getElementById('filterType');
     const filterValue = searchInput.value.toLowerCase().trim();
-    const selectedFilter = filterType ? filterType.value : 'all';
     const tableBody = document.getElementById('table-body');
     const rows = tableBody.getElementsByTagName('tr');
-    
     let visibleCount = 0;
 
     for (let i = 0; i < rows.length; i++) {
         const row = rows[i];
         const cells = row.getElementsByTagName('td');
-        
         if (cells.length >= 6) {
-            const id = cells[0]?.textContent.toLowerCase() || '';
-            const nom = cells[1]?.textContent.toLowerCase() || '';
-            const prenom = cells[2]?.textContent.toLowerCase() || '';
-            const role = cells[3]?.textContent.toLowerCase() || '';
-            const societe = cells[4]?.textContent.toLowerCase() || '';
+            // Recherche unifiée sur ID, nom, prénom, rôle et société
+            const textContent = Array.from(cells)
+                .slice(0, 5)  // ID, nom, prénom, rôle, société
+                .map(cell => cell.textContent.toLowerCase())
+                .join(' ');
             
-            let match = false;
-            
-            switch(selectedFilter) {
-                case 'all':
-                    match = id.includes(filterValue) ||
-                           nom.includes(filterValue) ||
-                           prenom.includes(filterValue) ||
-                           role.includes(filterValue) ||
-                           societe.includes(filterValue);
-                    break;
-                case 'id':
-                    match = id.includes(filterValue);
-                    break;
-                case 'nom':
-                    match = nom.includes(filterValue);
-                    break;
-                case 'prenom':
-                    match = prenom.includes(filterValue);
-                    break;
-                case 'email':
-                    match = nom.includes(filterValue) || prenom.includes(filterValue);
-                    break;
-                case 'role':
-                    match = role.includes(filterValue);
-                    break;
-                case 'societe':
-                    match = societe.includes(filterValue);
-                    break;
-            }
-            
+            const match = textContent.includes(filterValue);
             row.style.display = match ? '' : 'none';
             if (match) visibleCount++;
         }
     }
-    
     updateResultInfo(visibleCount);
 }
 
