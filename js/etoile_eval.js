@@ -10,23 +10,27 @@ document.addEventListener('DOMContentLoaded', function() {
         
         etoiles = this.value 
         
-        fetch(`models/crud/getCriteriaByEtoile.php?star=${etoiles}`)
-            .then(response => {
-                console.log('Reponse fetch; ', response);
-                return response.json();
-            })
-            .then(data => {
-                console.log("Données recues: ", data);
-                allData = data;
-                displayData(data);
-                setupFilters();
-            })
-            .catch(error => console.log("Erreur fetch : ", error));
+        fetchData();
 
     return etoiles;
 
     });
 });
+
+function fetchData(){
+    fetch(`models/crud/getCriteriaByEtoile.php?star=${etoiles}`)
+        .then(response => {
+            console.log('Reponse fetch; ', response);
+            return response.json();
+        })
+        .then(data => {
+            console.log("Données recues: ", data);
+            allData = data;
+            displayData(data);
+            setupFilters();
+        })
+        .catch(error => console.log("Erreur fetch : ", error));
+    }
 
 function displayData(data) {
     const tbody = document.getElementById('table-body');
@@ -59,7 +63,6 @@ function displayData(data) {
         
         i = i + 1;
     });
-    return data;
 }
 
 console.log(etoiles);
@@ -156,7 +159,6 @@ function pointsTotal() {
     for (let j =0; j < i; j++) {
         const checkbox = document.getElementById(`checkbox-${j}`);
         console.log('Checkbox ', j, ': ', checkbox.checked);
-        console.log(data);
     }
     console.log('Total:', Number(total));
 }
