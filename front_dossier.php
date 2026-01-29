@@ -10,14 +10,18 @@
 
 
     $dossier_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+    // a supprimer
     $images = [];
+    
+    
     $bien_id = 0;
 
     $database = new Database();
     $db = $database->getConnection();
 
     // Récupération des images et du Bien_ID
-    $sql_images = "SELECT p.Photo_Lien, d.Bien_ID 
+    $sql_images = "SELECT p.Photo_ID, p.Photo_Lien, d.Bien_ID 
                    FROM dossiers d 
                    LEFT JOIN photos p ON p.Bien_ID = d.Bien_ID 
                    WHERE d.Dossier_ID = :id";
@@ -25,8 +29,15 @@
     $stmt = $db->prepare($sql_images);
     $stmt->execute(['id' => $dossier_id]);
     
+    $photoData = []; 
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-        if ($row['Photo_Lien']) $images[] = $row['Photo_Lien'];
+        if ($row['Photo_Lien']) {
+            $photoData[] = [
+                'Photo_ID'   => $row['Photo_ID'],
+                'Photo_Lien' => $row['Photo_Lien'],
+                'Bien_ID'    => $row['Bien_ID']
+            ];
+        }
         $bien_id = $row['Bien_ID']; 
     }
 
@@ -65,10 +76,12 @@
     <body class="bg-secondary">
         <?php
             require_once "./includes/navbar.php";
+
+            var_dump($photoData);
         ?>
         <div class="container-sm mt-5">
             <div class="row justify-content-center">
-                <div id="photoCarousel" class="carousel slide" data-bs-ride="false" data-images='<?php echo json_encode($images); ?>'>
+                <div id="photoCarousel" class="carousel slide" data-bs-ride="false" data-images='<?php echo json_encode($photoData); ?>'>
                     <div class="carousel-inner" id="carouselContent">
                         </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#photoCarousel" data-bs-slide="prev">
@@ -299,6 +312,44 @@
 
         
 
+        <div class="modal fade" id="deletePhotoModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content border-danger shadow">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">Confirmation de suppression</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <p>Voulez-vous vraiment supprimer cette image ? Cette action est irréversible.</p>
+                        <img id="previewDeleteImg" src="" class="img-thumbnail mb-3" style="max-height: 150px;">
+                    </div>
+                    <div class="modal-footer">
+                        <form id="deletePhotoForm" method="POST" action="delete_photo.php">
+                            <input type="hidden" name="photo_id" id="deletePhotoId">
+                            <input type="hidden" name="dossier_id" value="<?php echo $dossier_id; ?>">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="lightboxModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content bg-transparent border-0">
+                    <div class="modal-body p-0 position-relative text-center">
+                        <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close" style="z-index: 1051; filter: drop-shadow(0 0 2px black);"></button>
+                        <img id="lightboxImg" src="" class="img-fluid rounded shadow-lg">
+                        <div class="mt-3">
+                            <button id="btnOpenDelete" class="btn btn-danger shadow">
+                                <i class="fa-solid fa-trash me-2"></i>Supprimer l'image
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         
     </body>
 </html>
