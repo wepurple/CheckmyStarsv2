@@ -77,7 +77,6 @@
                                                 <option value="description">Description</option>
                                                 <option value="status">Status</option>
                                                 <option value="points">Points</option>
-                                                <option value="points">Commentaire</option>
                                             </select>
                                         </div>
                                         <div class="col-md-8 col-lg-9">
@@ -133,6 +132,9 @@
                                                     </th>
                                                     <th class="text-center">
                                                         <small>Valeurs</small>
+                                                    </th>
+                                                    <th class="text-center">
+                                                        <small>Commentaire</small>
                                                     </th>
                                                 </tr>
                                             </thead>
