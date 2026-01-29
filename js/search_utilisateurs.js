@@ -966,16 +966,13 @@ async function submitSociete() {
     if (data.success) {
     societeModal.hide();
     
-    // ← AJOUTE ÇA : refresh la liste
     await refreshSocietes();
-    
-    // Sélectionne la nouvelle société
+
     const select = document.getElementById('laSociete');
-    select.value = data.new_societe_id; // ou data.new_user_id selon ton PHP
+    select.value = data.new_societe_id;
     
     showToast(`Société "${v.nom}" créée !`, "success");
-    
-    // Réouvre modal utilisateur (optionnel)
+
     const addModalEl = document.getElementById('addModal');
     const addModal = new bootstrap.Modal(addModalEl);
     addModal.show();
