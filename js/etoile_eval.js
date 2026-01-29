@@ -147,10 +147,10 @@ function updateResultCount(count) {
     countElement.textContent = `${count} résultat(s)`;
 }
 
-let status_X = "";
-let status_O = "";
-let status_NA = "";
-let status_ONC= "";
+let points_X = "";
+let points_O = "";
+let points_NA = "";
+let points_ONC = "";
 
 let total = 0;
 
@@ -160,16 +160,16 @@ function pointsTotal() {
         const checkbox = document.getElementById(`checkbox-${j}`);
         const status = document.getElementById(`statut-${j}`);
         const points = document.getElementById(`points-${j}`);
-        
-
+        console.log('Checkbox ', j, ': ', checkbox.checked);
+        console.log('statut ', j, ': ', status.textContent);
+        console.log('points ', j, ': ', points.textContent);
         if (checkbox.checked) {
-            console.log('Checkbox ', j, ': ', checkbox.checked);
-            console.log('statut ', j, ': ', status.textContent);
-            console.log('points ', j, ': ', points.textContent);
+            if (status.textContent === "O") {
+                points_O += points.textContent + " + ";
+            }
         }
     }
     console.log('Total:', Number(total));
-    console.log(critere.Critere_statut);
 }
 
 
