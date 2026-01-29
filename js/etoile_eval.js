@@ -160,6 +160,7 @@ function pointsTotal() {
             console.log('Element ', i, ': ', elementTest);
 
             total += elementTest;
+            console.log('Total intermédiaire:', total);
         }
         console.log('Total:', total);
     }
