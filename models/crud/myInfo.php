@@ -1,4 +1,10 @@
 <?php
+/**
+ * Utilisable par n'importe quel utilisateur connecté
+ * Renvoie la liste de ses informations
+ * 
+ * By Pedro
+ */
 session_start();
 
 if(isset($_SESSION['ID'])){//renvoie les informations relatives à un utilisateur à partir de l'id stocké dans la variable de session

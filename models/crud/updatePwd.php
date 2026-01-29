@@ -1,4 +1,13 @@
 <?php
+/**
+ * Utilisable par n'importe quel utilisateur connecté
+ * Accepte deux paramètres vie la méthode post
+ *      old : ancien mot de passe
+ *      new : nouveau mot de passe
+ * Compare l'ancien mot de passe avec le hash actuel, puis hash le nouveau mot de passe s'il est assez robuste avant de l'attribuer à l'utilisateur
+ * 
+ * By Pedro
+ */
 session_start();
 try{
     if(isset($_SESSION['ID'])){//renvoie les informations relatives à un utilisateur à partir de l'id stocké dans la variable de session
