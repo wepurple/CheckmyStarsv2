@@ -159,13 +159,13 @@ function pointsTotal() {
     for (let j =0; j < i; j++) {
         const checkbox = document.getElementById(`checkbox-${j}`);
         const status = document.getElementById(`statut-${j}`);
-        const points = document.getElementById(`points-${j}`);
+        const points = Number(document.getElementById(`points-${j}`).textContent);
         console.log('Checkbox ', j, ': ', checkbox.checked);
         console.log('statut ', j, ': ', status.textContent);
-        console.log('points ', j, ': ', points.textContent);
+        console.log('points ', j, ': ', points);
         if (checkbox.checked) {
             if (status.textContent === "O") {
-                points_O += Number(points.textContent);
+                points_O += points;
             }
         }
     }
