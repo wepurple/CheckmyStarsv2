@@ -118,6 +118,12 @@ function saveDevis(PDO $pdo): void {
     $lignes = $payload['lignes'] ?? [];
     $totalTTC = (float)($payload['totalTTC'] ?? 0);
     $entrepriseId = (int)($payload['entrepriseId'] ?? 1);
+    $type = $payload['type'] ?? 'DEVIS';
+
+    // === SÉCURITÉ : Bloquer la modification des factures ===
+    if ($type === 'FACTURE') {
+        throw new Exception('Impossible de modifier une facture existante. Les factures sont en lecture seule.');
+    }
 
     // Validation entreprise
     $stmt = $pdo->prepare("SELECT Entreprise_ID FROM entreprisefacturation WHERE Entreprise_ID = ? AND Entreprise_Actif = 1");
