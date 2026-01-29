@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     <td>
                         <input type="checkbox" id="case-${i}" name="checkbox">
                     </td>
+                    <td id="textarea-${i}"><textarea>Zone de texte!</textarea></td>
                 `;
                 
                 i = i + 1;
