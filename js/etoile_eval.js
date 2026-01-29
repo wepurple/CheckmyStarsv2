@@ -19,7 +19,7 @@ function initializeApp() {
 }
 
 function handleEtoilesChange() {
-    const etoiles = event.target.value;
+    const etoiles = target.value;
     loadCritere(etoiles);
 }
 
