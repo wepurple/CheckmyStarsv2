@@ -221,7 +221,7 @@ function pointsTotal() {
     if (!invalide) {
         result = "Évaluation invalide : un critère obligatoire n'a pas été coché.";
     } else if (points_O * 100 / points_O_Max < 80) {
-        result = "Évaluation invalide : un critère obligatoire n'a pas été coché.";
+        result = "Évaluation invalide : taux de critères à la carte trop bas : " + (points_O * 100 / points_O_Max).toFixed(2) + "% < 80%.";
     } else {
         result = "Évaluation valide.";
     }
