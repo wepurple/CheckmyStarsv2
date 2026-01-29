@@ -1006,12 +1006,13 @@ document.addEventListener("DOMContentLoaded", () => {
     paysId: "societePays"
   });
 
-  document.getElementById('laSociete').addEventListener('change', function() {
-    if (this.value === '__new__') {
-      this.value = '';
-      openSocieteModal();
+  document.getElementById('laSociete').addEventListener('change', function () {
+    if (this.value === 'new_company') {
+        this.value = '';
+        openSocieteModal();
     }
   });
+
 
   resetModalForm('addModal', 'addForm');
   resetModalForm('editModal', 'editForm');
