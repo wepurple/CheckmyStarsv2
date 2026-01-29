@@ -158,7 +158,13 @@ function pointsTotal() {
     points_X = 0;
     points_O = 0;
     points_NA = 0;
-    points_ONC = 0;
+    points_XONC = 0;
+    points_X_Max = 0;
+    points_O_Max = 0;
+    points_NA_Max = 0;
+    points_XONC_Max = 0;
+    invalide = true;
+    result = "";
     for (let j =0; j < i; j++) {
         const checkbox = document.getElementById(`checkbox-${j}`);
         const status = document.getElementById(`statut-${j}`);
@@ -166,6 +172,10 @@ function pointsTotal() {
         console.log('Checkbox ', j, ': ', checkbox.checked);
         console.log('statut ', j, ': ', status.textContent);
         console.log('points ', j, ': ', points);
+        points_X_Max += 0;
+        points_O_Max += 0;
+        points_NA_Max += 0;
+        points_XONC_Max += 0;
         if (checkbox.checked) {
             if (status.textContent === "O") {
                 points_O += points;
@@ -176,16 +186,31 @@ function pointsTotal() {
             else if (status.textContent === "NA") {
                 points_NA += points;
             }
-            else if (status.textContent === "ONC") {
-                points_ONC += points;
+            else if (status.textContent === "X ONC") {
+                points_XONC += points;
+            }
+        }
+        if (!checkbox.checked) {
+            if (status.textContent === "X") {
+                invalide = false;
             }
         }
     }
-    console.log('Total:', Number(total));
+    if (invalide) {
+        result = "Évaluation valide.";
+    } else {
+        result = "Évaluation invalide : un critère obligatoire n'a pas été coché.";
+    }
+
     console.log('Points O :', points_O);
     console.log('Points X :', points_X);
     console.log('Points NA :', points_NA);
-    console.log('Points ONC :', points_ONC);
+    console.log('Points ONC :', points_XONC);
+    console.log(result);
+    console.log('Points O :', points_O_Max);
+    console.log('Points X :', points_X_Max);
+    console.log('Points NA :', points_NA_Max);
+    console.log('Points ONC :', points_XONC_Max);
 }
 
 
