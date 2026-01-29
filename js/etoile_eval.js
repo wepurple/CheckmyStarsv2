@@ -213,6 +213,14 @@ function pointsTotal() {
     console.log('Points ONC :', points_XONC_Max);
 }
 
+document.getElementById('checkAll').addEventListener('change', function() {
+    const isChecked = this.checked;
+    for (let j = 0; j < i; j++) {
+        const checkbox = document.getElementById(`checkbox-${j}`);
+        checkbox.checked = isChecked;
+    }
+});
+
 
 
     
