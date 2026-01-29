@@ -61,56 +61,48 @@
                         </select>
                     </div>
                 </div>
-                <div>
-                    <div class="d-flex flex-column gap-4 p-4">
-                        <div id="contenu-1" class="d-none">
-
-                        <table>
-                        <tr>
-                            <th>Critère</th>
-                            <th>Description</th>
-                            <th>Poids</th>
-                        </tr>
-                        <?php
-                        $stmt = $db->prepare("SELECT c.Critere_description, c.Critere_statut, Critere_points FROM criteres c JOIN contient ct ON c.Critere_ID = ct.Critere_ID JOIN listescriteres_etoiles lce ON ct.ListeCritere_ID = lce.ListeCritere_ID WHERE lce.etoiles = 1");
-                        $stmt->execute();
-                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                            echo "<tr>";
-                            echo "<td>" . htmlspecialchars($row['Critere_Nom']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Critere_Description']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['Critere_Poids']) . "</td>";
-                            echo "</tr>";
-                        }
-                        ?></table>
-                           
-                            
-                            <button type="submit" class="btn btn-black bg-white rounded-pill px-4 py-2 shadow-sm fw-bold border-0">
-                                Valider
-                            </button>
+                <!-- Card de recherche et filtres -->
+                <div class="row mb-4">
+                    <div class="col-12">
+                        <div class="card search-card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title mb-3">
+                                    <i class="bi bi-search"></i> Recherche et filtres
+                                </h5>
+                                <div class="row g-3">
+                                    <div class="col-md-4 col-lg-3">
+                                        <label for="filterType" class="form-label small text-muted">Type de filtre</label>
+                                        <select id="filterType" class="form-select">
+                                            <option value="all">Tous les champs</option>
+                                            <option value="id">ID</option>
+                                            <option value="description">Description</option>
+                                            <option value="status">Status</option>
+                                            <option value="points">Points</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-8 col-lg-9">
+                                        <label for="searchBar" class="form-label small text-muted">Terme de recherche</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                                                </svg>
+                                            </span>
+                                            <input type="text" 
+                                                id="searchBar" 
+                                                class="form-control" 
+                                                placeholder="Rechercher dans les critères...">
+                                            <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('searchBar').value=''; document.getElementById('searchBar').dispatchEvent(new Event('input'));">
+                                                ✕ Effacer
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <script>
-        document.getElementById('selectEtoiles').addEventListener('change', function() {
-            // Masquer tous les contenus qui commencent par "contenu-"
-            document.querySelectorAll('[id^="contenu-"]').forEach(el => {
-                el.classList.add('d-none');
-            });
-
-            // Récupérer la valeur sélectionnée
-            const valeur = this.value;
-
-            // Afficher le bloc correspondant s'il existe
-            if (valeur) {
-                const cible = document.getElementById('contenu-' + valeur);
-                if (cible) {
-                    cible.classList.remove('d-none');
-                }
-            }
-        });
-        </script>
-        <script src="js/criteriaStarBack.js"></script>
     </body>
 </html>

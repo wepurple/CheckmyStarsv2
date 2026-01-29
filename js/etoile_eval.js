@@ -5,6 +5,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         const etoiles = this.value 
         console.log(etoiles);
-
+        return etoiles;
     });
 });
