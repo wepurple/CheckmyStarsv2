@@ -216,6 +216,9 @@ function pointsTotal() {
             if (status.textContent === "X") {
                 invalide = false;
             }
+            else if (status.textContent === "X NOC") {
+                invalide = false;
+            }
         }
     }
     if (!invalide) {
