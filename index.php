@@ -46,7 +46,7 @@
 
       <form id="loginForm">
         <div class="form-floating mb-3">
-            <input autofocus type="email" class="form-control" id="email" name="email" placeholder="email" value="marie.dupont@mail.com" required>
+            <input autofocus type="email" class="form-control" id="email" name="email" placeholder="email" value="marie.dupont@checkmystars.fr" required>
             <label for="email">
                 <i class="fas fa-envelope me-2"></i>
                 Adresse email

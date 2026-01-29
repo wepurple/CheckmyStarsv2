@@ -160,24 +160,24 @@ class User {
     }
 
     public function updateInfos($id, $nom, $prenom, $mail, $genre, $societe, $tel, $numRue, $nomRue, $complement, $codePostal, $ville, $pays){
-        $sql = "call update_user(:nom, :prenom, :mail, :genre, :societe, :tel, :numRue, :nomRue, :complement, :cp, :ville, :pays, :id, :role)";
+        $sql = "select Update_User(:nom, :prenom, :mail, :genre, :societe, :tel, :numRue, :nomRue, :complement, :cp, :ville, :pays, :id, :role)";
 
         $query = $this->connexion->prepare($sql);
 
-        $query->bindParam(':nom', htmlspecialchars(strip_tags($nom)));
-        $query->bindParam(':prenom', htmlspecialchars(strip_tags($prenom)));
-        $query->bindParam(':mail', htmlspecialchars(strip_tags($mail)));
-        $query->bindParam(':genre', htmlspecialchars(strip_tags($genre)));
-        $query->bindParam(':societe', htmlspecialchars(strip_tags($societe)));
-        $query->bindParam(':tel', htmlspecialchars(strip_tags($tel)));
-        $query->bindParam(':numRue', htmlspecialchars(strip_tags($numRue)));
-        $query->bindParam(':nomRue', htmlspecialchars(strip_tags($nomRue)));
-        $query->bindParam(':complement', htmlspecialchars(strip_tags($complement)));
-        $query->bindParam(':cp', htmlspecialchars(strip_tags($codePostal)));
-        $query->bindParam(':ville', htmlspecialchars(strip_tags($ville)));
-        $query->bindParam(':pays', htmlspecialchars(strip_tags($pays)));
-        $query->bindParam(':id', htmlspecialchars(strip_tags($id)));
-        $query->bindParam(':role', htmlspecialchars(strip_tags($role)));
+        $query->bindValue(':nom', htmlspecialchars(strip_tags($nom)));
+        $query->bindValue(':prenom', htmlspecialchars(strip_tags($prenom)));
+        $query->bindValue(':mail', htmlspecialchars(strip_tags($mail)));
+        $query->bindValue(':genre', htmlspecialchars(strip_tags($genre)));
+        $query->bindValue(':societe', htmlspecialchars(strip_tags($societe)));
+        $query->bindValue(':tel', htmlspecialchars(strip_tags($tel)));
+        $query->bindValue(':numRue', htmlspecialchars(strip_tags($numRue)));
+        $query->bindValue(':nomRue', htmlspecialchars(strip_tags($nomRue)));
+        $query->bindValue(':complement', htmlspecialchars(strip_tags($complement)));
+        $query->bindValue(':cp', htmlspecialchars(strip_tags($codePostal)));
+        $query->bindValue(':ville', htmlspecialchars(strip_tags($ville)));
+        $query->bindValue(':pays', htmlspecialchars(strip_tags($pays)));
+        $query->bindValue(':id', htmlspecialchars(strip_tags($id)));
+        $query->bindValue(':role', 9999);
 
         $query->execute();
         return $query;

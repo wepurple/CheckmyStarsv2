@@ -1219,13 +1219,17 @@ function setReadOnlyMode(readonly, type = selectedDocType) {
 
   // Mettre à jour le titre de l'aperçu
   const previewTitle = document.getElementById("preview-title");
+  const previewCard = previewTitle?.closest(".card");
+  const previewHeader = previewCard?.querySelector(".card-header");
+
   if (previewTitle) {
     if (type === "FACTURE" && readonly) {
-      previewTitle.textContent = "Facture (lecture seule)";
-    } else if (type === "FACTURE") {
-      previewTitle.textContent = "Aperçu de la Facture";
+      // En mode lecture seule, masquer le header de carte (redondant avec le badge)
+      if (previewHeader) previewHeader.style.display = "none";
     } else {
-      previewTitle.textContent = "Aperçu du Devis";
+      if (previewHeader) previewHeader.style.display = "";
+      previewTitle.textContent =
+        type === "FACTURE" ? "Aperçu de la Facture" : "Aperçu du Devis";
     }
   }
 
@@ -1249,9 +1253,9 @@ function showLockedBadge(show, numero = "") {
 
   if (show) {
     container.innerHTML = `
-      <div class="alert alert-warning mb-2 d-flex align-items-center" role="alert">
-        <i class="fa-solid fa-lock me-2"></i>
-        <span>Facture <strong>${escapeHtml(numero)}</strong> - Mode lecture seule</span>
+      <div class="readonly-badge" role="alert">
+        <i class="fa-solid fa-lock"></i>
+        <span>Facture <strong>${escapeHtml(numero)}</strong> — Mode lecture seule</span>
       </div>
     `;
   } else {
