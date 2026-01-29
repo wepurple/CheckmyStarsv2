@@ -95,6 +95,10 @@
                                                 <button class="btn btn-outline-secondary" type="button" onclick="document.getElementById('searchBar').value=''; document.getElementById('searchBar').dispatchEvent(new Event('input'));">
                                                     ✕ Effacer
                                                 </button>
+                                                <label>
+                                                    <input type="checkbox" id="checkAll"> 
+                                                    Tout sélectionner / Tout désélectionner
+                                                </label>
                                             </div>
                                         </div>
                                     </div>
