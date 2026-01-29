@@ -20,7 +20,7 @@ class Database {
                     PDO::ATTR_EMULATE_PREPARES => false
                 ]
             );
-        } catch (PDOException $e) {
+        } catch (PDOException $e) {d
             $this->connexion = [
                 0 => false,
                 1 => mb_convert_encoding($e->getMessage(), "UTF-8")
