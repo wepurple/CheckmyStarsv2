@@ -59,25 +59,48 @@ function getAllCompany($connexion)
         </div>
 
         <!-- Card de recherche et filtres -->
-        <div class="row g-3">
-            <div class="col-md-8">
-                <label for="searchInput" class="form-label small text-muted">Terme de recherche</label>
-                <div class="input-group">
-                <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
-                <input type="text" id="searchInput" class="form-control" placeholder="Rechercher un utilisateur...">
-                <button class="btn btn-outline-secondary" type="button" onclick="clearSearch()">
-                    <i class="fa-solid fa-xmark"></i> Effacer
-                </button>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <label class="form-label small text-muted mb-2 d-block">Filtres actifs :</label>
-                <div id="filterCheckboxes" class="d-flex flex-wrap gap-1">
-                <!-- Checkboxes générées par search_utilisateurs.js -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card search-card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            Recherche et filtres
+                        </h5>
+                        <div class="row g-3">
+                            <div class="col-md-4 col-lg-3">
+                                <label for="filterType" class="form-label small text-muted">Type de filtre</label>
+                                <select id="filterType" class="form-select">
+                                    <option value="all">Tous les champs</option>
+                                    <option value="id">ID</option>
+                                    <option value="nom">Nom</option>
+                                    <option value="prenom">Prénom</option>
+                                    <option value="email">Email</option>
+                                    <option value="role">Rôle</option>
+                                    <option value="societe">Société</option>
+                                </select>
+                            </div>
+                            <div class="col-md-8 col-lg-9">
+                                <label for="searchInput" class="form-label small text-muted">Terme de recherche</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </span>
+                                    <input type="text" 
+                                        id="searchInput" 
+                                        class="form-control" 
+                                        placeholder="Rechercher un utilisateur...">
+                                    <button class="btn btn-outline-secondary" type="button" onclick="clearSearch()">
+                                        <i class="fa-solid fa-xmark"></i>
+                                        Effacer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-
 
         <!-- Card du tableau -->
         <div class="row">
