@@ -147,21 +147,45 @@ function updateResultCount(count) {
     countElement.textContent = `${count} résultat(s)`;
 }
 
-let status_X = "";
-let status_O = "";
-let status_NA = "";
-let status_ONC= "";
+let points_X = 0;
+let points_O = 0;
+let points_NA = 0;
+let points_ONC = 0;
 
 let total = 0;
 
 function pointsTotal() {
-    total = 0;
+    points_X = 0;
+    points_O = 0;
+    points_NA = 0;
+    points_ONC = 0;
     for (let j =0; j < i; j++) {
         const checkbox = document.getElementById(`checkbox-${j}`);
+        const status = document.getElementById(`statut-${j}`);
+        const points = Number(document.getElementById(`points-${j}`).textContent);
         console.log('Checkbox ', j, ': ', checkbox.checked);
+        console.log('statut ', j, ': ', status.textContent);
+        console.log('points ', j, ': ', points);
+        if (checkbox.checked) {
+            if (status.textContent === "O") {
+                points_O += points;
+            }
+            else if (status.textContent === "X") {
+                points_X += points;
+            }
+            else if (status.textContent === "NA") {
+                points_NA += points;
+            }
+            else if (status.textContent === "ONC") {
+                points_ONC += points;
+            }
+        }
     }
     console.log('Total:', Number(total));
-    console.log(critere.Critere_statut);
+    console.log('Points O :', points_O);
+    console.log('Points X :', points_X);
+    console.log('Points NA :', points_NA);
+    console.log('Points ONC :', points_ONC);
 }
 
 

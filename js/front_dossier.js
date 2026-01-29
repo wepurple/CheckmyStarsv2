@@ -5,37 +5,48 @@ document.addEventListener("DOMContentLoaded", function() {
     if (carouselContainer && content) {
         const imagesRaw = carouselContainer.getAttribute('data-images');
         const imagesList = imagesRaw ? JSON.parse(imagesRaw) : [];
+        const allItems = [...imagesList, { type: 'ADD_BUTTON' }];
         
-        let html = '<div class="carousel-item active"><div class="row g-3 justify-content-center">';
-        
-        imagesList.forEach((photo) => {
-            // photo correspond à un élément du tableau (ex: l'index 0 de ton array)
-            html += `
-                <div class="col-12 col-sm-6 col-md-4">
-                    <div class="card h-100 bg-dark border-secondary shadow-sm">
-                        <img src="${photo.Photo_Lien}" class="card-img-top" 
-                             style="height: 200px; object-fit: cover; border-radius: 10px; cursor: pointer;" 
-                             onclick="openLightbox('${photo.Photo_Lien}', '${photo.Photo_ID}')"
-                             alt="Photo">
-                    </div>
-                </div>`;
-        });
+        // MODIFICATION : 1 seule image par slide
+        const itemsPerSlide = 1; 
+        let finalHtml = '';
 
-        // Bouton "+" (toujours présent à la fin)
-        html += `
-            <div class="col-12 col-sm-6 col-md-4">
-                <div class="card h-100 bg-dark border-secondary shadow-sm" 
-                     style="cursor:pointer; min-height: 200px;" 
-                     data-bs-toggle="modal" 
-                     data-bs-target="#uploadModal">
-                    <div class="card-body d-flex align-items-center justify-content-center">
-                        <i class="fa-solid fa-circle-plus"></i>
-                    </div>
-                </div>
-            </div>`;
+        for (let i = 0; i < allItems.length; i += itemsPerSlide) {
+            const isActive = i === 0 ? 'active' : '';
+            finalHtml += `<div class="carousel-item ${isActive}"><div class="row justify-content-center">`;
 
-        html += '</div></div>';
-        content.innerHTML = html;
+            const chunk = allItems.slice(i, i + itemsPerSlide);
+            
+            chunk.forEach((item) => {
+                // Utilisation de col-12 pour prendre toute la largeur
+                if (item.type === 'ADD_BUTTON') {
+                    finalHtml += `
+                        <div class="col-12 text-center">
+                            <div class="card bg-dark border-secondary shadow-sm mx-auto custom-carousel-card" 
+                                 style="cursor:pointer;" 
+                                 data-bs-toggle="modal" 
+                                 data-bs-target="#uploadModal">
+                                <div class="card-body d-flex align-items-center justify-content-center">
+                                    <i class="fa-solid fa-circle-plus"></i>
+                                    <span class="ms-2">Ajouter une photo</span>
+                                </div>
+                            </div>
+                        </div>`;
+                } else {
+                    finalHtml += `
+                        <div class="col-12 text-center">
+                            <div class="card bg-dark border-secondary shadow-sm mx-auto custom-carousel-card">
+                                <img src="${item.Photo_Lien}" class="card-img-top img-large" 
+                                     onclick="openLightbox('${item.Photo_Lien}', '${item.Photo_ID}')"
+                                     alt="Photo">
+                            </div>
+                        </div>`;
+                }
+            });
+
+            finalHtml += '</div></div>';
+        }
+        content.innerHTML = finalHtml;
     }
 });
 

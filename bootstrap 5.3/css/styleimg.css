@@ -1,0 +1,60 @@
+/* --- Style du Carrousel (Version Responsive) --- */
+
+/* Conteneur de la carte */
+.custom-carousel-card {
+    width: 90%; /* Prend presque toute la largeur sur mobile */
+    max-width: 900px; /* Limite la taille sur très grands écrans */
+    height: 300px; /* Hauteur par défaut pour mobile */
+    margin: 0 auto;
+    border-radius: 15px;
+    overflow: hidden;
+    background-color: #2b2b2b;
+    border: 1px solid #495057;
+    transition: transform 0.3s ease;
+}
+
+/* Image à l'intérieur de la carte */
+.img-large {
+    height: 100%;
+    width: 100%;
+    object-fit: cover; /* Remplit la carte sans déformation */
+    cursor: zoom-in;
+}
+
+/* --- Media Queries pour adapter la taille --- */
+
+/* Tablettes (écrans > 768px) */
+@media (min-width: 768px) {
+    .custom-carousel-card {
+        height: 400px;
+        width: 85%;
+    }
+}
+
+/* Ordinateurs (écrans > 992px) */
+@media (min-width: 992px) {
+    .custom-carousel-card {
+        height: 500px; /* C'est ici qu'on applique l'effet "0.5 fois plus grand" */
+        width: 80%;
+    }
+}
+
+/* --- Ajustements des contrôles (Flèches) --- */
+.carousel-control-prev, 
+.carousel-control-next {
+    width: 8%; /* Évite que les flèches ne recouvrent trop l'image */
+    filter: drop-shadow(0px 0px 3px rgba(0,0,0,0.8));
+}
+
+/* Style spécifique pour le bouton "Ajouter" pour qu'il garde ses proportions */
+.card-body img[src*="ajout-image.png"] {
+    max-width: 80px;
+    height: auto;
+    opacity: 0.8;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.card-body img[src*="ajout-image.png"]:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
