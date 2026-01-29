@@ -2,3 +2,23 @@
     max-height: 600px;
     border-radius: 15px;
 }
+
+@media screen and (max-width: 768px) {
+    .carousel-inner {
+        display: flex;
+    }
+
+    .carousel-item {
+        display: block;
+        margin-right: 10px;
+        flex: 0 0 calc(100% / 3);
+    }
+
+    .carousel-inner {
+        padding: 1em;
+    }
+
+    .card{
+        margin: 0 0.5em;
+    }
+}
