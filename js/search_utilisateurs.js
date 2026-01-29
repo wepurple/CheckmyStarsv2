@@ -2,6 +2,7 @@ let seeModal = null;
 let editModal = null;
 let deleteUserId = null;
 let confirmModal = null;
+let societeModal = null;
 
 const REGEX = {
   nom: /^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,50}$/,
@@ -903,8 +904,82 @@ function resetModalForm(modalId, formId) {
   });
 }
 
+function openSocieteModal() {
+  if (!societeModal) {
+    const modalEl = document.getElementById('addSocieteModal');
+    societeModal = new bootstrap.Modal(modalEl);
+  }
+  societeModal.show();
+  document.getElementById('addSocieteForm').reset();
+}
+
+async function submitSociete() {
+  const v = {
+    nom: document.getElementById('societeNom').value.trim(),
+    mail: document.getElementById('societeMail').value.trim(),
+    tel: document.getElementById('societeTel').value.trim(),
+    num_rue: document.getElementById('societeNumRue').value.trim(),
+    nom_rue: document.getElementById('societeNomRue').value.trim(),
+    complement: document.getElementById('societeComplement').value.trim(),
+    code_postal: document.getElementById('societeCodePostal').value.trim(),
+    ville: document.getElementById('societeVille').value.trim(),
+    pays: document.getElementById('societePays').value.trim()
+  };
+
+  if (!checkRequired('societeNom', v.nom, "Nom société obligatoire")) return;
+  if (!checkRegex('societeNom', v.nom, REGEX.nomRue, "Nom société invalide")) return;
+
+  if (!v.num_rue || !v.nom_rue || !v.code_postal || !v.ville) {
+    showToast("Adresse incomplète - utilisez l'autocomplétion", "warning");
+    return;
+  }
+
+  const payload = {
+    num_rue: v.num_rue,
+    nom_rue: v.nom_rue,
+    complement: v.complement || null,
+    code_postal: v.code_postal,
+    ville: v.ville,
+    pays: v.pays,
+    societe_nom: v.nom,
+    societe_mail: v.mail || null,
+    societe_telephone: v.tel || null
+  };
+
+  try {
+    const response = await fetch('models/Create/create_company.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+
+    if (data.success) {
+      societeModal.hide();
+
+      const select = document.getElementById('laSociete');
+      const newOption = new Option(v.nom, data.new_societe_id);
+      
+      const newOptionRef = select.querySelector('option[value="__new__"]');
+      select.insertBefore(newOption, newOptionRef);
+      
+      select.value = data.new_societe_id;
+      
+      showToast(`Société "${v.nom}" créée avec succès !`, "success");
+      
+    } else {
+      showToast(data.error || "Erreur création société", "error");
+    }
+  } catch (error) {
+    console.error(error);
+    showToast("Erreur réseau", "error");
+  }
+}
+
+
 document.addEventListener("DOMContentLoaded", () => {
-setupAdresseAutocomplete({
+  setupAdresseAutocomplete({
     adresseCompleteId: "laAdresseComplete",
     numRueId: "leNumRue",
     adresseId: "laAdresse",
@@ -913,7 +988,7 @@ setupAdresseAutocomplete({
     paysId: "lePays"
   });
 
-setupAdresseAutocomplete({
+  setupAdresseAutocomplete({
     adresseCompleteId: "editLaAdresseComplete",
     numRueId: "editLeNumRue",
     adresseId: "editLaAdresse",
@@ -922,38 +997,55 @@ setupAdresseAutocomplete({
     paysId: "editLePays"
   });
 
-    resetModalForm('addModal', 'addForm');
-    resetModalForm('editModal', 'editForm');
+  setupAdresseAutocomplete({
+    adresseCompleteId: "societeAdresseComplete",
+    numRueId: "societeNumRue",
+    adresseId: "societeNomRue",
+    codeId: "societeCodePostal",
+    villeId: "societeVille",
+    paysId: "societePays"
+  });
 
-    loadTable();
-    
-    const supprConfirm = document.getElementById('supprConfirm');
-    if (supprConfirm) {
-        supprConfirm.addEventListener('click', async () => {
-            try {
-                if (!deleteUserId) return;
-                await deleteUserById(deleteUserId);
-                if (confirmModal) confirmModal.hide();
-                deleteUserId = null;
-                await loadTable();
-                showToast("Utilisateur supprimé.", "success");
-            } catch (e) {
-                showToast("Erreur : " + e.message, "error");
-            }
-        });
+  document.getElementById('laSociete').addEventListener('change', function() {
+    if (this.value === '__new__') {
+      this.value = '';
+      openSocieteModal();
     }
-    
-    const searchInput = document.getElementById('searchInput');
-    const filterType = document.getElementById('filterType');
-    
-    if (searchInput) {
-        searchInput.addEventListener('input', searchTable);
-        searchInput.addEventListener('paste', () => {
-            setTimeout(searchTable, 10);
-        });
-    }
-    
-    if (filterType) {
-        filterType.addEventListener('change', searchTable);
-    }
+  });
+
+  resetModalForm('addModal', 'addForm');
+  resetModalForm('editModal', 'editForm');
+  resetModalForm('addSocieteModal', 'addSocieteForm');
+
+  loadTable();
+  
+  const supprConfirm = document.getElementById('supprConfirm');
+  if (supprConfirm) {
+      supprConfirm.addEventListener('click', async () => {
+          try {
+              if (!deleteUserId) return;
+              await deleteUserById(deleteUserId);
+              if (confirmModal) confirmModal.hide();
+              deleteUserId = null;
+              await loadTable();
+              showToast("Utilisateur supprimé.", "success");
+          } catch (e) {
+              showToast("Erreur : " + e.message, "error");
+          }
+      });
+  }
+  
+  const searchInput = document.getElementById('searchInput');
+  const filterType = document.getElementById('filterType');
+  
+  if (searchInput) {
+      searchInput.addEventListener('input', searchTable);
+      searchInput.addEventListener('paste', () => {
+          setTimeout(searchTable, 10);
+      });
+  }
+  
+  if (filterType) {
+      filterType.addEventListener('change', searchTable);
+  }
 });
