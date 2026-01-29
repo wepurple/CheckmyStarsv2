@@ -158,7 +158,9 @@ function pointsTotal() {
     points_X = 0;
     points_O = 0;
     points_NA = 0;
-    points_ONC = 0;
+    points_XONC = 0;
+    invalide = false;
+    result = "";
     for (let j =0; j < i; j++) {
         const checkbox = document.getElementById(`checkbox-${j}`);
         const status = document.getElementById(`statut-${j}`);
@@ -176,16 +178,22 @@ function pointsTotal() {
             else if (status.textContent === "NA") {
                 points_NA += points;
             }
-            else if (status.textContent === "ONC") {
-                points_ONC += points;
+            else if (status.textContent === "X ONC") {
+                points_XONC += points;
+            }
+        }
+        if (!checkbox.checked) {
+            if (status.textContent === "X") {
+                result = "Évaluation invalide : un critère obligatoire n'a pas été coché.";
+                invalide = true;
             }
         }
     }
-    console.log('Total:', Number(total));
     console.log('Points O :', points_O);
     console.log('Points X :', points_X);
     console.log('Points NA :', points_NA);
-    console.log('Points ONC :', points_ONC);
+    console.log('Points ONC :', points_XONC);
+    console.log(result);
 }
 
 
