@@ -31,10 +31,14 @@ function jsonSuccess(array $data = []): void {
 /**
  * Envoyer une réponse JSON d'erreur
  */
-function jsonError(string $message, int $code = 400): void {
+function jsonError(string $message, $debug = null): void {
     header('Content-Type: application/json');
-    http_response_code($code);
-    echo json_encode(['success' => false, 'message' => $message]);
+    http_response_code(400);
+    $response = ['success' => false, 'message' => $message];
+    if ($debug) {
+        $response['debug'] = $debug;
+    }
+    echo json_encode($response);
     exit;
 }
 
