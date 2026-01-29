@@ -342,31 +342,47 @@ function convertToFacture(PDO $pdo): void {
  * Insère un enregistrement avec gestion auto-increment ou ID manuel
  */
 function insertRecord(PDO $pdo, string $table, string $idField, array $data): int {
-    $tableClean = str_replace('`', '', $table);
-    $idFieldClean = str_replace('`', '', $idField);
-    $checkAI = $pdo->query("SHOW COLUMNS FROM `$tableClean` WHERE Field = '$idFieldClean'")->fetch();
-    $isAuto = isset($checkAI['Extra']) && strpos($checkAI['Extra'], 'auto_increment') !== false;
+    // Nettoyer les noms
+    $table = preg_replace('/[`]/', '', $table);
+    $idField = preg_replace('/[`]/', '', $idField);
+    
+    if (empty($data)) {
+        throw new Exception("Impossible d'insérer un enregistrement vide dans $table");
+    }
+
+    // Vérifier si ID est auto-increment
+    try {
+        $result = $pdo->query("SHOW COLUMNS FROM `$table` WHERE Field = '$idField'");
+        $col = $result->fetch(PDO::FETCH_ASSOC);
+        $isAuto = !empty($col) && strpos($col['Extra'] ?? '', 'auto_increment') !== false;
+    } catch (Throwable $e) {
+        $isAuto = false;
+    }
 
     $columns = array_keys($data);
-    $placeholders = array_fill(0, count($data), '?');
     $values = array_values($data);
 
+    // Si pas auto-increment, générer un ID manuel
     if (!$isAuto) {
-        $maxId = (int)$pdo->query("SELECT COALESCE(MAX(`$idFieldClean`), 0) + 1 FROM `$tableClean`")->fetchColumn();
-        array_unshift($columns, $idFieldClean);
-        array_unshift($placeholders, '?');
+        $maxId = (int)$pdo->query("SELECT COALESCE(MAX(`$idField`), 0) + 1 FROM `$table`")->fetchColumn();
+        array_unshift($columns, $idField);
         array_unshift($values, $maxId);
     }
 
-    $columns = array_map(fn($col) => "`$col`", $columns);
-    $sql = sprintf(
-        "INSERT INTO `%s` (%s) VALUES (%s)",
-        $tableClean,
-        implode(', ', $columns),
-        implode(', ', $placeholders)
-    );
+    // Construire requête avec backticks
+    $cols = implode('`, `', $columns);
+    $placeholders = implode(', ', array_fill(0, count($values), '?'));
+    $sql = "INSERT INTO `$table` (`$cols`) VALUES ($placeholders)";
 
-    $pdo->prepare($sql)->execute($values);
+    $stmt = $pdo->prepare($sql);
+    if (!$stmt) {
+        throw new Exception("Erreur requête: " . implode(", ", $pdo->errorInfo()));
+    }
+    
+    if (!$stmt->execute($values)) {
+        throw new Exception("Erreur exécution: " . implode(", ", $stmt->errorInfo()));
+    }
+
     return $isAuto ? (int)$pdo->lastInsertId() : $maxId;
 }
 
