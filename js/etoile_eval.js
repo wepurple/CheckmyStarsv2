@@ -38,20 +38,6 @@ document.addEventListener('DOMContentLoaded', function() {
                             <span class="flex-grow-1">
                             ${critere.Critere_description}
                             </span>
-
-                            <div class="btn-group btn-group-sm ms-auto" role="group" aria-label="Actions">
-                                <div class="pe-3">
-                                    <button type="button" class="btn btn-outline-primary btn-edit" 
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#editModal"
-                                        data-id="${critere.Critere_ID}"
-                                        data-description="${escapeHtml(critere.Critere_description)}"
-                                        data-statut="${critere.Critere_statut}"
-                                        data-points="${critere.Critere_points || ''}">
-                                        Modifier
-                                    </button>
-                                </div>
-                            </div>
                         </div>
                     </td>
                     <td>${critere.Critere_statut}</td>
