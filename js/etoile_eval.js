@@ -18,7 +18,7 @@ function initializeApp() {
     liste.addEventListener("change", handleEtoilesChange());
 }
 
-function handleEtoilesChange(event) {
+function handleEtoilesChange() {
     const etoiles = event.target.value;
     loadCritere(etoiles);
 }
