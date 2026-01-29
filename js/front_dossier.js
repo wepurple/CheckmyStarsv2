@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 </div>`;
         });
 
-        // 2. Bouton "Ajouter" pointant vers img/ajout-image.png
+        // 2. Bouton "Ajouter" qui ouvre une modal
         html += `
             <div class="col-12 col-sm-6 col-md-4">
                 <div class="card h-100 bg-dark border-secondary shadow-sm" 
@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
                      data-bs-target="#uploadModal">
                     <div class="card-body d-flex align-items-center justify-content-center">
                         <div class="text-center">
-                        <i class="fa-solid fa-plus"></i>
+                            <i class="fa-regular fa-circle-plus"></i>
                             <p class="mt-2 text-secondary small">Ajouter une photo</p>
                         </div>
                     </div>
