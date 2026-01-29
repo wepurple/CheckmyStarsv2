@@ -42,6 +42,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     </td>
                     <td>${critere.Critere_statut}</td>
                     <td>${critere.Critere_points}</td>
+                    <label for"nombre"Choisir un nombre : </label>
+                    <td>
+                        <input type="number" id="nombre" name="nombre" min="0" max=${critere.Critere_points}>
+                    </td>
                 `;
             });
         }
