@@ -158,7 +158,9 @@ function pointsTotal() {
     total = 0;
     for (let j =0; j < i; j++) {
         const checkbox = document.getElementById(`checkbox-${j}`);
+        const status = document.getElementById(`statut-${j}`);
         console.log('Checkbox ', j, ': ', checkbox.checked);
+        console.log('statut ', j, ': ', status.textContent);
     }
     console.log('Total:', Number(total));
     console.log(critere.Critere_statut);
