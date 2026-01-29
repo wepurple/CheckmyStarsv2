@@ -220,7 +220,7 @@ function getAllCompany($connexion)
                             <div class="col-md-6 form-floating mb-3">
                                 <select class="form-select" id="laSociete">
                                     <option value="">Sélectionner...</option>
-                                    <option value="new_company"><i class="fa-solid fa-plus"></i> Créer une nouvelle entreprise</option>
+                                    <option value="new_company">Créer une nouvelle entreprise</option>
                                     <?php
                                     $companies = getAllCompany($db);
                                     while ($row = $companies->fetch()) {
