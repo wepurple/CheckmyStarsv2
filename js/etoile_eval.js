@@ -51,12 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
                                         Modifier
                                     </button>
                                 </div>
-                                <div>
-                                    <button type="button" class="btn btn-outline-danger btn-delete"
-                                        data-id="${critere.Critere_ID}">
-                                        Supprimer
-                                    </button>
-                                </div>
                             </div>
                         </div>
                     </td>
