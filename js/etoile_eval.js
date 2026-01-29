@@ -160,14 +160,12 @@ function pointsTotal() {
         const checkbox = document.getElementById(`checkbox-${j}`);
         const status = document.getElementById(`statut-${j}`);
         const points = document.getElementById(`points-${j}`);
-        console.log('Checkbox ', j, ': ', checkbox.checked);
-        console.log('statut ', j, ': ', status.textContent);
-        console.log('points ', j, ': ', points.textContent);
+        
 
         if (checkbox.checked) {
-            console.log("Validé");
-        } else {
-            console.log("Non validé");
+            console.log('Checkbox ', j, ': ', checkbox.checked);
+            console.log('statut ', j, ': ', status.textContent);
+            console.log('points ', j, ': ', points.textContent);
         }
     }
     console.log('Total:', Number(total));
