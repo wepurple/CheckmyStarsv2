@@ -947,7 +947,7 @@ async function submitSociete() {
   };
 
   try {
-    const response = await fetch('models/Create/create_company.php', {
+    const response = await fetch('models/Create/company.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
       body: JSON.stringify(payload)
