@@ -72,11 +72,11 @@ function getNumberCriteriaByStatusAndStar(PDO $pdo, int $star, string $status): 
 
 // Définir les couleurs Bootstrap par niveau d'étoile
 $starColors = [
-    1 => 'info',
-    2 => 'success',
-    3 => 'warning',
-    4 => 'danger',
-    5 => 'primary'
+    1 => 'danger',
+    2 => 'warning',
+    3 => 'info',
+    4 => 'primary',
+    5 => 'success'
 ];
 ?>
 

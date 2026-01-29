@@ -12,6 +12,9 @@ const ids = [
     "ville",
     "pays"
 ]
+const facultatif = [//liste des champs facultatifs du formulaire, à remplir avec des champs contenus dans la liste ids
+    "complement"
+]
 const elements = [
     "Utilisateur_Nom",
     "Utilisateur_Prenom",
@@ -75,19 +78,65 @@ function cancel(){//désactive tous les champs puis les réinitialise, et invers
     updateInfos()
 }
 
-function valider(){//s'execute après avoir pressé le bouton valider dans la modification des infos perso
+async function valider(){//s'execute après avoir pressé le bouton valider dans la modification des infos perso
     let verif = true
-    const facultatif = ["complement"] //liste des champs facultatifs du formulaire, à remplir avec des champs contenus dans la liste ids
-    for (let k = 0 ; k<ids.length ; k++){
-        if(document.getElementById(ids[k]).value == "" && !ids[k].includes(facultatif)){
+    for (let k = 0 ; k<ids.length ; k++){//pour chaque entrée du formulaire, répertoriées dans la liste ids[]
+        let current = document.getElementById(ids[k])
+        if(current.value == "" && !ids[k].includes(facultatif)){//si l'entrée est vide alors qu'elle n'est pas facultative
             verif = false
-            document.getElementById(ids[k]).classList.add('is-invalid')
-        }else{
-            document.getElementById(ids[k]).classList.remove('is-invalid')
+            current.classList.add('is-invalid')
+        }else{//si l'entrée est renseignée, on va vérifier qu'elle respecte la regex correspondante
+            let leRegex
+            switch(ids[k]){
+                case "mail"://si c'est l'entrée des mails par exemple, on applique la regex pour les mails
+                    leRegex = regexMail
+                    break;
+                default :
+                leRegex = /^/ //pour le reste des entrées, on appliquera une regex qui accepte tout
+            }
+            if(!leRegex.exec(current.value)){//test regex
+                verif = false
+                current.classList.add('is-invalid')
+            }else{
+                current.classList.remove('is-invalid')
+            }
         }
     }
-    if(verif){
-        console.log("ok")
+    if(verif){//si toutes les vérifications sont ok, on envoie le formulaire
+        const url = 'models/crud/updateUser.php'
+        const data = {
+            nom: document.getElementById(ids[0]).value,
+            prenom: document.getElementById(ids[1]).value,
+            genre: document.getElementById(ids[2]).value,
+            mail: document.getElementById(ids[3]).value,
+            tel: document.getElementById(ids[4]).value,
+            societe: document.getElementById(ids[5]).value,
+            numRue: document.getElementById(ids[6]).value,
+            nomRue: document.getElementById(ids[7]).value,
+            complement: document.getElementById(ids[8]).value,
+            cp: document.getElementById(ids[9]).value,
+            ville: document.getElementById(ids[10]).value,
+            pays: document.getElementById(ids[11]).value
+        }
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const responseText = await response.text();
+        const state = await response.status
+        const test = await JSON.parse(responseText)
+
+        if(state == 200){
+            toastColor("success")
+        }else{
+            toastColor("warning")
+        }
+        document.getElementById("toastText").textContent = test["response"]
+        leToast.show()
     }
 }
 
@@ -189,7 +238,6 @@ function editPasswordBtn(){
 }
 
 document.addEventListener("DOMContentLoaded", async function() {//quand la page est chargée
-    updateInfos()
 
     //déclaration des modals & toasts
     modalEditMdp = new bootstrap.Modal(document.getElementById('modalPassword'))
@@ -214,4 +262,24 @@ document.addEventListener("DOMContentLoaded", async function() {//quand la page 
         document.getElementById("submitPwBtn").click();
     }
     });
+
+
+    //remplissage du select de l'entreprise
+    listCompanies = new XMLHttpRequest()
+    listCompanies.onreadystatechange = function(){
+        if(this.readyState == 4 && this.status == 200) {
+            result = JSON.parse(listCompanies.responseText)
+            for(element in result){
+                document.getElementById('societe').appendChild(document.createElement("option"))
+                document.getElementById('societe').lastElementChild.value = result[element]["Societe_ID"]
+                document.getElementById('societe').lastElementChild.textContent = result[element]["Societe_Nom"]
+            }
+        }
+    }
+    listCompanies.open("GET", "./models/Read/companies.php", true);
+    listCompanies.send()
+
+
+    //remplissage initial du tableau
+    updateInfos()
 });
