@@ -55,12 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 i = i + 1;
             });
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+            return `${critere.Critere_statut}`,`${critere.Critere_description}`,`${critere.Critere_points}`;
         }
 
         console.log(etoiles);
