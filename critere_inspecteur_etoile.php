@@ -148,6 +148,9 @@
                                         </table>
                                     </div>
                                 </div>
+                                <button class="btn btn-primary m-3" onclick="calculerTotal();">
+                                    Evaluer
+                                </button>
                                 <div class="card-footer text-muted small">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <span class="text-end">CheckMyStars © 2026</span>

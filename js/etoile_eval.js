@@ -5,6 +5,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let i = 0;
 
+    let Nb_case_max = 1000;
+
+    let total = 0;
+
     liste.addEventListener('change', function() {
         
         let etoiles = this.value 
@@ -145,5 +149,15 @@ document.addEventListener('DOMContentLoaded', function() {
     return etoiles;
 
     });
+
+    function pointsTotal() {
+        for (let i =0; i < Nb_case_max; i++) {
+            const element = document.getElementById(`case-${i}`);
+
+            total += Number(element.value) || 0;
+        }
+    }
+
+    console.log('Total:', total);
 
 });
