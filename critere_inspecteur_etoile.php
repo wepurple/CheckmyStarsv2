@@ -140,12 +140,11 @@
                                                 <form action="" method="post">
                                                     <tr>
                                                         <td colspan="4" class="text-center py-5">
-                                                            <p class="mt-3 text-muted">Choisissez une étoile pour afficher les critères</p>
+                                                            <p class="mt-3 text-muted">Chargement des données...</p>
                                                         </td>
                                                     </tr>
                                                 </form>
                                             </tbody>
-                                            <button type="submit" class="btn btn-primary d-none" id="submitBtn">Enregistrer les modifications</button>
                                         </table>
                                     </div>
                                 </div>
