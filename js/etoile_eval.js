@@ -163,6 +163,12 @@ function pointsTotal() {
         console.log('Checkbox ', j, ': ', checkbox.checked);
         console.log('statut ', j, ': ', status.textContent);
         console.log('points ', j, ': ', points.textContent);
+
+        if (checkbox.checked) {
+            console.log("Validé");
+        } else {
+            console.log("Non validé");
+        }
     }
     console.log('Total:', Number(total));
     console.log(critere.Critere_statut);
