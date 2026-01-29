@@ -220,6 +220,8 @@ function pointsTotal() {
     }
     if (invalide) {
         result = "Évaluation valide.";
+    } else if (points_O * 100 / points_O_Max < 80) {
+        result = "Évaluation invalide : un critère obligatoire n'a pas été coché.";
     } else {
         result = "Évaluation invalide : un critère obligatoire n'a pas été coché.";
     }
