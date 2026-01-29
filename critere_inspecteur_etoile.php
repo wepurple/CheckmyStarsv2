@@ -145,9 +145,7 @@
                                                     </tr>
                                                 </form>
                                             </tbody>
-                                            <div class="button">
-                                                <button type="submit" class="btn btn-primary d-none" id="submitBtn">Enregistrer les modifications</button>
-                                            </div>
+                                            <button type="submit" class="btn btn-primary d-none" id="submitBtn">Enregistrer les modifications</button>
                                         </table>
                                     </div>
                                 </div>
