@@ -162,7 +162,7 @@ function pointsTotal() {
             total += Number(elementTest);
             console.log('Total intermédiaire:', total);
         }
-        console.log('Total:', total);
+        console.log('Total:', Number(total));
     }
 
     
