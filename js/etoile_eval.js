@@ -55,12 +55,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 i = i + 1;
             });
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+            return `${critere.Critere_statut}`,`${critere.Critere_description}`,`${critere.Critere_points}`;
         }
 
         console.log(etoiles);
@@ -162,7 +157,7 @@ function pointsTotal() {
     for (let j =0; j < i; j++) {
         const checkbox = document.getElementById(`checkbox-${j}`);
         console.log('Checkbox ', j, ': ', checkbox.checked);
-        console.log(Critere_statut);
+        console.log(`${critere.Critere_statut}`);
     }
     console.log('Total:', Number(total));
 }
