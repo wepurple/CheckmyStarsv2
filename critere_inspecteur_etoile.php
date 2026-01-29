@@ -142,7 +142,7 @@
                                             <tbody id="table-body">
                                                 <form action="" method="post">
                                                     <tr>
-                                                        <td colspan="4" class="text-center py-5">
+                                                        <td colspan="6" class="text-center py-5">
                                                             <p class="mt-3 text-muted">Selectionnez une étoile pour afficher les critères</p>
                                                         </td>
                                                     </tr>
