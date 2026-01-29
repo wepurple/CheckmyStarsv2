@@ -218,12 +218,12 @@ function pointsTotal() {
             }
         }
     }
-    if (invalide) {
-        result = "Évaluation valide.";
+    if (!invalide) {
+        result = "Évaluation invalide : un critère obligatoire n'a pas été coché.";
     } else if (points_O * 100 / points_O_Max < 80) {
         result = "Évaluation invalide : un critère obligatoire n'a pas été coché.";
     } else {
-        result = "Évaluation invalide : un critère obligatoire n'a pas été coché.";
+        result = "Évaluation valide.";
     }
 
     console.log('Points O :', points_O);
