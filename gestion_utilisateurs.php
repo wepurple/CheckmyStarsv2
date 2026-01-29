@@ -59,26 +59,25 @@ function getAllCompany($connexion)
         </div>
 
         <!-- Card de recherche et filtres -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="card search-card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title mb-3">
-                            <i class="fa-solid fa-magnifying-glass"></i> Recherche
-                        </h5>
-                        <div class="input-group">
-                            <span class="input-group-text">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                            </span>
-                            <input type="text" id="searchInput" class="form-control" placeholder="Rechercher un utilisateur (ID, nom, rôle, société...)">
-                            <button class="btn btn-outline-secondary" type="button" onclick="clearSearch()">
-                                <i class="fa-solid fa-xmark"></i> Effacer
-                            </button>
-                        </div>
-                    </div>
+        <div class="row g-3">
+            <div class="col-md-8">
+                <label for="searchInput" class="form-label small text-muted">Terme de recherche</label>
+                <div class="input-group">
+                <span class="input-group-text"><i class="fa-solid fa-magnifying-glass"></i></span>
+                <input type="text" id="searchInput" class="form-control" placeholder="Rechercher un utilisateur...">
+                <button class="btn btn-outline-secondary" type="button" onclick="clearSearch()">
+                    <i class="fa-solid fa-xmark"></i> Effacer
+                </button>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <label class="form-label small text-muted mb-2 d-block">Filtres actifs :</label>
+                <div id="filterCheckboxes" class="d-flex flex-wrap gap-1">
+                <!-- Checkboxes générées par search_utilisateurs.js -->
                 </div>
             </div>
         </div>
+
 
         <!-- Card du tableau -->
         <div class="row">
