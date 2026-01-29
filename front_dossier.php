@@ -76,8 +76,6 @@
     <body class="bg-secondary">
         <?php
             require_once "./includes/navbar.php";
-
-            var_dump($photoData);
         ?>
         <div class="container-sm mt-5">
             <div class="row justify-content-center">
