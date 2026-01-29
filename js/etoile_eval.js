@@ -45,11 +45,10 @@ document.addEventListener('DOMContentLoaded', function() {
                             </span>
                         </div>
                     </td>
-                    <td>${critere.Critere_statut}</td>
-                    <td>${critere.Critere_points}</td>
+                    <td id="statut-${i}">${critere.Critere_statut}</td>
+                    <td id="points-${i}">${critere.Critere_points}</td>
                     <td>
-                        <label for="case-${i}">Choisir un nombre : </label>
-                        <input type="number" id="case-${i}" name="nombre" min="0" max=${critere.Critere_points}>
+                        <input type="checkbox" id="case-${i}" name="checkbox">
                     </td>
                 `;
                 
