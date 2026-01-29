@@ -1131,6 +1131,15 @@ function setReadOnlyMode(readonly, type = selectedDocType) {
     }
   }
 
+  // Masquer explicitement la section formulaire en mode facture
+  if (formulaireSection) {
+    if (readonly && type === "FACTURE") {
+      formulaireSection.style.display = "none";
+    } else {
+      formulaireSection.style.display = "";
+    }
+  }
+
   if (mobileBar) {
     if (readonly && type === "FACTURE") {
       mobileBar.classList.add("readonly-mode");
@@ -1220,18 +1229,11 @@ function setReadOnlyMode(readonly, type = selectedDocType) {
     }
   }
 
-  // Afficher un badge d'information en mode lecture seule
+  // NE PAS AFFICHER DE BADGE ICI - c'est géré par showLockedBadge()
+  // Vider le conteneur readonly-badge-container pour éviter les doublons
   const badgeContainer = document.getElementById("readonly-badge-container");
   if (badgeContainer) {
-    if (readonly && type === "FACTURE") {
-      badgeContainer.innerHTML = `
-        <div class="alert alert-info d-flex align-items-center py-2 mb-2" role="alert">
-          <i class="fa-solid fa-lock me-2"></i>
-          <small>Facture <strong>${currentDocumentId ? "F-" + currentDocumentId : ""}</strong> - Mode lecture seule</small>
-        </div>`;
-    } else {
-      badgeContainer.innerHTML = "";
-    }
+    badgeContainer.innerHTML = "";
   }
 
   window.isReadOnlyMode = readonly;
@@ -1241,29 +1243,19 @@ function setReadOnlyMode(readonly, type = selectedDocType) {
  * Afficher/masquer le badge "Verrouillé"
  */
 function showLockedBadge(show, numero = "") {
-  let badge = document.getElementById("locked-badge");
+  const container = document.getElementById("readonly-badge-container");
+
+  if (!container) return;
 
   if (show) {
-    if (!badge) {
-      const previewHeader =
-        document.querySelector(".preview-header") ||
-        document.querySelector("#pdf-preview")?.parentElement;
-      if (previewHeader) {
-        badge = document.createElement("div");
-        badge.id = "locked-badge";
-        badge.className = "alert alert-warning mb-2 d-flex align-items-center";
-        badge.innerHTML = `
-          <i class="bi bi-lock-fill me-2"></i>
-          <span>Facture <strong>${escapeHtml(numero)}</strong> - Mode lecture seule</span>
-        `;
-        previewHeader.insertBefore(badge, previewHeader.firstChild);
-      }
-    } else {
-      badge.querySelector("strong").textContent = numero;
-      badge.style.display = "";
-    }
-  } else if (badge) {
-    badge.style.display = "none";
+    container.innerHTML = `
+      <div class="alert alert-warning mb-2 d-flex align-items-center" role="alert">
+        <i class="fa-solid fa-lock me-2"></i>
+        <span>Facture <strong>${escapeHtml(numero)}</strong> - Mode lecture seule</span>
+      </div>
+    `;
+  } else {
+    container.innerHTML = "";
   }
 }
 
