@@ -31,7 +31,7 @@
         ?>
 
         <!-- conteneur -->
-        <div class="container mt-4 p-3 rounded shadow bg-light text-dark">
+        <div class="container mt-4 p-3 rounded shadow bg-light-subtle">
 
             <div class="row">
 
@@ -208,7 +208,7 @@
 
                         <div id="passwordHelpBlock" class="form-text mt-2">
                             <ul class="list-group-flush mb-0">
-                                <li class="list-group-item">12 caractères minimum</li>
+                                <li class="list-group-item">12 caractères</li>
                                 <li class="list-group-item">1 caractère spécial #?!@$%^&*-</li>
                                 <li class="list-group-item">1 majuscule</li>
                                 <li class="list-group-item">1 minuscule</li>
