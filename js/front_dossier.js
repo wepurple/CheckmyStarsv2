@@ -30,11 +30,7 @@ document.addEventListener("DOMContentLoaded", function() {
                      data-bs-target="#uploadModal">
                     <div class="card-body d-flex align-items-center justify-content-center">
                         <div class="text-center">
-                            <img src="img/ajout-image.png" 
-                                 style="width: 60px; transition: 0.2s;" 
-                                 onmouseover="this.style.transform='scale(1.1)'" 
-                                 onmouseout="this.style.transform='scale(1)'"
-                                 alt="Ajouter">
+                        <i class="fa-solid fa-plus"></i>
                             <p class="mt-2 text-secondary small">Ajouter une photo</p>
                         </div>
                     </div>
