@@ -214,13 +214,14 @@ function pointsTotal() {
 }
 
 document.getElementById('checkAll').addEventListener('change', function() {
-    // Parcourir toutes les checkboxes
-    for (let j = 0; j < i; j++) {
-        const checkbox = document.getElementById(`case-${j}`);
-        if (checkbox) {
-            checkbox.checked = this.checked; // Applique l'état de checkAll
-        }
-    }
+    // Sélectionne TOUTES les checkboxes avec name="checkbox"
+    const checkboxes = document.querySelectorAll('input[name="checkbox"]');
+    
+    console.log(`Nombre de checkboxes trouvées: ${checkboxes.length}`);
+    
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = this.checked;
+    });
 });
 
 
