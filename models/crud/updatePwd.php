@@ -28,7 +28,7 @@ try{
                     if(preg_match($regex, $data->new)){
                         $user->editPassword($id, password_hash($data->new, PASSWORD_DEFAULT));
                         http_response_code(200);
-                        echo json_encode(["response" => "Nouveau mot de passe modifié avec succès"]);
+                        echo json_encode(["response" => "Mot de passe modifié avec succès"]);
                     }else{//si le mot de passe ne respecte pas le regex
                         http_response_code(403);
                         echo json_encode(["response" => "Nouveau mot de passe trop faible"]);
