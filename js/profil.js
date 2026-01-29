@@ -31,6 +31,7 @@ const modalElements = [
     "newPassword",
     "confirmPassword"
 ]
+const regexMail = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/
     
 async function getInfos() {//va chercher les infos relatives à la personne connectée
     const url = "models/crud/myInfo.php"
@@ -76,8 +77,9 @@ function cancel(){//désactive tous les champs puis les réinitialise, et invers
 
 function valider(){//s'execute après avoir pressé le bouton valider dans la modification des infos perso
     let verif = true
+    const facultatif = ["complement"] //liste des champs facultatifs du formulaire, à remplir avec des champs contenus dans la liste ids
     for (let k = 0 ; k<ids.length ; k++){
-        if(document.getElementById(ids[k]).value == ""){
+        if(document.getElementById(ids[k]).value == "" && !ids[k].includes(facultatif)){
             verif = false
             document.getElementById(ids[k]).classList.add('is-invalid')
         }else{
@@ -182,6 +184,10 @@ function toastColor(couleur) {//change la couleur du toast
     //leToast.show()
 }
 
+function editPasswordBtn(){
+    modalEditMdp.show()
+}
+
 document.addEventListener("DOMContentLoaded", async function() {//quand la page est chargée
     updateInfos()
 
@@ -209,7 +215,3 @@ document.addEventListener("DOMContentLoaded", async function() {//quand la page 
     }
     });
 });
-
-function editPasswordBtn(){
-    modalEditMdp.show()
-}
