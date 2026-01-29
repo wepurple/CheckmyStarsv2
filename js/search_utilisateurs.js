@@ -963,19 +963,23 @@ async function submitSociete() {
 
     const data = await response.json();
 
-    if (data.success) {
+  if (data.success) {
     societeModal.hide();
-    
+
     await refreshSocietes();
 
     const select = document.getElementById('laSociete');
-    select.value = data.new_societe_id;
-    
-    showToast(`Société "${v.nom}" créée !`, "success");
+    if (data.new_societe_id) {
+        select.value = data.new_societe_id;
+    } else if (data.new_user_id) {
+        select.value = data.new_user_id;
+    }
 
     const addModalEl = document.getElementById('addModal');
     const addModal = new bootstrap.Modal(addModalEl);
     addModal.show();
+    
+    showToast(`Société "${v.nom}" créée !`, "success");
     } else {
       showToast(data.error || "Erreur création société", "error");
     }
