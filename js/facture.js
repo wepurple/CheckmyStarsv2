@@ -1118,6 +1118,27 @@ function setReadOnlyMode(readonly, type = selectedDocType) {
   const devisNumeroEl = document.getElementById("devis_numero");
   if (devisNumeroEl) devisNumeroEl.readOnly = true;
 
+  // === AJOUTER/RETIRER LA CLASSE readonly-mode SUR LE WRAPPER ===
+  const wrapper = document.getElementById("facture-wrapper");
+  const mobileBar = document.getElementById("mobile-action-bar");
+  const formulaireSection = document.getElementById("formulaire-section");
+
+  if (wrapper) {
+    if (readonly && type === "FACTURE") {
+      wrapper.classList.add("readonly-mode");
+    } else {
+      wrapper.classList.remove("readonly-mode");
+    }
+  }
+
+  if (mobileBar) {
+    if (readonly && type === "FACTURE") {
+      mobileBar.classList.add("readonly-mode");
+    } else {
+      mobileBar.classList.remove("readonly-mode");
+    }
+  }
+
   // === MASQUER/AFFICHER LES SECTIONS D'ÉDITION ===
   // Accordions de formulaire (entreprise, client, etc.)
   const accordionFacture = document.getElementById(
@@ -1155,7 +1176,7 @@ function setReadOnlyMode(readonly, type = selectedDocType) {
     prestationsDevis.style.display = readonly ? "none" : "";
   }
 
-  // Boutons d'action - masquer si verrouillé
+  // Boutons d'action - masquer si verrouillé (desktop)
   const btnAddLineFacture = document.querySelector(
     '#section-facture [onclick*="addLigne"]',
   );
@@ -1164,6 +1185,11 @@ function setReadOnlyMode(readonly, type = selectedDocType) {
   );
   const btnSave = document.getElementById("btn-save-devis");
   const btnConvert = document.getElementById("btn-convert-facture");
+  const btnActualiser = document.getElementById("btn-actualiser");
+
+  // Boutons mobile
+  const btnSaveMobile = document.getElementById("btn-save-mobile");
+  const btnConvertMobile = document.getElementById("btn-convert-mobile");
 
   if (btnAddLineFacture)
     btnAddLineFacture.style.display =
@@ -1172,6 +1198,11 @@ function setReadOnlyMode(readonly, type = selectedDocType) {
     btnAddLineDevis.style.display = type === "DEVIS" && readonly ? "none" : "";
   if (btnSave) btnSave.style.display = readonly ? "none" : "";
   if (btnConvert) btnConvert.style.display = readonly ? "none" : "";
+  if (btnActualiser) btnActualiser.style.display = readonly ? "none" : "";
+
+  // Mobile buttons
+  if (btnSaveMobile) btnSaveMobile.style.display = readonly ? "none" : "";
+  if (btnConvertMobile) btnConvertMobile.style.display = readonly ? "none" : "";
 
   // Bouton télécharger PDF - toujours visible
   const btnDownload = document.querySelector('[onclick*="downloadPDF"]');
@@ -1186,6 +1217,20 @@ function setReadOnlyMode(readonly, type = selectedDocType) {
       previewTitle.textContent = "Aperçu de la Facture";
     } else {
       previewTitle.textContent = "Aperçu du Devis";
+    }
+  }
+
+  // Afficher un badge d'information en mode lecture seule
+  const badgeContainer = document.getElementById("readonly-badge-container");
+  if (badgeContainer) {
+    if (readonly && type === "FACTURE") {
+      badgeContainer.innerHTML = `
+        <div class="alert alert-info d-flex align-items-center py-2 mb-2" role="alert">
+          <i class="fa-solid fa-lock me-2"></i>
+          <small>Facture <strong>${currentDocumentId ? "F-" + currentDocumentId : ""}</strong> - Mode lecture seule</small>
+        </div>`;
+    } else {
+      badgeContainer.innerHTML = "";
     }
   }
 

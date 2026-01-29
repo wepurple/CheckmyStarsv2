@@ -18,7 +18,7 @@ require_once('includes/mariadb.php');
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
     <title>Gestion des Factures - CheckMyStars</title>
 
@@ -128,7 +128,7 @@ require_once('includes/mariadb.php');
     <link rel="stylesheet" href="bootstrap 5.3/css/facture.css">
     <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
 </head>
-<body class="bg-secondary">
+<body class="bg-light">
      <?php
             require_once("./includes/navbar.php");
         ?>
@@ -139,30 +139,35 @@ require_once('includes/mariadb.php');
         </div>
     </div>
 
-    <div class="container-fluid mt-4">
-        <div class="facture-wrapper">
+    <div class="container-fluid px-2 px-md-3 px-lg-4 mt-3 mt-md-4 pb-5">
+        <div class="facture-wrapper" id="facture-wrapper">
             <!-- FORMULAIRE D'ÉDITION -->
-            <div class="formulaire-section">
-                <div class="top-actions d-flex flex-wrap align-items-center justify-content-between mb-4">
-                    <div class="d-flex gap-2 flex-wrap action-group">
-                        <button class="btn btn-success btn-lg px-4" id="btn-devis" onclick="initNewDevis(); handlePreview('DEVIS')">
-                            Créer un devis
-                        </button>
-                    </div>
-                    <div class="d-flex gap-2 align-items-center flex-wrap action-group">
-                        <!-- Sélecteur de devis existants -->
-                        <div class="input-group" style="max-width: 320px;">
-                            <span class="input-group-text bg-success text-white">D</span>
-                            <select id="devisSelector" class="form-select" onchange="if(this.value) loadDevisFromDropdown()">
-                                <option value="">-- Charger un devis --</option>
-                            </select>
-                        </div>
-                        <!-- Sélecteur de factures existantes -->
-                        <div class="input-group" style="max-width: 320px;">
-                            <span class="input-group-text bg-primary text-white">F</span>
-                            <select id="factureSelector" class="form-select" onchange="if(this.value) loadFacture()">
-                                <option value="">-- Charger une facture --</option>
-                            </select>
+            <div class="formulaire-section" id="formulaire-section">
+                <!-- Barre d'actions en haut -->
+                <div class="card shadow-sm mb-3">
+                    <div class="card-body p-2 p-md-3">
+                        <div class="row g-2 align-items-center">
+                            <div class="col-12 col-lg-auto">
+                                <button class="btn btn-success w-100 py-2" id="btn-devis" onclick="initNewDevis(); handlePreview('DEVIS')">
+                                    <i class="fa-solid fa-plus me-1"></i> Créer un devis
+                                </button>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-success text-white">D</span>
+                                    <select id="devisSelector" class="form-select" onchange="if(this.value) loadDevisFromDropdown()">
+                                        <option value="">-- Sélectionner un devis --</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-sm-6 col-lg">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-primary text-white">F</span>
+                                    <select id="factureSelector" class="form-select" onchange="if(this.value) loadFacture()">
+                                        <option value="">-- Sélectionner une facture --</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -172,9 +177,10 @@ require_once('includes/mariadb.php');
                     <div class="accordion-item" id="section-facture">
                         <div id="collapseFactureSection" class="accordion-collapse show">
                             <div class="accordion-body p-0">
-                                <div class="form-container">
+                                <div class="card shadow-sm">
+                                    <div class="card-body p-2 p-md-3">
                                     <!-- Accordion pour les formulaires Facture -->
-                                    <div class="accordion mb-4" id="formulaireAccordionFacture">
+                                    <div class="accordion" id="formulaireAccordionFacture">
                                         
                                         <!-- Informations Entreprise -->
                                         <div class="accordion-item">
@@ -293,6 +299,7 @@ require_once('includes/mariadb.php');
                                         </div>
 
                                     </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -302,9 +309,10 @@ require_once('includes/mariadb.php');
                     <div class="accordion-item d-none" id="section-devis">
                         <div id="collapseDevisSection" class="accordion-collapse show">
                             <div class="accordion-body p-0">
-                                <div class="form-container">
+                                <div class="card shadow-sm">
+                                    <div class="card-body p-2 p-md-3">
                                     <!-- Accordion pour les formulaires Devis -->
-                                    <div class="accordion mb-4" id="formulaireAccordionDevis">
+                                    <div class="accordion" id="formulaireAccordionDevis">
                                         
                                         <!-- Informations Entreprise Devis -->
                                         <div class="accordion-item">
@@ -497,6 +505,7 @@ require_once('includes/mariadb.php');
                                         </div>
 
                                     </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -506,35 +515,58 @@ require_once('includes/mariadb.php');
             </div>
 
             <!-- PRÉVISUALISATION PDF -->
-            <div class="apercu-section">
+            <div class="apercu-section" id="apercu-section">
                 <div class="sticky-actions">
                     <!-- Barre d'actions principale -->
-                    <div class="d-flex gap-2 mb-3 align-items-center flex-wrap">
-                        <button class="btn btn-primary" onclick="updatePreview()">
-                            Actualiser
-                        </button>
-                        <button class="btn btn-success" onclick="downloadPDF()">
-                            Télécharger PDF
-                        </button>
-                        <button class="btn btn-warning" onclick="saveDevis()" id="btn-save-devis">
-                            Sauvegarder
-                        </button>
-                        <button class="btn btn-info" onclick="convertDevisToFacture()" id="btn-convert-facture">
-                            Convertir en facture
-                        </button>
+                    <div class="card shadow-sm mb-3" id="action-buttons-card">
+                        <div class="card-body p-2">
+                            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                                <button class="btn btn-primary flex-fill" onclick="updatePreview()" id="btn-actualiser">
+                                    <i class="fa-solid fa-sync me-1"></i> <span class="d-none d-sm-inline">Actualiser</span>
+                                </button>
+                                <button class="btn btn-success flex-fill" onclick="downloadPDF()" id="btn-download">
+                                    <i class="fa-solid fa-download me-1"></i> <span class="d-none d-sm-inline">Télécharger</span>
+                                </button>
+                                <button class="btn btn-warning flex-fill" onclick="saveDevis()" id="btn-save-devis">
+                                    <i class="fa-solid fa-save me-1"></i> <span class="d-none d-sm-inline">Sauvegarder</span>
+                                </button>
+                                <button class="btn btn-info flex-fill text-white" onclick="convertDevisToFacture()" id="btn-convert-facture">
+                                    <i class="fa-solid fa-file-invoice me-1"></i> <span class="d-none d-sm-inline">Convertir</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                     
                     <!-- Badge lecture seule (affiché dynamiquement) -->
                     <div id="readonly-badge-container"></div>
                     
-                    <div class="preview-container">
-                        <h3 class="mb-3" id="preview-title">Aperçu de la Facture</h3>
-                        <div id="pdf-preview" class="preview-pdf">
-                            <!-- La prévisualisation sera générée ici -->
+                    <div class="card shadow-sm">
+                        <div class="card-header py-2">
+                            <h5 class="mb-0 fs-6" id="preview-title">Aperçu du Devis</h5>
+                        </div>
+                        <div class="card-body p-2 p-md-3">
+                            <div id="pdf-preview" class="preview-pdf">
+                                <!-- La prévisualisation sera générée ici -->
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- Barre d'actions sticky mobile (visible seulement sur mobile) -->
+    <div class="mobile-action-bar d-lg-none" id="mobile-action-bar">
+        <div class="d-flex gap-2 justify-content-between">
+            <button class="btn btn-success flex-fill py-2" onclick="downloadPDF()">
+                <i class="fa-solid fa-download"></i> PDF
+            </button>
+            <button class="btn btn-warning flex-fill py-2" onclick="saveDevis()" id="btn-save-mobile">
+                <i class="fa-solid fa-save"></i> Sauver
+            </button>
+            <button class="btn btn-info flex-fill py-2 text-white" onclick="convertDevisToFacture()" id="btn-convert-mobile">
+                <i class="fa-solid fa-file-invoice"></i> Facture
+            </button>
         </div>
     </div>
 
