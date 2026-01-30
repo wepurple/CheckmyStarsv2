@@ -1,15 +1,15 @@
 <?php
 session_start();
-require_once('includes/mariadb.php');
+require_once('../includes/mariadb.php');
 
 // Vérifier si l'utilisateur est connecté en tant qu'inspecteur
     if(isset($_SESSION['Role'])){
         if(!$_SESSION['Role']['Inspecteur'] && !$_SESSION['Role']['Administrateur']){
-            header('Location: deco.php');
+            header('Location: ../deco.php');
             die();
         }
     } else {
-        header('Location: deco.php');
+        header('Location: ../deco.php');
         die();
     }
 ?>
@@ -123,14 +123,14 @@ require_once('includes/mariadb.php');
                 return null;
             }
         </script>
-    <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
-    <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.css">
-    <link rel="stylesheet" href="bootstrap 5.3/css/facture.css">
-    <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
+    <link rel="stylesheet" href="../fontawesome-7.1.0/css/all.css">
+    <link rel="stylesheet" href="../bootstrap 5.3/css/bootstrap.css">
+    <link rel="stylesheet" href="../bootstrap 5.3/css/facture.css">
+    <link rel="icon" type="image/x-icon" href="../assets/pictures/logosm.png">
 </head>
 <body class="bg-light">
      <?php
-            require_once("./includes/navbar.php");
+            require_once("../includes/navbar.php");
         ?>
     
     <div class="loading-overlay" id="loadingOverlay">
