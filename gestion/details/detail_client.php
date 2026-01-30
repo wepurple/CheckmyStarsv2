@@ -179,8 +179,8 @@
 
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="typedebien" aria-label="Floating label select example">
-                                        <option value="1">Hotel</option>
-                                        <option value="2">Gite</option>
+                                        <option value="1">Gite</option>
+                                        <option value="2">Hotel</option>
                                         <option value="3">Camping</option>
                                     </select>
                                     <label for="floatingSelect">Type de bien</label>
