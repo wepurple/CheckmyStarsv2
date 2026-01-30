@@ -69,6 +69,11 @@
                 </tbody>
             </table>
 
+            <!-- Toast -->
+            <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 11000;">
+            
+            </div>
+
             <!-- Modal ajout utilisateur -->
             <div class="modal fade" tabindex="-1" id="addModal">
                 <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
