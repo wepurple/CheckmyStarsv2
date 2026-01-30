@@ -1,5 +1,5 @@
 async function getInfos() {
-  const url = "models/Read/infoDossier.php";
+  const url = "../models/Read/infoDossier.php";
   const response = await fetch(url, {
     method: "GET",
     headers: {
