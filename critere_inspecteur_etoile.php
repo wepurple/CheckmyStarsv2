@@ -158,6 +158,9 @@
                                 <button class="btn btn-primary m-3" onclick="pointsTotal();">
                                     Evaluer
                                 </button>
+                                <button class="btn btn-primary m-3" onclick="pointsTotal();">
+                                    Sauvegarder
+                                </button>
                                 <div class="card-footer text-muted small">
                                     <div class="d-flex justify-content-between align-items-center">
                                         <span class="text-end">CheckMyStars © 2026</span>
