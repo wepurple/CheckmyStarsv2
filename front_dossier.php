@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require_once('./includes/mariadb.php');
+    require_once('../includes/mariadb.php');
 
     // Vérification des rôles
     if(!isset($_SESSION['Role']['Administrateur']) && !isset($_SESSION['Role']['Inspecteur'])){
@@ -62,7 +62,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Dossiers- CheckMyStars</title>
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
-        <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
+        <link rel="stylesheet" href="../fontawesome-7.1.0/css/all.css">
         <link rel="stylesheet" href="bootstrap 5.3/css/styleimg.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>      
         <script src="js/front_dossier.js"></script>  
@@ -71,7 +71,7 @@
 
     <body class="bg-secondary">
         <?php
-            require_once "./includes/navbar.php";
+            require_once "../includes/navbar.php";
         ?>
         <div class="container-sm mt-5">
             <div class="d-flex align-items-center gap-3 p-3">
@@ -115,7 +115,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card text-white shadow-sm border-0" style="background-color: #464646 !important;">
-                        <button onclick="window.location.href='./criteres/critere_inspecteur_etoile.php?id=<?php echo $dossier_id; ?>&num=<?php echo urlencode($dossier_numero); ?>'" type="button" class="btn text-white">Voir l'évaluation</button>
+                        <button onclick="window.location.href='../criteres/critere_inspecteur_etoile.php?id=<?php echo $dossier_id; ?>&num=<?php echo urlencode($dossier_numero); ?>'" type="button" class="btn text-white">Voir l'évaluation</button>
                     </div>
                 </div>
                 <div class="col-md-6">
