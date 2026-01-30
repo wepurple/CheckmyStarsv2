@@ -6,7 +6,7 @@ header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
-    include_once '../../../includes/mariadb.php';
+    include_once '../../includes/mariadb.php';
     include_once '../user.php';
 
     $database = new Database();
