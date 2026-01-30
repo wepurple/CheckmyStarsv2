@@ -1,21 +1,21 @@
 <?php
-session_start();
+    session_start();
 
-if(!isset($_SESSION['Role']) || !$_SESSION['Role']['Administrateur']){
-    header('Location: deco.php');
-    die();
-}
+    if(!isset($_SESSION['Role']) || !$_SESSION['Role']['Administrateur']){
+        header('Location: deco.php');
+        die();
+    }
 
-require_once("includes/mariadb.php");
-$database = new Database();
-$db = $database->getConnection();
+    require_once("includes/mariadb.php");
+    $database = new Database();
+    $db = $database->getConnection();
 
-function getAllCompany($connexion)
-{
-    $sql = "SELECT Societe_ID, Societe_Nom FROM societes ORDER BY Societe_Nom;";
-    $query = $connexion->prepare($sql);
-    $query->execute();
-    return $query;
+    function getAllCompany($connexion)
+    {
+        $sql = "SELECT Societe_ID, Societe_Nom FROM societes ORDER BY Societe_Nom;";
+        $query = $connexion->prepare($sql);
+        $query->execute();
+        return $query;
 }
 ?>
 <!DOCTYPE html>
@@ -301,7 +301,7 @@ function getAllCompany($connexion)
                     </div>
 
                     <div class="col-12">
-                    <label class="form-label">Adresse complète (autocomplétion)</label>
+                    <label class="form-label">Adresse complète</label>
                     <input type="text" class="form-control form-control-lg" id="societeAdresseComplete" placeholder="Tapez votre adresse...">
                     <small class="text-muted">API officielle France</small>
                     </div>
