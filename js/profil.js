@@ -138,6 +138,7 @@ async function valider(){//s'execute après avoir pressé le bouton valider dans
         document.getElementById("toastText").textContent = test["response"]
         leToast.show()
         updateInfos()
+        cancel()
     }
 }
 
