@@ -169,7 +169,7 @@ async function addUser() {
       pays: v.pays
     };
 
-    const response = await fetch("../models/Create/users.php", {
+    const response = await fetch("../checkmystars/models/Create/users.php", {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data)
