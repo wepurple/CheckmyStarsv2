@@ -264,7 +264,7 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
     </div>
 
 
-    <script src="bootstrap 5.3/js/bootstrap.bundle.min.js"></script>
-    <script src="js/criteriaStarBack.js"></script>
+    <script src="../bootstrap 5.3/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/criteriaStarBack.js"></script>
 </body>
 </html>
