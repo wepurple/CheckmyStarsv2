@@ -116,6 +116,12 @@
                     ?>
                 </tbody>
             </table>
+
+            <!-- Toast -->
+            <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 11000;">
+            
+            </div>
+
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
@@ -180,36 +186,20 @@
                                     <label for="floatingInput">Société *</label>
                                 </div>
 
-                                <div class="form-floating mb-3">
-                                    <input type="number" class="form-control" id="leNumRue" placeholder="" required>
-                                    <label for="floatingInput">Numéro de rue *</label>
-                                </div>
+                                <hr>
 
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="laAdresse" placeholder="" required>
-                                    <label for="floatingInput">Adresse postale *</label>
+                                <div class="col-md-12 form-floating mb-3">
+                                    <input type="text" class="form-control" id="laAdresseComplete" placeholder="">
+                                    <label for="laAdresseComplete">
+                                        Adresse complète *
+                                    </label>
+                                    <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="leComplement" placeholder="">
                                     <label for="floatingInput">Complément d'adresse</label>
                                 </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leCode" placeholder="" required>
-                                    <label for="floatingInput">Code postal *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="laVille" placeholder="" required>
-                                    <label for="floatingInput">Ville *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="lePays" placeholder="" required>
-                                    <label for="floatingInput">Pays *</label>
-                                </div>
-
                             </form>
                         </div>
                         <!-- modal footer -->
