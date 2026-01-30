@@ -86,9 +86,9 @@
             }
         </script>
 
-        <script src="bootstrap 5.3/js/bootstrap.js"></script>
-        <script src="js/search_inspecteurs.js"></script>
-        <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
+        <script src="../bootstrap 5.3/js/bootstrap.js"></script>
+        <script src="../js/search_inspecteurs.js"></script>
+        <link rel="icon" type="image/x-icon" href="../assets/pictures/logosm.png">
     </head>
 
     <body class="bg-secondary">
