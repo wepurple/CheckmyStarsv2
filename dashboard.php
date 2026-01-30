@@ -25,7 +25,7 @@
         <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
         <script src="js/dashboard.js"></script>
-        <link rel="icon" type="image/x-icon" href="../assets/pictures/logosm.png">
+        <link rel="icon" type="image/x-icon" href="assets/pictures/logosm.png">
     </head>
 
     <body class="bg-secondary">
