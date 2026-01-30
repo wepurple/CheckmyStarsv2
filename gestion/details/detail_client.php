@@ -42,7 +42,7 @@
                 </div>
             </nav>
             <!-- Tableau -->
- <table class="table table-dark table-sm table-striped table-hover">
+            <table class="table table-dark table-sm table-striped table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -57,7 +57,7 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-        <tbody>
+                <tbody>
                     <?php
                     require_once '../../includes/mariadb.php';
                     
@@ -116,7 +116,6 @@
                     ?>
                 </tbody>
             </table>
-             <!-- Vertically centered modal -->
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
@@ -130,6 +129,42 @@
                             <form>
 
                                 <div class="form-floating mb-3">
+                                    <?php
+                                        require_once('../includes/mariadb.php');
+                                        
+                                        $database = new Database();
+                                        $db = $database->getConnection();
+                                        
+                                        if (is_array($db)) {
+                                            echo "<p class='text-danger'>Erreur de connexion à la base de données</p>";
+                                        } else {
+                                            try {
+                                                $sql = "SELECT Utilisateur_ID, Utilisateur_Nom, Utilisateur_Prenom FROM utilisateurs ORDER BY Utilisateur_Nom ASC, Utilisateur_Prenom ASC";
+                                                $stmt = $db->prepare($sql);
+                                                $stmt->execute();
+                                                
+                                                echo '<select class="form-select" id="leClient" onchange="test()" ">';
+                                                echo '<option selected disabled>Choisir un client</option>';
+                                                
+                                                if ($stmt->rowCount() > 0) {
+                                                    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                                        $fullName = htmlspecialchars($row['Utilisateur_Nom'] . ' ' . $row['Utilisateur_Prenom']);
+                                                        echo '<option value="' . htmlspecialchars($row['Utilisateur_ID']) . '">' . $fullName . '</option>';
+                                                    }
+                                                } else {
+                                                    echo '<option disabled>Aucun client trouvé</option>';
+                                                }
+                                                
+                                                echo '</select>';
+                                            } catch(PDOException $e) {
+                                                echo "<p class='text-danger'>Erreur : " . $e->getMessage() . "</p>";
+                                            }
+                                        }
+
+                                    ?>
+                                </div>
+
+                                <!-- <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="leNom" placeholder="" required>
                                     <label for="floatingInput">Nom *</label>
                                 </div>
@@ -137,10 +172,10 @@
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="lePrenom" placeholder="" required>
                                     <label for="floatingInput">Prenom *</label>
-                                </div>
+                                </div> -->
 
-                                <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="leMail" placeholder="" required>
+                                <div id="mail" class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="leMail" placeholder="" value="" required>
                                     <label for="floatingInput">Adresse Mail *</label>
                                 </div>
 
@@ -160,7 +195,7 @@
                                     <label for="floatingInput">Société *</label>
                                 </div>
 
-                                <div class="form-floating mb-3">
+                                <div id = "tel" class="form-floating mb-3">
                                     <input type="tel" class="form-control" id="leTel" placeholder="" required>
                                     <label for="floatingInput">Téléphone *</label>
                                 </div>
@@ -202,10 +237,10 @@
                         <!-- modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-success">Ajouter</button>
+                            <button type="button" class="btn btn-success" id="btnAjouter">Ajouter</button>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
-</body>
+    </body>
 </html>
