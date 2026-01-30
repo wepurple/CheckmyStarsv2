@@ -28,7 +28,7 @@
         <link rel="icon" type="image/x-icon" href="assets/pictures/logosm.png">
     </head>
 
-    <body class="bg-secondary">
+    <body>
         <?php
             require_once "./includes/navbar.php";
         ?>
@@ -52,7 +52,7 @@
                 </div>
             </nav>
             <!-- Tableau -->
-            <table class="table table-dark table-sm table-striped table-hover">
+            <table class="table table-bordered table-sm table-striped table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
