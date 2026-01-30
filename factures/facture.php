@@ -130,7 +130,7 @@ require_once('../includes/mariadb.php');
 </head>
 <body class="bg-light">
      <?php
-            require_once("./includes/navbar.php");
+            require_once("../includes/navbar.php");
         ?>
     
     <div class="loading-overlay" id="loadingOverlay">
