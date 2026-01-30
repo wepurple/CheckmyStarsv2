@@ -123,10 +123,10 @@ require_once('../includes/mariadb.php');
                 return null;
             }
         </script>
-    <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
-    <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.css">
-    <link rel="stylesheet" href="bootstrap 5.3/css/facture.css">
-    <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
+    <link rel="stylesheet" href="../fontawesome-7.1.0/css/all.css">
+    <link rel="stylesheet" href="../bootstrap 5.3/css/bootstrap.css">
+    <link rel="stylesheet" href="../bootstrap 5.3/css/facture.css">
+    <link rel="icon" type="image/x-icon" href="../assets/pictures/logosm.png">
 </head>
 <body class="bg-light">
      <?php
