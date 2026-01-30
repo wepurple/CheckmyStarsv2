@@ -435,7 +435,7 @@ require_once('../includes/mariadb.php');
                                                         <div class="col-md-12 mb-2">
                                                             <label class="form-label">Nom Client</label>
                                                             <?php
-                                        require_once('./includes/mariadb.php');
+                                        require_once('../includes/mariadb.php');
                                         
                                         $database = new Database();
                                         $db = $database->getConnection();
