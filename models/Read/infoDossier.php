@@ -7,7 +7,7 @@ header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers
 
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     include_once '../../includes/mariadb.php';
-    include_once '../crud/user.php';
+    include_once '../user.php';
 
     $database = new Database();
     $db = $database->getConnection();
