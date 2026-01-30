@@ -26,7 +26,7 @@ const REGEX = {
 };
 
 async function getAllusers() {
-    const url = "models/Read/users.php";
+    const url = "../models/Read/users.php";
     const response = await fetch(url, {
         method: "GET",
         headers: {
