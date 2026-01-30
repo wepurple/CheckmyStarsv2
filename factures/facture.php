@@ -435,7 +435,7 @@ require_once('../includes/mariadb.php');
                                                         <div class="col-md-12 mb-2">
                                                             <label class="form-label">Nom Client</label>
                                                             <?php
-                                        require_once('./includes/mariadb.php');
+                                        require_once('../includes/mariadb.php');
                                         
                                         $database = new Database();
                                         $db = $database->getConnection();
@@ -570,7 +570,7 @@ require_once('../includes/mariadb.php');
         </div>
     </div>
 
-    <script src="bootstrap 5.3/js/bootstrap.bundle.min.js"></script>
-    <script src="js/facture.js?v=<?= time() ?>"></script>
+    <script src="../bootstrap 5.3/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/facture.js?v=<?= time() ?>"></script>
 </body>
 </html>
