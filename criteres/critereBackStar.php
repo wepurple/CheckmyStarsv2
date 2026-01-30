@@ -14,8 +14,8 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Critères <?= $star ?> étoile - CheckMyStars</title>
-    <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
-    <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
+    <link rel="stylesheet" href="../bootstrap 5.3/css/bootstrap.min.css">
+    <link rel="icon" type="image/x-icon" href="../assets/pictures/logosm.png">
     <style>
         .star-badge {
             font-size: 1.2rem;
