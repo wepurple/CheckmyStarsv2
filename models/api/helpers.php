@@ -3,7 +3,7 @@
  * Helper pour les APIs - Connexion BDD et gestion JSON
  */
 
-require_once dirname(__DIR__) . '/includes/mariadb.php';
+require_once dirname(__DIR__) . '/../includes/mariadb.php';
 
 /**
  * Obtenir une connexion PDO validée
