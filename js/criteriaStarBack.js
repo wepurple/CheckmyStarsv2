@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let allData = []; // Stocke toutes les données
     
     // Fetch les données
-    fetch(`models/crud/getCriteriaByEtoile.php?star=${star}`)
+    fetch(`../models/Read/getCriteriaByEtoile.php?star=${star}`)
         .then(response => {
             console.log('Réponse fetch:', response.status);
             return response.json();
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
         formData.append('points', points);
         
         // Envoie au serveur (à adapter selon ton API)
-        fetch('models/crud/updateCriteria.php', {
+        fetch('../models/Update/updateCriteria.php', {
             method: 'POST',
             body: formData
         })
@@ -197,7 +197,7 @@ document.addEventListener('DOMContentLoaded', function() {
         addBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> Création...';
         
         // Envoie au serveur
-        fetch('models/crud/addCriteria.php', {
+        fetch('../models/Create/addCriteria.php', {
             method: 'POST',
             body: formData
         })
@@ -232,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Fonction de suppression
     function deleteCriteria(id) {
-        fetch(`models/crud/deleteCriteria.php?id=${id}`, {
+        fetch(`../models/Delete/deleteCriteria.php?id=${id}`, {
             method: 'DELETE'
         })
         .then(response => response.json())
