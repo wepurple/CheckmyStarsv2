@@ -182,7 +182,9 @@ async function addUser() {
       if (addModal) addModal.hide();
       clearValidationClasses('addForm');
       document.getElementById('addForm').reset();
-      await loadTable();
+      const list = await getInfos();
+      console.log(list);
+      remplirTab(list);
       showToast("Utilisateur créé avec succès !", "success");
     } else {
       showToast("Erreur lors de la création : " + result.error, "error");
