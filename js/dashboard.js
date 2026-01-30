@@ -428,7 +428,7 @@ function addressBlockTouched(v) {
 
 async function checkEmailExists(email, excludeUserId = null) {
   try {
-    const url = `../models/Read/checkEmail.php?email=${encodeURIComponent(email)}${excludeUserId ? `&excludeId=${excludeUserId}` : ''}`;
+    const url = `../checkmystars/models/Read/checkEmail.php?email=${encodeURIComponent(email)}${excludeUserId ? `&excludeId=${excludeUserId}` : ''}`;
     const response = await fetch(url, {
       method: "GET",
       headers: { 'Content-Type': "application/json" }
