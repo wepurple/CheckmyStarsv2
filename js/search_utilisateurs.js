@@ -38,7 +38,7 @@ async function getAllusers() {
 }
 
 async function getUserById(id) {
-    const url = "models/Read/users.php?IdPersonne=" + id;
+    const url = "../models/Read/users.php?IdPersonne=" + id;
     const response = await fetch(url, {
         method: "GET",
         headers: {
@@ -125,7 +125,7 @@ async function updateUserById() {
       pays: v.pays
     };
 
-    const response = await fetch("models/Update/users.php", {
+    const response = await fetch("../models/Update/users.php", {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data)
@@ -299,7 +299,7 @@ async function deleteUserById(id) {
         const payload = { id: parseInt(id) };
         console.log("Payload envoyé:", JSON.stringify(payload));
         
-        const resp = await fetch('models/Delete/users.php', {
+        const resp = await fetch('../models/Delete/users.php', {
             method: 'POST',
             credentials: 'include',
             headers: { 
@@ -573,7 +573,7 @@ async function addUser() {
       pays: v.pays
     };
 
-    const response = await fetch("models/Create/users.php", {
+    const response = await fetch("../models/Create/users.php", {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data)
@@ -832,7 +832,7 @@ function addressBlockTouched(v) {
 
 async function checkEmailExists(email, excludeUserId = null) {
   try {
-    const url = `models/Read/checkEmail.php?email=${encodeURIComponent(email)}${excludeUserId ? `&excludeId=${excludeUserId}` : ''}`;
+    const url = `../models/Read/checkEmail.php?email=${encodeURIComponent(email)}${excludeUserId ? `&excludeId=${excludeUserId}` : ''}`;
     const response = await fetch(url, {
       method: "GET",
       headers: { 'Content-Type': "application/json" }
