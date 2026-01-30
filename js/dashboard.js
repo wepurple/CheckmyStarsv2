@@ -591,4 +591,38 @@ document.addEventListener("DOMContentLoaded", async function () {
   console.log(list);
   remplirTab(list);
   //remplissage du tablo
+
+  setupAdresseAutocomplete({
+    adresseCompleteId: "laAdresseComplete",
+    numRueId: "leNumRue",
+    adresseId: "laAdresse",
+    codeId: "leCode",
+    villeId: "laVille",
+    paysId: "lePays"
+  });
+
+  setupAdresseAutocomplete({
+    adresseCompleteId: "editLaAdresseComplete",
+    numRueId: "editLeNumRue",
+    adresseId: "editLaAdresse",
+    codeId: "editLeCode",
+    villeId: "editLaVille",
+    paysId: "editLePays"
+  });
+
+  setupAdresseAutocomplete({
+    adresseCompleteId: "societeAdresseComplete",
+    numRueId: "societeNumRue",
+    adresseId: "societeNomRue",
+    codeId: "societeCodePostal",
+    villeId: "societeVille",
+    paysId: "societePays"
+  });
+
+  document.getElementById('laSociete').addEventListener('change', function () {
+    if (this.value === 'new_company') {
+        this.value = '';
+        openSocieteModal();
+    }
+  });
 });
