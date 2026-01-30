@@ -115,7 +115,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card text-white shadow-sm border-0" style="background-color: #464646 !important;">
-                        <button onclick="window.location.href='criteres/critere_inspecteur_etoile.php?id=<?php echo $dossier_id; ?>&num=<?php echo urlencode($dossier_numero); ?>'" type="button" class="btn text-white">Voir l'évaluation</button>
+                        <button onclick="window.location.href='.criteres/critere_inspecteur_etoile.php?id=<?php echo $dossier_id; ?>&num=<?php echo urlencode($dossier_numero); ?>'" type="button" class="btn text-white">Voir l'évaluation</button>
                     </div>
                 </div>
                 <div class="col-md-6">
