@@ -93,7 +93,7 @@
 
     <body class="bg-secondary">
         <?php        
-            require("./includes/navbar.php");
+            require("../includes/navbar.php");
         ?>
 
             <div class="container-fluid p-3">
