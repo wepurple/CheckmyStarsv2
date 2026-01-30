@@ -37,7 +37,7 @@ const modalElements = [
 const regexMail = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/
     
 async function getInfos() {//va chercher les infos relatives à la personne connectée
-    const url = "models/crud/myInfo.php"
+    const url = "models/read/myInfo.php"
     const response = await fetch(url, {
         method : "GET",
         headers : {
@@ -103,7 +103,7 @@ async function valider(){//s'execute après avoir pressé le bouton valider dans
         }
     }
     if(verif){//si toutes les vérifications sont ok, on envoie le formulaire
-        const url = 'models/crud/updateUser.php'
+        const url = 'models/Update/updateUser.php'
         const data = {
             nom: document.getElementById(ids[0]).value,
             prenom: document.getElementById(ids[1]).value,
@@ -174,7 +174,7 @@ async function submitPassword(){//s'execute après avoir validé la modification
         if(pwRegex.test(document.getElementById(modalElements[1]).value)){//si le regex est ok
             if(document.getElementById(modalElements[1]).value == document.getElementById(modalElements[2]).value){//si la confirmation est confirmée avec validation validée
                 //envoi de la requete de changement de mdp
-                const url = 'models/crud/updatePwd.php'
+                const url = 'models/update/updatePwd.php'
                 const data = {
                     old: document.getElementById(modalElements[0]).value,
                     new: document.getElementById(modalElements[1]).value,

@@ -36,7 +36,7 @@
 
              
                 <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/critereback.php" || strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/criterebackstar.php"){ echo ' active'; } ?>" href="/checkmystars/criteres/critereBack">
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/criteres/critereback.php" || strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/criteres/criterebackstar.php"){ echo ' active'; } ?>" href="/checkmystars/criteres/critereBack">
                         Gestion des critères
                     </a>
                 </li>
@@ -52,7 +52,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/facture.php"){ echo ' active'; } ?>" href="/checkmystars/factures/facture">
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/factures/facture.php"){ echo ' active'; } ?>" href="/checkmystars/factures/facture">
                         Factures et devis
                     </a>
                 </li>

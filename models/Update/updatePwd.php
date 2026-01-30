@@ -19,7 +19,7 @@ try{
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             include_once '../../includes/mariadb.php';
-            include_once '../crud/user.php';
+            include_once '../user.php';
 
             $database = new Database();
             $db = $database->getConnection();
