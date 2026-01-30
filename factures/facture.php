@@ -22,107 +22,6 @@ require_once(__DIR__ . '/../includes/mariadb.php');
     
     <title>Gestion des Factures - CheckMyStars</title>
 
-    <script type='text/javascript'>
- 
-            function getXhr(){
-                                var xhr = null; 
-                if(window.XMLHttpRequest) // Firefox et autres
-                   xhr = new XMLHttpRequest(); 
-                else if(window.ActiveXObject){ // Internet Explorer 
-                   try {
-                            xhr = new ActiveXObject("Msxml2.XMLHTTP");
-                        } catch (e) {
-                            xhr = new ActiveXObject("Microsoft.XMLHTTP");
-                        }
-                }
-                else { // XMLHttpRequest non supporté par le navigateur 
-                   alert("Votre navigateur ne supporte pas les objets XMLHTTPRequest..."); 
-                   xhr = false; 
-                } 
-                                return xhr;
-            }
- 
-            /**
-            * Charge les données entreprise depuis le select
-            */
-            function loadEntrepriseData(){
-                var sel = document.getElementById('entreprise_select_devis');
-                var opt = sel.options[sel.selectedIndex];
-                
-                if (!opt || !opt.value) return;
-                
-                document.getElementById('entreprise_nom_devis').value = opt.getAttribute('data-nom') || '';
-                document.getElementById('entreprise_adresse_devis').value = opt.getAttribute('data-adresse') || '';
-                document.getElementById('entreprise_cp_devis').value = opt.getAttribute('data-cp') || '';
-                document.getElementById('entreprise_ville_devis').value = opt.getAttribute('data-ville') || '';
-                document.getElementById('entreprise_tel_devis').value = opt.getAttribute('data-tel') || '';
-                document.getElementById('entreprise_siret_devis').value = opt.getAttribute('data-siret') || '';
-                document.getElementById('entreprise_tva_devis').value = opt.getAttribute('data-tva') || '';
-            }
-
-            /**
-            * Méthode qui sera appelée sur le clic du bouton
-            */
-            function test(){
-                var xhr = getXhr();
-                // On définit ce qu'on va faire quand on aura la réponse
-                xhr.onreadystatechange = function(){
-                    // On ne fait quelque chose que si on a tout reçu et que le serveur est OK
-                    if(xhr.readyState == 4 && xhr.status == 200){
-                        try {
-                            var data = JSON.parse(xhr.responseText);
-                            if (data.error) {
-                                alert('Erreur : ' + data.error);
-                            } else {
-                                // Remplir les champs avec les données reçues
-                                document.getElementById('client_adresse_devis').value = data.adresse || '';
-                                document.getElementById('client_cp_devis').value = data.codepostal || '';
-                                document.getElementById('client_ville_devis').value = data.ville || '';
-                            }
-                        } catch(e) {
-                            console.error('Erreur de traitement:', e);
-                            alert('Erreur de traitement de la réponse: ' + e.message);
-                        }
-                    }
-                }
- 
-                // Récupérer l'ID du client sélectionné depuis l'attribut data-id
-                var sel = document.getElementById('client_nom_devis');
-                var idclient = sel.options[sel.selectedIndex].getAttribute('data-id');
-                
-                if (!idclient) {
-                    alert('Erreur : impossibile récupérer l\'ID du client');
-                    return;
-                }
-                
-                // Requête POST
-                xhr.open("POST","../models/ajaxtest/ajaxDevis.php",true);
-                xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
-                xhr.send("Client_ID="+idclient);
-            }
-            
-            /**
-            * Récupère l'ID de l'entreprise sélectionnée
-            */
-            function getSelectedEntrepriseId(){
-                var sel = document.getElementById('entreprise_select_devis');
-                if (sel && sel.value) {
-                    return parseInt(sel.value);
-                }
-                return 1; // ID par défaut
-            }
-            
-            /**
-            * Récupère l'ID du client sélectionné
-            */
-            function getSelectedClientId(){
-                var sel = document.getElementById('client_nom_devis');
-                if (sel && sel.selectedIndex > 0) {
-                    return sel.options[sel.selectedIndex].getAttribute('data-id');
-                }
-                return null;
-            }
-        </script>
     <link rel="stylesheet" href="../fontawesome-7.1.0/css/all.css">
     <link rel="stylesheet" href="../bootstrap 5.3/css/bootstrap.css">
     <link rel="stylesheet" href="../bootstrap 5.3/css/facture.css">
@@ -435,8 +334,7 @@ require_once(__DIR__ . '/../includes/mariadb.php');
                                                         <div class="col-md-12 mb-2">
                                                             <label class="form-label">Nom Client</label>
                                                             <?php
-                                        require_once('../includes/mariadb.php');
-                                        
+                                        // Réutilise la connexion déjà établie en haut du fichier
                                         $database = new Database();
                                         $db = $database->getConnection();
                                         
