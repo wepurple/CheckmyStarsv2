@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function fetchData(){
-    fetch(`../models/crud/getCriteriaByEtoile.php?star=${etoiles}`)
+    fetch(`../models/Read/getCriteriaByEtoile.php?star=${etoiles}`)
         .then(response => {
             console.log('Reponse fetch; ', response);
             return response.json();
