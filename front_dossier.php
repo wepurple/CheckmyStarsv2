@@ -8,20 +8,16 @@
         die();
     }
 
-
     $dossier_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-
-    // a supprimer
-    $images = [];
-    
-    
     $bien_id = 0;
+    $dossier_numero = ""; // Variable pour stocker le numéro du dossier
 
     $database = new Database();
     $db = $database->getConnection();
 
-    // Récupération des images et du Bien_ID
-    $sql_images = "SELECT p.Photo_ID, p.Photo_Lien, d.Bien_ID 
+    // Récupération du Numéro de dossier, des images et du Bien_ID
+    // On ajoute d.Dossier_numero dans le SELECT
+    $sql_images = "SELECT d.Dossier_numero, d.Bien_ID, p.Photo_ID, p.Photo_Lien
                    FROM dossiers d 
                    LEFT JOIN photos p ON p.Bien_ID = d.Bien_ID 
                    WHERE d.Dossier_ID = :id";
@@ -31,6 +27,10 @@
     
     $photoData = []; 
     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+        // On récupère le numéro de dossier (il sera le même pour chaque ligne)
+        $dossier_numero = $row['Dossier_numero'];
+        $bien_id = $row['Bien_ID']; 
+
         if ($row['Photo_Lien']) {
             $photoData[] = [
                 'Photo_ID'   => $row['Photo_ID'],
@@ -38,7 +38,6 @@
                 'Bien_ID'    => $row['Bien_ID']
             ];
         }
-        $bien_id = $row['Bien_ID']; 
     }
 
     // Gestion de l'Upload
@@ -48,10 +47,7 @@
         $target_path = $target_dir . $filename;
 
         if (move_uploaded_file($_FILES['new_image']['tmp_name'], $target_path)) {
-            // CORRECTION : Utilisez $db (votre instance de connexion) et non $pdo
             $insert = $db->prepare("INSERT INTO photos (Photo_Lien, Bien_ID) VALUES (?, ?)");
-            
-            // Assurez-vous que $_POST['bien_id'] est bien envoyé par le modal
             $insert->execute([$target_path, $_POST['bien_id']]);
             
             header("Location: front_dossier.php?id=$dossier_id");
@@ -78,6 +74,18 @@
             require_once "./includes/navbar.php";
         ?>
         <div class="container-sm mt-5">
+            <div class="d-flex align-items-center gap-3 p-3">
+                    <a href="gestion_dossiers.php" class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                        <i class="fa-solid fa-arrow-left"></i>
+                    </a>
+
+                    <div class="bg-white rounded-pill shadow-sm px-4 py-2 border">
+                        <span class="fw-medium text-secondary">
+                            Dossier en cours : <span class="text-dark fw-bold"><?php echo $dossier_numero; ?></span>
+                        </span>
+                    </div>
+            </div>
+
             <div class="row justify-content-center">
                 <div id="photoCarousel" class="carousel slide" data-bs-ride="false" data-images='<?php echo json_encode($photoData); ?>'>
                     <div class="carousel-inner" id="carouselContent">
@@ -139,54 +147,45 @@
 -->
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md rounded">
-                    <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
-                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#info_modal">Voir le devis</button>
-                        </div>
+
+        <!-- Bouton pour ouvrir le modal d'upload -->
+        <div class="container mt-4">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="card text-white shadow-sm border-0" style="background-color: #464646 !important;">
+                        <button type="button" class="btn text-white" data-bs-toggle="modal" data-bs-target="#info_modal">Voir le devis</button>
                     </div>
                 </div>
-                <div class="col-md rounded">
-                    <div class="card text-white rounded shadow-md border" style="background-color: #2b2b2b !important;">
-                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#info_modal">Voir la facture</button>
-                        </div>
+                <div class="col-md-6">
+                    <div class="card text-white shadow-sm border-0" style="background-color: #2b2b2b !important;">
+                        <button type="button" class="btn text-white" data-bs-toggle="modal" data-bs-target="#info_modal">Voir la facture</button>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md rounded">
-                    <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
-                            <button onclick="window.location.href='critere_inspecteur_etoile.php'" type="button" class="btn">Voir l'evaluation</button>
-                        </div>
+                <div class="col-md-6">
+                    <div class="card text-white shadow-sm border-0" style="background-color: #464646 !important;">
+                        <button onclick="window.location.href='critere_inspecteur_etoile.php?id=<?php echo $dossier_id; ?>&num=<?php echo urlencode($dossier_numero); ?>'" type="button" class="btn text-white">Voir l'évaluation</button>
                     </div>
                 </div>
-                <div class="col-md rounded">
-                    <div class="card text-white rounded shadow-md border" style="background-color: #2b2b2b !important;">
-                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#adresse_modal">Voir l'adresse</button>
-                        </div>
+                <div class="col-md-6">
+                    <div class="card text-white shadow-sm border-0" style="background-color: #2b2b2b !important;">
+                        <button type="button" class="btn text-white" data-bs-toggle="modal" data-bs-target="#adresse_modal">Voir l'adresse</button>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-md rounded">
-                    <div class="card text-white rounded shadow-md border" style="background-color: #464646 !important;">
-                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#info_modal">Voir la date du RDV</button>
-                        </div>
+                <div class="col-md-6">
+                    <div class="card text-white shadow-sm border-0" style="background-color: #464646 !important;">
+                        <button type="button" class="btn text-white" data-bs-toggle="modal" data-bs-target="#info_modal">Voir la date du RDV</button>
                     </div>
                 </div>
-                <div class="col-md rounded">
-                    <div class="card text-white rounded shadow-md border" style="background-color: #2b2b2b !important;">
-                            <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#statuts_modal">Voir l'etat du dossier</button>
-                        </div>
+                <div class="col-md-6">
+                    <div class="card text-white shadow-sm border-0" style="background-color: #2b2b2b !important;">
+                        <button type="button" class="btn text-white" data-bs-toggle="modal" data-bs-target="#statuts_modal">Voir l'état du dossier</button>
                     </div>
                 </div>
             </div>
         </div>
+
+
+        <!-- Modal pour l'adresse -->
         <div class="modal" id="adresse_modal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -227,6 +226,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal pour l'état du dossier -->
         <div class="modal" id="statuts_modal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -271,6 +272,8 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal d'information générique -->
         <div class="modal" id="info_modal" tabindex="-1">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -288,6 +291,8 @@
         </div>
 
 
+
+        <!-- Modals pour l'upload et la suppression des photos -->
         <div class="modal fade" id="uploadModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border-secondary shadow">
@@ -309,7 +314,7 @@
         </div>
 
         
-
+        <!-- Modals pour la suppression des photos -->
         <div class="modal fade" id="deletePhotoModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content border-danger shadow">
@@ -333,6 +338,7 @@
             </div>
         </div>
 
+        <!-- Lightbox Modal -->
         <div class="modal fade" id="lightboxModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-xl modal-dialog-centered">
                 <div class="modal-content bg-transparent border-0">

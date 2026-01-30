@@ -15,6 +15,9 @@
 
     $id = isset($_GET['id']) ? intval ($_GET['id']) : null;
 
+    $dossier_numero = isset($_GET['num']) ? $_GET['num'] : "Non défini";
+    $dossier_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
 ?>
 
 <!DOCTYPE html>
@@ -42,7 +45,7 @@
 
                     <div class="bg-white rounded-pill shadow-sm px-4 py-2 border">
                         <span class="fw-medium text-secondary">
-                            Dossier en cours : <span class="text-dark fw-bold"><?php echo $id; ?></span>
+                            Dossier en cours : <span class="text-dark fw-bold"><?php echo $dossier_numero; ?></span>
                         </span>
                     </div>
 
