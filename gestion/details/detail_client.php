@@ -130,7 +130,7 @@
 
                                 <div class="form-floating mb-3">
                                     <?php
-                                        require_once('../includes/mariadb.php');
+                                        require_once('../../includes/mariadb.php');
                                         
                                         $database = new Database();
                                         $db = $database->getConnection();
