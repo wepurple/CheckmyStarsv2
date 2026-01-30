@@ -17,7 +17,7 @@
 
     <body class="bg-secondary">
         <?php
-            require_once "./includes/navbar.php";
+            require_once "../../includes/navbar.php";
         ?>
 
             <div class="container-fluid p-3">
