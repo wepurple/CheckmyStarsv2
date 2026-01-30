@@ -59,7 +59,7 @@
                 </thead>
         <tbody>
                     <?php
-                    require_once './includes/mariadb.php';
+                    require_once '../../includes/mariadb.php';
                     
                     $database = new Database();
                     $db = $database->getConnection();
