@@ -180,13 +180,6 @@
                                     <label for="floatingInput">Société *</label>
                                 </div>
 
-                                <div id = "tel" class="form-floating mb-3">
-                                    <input type="tel" class="form-control" id="leTel" placeholder="" required>
-                                    <label for="floatingInput">Téléphone *</label>
-                                </div>
-
-                                <hr>
-
                                 <div class="form-floating mb-3">
                                     <input type="number" class="form-control" id="leNumRue" placeholder="" required>
                                     <label for="floatingInput">Numéro de rue *</label>
