@@ -42,7 +42,7 @@
                 </div>
             </nav>
             <!-- Tableau -->
- <table class="table table-dark table-sm table-striped table-hover">
+            <table class="table table-dark table-sm table-striped table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -57,7 +57,7 @@
                         <th>Status</th>
                     </tr>
                 </thead>
-        <tbody>
+                <tbody>
                     <?php
                     require_once '../../includes/mariadb.php';
                     
@@ -116,7 +116,12 @@
                     ?>
                 </tbody>
             </table>
-             <!-- Vertically centered modal -->
+
+            <!-- Toast -->
+            <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 11000;">
+            
+            </div>
+
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
@@ -130,29 +135,39 @@
                             <form>
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leNom" placeholder="" required>
-                                    <label for="floatingInput">Nom *</label>
-                                </div>
+                                    <?php
+                                        require_once('../../includes/mariadb.php');
+                                        
+                                        $database = new Database();
+                                        $db = $database->getConnection();
+                                        
+                                        if (is_array($db)) {
+                                            echo "<p class='text-danger'>Erreur de connexion à la base de données</p>";
+                                        } else {
+                                            try {
+                                                $sql = "SELECT Utilisateur_ID, Utilisateur_Nom, Utilisateur_Prenom FROM utilisateurs ORDER BY Utilisateur_Nom ASC, Utilisateur_Prenom ASC";
+                                                $stmt = $db->prepare($sql);
+                                                $stmt->execute();
+                                                
+                                                echo '<select class="form-select" id="leClient" onchange="test()" ">';
+                                                echo '<option selected disabled>Choisir un client</option>';
+                                                
+                                                if ($stmt->rowCount() > 0) {
+                                                    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                                        $fullName = htmlspecialchars($row['Utilisateur_Nom'] . ' ' . $row['Utilisateur_Prenom']);
+                                                        echo '<option value="' . htmlspecialchars($row['Utilisateur_ID']) . '">' . $fullName . '</option>';
+                                                    }
+                                                } else {
+                                                    echo '<option disabled>Aucun client trouvé</option>';
+                                                }
+                                                
+                                                echo '</select>';
+                                            } catch(PDOException $e) {
+                                                echo "<p class='text-danger'>Erreur : " . $e->getMessage() . "</p>";
+                                            }
+                                        }
 
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="lePrenom" placeholder="" required>
-                                    <label for="floatingInput">Prenom *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="leMail" placeholder="" required>
-                                    <label for="floatingInput">Adresse Mail *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" id="typedebien" aria-label="Floating label select example">
-                                        <option value="1">Maison</option>
-                                        <option value="2">Appartement</option>
-                                         <option value="3">Hotel</option>
-                                         <option value="4">Camping</option>
-                                        <option selected value="5">Local commercial</option>
-                                    </select>
-                                    <label for="floatingSelect">Type de bien </label>
+                                    ?>
                                 </div>
 
                                 <div class="form-floating mb-3">
@@ -160,52 +175,38 @@
                                     <label for="floatingInput">Société *</label>
                                 </div>
 
-                                <div class="form-floating mb-3">
-                                    <input type="tel" class="form-control" id="leTel" placeholder="" required>
-                                    <label for="floatingInput">Téléphone *</label>
-                                </div>
-
                                 <hr>
 
                                 <div class="form-floating mb-3">
-                                    <input type="number" class="form-control" id="leNumRue" placeholder="" required>
-                                    <label for="floatingInput">Numéro de rue *</label>
+                                    <select class="form-select" id="typedebien" aria-label="Floating label select example">
+                                        <option value="1">Gite</option>
+                                        <option value="2">Hotel</option>
+                                        <option value="3">Camping</option>
+                                    </select>
+                                    <label for="floatingSelect">Type de bien</label>
                                 </div>
 
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="laAdresse" placeholder="" required>
-                                    <label for="floatingInput">Adresse postale *</label>
+                                <div class="col-md-12 form-floating mb-3">
+                                    <input type="text" class="form-control" id="laAdresseComplete" placeholder="">
+                                    <label for="laAdresseComplete">
+                                        Adresse complète *
+                                    </label>
+                                    <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
                                 </div>
 
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control" id="leComplement" placeholder="">
                                     <label for="floatingInput">Complément d'adresse</label>
                                 </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leCode" placeholder="" required>
-                                    <label for="floatingInput">Code postal *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="laVille" placeholder="" required>
-                                    <label for="floatingInput">Ville *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="lePays" placeholder="" required>
-                                    <label for="floatingInput">Pays *</label>
-                                </div>
-
                             </form>
                         </div>
                         <!-- modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-success">Ajouter</button>
+                            <button type="button" class="btn btn-success" id="btnAjouter">Ajouter</button>
                         </div>
-                    </div>
+                    </div>                    
                 </div>
             </div>
-</body>
+    </body>
 </html>
