@@ -513,6 +513,6 @@
         </div>
     </div>
 </div>
-<script src="js/search_utilisateurs.js"></script>
+<script src="../js/search_utilisateurs.js"></script>
 </body>
 </html>
