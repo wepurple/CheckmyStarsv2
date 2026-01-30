@@ -98,54 +98,6 @@
                     </button>
                 </div>
             </div>
-<!--
-                <div class="col-md 4 p-3 rounded">
-                    <div id="Carousel" class="carousel slide"  data-bs-ride="carousel" data-bs-interval="2000" data-bs-pause="false">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="img\hotel_img3.jpg" style="border-radius: 20px;"  alt="Image 3">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img\hotel_img1.jpg" style="border-radius: 20px;"  alt="Image 1">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img\hotel_img2.jpg" style="border-radius: 20px;"  alt="Image 2">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md 4 p-3 rounded">
-                    <div id="Carousel" class="carousel slide"  data-bs-ride="carousel" data-bs-interval="2000" data-bs-pause="false">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="img\hotel_img1.jpg" style="border-radius: 20px;"  alt="Image 1">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img\hotel_img2.jpg" style="border-radius: 20px;"  alt="Image 2">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img\hotel_img3.jpg" style="border-radius: 20px;"  alt="Image 3">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md 4 p-3 rounded">
-                    <div id="Carousel" class="carousel slide"  data-bs-ride="carousel" data-bs-interval="2000" data-bs-pause="false">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="img\hotel_img2.jpg" style="border-radius: 20px;"  alt="Image 2">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img\hotel_img3.jpg" style="border-radius: 20px;"  alt="Image 3">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img\hotel_img1.jpg" style="border-radius: 20px;"  alt="Image 1">
-                            </div>
-                        </div>
-                    </div>
-                </div>
--->
-            </div>
         </div>
 
         <!-- Bouton pour ouvrir le modal d'upload -->
