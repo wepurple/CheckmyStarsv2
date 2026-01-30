@@ -20,7 +20,6 @@
 
 ?>
 
-<!DOCTYPE html>
 <html lang="fr" data-bs-theme="dark">
     <head>
         <meta charset="UTF-8">
