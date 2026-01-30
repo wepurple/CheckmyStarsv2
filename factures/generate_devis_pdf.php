@@ -25,12 +25,12 @@ if (!$data) {
 
 // Extraire et valider les données
 $entreprise = $data['entreprise'] ?? [];
-$facture = $data['facture'] ?? [];
+$devis = $data['devis'] ?? [];
 $client = $data['client'] ?? [];
 $lignes = $data['lignes'] ?? [];
 
 // Vérifier que les champs essentiels sont présents
-if (empty($entreprise['nom']) || empty($facture['numero']) || empty($lignes)) {
+if (empty($entreprise['nom']) || empty($devis['numero']) || empty($lignes)) {
     ob_end_clean();
     http_response_code(400);
     header('Content-Type: application/json');
@@ -54,8 +54,8 @@ $pdf = new \TCPDF('P', 'mm', 'A4', true, 'UTF-8', false);
 
 $pdf->SetCreator($entreprise['nom']);
 $pdf->SetAuthor($entreprise['nom']);
-$pdf->SetTitle('Facture ' . $facture['numero']);
-$pdf->SetSubject('Facture');
+$pdf->SetTitle('Devis ' . $devis['numero']);
+$pdf->SetSubject('Devis');
 
 // Marges
 $pdf->SetMargins(15, 15, 15);
@@ -72,7 +72,7 @@ $pdf->AddPage();
 // ========================================
 
 $pdf->SetFont('helvetica', 'B', 24);
-$pdf->SetTextColor(37, 99, 235);
+$pdf->SetTextColor(41, 128, 185);
 $pdf->Cell(0, 10, $entreprise['nom'], 0, 1, 'L');
 
 $pdf->SetFont('helvetica', '', 9);
@@ -81,13 +81,13 @@ $pdf->Cell(0, 4, 'Diagnostic et Inspection Immobilière', 0, 1, 'L');
 $pdf->Ln(3);
 
 // Ligne de séparation
-$pdf->SetDrawColor(37, 99, 235);
+$pdf->SetDrawColor(41, 128, 185);
 $pdf->SetLineWidth(1);
 $pdf->Line(15, $pdf->GetY(), 195, $pdf->GetY());
 $pdf->Ln(5);
 
 // ========================================
-// INFORMATIONS FACTURE ET CLIENT
+// INFORMATIONS DEVIS ET CLIENT
 // ========================================
 
 $y_start = $pdf->GetY();
@@ -106,12 +106,12 @@ $adresse_texte = $entreprise['adresse'] . "\n" .
                  'N° TVA : ' . $entreprise['tva'];
 $pdf->MultiCell(90, 3.5, $adresse_texte, 0, 'L', false, 1);
 
-// Colonne droite - Informations facture
+// Colonne droite - Informations devis
 $pdf->SetXY(120, $y_start);
-$pdf->SetFillColor(37, 99, 235);
+$pdf->SetFillColor(41, 128, 185);
 $pdf->SetTextColor(255, 255, 255);
 $pdf->SetFont('helvetica', 'B', 14);
-$pdf->Cell(75, 8, 'FACTURE', 0, 1, 'C', true);
+$pdf->Cell(75, 8, 'DEVIS', 0, 1, 'C', true);
 
 $pdf->SetX(120);
 $pdf->SetFont('helvetica', '', 9);
@@ -119,15 +119,22 @@ $pdf->SetTextColor(50, 50, 50);
 $pdf->SetFillColor(245, 245, 245);
 $pdf->Cell(25, 5, 'N° : ', 0, 0, 'L', false);
 $pdf->SetFont('helvetica', 'B', 9);
-$pdf->Cell(50, 5, $facture['numero'], 0, 1, 'L', false);
+$pdf->Cell(50, 5, $devis['numero'], 0, 1, 'L', false);
 
 $pdf->SetX(120);
 $pdf->SetFont('helvetica', '', 9);
 $pdf->Cell(25, 5, 'Date : ', 0, 0, 'L', false);
 $pdf->SetFont('helvetica', 'B', 9);
-$date_obj = DateTime::createFromFormat('Y-m-d', $facture['date']);
-$date_formatted = $date_obj ? $date_obj->format('d/m/Y') : $facture['date'];
+$date_obj = DateTime::createFromFormat('Y-m-d', $devis['date']);
+$date_formatted = $date_obj ? $date_obj->format('d/m/Y') : $devis['date'];
 $pdf->Cell(50, 5, $date_formatted, 0, 1, 'L', false);
+
+// Validité du devis
+$pdf->SetX(120);
+$pdf->SetFont('helvetica', '', 9);
+$pdf->Cell(25, 5, 'Validité : ', 0, 0, 'L', false);
+$pdf->SetFont('helvetica', 'B', 9);
+$pdf->Cell(50, 5, '30 jours', 0, 1, 'L', false);
 
 $pdf->Ln(8);
 
@@ -138,7 +145,7 @@ $pdf->Rect(120, $y_client, 75, 25, 'F');
 
 $pdf->SetXY(120, $y_client);
 $pdf->SetFont('helvetica', 'B', 9);
-$pdf->SetTextColor(37, 99, 235);
+$pdf->SetTextColor(41, 128, 185);
 $pdf->Cell(75, 5, 'CLIENT', 0, 1, 'C');
 
 $pdf->SetFont('helvetica', '', 9);
@@ -157,7 +164,7 @@ $pdf->Ln(5);
 // ========================================
 
 $pdf->SetFont('helvetica', 'B', 8);
-$pdf->SetFillColor(37, 99, 235);
+$pdf->SetFillColor(41, 128, 185);
 $pdf->SetTextColor(255, 255, 255);
 
 $pdf->Cell(80, 7, 'Description', 1, 0, 'L', true);
@@ -210,7 +217,7 @@ $pdf->Cell(20, 6, 'Total TVA :', 0, 0, 'R');
 $pdf->SetFont('helvetica', 'B', 9);
 $pdf->Cell(20, 6, number_format($total_tva, 2, ',', ' ') . '€', 0, 1, 'R');
 
-$pdf->SetFillColor(37, 99, 235);
+$pdf->SetFillColor(41, 128, 185);
 $pdf->SetTextColor(255, 255, 255);
 $pdf->SetFont('helvetica', 'B', 10);
 $pdf->Cell(155, 8, '', 0, 0);
@@ -220,20 +227,32 @@ $pdf->Cell(20, 8, number_format($total_ttc, 2, ',', ' ') . '€', 0, 1, 'R', tru
 $pdf->Ln(8);
 
 // ========================================
-// CONDITIONS DE PAIEMENT
+// BON POUR ACCORD
 // ========================================
 
 $pdf->SetTextColor(50, 50, 50);
 $pdf->SetFont('helvetica', 'B', 10);
-$pdf->Cell(0, 6, 'CONDITIONS DE PAIEMENT', 0, 1, 'L');
+$pdf->Cell(0, 6, 'BON POUR ACCORD', 0, 1, 'L');
 
 $pdf->SetFont('helvetica', '', 8);
 $pdf->SetTextColor(80, 80, 80);
-$conditions = "Paiement à réception de facture par virement bancaire.\n\n" .
-              "Conformément à l'article L.441-6 du Code de Commerce, tout retard de paiement entraînera " .
-              "l'exigibilité d'une pénalité égale à trois fois le taux d'intérêt légal.\n\n" .
-              "En cas de retard de paiement, une indemnité forfaitaire pour frais de recouvrement " .
-              "de 40€ sera exigible (décret n°2012-1115).";
+$pdf->Cell(0, 4, 'Date et signature du client :', 0, 1, 'L');
+
+$pdf->Ln(15);
+
+// ========================================
+// CONDITIONS
+// ========================================
+
+$pdf->SetTextColor(50, 50, 50);
+$pdf->SetFont('helvetica', 'B', 10);
+$pdf->Cell(0, 6, 'CONDITIONS', 0, 1, 'L');
+
+$pdf->SetFont('helvetica', '', 8);
+$pdf->SetTextColor(80, 80, 80);
+$conditions = "• Ce devis est valable 30 jours à compter de sa date d'émission.\n" .
+              "• Acompte de 30% à la commande, solde à la livraison.\n" .
+              "• Toute commande implique l'acceptation des présentes conditions générales de vente.";
 $pdf->MultiCell(0, 3.5, $conditions, 0, 'L');
 
 $pdf->Ln(5);
@@ -250,9 +269,9 @@ $pdf->Cell(0, 3, 'Document généré le ' . date('d/m/Y à H:i'), 0, 1, 'C');
 // GÉNÉRATION DU PDF
 // ========================================
 
-// Nettoyer le numéro de facture pour le nom de fichier
-$sanitizedNumero = preg_replace('/[^A-Za-z0-9_-]/', '_', $facture['numero']);
-$filename = 'facture_' . $sanitizedNumero . '_' . date('Y-m-d_His') . '.pdf';
+// Nettoyer le numéro de devis pour le nom de fichier
+$sanitizedNumero = preg_replace('/[^A-Za-z0-9_-]/', '_', $devis['numero']);
+$filename = 'devis_' . $sanitizedNumero . '_' . date('Y-m-d_His') . '.pdf';
 
 // Nettoyer TOUS les buffers de sortie avant de générer le PDF
 while (ob_get_level()) {
