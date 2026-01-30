@@ -585,6 +585,16 @@ async function refreshSocietes() {
     }
 }
 
+function addCancel() {
+    clearValidationClasses('addForm');
+    document.getElementById('addForm').reset();
+    const addModalElement = document.getElementById('addModal');
+    const addModal = bootstrap.Modal.getInstance(addModalElement);
+    if (addModal) {
+        addModal.hide();
+    }
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
   //quand la page est chargée
   const list = await getInfos();
