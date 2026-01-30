@@ -75,7 +75,7 @@
         ?>
         <div class="container-sm mt-5">
             <div class="d-flex align-items-center gap-3 p-3">
-                    <a href="./gestion/gestion_dossiers.php" class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                    <a href="gestion_dossiers.php" class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
                         <i class="fa-solid fa-arrow-left"></i>
                     </a>
 
@@ -115,11 +115,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card text-white shadow-sm border-0" style="background-color: #464646 !important;">
-<<<<<<< Updated upstream
-                        <button onclick="window.location.href='criteres/critere_inspecteur_etoile.php?id=<?php echo $dossier_id; ?>&num=<?php echo urlencode($dossier_numero); ?>'" type="button" class="btn text-white">Voir l'évaluation</button>
-=======
-                        <button onclick="window.location.href='./criteres/critere_inspecteur_etoile.php?id=<?php echo $dossier_id; ?>&num=<?php echo urlencode($dossier_numero); ?>'" type="button" class="btn text-white">Voir l'évaluation</button>
->>>>>>> Stashed changes
+                        <button onclick="window.location.href='critere_inspecteur_etoile.php?id=<?php echo $dossier_id; ?>&num=<?php echo urlencode($dossier_numero); ?>'" type="button" class="btn text-white">Voir l'évaluation</button>
                     </div>
                 </div>
                 <div class="col-md-6">
