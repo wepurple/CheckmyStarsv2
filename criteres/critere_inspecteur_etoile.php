@@ -11,7 +11,7 @@
         header('Location: deco.php');
         die();
     }
-    require_once './includes/mariadb.php';
+    require_once '../includes/mariadb.php';
 
     $id = isset($_GET['id']) ? intval ($_GET['id']) : null;
 
@@ -28,13 +28,13 @@
         <title>Critères du dossier - CheckMyStars</title>
 
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.css">
-        <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
+        <link rel="stylesheet" href="../fontawesome-7.1.0/css/all.css">
         <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
         <script src="js/etoile_eval.js"></script>
     </head>
     <body class="bg-secondary">
-    <?php require("./includes/navbar.php"); ?>
+    <?php require("../includes/navbar.php"); ?>
         
         <div>
             <div>
