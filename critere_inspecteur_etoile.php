@@ -158,10 +158,10 @@
                                         </table>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary m-3" onclick="pointsTotal();">
-                                    Evaluer
+                                <button class="btn btn-primary m-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Valider l'évaluation" onclick="Evaluer();">
+                                    Valider
                                 </button>
-                                <button class="btn btn-primary m-3" onclick="pointsTotal();">
+                                <button class="btn btn-primary m-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Sauvegarder en cours l'évaluation" onclick="pointsTotal();">
                                     Sauvegarder
                                 </button>
                                 <div class="card-footer text-muted small">

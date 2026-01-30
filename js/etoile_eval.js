@@ -168,7 +168,7 @@ let points_ONC = 0;
 
 let total = 0;
 
-function pointsTotal() {
+function Evaluer() {
     points_X = 0;
     points_O = 0;
     points_NA = 0;
