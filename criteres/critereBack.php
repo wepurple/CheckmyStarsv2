@@ -95,7 +95,7 @@ $starColors = [
     </head>
 
     <body class="bg-secondary">
-        <?php require("./includes/navbar.php"); ?>
+        <?php require("../includes/navbar.php"); ?>
 
         <div class="container-fluid py-4 px-3">
             <!-- Cards Grid -->
