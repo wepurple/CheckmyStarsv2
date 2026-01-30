@@ -38,7 +38,7 @@
     </style>
 </head>
 <body class="bg-secondary">
-    <?php require("./includes/navbar.php"); ?>
+    <?php require("../includes/navbar.php"); ?>
 
     <div class="container-fluid py-4">
 
