@@ -3,7 +3,7 @@
     <div class="container-fluid">
 
         <a class="navbar-brand" href="admin">
-            <img src="/CheckMyStars/pictures/logosm.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
+            <img src="/CheckMyStars/assets/pictures/logosm.png" alt="Logo" width="30" height="30" class="d-inline-block align-text-top">
             CheckMyStars
         </a>
 
@@ -29,7 +29,7 @@
             <?php if($_SESSION['Role']['Administrateur']){ ?>
             
                 <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion/gestion_utilisateurs.php"){ echo ' active'; } ?>" href="./gestion_utilisateurs">
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion/gestion_utilisateurs.php"){ echo ' active'; } ?>" href="./gestion/gestion_utilisateurs">
                         Gestion des utilisateurs
                     </a>
                 </li>
