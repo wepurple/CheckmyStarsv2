@@ -171,6 +171,13 @@
                                 </div>
 
                                 <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="laSociete" placeholder="" required>
+                                    <label for="floatingInput">Société *</label>
+                                </div>
+
+                                <hr>
+
+                                <div class="form-floating mb-3">
                                     <select class="form-select" id="typedebien" aria-label="Floating label select example">
                                         <option value="1">Maison</option>
                                         <option value="2">Appartement</option>
@@ -180,13 +187,6 @@
                                     </select>
                                     <label for="floatingSelect">Type de bien </label>
                                 </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="laSociete" placeholder="" required>
-                                    <label for="floatingInput">Société *</label>
-                                </div>
-
-                                <hr>
 
                                 <div class="col-md-12 form-floating mb-3">
                                     <input type="text" class="form-control" id="laAdresseComplete" placeholder="">
