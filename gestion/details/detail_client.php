@@ -164,28 +164,13 @@
                                     ?>
                                 </div>
 
-                                <!-- <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leNom" placeholder="" required>
-                                    <label for="floatingInput">Nom *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="lePrenom" placeholder="" required>
-                                    <label for="floatingInput">Prenom *</label>
-                                </div> -->
-
-                                <div id="mail" class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leMail" placeholder="" value="" required>
-                                    <label for="floatingInput">Adresse Mail *</label>
-                                </div>
-
                                 <div class="form-floating mb-3">
                                     <select class="form-select" id="typedebien" aria-label="Floating label select example">
                                         <option value="1">Maison</option>
                                         <option value="2">Appartement</option>
-                                         <option value="3">Hotel</option>
-                                         <option value="4">Camping</option>
-                                        <option selected value="5">Local commercial</option>
+                                        <option value="3">Hotel</option>
+                                        <option value="4">Camping</option>
+                                        <option value="5">Local commercial</option>
                                     </select>
                                     <label for="floatingSelect">Type de bien </label>
                                 </div>
