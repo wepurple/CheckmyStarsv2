@@ -411,6 +411,17 @@ function checkRegex(id, value, regex, msg) {
   return ok;
 }
 
+function checkRequired(id, value, msg) {
+  const ok = value !== "";
+  markField(id, ok);
+  if (!ok) {
+    showToast(msg, "warning");
+    const el = document.getElementById(id);
+    if (el) el.focus();
+  }
+  return ok;
+}
+
 function addressBlockTouched(v) {
   return [v.num_rue, v.nom_rue, v.complement, v.code_postal, v.ville, v.pays].some(x => (x || "").trim() !== "");
 }
