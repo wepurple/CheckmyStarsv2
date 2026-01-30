@@ -562,7 +562,7 @@ function saveDevis(type = selectedDocType) {
     utilisateur_id: getClientUserId(), // Récupérer ID utilisateur
   };
 
-  fetch("api/devis_api.php?action=save_devis", {
+  fetch("models/api/devis_api.php?action=save_devis", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -753,7 +753,7 @@ function fetchDevisList() {
   const select = document.getElementById("devisSelector");
   if (!select) return;
 
-  fetch("api/devis_api.php?action=list_devis")
+  fetch("models/api/devis_api.php?action=list_devis")
     .then((r) => r.json())
     .then((data) => {
       if (!data.success)
@@ -815,7 +815,7 @@ function fetchNewDevisNumber() {
   input.value = "Génération...";
   input.readOnly = true;
 
-  fetch("api/devis_api.php?action=new_devis_number")
+  fetch("models/api/devis_api.php?action=new_devis_number")
     .then((r) => {
       if (!r.ok) {
         throw new Error(`HTTP ${r.status}: ${r.statusText}`);
@@ -923,7 +923,7 @@ function convertDevisToFacture() {
   if (loading) loading.classList.add("active");
 
   fetch(
-    `api/devis_api.php?action=convert&devis_id=${encodeURIComponent(devisId)}`,
+    `models/api/devis_api.php?action=convert&devis_id=${encodeURIComponent(devisId)}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -975,7 +975,7 @@ function loadFacture(factureId) {
   if (loading) loading.classList.add("active");
 
   fetch(
-    `api/devis_api.php?action=get_facture&id=${encodeURIComponent(factureId)}`,
+    `models/api/devis_api.php?action=get_facture&id=${encodeURIComponent(factureId)}`,
   )
     .then((r) => r.json())
     .then((data) => {
@@ -1343,7 +1343,7 @@ function fetchFacturesList() {
   const select = document.getElementById("factureSelector");
   if (!select) return;
 
-  fetch("api/devis_api.php?action=list_factures")
+  fetch("models/api/devis_api.php?action=list_factures")
     .then((r) => r.json())
     .then((data) => {
       if (!data.success)
@@ -1416,7 +1416,7 @@ async function loadEntrepriseData() {
   try {
     // Récupérer les données de l'entreprise
     const response = await fetch(
-      `api/devis_api.php?action=get_entreprise&id=${encodeURIComponent(entrepriseId)}`,
+      `models/api/devis_api.php?action=get_entreprise&id=${encodeURIComponent(entrepriseId)}`,
     );
 
     if (!response.ok) throw new Error("Erreur chargement entreprise");
@@ -1470,7 +1470,7 @@ async function loadClientData() {
 
   try {
     const response = await fetch(
-      `api/devis_api.php?action=get_client_info&id=${encodeURIComponent(utilisateurId)}`,
+      `models/api/devis_api.php?action=get_client_info&id=${encodeURIComponent(utilisateurId)}`,
     );
 
     if (!response.ok) throw new Error("Erreur chargement client");
