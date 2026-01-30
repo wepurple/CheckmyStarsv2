@@ -570,7 +570,7 @@ require_once('../includes/mariadb.php');
         </div>
     </div>
 
-    <script src="bootstrap 5.3/js/bootstrap.bundle.min.js"></script>
-    <script src="js/facture.js?v=<?= time() ?>"></script>
+    <script src="../bootstrap 5.3/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/facture.js?v=<?= time() ?>"></script>
 </body>
 </html>
