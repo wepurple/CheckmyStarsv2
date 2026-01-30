@@ -23,8 +23,8 @@
          <div class="container-fluid p-3">
             
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="fas fa-plus"></i> Ajouter un client
+                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
+                    <i class="fas fa-user-plus"></i> Ajouter un utilisateur
                 </button>
                 
                 <div class="input-group" style="width: 400px;">
@@ -55,91 +55,100 @@
                     <!-- remplit par le js -->
                 </tbody>
             </table>
-            <!-- Vertically centered modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+
+            <!-- Modal ajout utilisateur -->
+            <div class="modal fade" tabindex="-1" id="addModal">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
-                        <!-- modal footer -->
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5" id="exampleModalLabel">Ajouter un client</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title">Ajouter un utilisateur</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="addCancel()"></button>
                         </div>
-                        <!-- modal body -->
+
                         <div class="modal-body">
-                            <form>
+                            <form id="addForm">
+                                <div class="row g-2">
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <input type="text" class="form-control" id="leNom" placeholder="">
+                                        <label for="leNom">Nom *</label>
+                                    </div>
 
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leNom" placeholder="" required>
-                                    <label for="floatingInput">Nom *</label>
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <input type="text" class="form-control" id="lePrenom" placeholder="">
+                                        <label for="lePrenom">Prénom *</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <select class="form-select" id="leGenre">
+                                            <option value="1">Monsieur</option>
+                                            <option value="2">Madame</option>
+                                            <option value="3">Iel</option>
+                                        </select>
+                                        <label for="leGenre">Civilité *</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <input type="email" class="form-control" id="leMail" placeholder="">
+                                        <label for="leMail">Mail *</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <select class="form-select" id="laSociete">
+                                            <option value="">Sélectionner...</option>
+                                            <option value="new_company">Créer une nouvelle entreprise</option>
+                                            <?php
+                                            $companies = getAllCompany($db);
+                                            while ($row = $companies->fetch()) {
+                                                echo '<option value="' . $row['Societe_ID'] . '">' . htmlspecialchars($row['Societe_Nom']) . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                        <label for="laSociete">Société *</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <select class="form-select" id="leRole">
+                                            <option value="0">Propriétaire</option>
+                                            <option value="1">Donneur d'ordre</option>
+                                        </select>
+                                        <label for="leRole">Rôle *</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <input type="text" class="form-control" id="leTel" placeholder="">
+                                        <label for="leTel">Téléphone *</label>
+                                    </div>
+
+                                    <div class="col-md-12 form-floating mb-3">
+                                        <input type="text" class="form-control" id="laAdresseComplete" placeholder="">
+                                        <label for="laAdresseComplete">
+                                            Adresse complète *
+                                        </label>
+                                        <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
+                                    </div>
+
+                                    <input type="hidden" id="leNumRue">
+                                    <input type="hidden" id="laAdresse">
+                                    <input type="hidden" id="leCode">
+                                    <input type="hidden" id="laVille">
+                                    <input type="hidden" id="lePays">
+
+                                    <div class="col-md-12 form-floating mb-3">
+                                        <input type="text" class="form-control" id="leComplement" placeholder="">
+                                        <label for="leComplement">Complément (bâtiment, étage...)</label>
+                                    </div>
+
+                                    <div class="col-md-12 form-floating mb-3">
+                                        <input type="password" class="form-control" id="leMdp" placeholder="">
+                                        <label for="leMdp">Mot de passe *</label>
+                                    </div>
                                 </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="lePrenom" placeholder="" required>
-                                    <label for="floatingInput">Prenom *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="email" class="form-control" id="leMail" placeholder="" required>
-                                    <label for="floatingInput">Adresse Mail *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" id="leGenre" aria-label="Floating label select example">
-                                        <option value="1">Homme</option>
-                                        <option value="2">Femme</option>
-                                        <option selected value="3">Non-binaire</option>
-                                    </select>
-                                    <label for="floatingSelect">Genre *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="laSociete" placeholder="" required>
-                                    <label for="floatingInput">Société *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="tel" class="form-control" id="leTel" placeholder="" required>
-                                    <label for="floatingInput">Téléphone *</label>
-                                </div>
-
-                                <hr>
-
-                                <div class="form-floating mb-3">
-                                    <input type="number" class="form-control" id="leNumRue" placeholder="" required>
-                                    <label for="floatingInput">Numéro de rue *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="laAdresse" placeholder="" required>
-                                    <label for="floatingInput">Adresse postale *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leComplement" placeholder="">
-                                    <label for="floatingInput">Complément d'adresse</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leCode" placeholder="" required>
-                                    <label for="floatingInput">Code postal *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="laVille" placeholder="" required>
-                                    <label for="floatingInput">Ville *</label>
-                                </div>
-
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="lePays" placeholder="" required>
-                                    <label for="floatingInput">Pays *</label>
-                                </div>
-
                             </form>
                         </div>
-                        <!-- modal footer -->
+
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-success">Ajouter</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="addCancel()">Annuler</button>
+                            <button type="button" class="btn btn-success" onclick="addUser()">Créer</button>
                         </div>
                     </div>
                 </div>

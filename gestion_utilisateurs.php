@@ -301,7 +301,7 @@ function getAllCompany($connexion)
                     </div>
 
                     <div class="col-12">
-                    <label class="form-label">Adresse complète (autocomplétion)</label>
+                    <label class="form-label">Adresse complète</label>
                     <input type="text" class="form-control form-control-lg" id="societeAdresseComplete" placeholder="Tapez votre adresse...">
                     <small class="text-muted">API officielle France</small>
                     </div>
