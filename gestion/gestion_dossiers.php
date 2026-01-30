@@ -21,7 +21,7 @@
         <title>Gestion des dossiers - CheckMyStars</title>
 
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
-        <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
+        <link rel="stylesheet" href="../fontawesome-7.1.0/css/all.css">
 
         <script type='text/javascript'>
  
