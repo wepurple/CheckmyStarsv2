@@ -1118,6 +1118,36 @@ function setReadOnlyMode(readonly, type = selectedDocType) {
   const devisNumeroEl = document.getElementById("devis_numero");
   if (devisNumeroEl) devisNumeroEl.readOnly = true;
 
+  // === AJOUTER/RETIRER LA CLASSE readonly-mode SUR LE WRAPPER ===
+  const wrapper = document.getElementById("facture-wrapper");
+  const mobileBar = document.getElementById("mobile-action-bar");
+  const formulaireSection = document.getElementById("formulaire-section");
+
+  if (wrapper) {
+    if (readonly && type === "FACTURE") {
+      wrapper.classList.add("readonly-mode");
+    } else {
+      wrapper.classList.remove("readonly-mode");
+    }
+  }
+
+  // Masquer explicitement la section formulaire en mode facture
+  if (formulaireSection) {
+    if (readonly && type === "FACTURE") {
+      formulaireSection.style.display = "none";
+    } else {
+      formulaireSection.style.display = "";
+    }
+  }
+
+  if (mobileBar) {
+    if (readonly && type === "FACTURE") {
+      mobileBar.classList.add("readonly-mode");
+    } else {
+      mobileBar.classList.remove("readonly-mode");
+    }
+  }
+
   // === MASQUER/AFFICHER LES SECTIONS D'ÉDITION ===
   // Accordions de formulaire (entreprise, client, etc.)
   const accordionFacture = document.getElementById(
@@ -1155,7 +1185,7 @@ function setReadOnlyMode(readonly, type = selectedDocType) {
     prestationsDevis.style.display = readonly ? "none" : "";
   }
 
-  // Boutons d'action - masquer si verrouillé
+  // Boutons d'action - masquer si verrouillé (desktop)
   const btnAddLineFacture = document.querySelector(
     '#section-facture [onclick*="addLigne"]',
   );
@@ -1164,6 +1194,11 @@ function setReadOnlyMode(readonly, type = selectedDocType) {
   );
   const btnSave = document.getElementById("btn-save-devis");
   const btnConvert = document.getElementById("btn-convert-facture");
+  const btnActualiser = document.getElementById("btn-actualiser");
+
+  // Boutons mobile
+  const btnSaveMobile = document.getElementById("btn-save-mobile");
+  const btnConvertMobile = document.getElementById("btn-convert-mobile");
 
   if (btnAddLineFacture)
     btnAddLineFacture.style.display =
@@ -1172,6 +1207,11 @@ function setReadOnlyMode(readonly, type = selectedDocType) {
     btnAddLineDevis.style.display = type === "DEVIS" && readonly ? "none" : "";
   if (btnSave) btnSave.style.display = readonly ? "none" : "";
   if (btnConvert) btnConvert.style.display = readonly ? "none" : "";
+  if (btnActualiser) btnActualiser.style.display = readonly ? "none" : "";
+
+  // Mobile buttons
+  if (btnSaveMobile) btnSaveMobile.style.display = readonly ? "none" : "";
+  if (btnConvertMobile) btnConvertMobile.style.display = readonly ? "none" : "";
 
   // Bouton télécharger PDF - toujours visible
   const btnDownload = document.querySelector('[onclick*="downloadPDF"]');
@@ -1179,14 +1219,25 @@ function setReadOnlyMode(readonly, type = selectedDocType) {
 
   // Mettre à jour le titre de l'aperçu
   const previewTitle = document.getElementById("preview-title");
+  const previewCard = previewTitle?.closest(".card");
+  const previewHeader = previewCard?.querySelector(".card-header");
+
   if (previewTitle) {
     if (type === "FACTURE" && readonly) {
-      previewTitle.textContent = "Facture (lecture seule)";
-    } else if (type === "FACTURE") {
-      previewTitle.textContent = "Aperçu de la Facture";
+      // En mode lecture seule, masquer le header de carte (redondant avec le badge)
+      if (previewHeader) previewHeader.style.display = "none";
     } else {
-      previewTitle.textContent = "Aperçu du Devis";
+      if (previewHeader) previewHeader.style.display = "";
+      previewTitle.textContent =
+        type === "FACTURE" ? "Aperçu de la Facture" : "Aperçu du Devis";
     }
+  }
+
+  // NE PAS AFFICHER DE BADGE ICI - c'est géré par showLockedBadge()
+  // Vider le conteneur readonly-badge-container pour éviter les doublons
+  const badgeContainer = document.getElementById("readonly-badge-container");
+  if (badgeContainer) {
+    badgeContainer.innerHTML = "";
   }
 
   window.isReadOnlyMode = readonly;
@@ -1196,29 +1247,19 @@ function setReadOnlyMode(readonly, type = selectedDocType) {
  * Afficher/masquer le badge "Verrouillé"
  */
 function showLockedBadge(show, numero = "") {
-  let badge = document.getElementById("locked-badge");
+  const container = document.getElementById("readonly-badge-container");
+
+  if (!container) return;
 
   if (show) {
-    if (!badge) {
-      const previewHeader =
-        document.querySelector(".preview-header") ||
-        document.querySelector("#pdf-preview")?.parentElement;
-      if (previewHeader) {
-        badge = document.createElement("div");
-        badge.id = "locked-badge";
-        badge.className = "alert alert-warning mb-2 d-flex align-items-center";
-        badge.innerHTML = `
-          <i class="bi bi-lock-fill me-2"></i>
-          <span>Facture <strong>${escapeHtml(numero)}</strong> - Mode lecture seule</span>
-        `;
-        previewHeader.insertBefore(badge, previewHeader.firstChild);
-      }
-    } else {
-      badge.querySelector("strong").textContent = numero;
-      badge.style.display = "";
-    }
-  } else if (badge) {
-    badge.style.display = "none";
+    container.innerHTML = `
+      <div class="readonly-badge" role="alert">
+        <i class="fa-solid fa-lock"></i>
+        <span>Facture <strong>${escapeHtml(numero)}</strong> — Mode lecture seule</span>
+      </div>
+    `;
+  } else {
+    container.innerHTML = "";
   }
 }
 

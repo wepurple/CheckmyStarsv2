@@ -12,6 +12,17 @@ document.addEventListener('DOMContentLoaded', function() {
         
         fetchData();
 
+    document.getElementById('checkAll').addEventListener('change', function() {
+        // Sélectionne TOUTES les checkboxes avec name="checkbox"
+        const checkboxes = document.querySelectorAll('input[name="checkbox"]');
+        
+        console.log(`Nombre de checkboxes trouvées: ${checkboxes.length}`);
+        
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = this.checked;
+        });
+    });
+
     return etoiles;
 
     });
@@ -64,6 +75,9 @@ function displayData(data) {
         i = i + 1;
     });
 }
+
+
+
 
 console.log(etoiles);
 
@@ -172,10 +186,18 @@ function pointsTotal() {
         console.log('Checkbox ', j, ': ', checkbox.checked);
         console.log('statut ', j, ': ', status.textContent);
         console.log('points ', j, ': ', points);
-        points_X_Max += 0;
-        points_O_Max += 0;
-        points_NA_Max += 0;
-        points_XONC_Max += 0;
+        if (status.textContent === "O") {
+            points_O_Max += points;
+        }
+        else if (status.textContent === "X") {
+            points_X_Max += points;
+        }
+        else if (status.textContent === "NA") {
+            points_NA_Max += points;
+        }
+        else if (status.textContent === "X ONC") {
+            points_XONC_Max += points;
+        }
         if (checkbox.checked) {
             if (status.textContent === "O") {
                 points_O += points;
@@ -194,12 +216,17 @@ function pointsTotal() {
             if (status.textContent === "X") {
                 invalide = false;
             }
+            else if (status.textContent === "X NOC") {
+                invalide = false;
+            }
         }
     }
-    if (invalide) {
-        result = "Évaluation valide.";
-    } else {
+    if (!invalide) {
         result = "Évaluation invalide : un critère obligatoire n'a pas été coché.";
+    } else if (points_O * 100 / points_O_Max < 80) {
+        result = "Évaluation invalide : taux de critères à la carte trop bas : " + (points_O * 100 / points_O_Max).toFixed(2) + "% < 80%.";
+    } else {
+        result = "Évaluation valide.";
     }
 
     console.log('Points O :', points_O);
@@ -207,10 +234,10 @@ function pointsTotal() {
     console.log('Points NA :', points_NA);
     console.log('Points ONC :', points_XONC);
     console.log(result);
-    console.log('Points O :', points_O_Max);
-    console.log('Points X :', points_X_Max);
-    console.log('Points NA :', points_NA_Max);
-    console.log('Points ONC :', points_XONC_Max);
+    console.log('Points Max O :', points_O_Max);
+    console.log('Points Max X :', points_X_Max);
+    console.log('Points Max NA :', points_NA_Max);
+    console.log('Points Max ONC :', points_XONC_Max);
 }
 
 

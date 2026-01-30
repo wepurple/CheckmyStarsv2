@@ -72,7 +72,8 @@
 
                     <div class="input-group mb-1">
                         <span class="input-group-text">Société *</span>
-                        <input id="societe" type="text" class="form-control" placeholder="ex: Pedro & Cie" disabled>
+                        <select id="societe" class="form-select" disabled>
+                        </select>
                     </div>
 
                     <div class="input-group mb-1">
