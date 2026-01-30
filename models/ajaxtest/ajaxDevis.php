@@ -1,5 +1,5 @@
 <?php
-include_once "../includes/mariadb.php";
+include_once __DIR__ . "/../../includes/mariadb.php";
 $database = new Database();
 $db = $database->getConnection();
 

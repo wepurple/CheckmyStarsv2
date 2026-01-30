@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('/../includes/mariadb.php');
+require_once(__DIR__ . '/../includes/mariadb.php');
 
 // Vérifier si l'utilisateur est connecté en tant qu'inspecteur
     if(isset($_SESSION['Role'])){
@@ -96,7 +96,7 @@ require_once('/../includes/mariadb.php');
                 }
                 
                 // Requête POST
-                xhr.open("POST","ajaxtest/ajaxDevis.php",true);
+                xhr.open("POST","../models/ajaxtest/ajaxDevis.php",true);
                 xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
                 xhr.send("Client_ID="+idclient);
             }
