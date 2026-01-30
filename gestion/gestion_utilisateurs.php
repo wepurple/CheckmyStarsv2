@@ -26,7 +26,7 @@
     <title>Gestion des utilisateurs - CheckMyStars</title>
     <link rel="stylesheet" href="../bootstrap 5.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="bootstrap 5.3/js/bootstrap.js"></script>
+    <script src="../bootstrap 5.3/js/bootstrap.js"></script>
     <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
     <style>
         .search-card {
@@ -513,6 +513,6 @@
         </div>
     </div>
 </div>
-<script src="js/search_utilisateurs.js"></script>
+<script src="../js/search_utilisateurs.js"></script>
 </body>
 </html>
