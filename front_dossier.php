@@ -75,7 +75,7 @@
         ?>
         <div class="container-sm mt-5">
             <div class="d-flex align-items-center gap-3 p-3">
-                    <a href="gestion_dossiers.php" class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
+                    <a href="./gestion/gestion_dossiers.php" class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
                         <i class="fa-solid fa-arrow-left"></i>
                     </a>
 
@@ -98,54 +98,6 @@
                     </button>
                 </div>
             </div>
-<!--
-                <div class="col-md 4 p-3 rounded">
-                    <div id="Carousel" class="carousel slide"  data-bs-ride="carousel" data-bs-interval="2000" data-bs-pause="false">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="img\hotel_img3.jpg" style="border-radius: 20px;"  alt="Image 3">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img\hotel_img1.jpg" style="border-radius: 20px;"  alt="Image 1">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img\hotel_img2.jpg" style="border-radius: 20px;"  alt="Image 2">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md 4 p-3 rounded">
-                    <div id="Carousel" class="carousel slide"  data-bs-ride="carousel" data-bs-interval="2000" data-bs-pause="false">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="img\hotel_img1.jpg" style="border-radius: 20px;"  alt="Image 1">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img\hotel_img2.jpg" style="border-radius: 20px;"  alt="Image 2">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img\hotel_img3.jpg" style="border-radius: 20px;"  alt="Image 3">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md 4 p-3 rounded">
-                    <div id="Carousel" class="carousel slide"  data-bs-ride="carousel" data-bs-interval="2000" data-bs-pause="false">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="img\hotel_img2.jpg" style="border-radius: 20px;"  alt="Image 2">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img\hotel_img3.jpg" style="border-radius: 20px;"  alt="Image 3">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="img\hotel_img1.jpg" style="border-radius: 20px;"  alt="Image 1">
-                            </div>
-                        </div>
-                    </div>
-                </div>
--->
-            </div>
         </div>
 
         <!-- Bouton pour ouvrir le modal d'upload -->
@@ -163,7 +115,11 @@
                 </div>
                 <div class="col-md-6">
                     <div class="card text-white shadow-sm border-0" style="background-color: #464646 !important;">
+<<<<<<< Updated upstream
                         <button onclick="window.location.href='criteres/critere_inspecteur_etoile.php?id=<?php echo $dossier_id; ?>&num=<?php echo urlencode($dossier_numero); ?>'" type="button" class="btn text-white">Voir l'évaluation</button>
+=======
+                        <button onclick="window.location.href='./criteres/critere_inspecteur_etoile.php?id=<?php echo $dossier_id; ?>&num=<?php echo urlencode($dossier_numero); ?>'" type="button" class="btn text-white">Voir l'évaluation</button>
+>>>>>>> Stashed changes
                     </div>
                 </div>
                 <div class="col-md-6">
