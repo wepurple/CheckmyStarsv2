@@ -29,7 +29,7 @@
             <?php if($_SESSION['Role']['Administrateur']){ ?>
             
                 <li class="nav-item">
-                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion_utilisateurs.php"){ echo ' active'; } ?>" href="./gestion_utilisateurs">
+                    <a class="nav-link<?php if(strtolower($_SERVER["PHP_SELF"]) == "/checkmystars/gestion/gestion_utilisateurs.php"){ echo ' active'; } ?>" href="./gestion_utilisateurs">
                         Gestion des utilisateurs
                     </a>
                 </li>
