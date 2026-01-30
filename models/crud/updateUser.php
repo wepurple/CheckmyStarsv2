@@ -48,7 +48,7 @@ try{
 
                     }catch(Exception $e){
                         http_response_code(405);
-                        echo json_encode(["response" => "Erreur : $e"]);
+                        echo json_encode(["response" => "Erreur SQL"]);
                     }
                 }else{
                     http_response_code(405);
