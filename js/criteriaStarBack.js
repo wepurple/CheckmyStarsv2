@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let allData = []; // Stocke toutes les données
     
     // Fetch les données
-    fetch(`../models/create/getCriteriaByEtoile.php?star=${star}`)
+    fetch(`../models/Read/getCriteriaByEtoile.php?star=${star}`)
         .then(response => {
             console.log('Réponse fetch:', response.status);
             return response.json();
