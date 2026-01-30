@@ -16,7 +16,7 @@ if(isset($_SESSION['ID'])){//renvoie les informations relatives à un utilisateu
 
     if($_SERVER['REQUEST_METHOD'] == 'GET'){
         include_once '../../includes/mariadb.php';
-        include_once '../crud/user.php';
+        include_once('../../models/user.php');
 
         $database = new Database();
         $db = $database->getConnection();

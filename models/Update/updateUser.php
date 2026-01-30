@@ -16,7 +16,7 @@ try{
 
         if($_SERVER['REQUEST_METHOD'] == 'POST'){
             include_once '../../includes/mariadb.php';
-            include_once '../crud/user.php';
+            include_once '../user.php';
             $data = json_decode(file_get_contents("php://input"));
 
             if(isset($data->nom, $data->prenom, $data->genre, $data->mail, $data->tel, $data->societe, $data->numRue, $data->nomRue, $data->complement, $data->cp, $data->ville, $data->pays)){
