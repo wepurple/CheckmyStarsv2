@@ -4,15 +4,15 @@ session_start();
 //Si on tente d'accéder à la page via l'url sans être connecté, on se fait dégager avant de charger la page
 if(isset($_SESSION['Role']['Administrateur'])){
     if(!$_SESSION['Role']['Administrateur']){
-        header('Location: deco.php');
+        header('Location: ../deco.php');
         die();
     }
 } else {
-    header('Location: deco.php');
+    header('Location: ../deco.php');
     die();
 }
 
-include("includes/mariadb.php");
+include("../includes/mariadb.php");
 
 $database = new Database();
 $db = $database->getConnection();
