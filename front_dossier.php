@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require_once('./includes/mariadb.php');
+    require_once('../includes/mariadb.php');
 
     // Vérification des rôles
     if(!isset($_SESSION['Role']['Administrateur']) && !isset($_SESSION['Role']['Inspecteur'])){
