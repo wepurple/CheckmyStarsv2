@@ -1268,79 +1268,6 @@ function showLockedBadge(show, numero = "") {
 }
 
 /**
- * Réinitialiser pour créer un nouveau document
- */
-function resetToNewDocument() {
-  // Désactiver le mode lecture seule
-  setReadOnlyMode(false);
-  showLockedBadge(false);
-
-  // Réinitialiser les champs
-  const type = selectedDocType;
-  const suffix = DOC_CONFIG[type]?.suffix ?? "";
-
-  // Numéro et date
-  const numeroField = type === "FACTURE" ? "facture_numero" : "devis_numero";
-  const dateField = type === "FACTURE" ? "facture_date" : "devis_date";
-
-  const numEl = document.getElementById(numeroField);
-  const dateEl = document.getElementById(dateField);
-
-  if (numEl) {
-    numEl.value = "";
-    numEl.removeAttribute("readonly");
-  }
-  if (dateEl) {
-    dateEl.value = new Date().toISOString().substring(0, 10);
-    dateEl.removeAttribute("readonly");
-  }
-
-  // Client
-  ["nom", "adresse", "cp", "ville"].forEach((field) => {
-    const el = document.getElementById(`client_${field}${suffix}`);
-    if (el) {
-      el.value = "";
-      el.removeAttribute("readonly");
-    }
-  });
-
-  // Lignes
-  const container = document.getElementById(DOC_CONFIG[type].containerId);
-  if (container) container.innerHTML = "";
-  addLigne(type);
-
-  // Réinitialiser les sélecteurs
-  const devisSelector = document.getElementById("devisSelector");
-  const factureSelector = document.getElementById("factureSelector");
-  if (devisSelector) devisSelector.value = "";
-  if (factureSelector) factureSelector.value = "";
-
-  // Clear stored IDs
-  window.currentFactureId = null;
-  window.currentDevisId = null;
-
-  updateTotals(type);
-  updatePreview(type);
-}
-
-/**
- * Télécharger le PDF d'une facture existante (read-only)
- */
-function downloadFacturePDF() {
-  const factureId = window.currentFactureId;
-  if (!factureId) {
-    alert("Aucune facture chargée.");
-    return;
-  }
-
-  const loading = document.getElementById("loadingOverlay");
-  if (loading) loading.classList.add("active");
-
-  // Utiliser l'API PDF existante avec les données de la facture chargée
-  downloadPDF("FACTURE");
-}
-
-/**
  * Charger la liste des factures
  */
 function fetchFacturesList() {
@@ -1506,13 +1433,10 @@ async function loadClientData() {
 window.loadEntreprisesList = loadEntreprisesList;
 window.loadEntrepriseData = loadEntrepriseData;
 window.loadClientData = loadClientData;
-window.test = loadClientData; // Compatibilité avec facture.php
 
-// Exposer les nouvelles fonctions
+// Exposer les fonctions de facture
 window.convertDevisToFacture = convertDevisToFacture;
 window.loadFacture = loadFacture;
-window.resetToNewDocument = resetToNewDocument;
-window.downloadFacturePDF = downloadFacturePDF;
 window.fetchFacturesList = fetchFacturesList;
 
 // ========== TOGGLE FACTURE / DEVIS ==========
