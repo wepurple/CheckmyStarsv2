@@ -17,7 +17,7 @@ CheckMyStars est une application web développée pour faciliter la gestion des 
 ## 🚀 Technologies utilisées
 
 - **Frontend** : HTML5, CSS3, JavaScript
-- **Backend** : PHP
+- **Backend** : PHP, MARIADB
 - **Serveur** : Apache/Nginx (compatible)
 
 ## 📦 Prérequis
