@@ -49,13 +49,13 @@ async function submitPreFillClientInfo()
 
         if (!checkRegex('leTelBien', phoneProperty, REGEX.telFR, "Téléphone invalide (ex: 06 12 34 56 78 ou +33 6 12 34 56 78)")) return;
 
-        if (!checkRequired('leNumRue', streetNumber, "Numéro de rue obligatoire")) return;
+        if (!checkRequired('laAdresseComplete', streetNumber, "Numéro de rue obligatoire")) return;
         if (!checkRequired('laAdresse', streetName, "Nom de rue obligatoire")) return;
         if (!checkRequired('leCode', postcode, "Code postal obligatoire")) return;
         if (!checkRequired('laVille', city, "Ville obligatoire")) return;
         if (!checkRequired('lePays', country, "Pays obligatoire")) return;
 
-        if (!checkRegex('leNumRue', streetNumber, REGEX.numRue, "Numéro de rue invalide (ex: 12, 12 bis, 12B)")) return;
+        if (!checkRegex('laAdresseComplete', streetNumber, REGEX.numRue, "Numéro de rue invalide (ex: 12, 12 bis, 12B)")) return;
         if (!checkRegex('laAdresse', streetName, REGEX.nomRue, "Adresse invalide")) return;
         if (complement !== "" && !checkRegex('leComplement', complement, REGEX.complement, "Complément invalide")) return;
         if (!checkRegex('leCode', postcode, REGEX.codePostal, "Code postal invalide (5 chiffres)")) return;
