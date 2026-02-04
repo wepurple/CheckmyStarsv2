@@ -22,92 +22,40 @@
         <link rel="icon" type="image/x-icon" href="assets/pictures/logosm.png">
         
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
-        <script src="js/profil.js"></script>
     </head>
 
-    <body class="bg-secondary">
+    <body class="bg-secondary p-3">
 
         <!-- conteneur -->
-        <div class="container mt-4 p-3 rounded shadow bg-light-subtle">
+        <div class="container mt-2 mt-lg-5">
 
-            <div class="row">
+            <div class="row justify-content-center">
 
-                <!-- colonne infos personelles -->
-                <div class="col m-2 p-2 rounded">
+                <!-- formulaire -->
+                <div class="col-sm-4 col-md-5 p-5 text-center rounded shadow bg-light-subtle">
                     
-                    <h2>Modifier mon mot de passe</h2>
+                    <h2>Définir mon mot de passe</h2>
 
-                    <div class="input-group mb-1">
-
-                        <span class="input-group-text">Nom *</span>
-                        <input id="nom" type="text" class="form-control" placeholder="ex: Macron" disabled>
-                    </div>
-
-                    <div class="input-group mb-1">
-                        <span class="input-group-text">Prénom *</span>
-                        <input id="prenom" type="text" class="form-control" placeholder="ex: Emmanuel" disabled>
-                    </div>
-
-                    <div class="input-group mb-1">
-                        <span class="input-group-text">Civilité *</span>
-                        <select id="civilite" class="form-select" disabled>
-                            <option value="Monsieur">Monsieur</option>
-                            <option value="Madame">Madame</option>
-                            <option value="Iel" selected>Non-binaire</option>
-                        </select>
-                    </div>
-
-                    <div class="input-group mb-1">
-                        <span class="input-group-text">Adresse Mail *</span>
-                        <input id="mail" type="text" class="form-control" placeholder="ex: exemple@mail.com" disabled>
-                    </div>
-
-                    <div class="input-group mb-1">
-                        <span class="input-group-text">Téléphone *</span>
-                        <input id="tel" type="text" class="form-control" placeholder="ex: 0612345678" disabled>
-                    </div>
-
-                    <div class="input-group mb-1">
-                        <span class="input-group-text">Société *</span>
-                        <select id="societe" class="form-select" disabled>
-                        </select>
-                    </div>
-
-                    <div class="input-group mb-1">
-                        <span class="input-group-text">Rôle</span>
-                        <input id="role" type="text" class="form-control" placeholder="" disabled value="<?php
-                            if($_SESSION['Role']["Administrateur"]){
-                                switch($_SESSION['Civilite']){
-                                    case "Monsieur":
-                                        echo('Administrateur');
-                                        break;
-                                    case "Madame":
-                                        echo('Administratrice');
-                                        break;
-                                    default:
-                                        echo('Administrateur.ice');
-                                }
-                            }elseif($_SESSION['Role']["Inspecteur"]){
-                                switch($_SESSION['Civilite']){
-                                    case "Monsieur":
-                                        echo('Inspecteur');
-                                        break;
-                                    case "Madame":
-                                        echo('Inspectrice');
-                                        break;
-                                    default:
-                                        echo('Inspecteur.ice');
-                                }
-                            }else{
-                                echo('N/A');
-                            }
-                        ?>">
-                    </div>
-
-                    <div class="input-group mb-1">
+                    <div class="input-group mt-4">
                         <span class="input-group-text">Mot de passe</span>
-                        <input id="password" type="password" class="form-control" placeholder="*************" disabled>
-                        <button class="btn btn-secondary" type="button" onclick="editPasswordBtn()">Modifier</button>
+                        <input id="password" type="password" class="form-control">
+                    </div>
+
+                    <div class="input-group mt-3">
+                        <span class="input-group-text">Confirmation</span>
+                        <input id="confirm" type="password" class="form-control">
+                    </div>
+
+                    <!-- boutons -->
+                    <div class="row mt-4">
+                        <div class="d-grid gap-2 d-lg-flex justify-content-md-end">
+
+                            <button id="validerButton" type="button" class="btn btn-outline-success" onclick="valider()">
+                                <i class="fa-solid fa-check"></i>
+                                Valider
+                            </button>
+
+                        </div>
                     </div>
 
                 </div>
@@ -115,17 +63,6 @@
 
             </div>
 
-            <!-- boutons -->
-            <div class="row">
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-
-                    <button id="validerButton" type="button" class="btn btn-outline-success" onclick="valider()">
-                        <i class="fa-solid fa-check"></i>
-                        Valider
-                    </button>
-
-                </div>
-            </div>
 
         </div>
 
