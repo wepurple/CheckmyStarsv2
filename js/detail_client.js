@@ -22,10 +22,10 @@ const REGEX = {
 
 async function preFillClientInfo()
 {
-    var clientLastName = document.getElementById("leNom");
-    var clientFirstName = document.getElementById("lePrenom");
-    var clientCompany = document.getElementById("laSociete");
-    var clientMail = document.getElementById("leMail");
+    var clientLastName = document.getElementById("leNom").value.trim();
+    var clientFirstName = document.getElementById("lePrenom").value.trim();
+    var clientCompany = document.getElementById("laSociete").value.trim();
+    var clientMail = document.getElementById("leMail").value.trim();
 
     const currentUrl = window.location.search;
     var query = new URLSearchParams(currentUrl);
@@ -33,12 +33,26 @@ async function preFillClientInfo()
 
     var clientInformation = await getUserById(clientId);
 
-    clientLastName.value = clientInformation.Utilisateur_Nom;
-    clientFirstName.value = clientInformation.Utilisateur_Prenom;
-    clientCompany.value = clientInformation.Societe_Nom;
-    clientMail.value = clientInformation.Utilisateur_Mail;
+    clientLastName = clientInformation.Utilisateur_Nom;
+    clientFirstName = clientInformation.Utilisateur_Prenom;
+    clientCompany = clientInformation.Societe_Nom;
+    clientMail = clientInformation.Utilisateur_Mail;
 
     console.log(clientInformation);
+
+
+
+    try
+    {
+        const data = {
+           
+        };
+    }
+    catch(error)
+    {
+        console.error("Erreur:", error);
+        showToast("Une erreur s'est produite : " + error.message, "error");
+    }
 }
 
 async function getUserById(id) {
@@ -324,6 +338,4 @@ document.addEventListener("DOMContentLoaded", () => {
         villeId: "laVille",
         paysId: "lePays"
     });
-
-    preFillClientInfo()
 });

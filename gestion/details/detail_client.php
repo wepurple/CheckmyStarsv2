@@ -220,7 +220,7 @@
                         <!-- modal footer -->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            <button type="button" class="btn btn-success" id="btnAjouter">Ajouter</button>
+                            <button type="button" class="btn btn-success" id="btnAjouter" onclick="preFillClientInfo()">Ajouter</button>
                         </div>
                     </div>                    
                 </div>
