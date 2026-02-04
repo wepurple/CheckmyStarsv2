@@ -1,8 +1,8 @@
 async function preFillClientInfo()
 {
-    var clientLastName = document.getElementById("leNom");
-    var clientFirstName = document.getElementById("lePrenom");
-    var clientCompany = document.getElementById("laSociete");
+    var clientLastName = document.getElementById("leNom").placeholder;
+    var clientFirstName = document.getElementById("lePrenom").placeholder;
+    var clientCompany = document.getElementById("laSociete").placeholder;
 
     const currentUrl = window.location.search;
     var query = new URLSearchParams(currentUrl);
@@ -10,9 +10,9 @@ async function preFillClientInfo()
 
     var clientInformation = await getUserById(clientId);
 
-    clientLastName.innerText = clientInformation.Utilisateur_Nom;
-    clientFirstName.innerText = clientInformation.Utilisateur_Prenom;
-    clientCompany.innerText = clientInformation.Societe_Nom;
+    clientLastName = clientInformation.Utilisateur_Nom;
+    clientFirstName = clientInformation.Utilisateur_Prenom;
+    clientCompany = clientInformation.Societe_Nom;
 
     console.log(clientInformation);
 }
