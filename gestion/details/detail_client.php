@@ -144,11 +144,26 @@
                                     </div>
 
                                     <div class="col-md-6 form-floating mb-3">
+                                        <input type="text" class="form-control" id="leMail" placeholder="" disabled>
+                                        <label for="floatingInput">Mail</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-floating mb-3">
                                         <input type="text" class="form-control" id="laSociete" placeholder="" disabled>
                                         <label for="floatingInput">Société</label>
                                     </div>
 
                                     <hr>
+
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <input type="text" class="form-control" id="leNomBien" placeholder="">
+                                        <label for="leNomBien">Nom du bien *</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <input type="text" class="form-control" id="leTelBien" placeholder="">
+                                        <label for="leNomBien">Téléphone du bien</label>
+                                    </div>
 
                                     <div class="col-md-6 form-floating mb-3">
                                         <select class="form-select" id="typedebien" aria-label="Floating label select example">

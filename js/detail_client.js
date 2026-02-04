@@ -25,6 +25,7 @@ async function preFillClientInfo()
     var clientLastName = document.getElementById("leNom");
     var clientFirstName = document.getElementById("lePrenom");
     var clientCompany = document.getElementById("laSociete");
+    var clientMail = document.getElementById("leMail");
 
     const currentUrl = window.location.search;
     var query = new URLSearchParams(currentUrl);
@@ -35,6 +36,7 @@ async function preFillClientInfo()
     clientLastName.value = clientInformation.Utilisateur_Nom;
     clientFirstName.value = clientInformation.Utilisateur_Prenom;
     clientCompany.value = clientInformation.Societe_Nom;
+    clientMail.value = clientInformation.Utilisateur_Mail;
 
     console.log(clientInformation);
 }
