@@ -43,13 +43,27 @@ async function submitPreFillClientInfo()
 {
     try
     {
+        var nameProperty = document.getElementById("leNomBien").value.trim();
+        var phoneProperty = document.getElementById("leTelBien").value.trim();
+        var typeProperty = document.getElementById("typeBien").value.trim();
+        var currentStar = document.getElementById("etoileActuel").value.trim();
         var targetStar = document.getElementById("etoileCible").value.trim();
+
+        var fullAddress = document.getElementById("laAdresseComplete").value.trim();
+        var complement = document.getElementById("leComplement").value.trim();
 
         const data = 
         {
            client_id: clientId,
-           etoile_cible: targetStar
 
+           nom_bien: nameProperty,
+           tel_bien: phoneProperty,
+           type_bien: typeProperty,
+           etoile_actuel: currentStar,
+           etoile_cible: targetStar,
+
+           adresse_bien: fullAddress,
+           complement_bien: complement
         };
 
         console.log(data)
