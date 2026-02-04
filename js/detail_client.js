@@ -1,3 +1,5 @@
+var clientId;
+
 const REGEX = {
   nom: /^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,50}$/,
   prenom: /^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,50}$/,
@@ -37,14 +39,20 @@ async function preFillClientInfo()
     clientFirstName.value = clientInformation.Utilisateur_Prenom;
     clientCompany.value = clientInformation.Societe_Nom;
     clientMail.value = clientInformation.Utilisateur_Mail;
+}
 
-    console.log(clientInformation);
-
+async function submitPreFillClientInfo() 
+{
     try
     {
-        const data = {
-           
+
+
+        const data = 
+        {
+           clientId: clientId
         };
+
+        console.log(data)
     }
     catch(error)
     {
