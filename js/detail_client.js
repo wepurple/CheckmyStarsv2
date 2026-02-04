@@ -3,7 +3,7 @@ var query = new URLSearchParams(currentUrl);
 var clientId = query.get('id');
 
 const REGEX = {
-    nomBien: /^$|\s+/,
+    nomBien: /(.|\s)*\S(.|\s)*/,
 
     email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
     telFR: /^(?:(?:\+33)\s?|0)[1-9](?:[\s.-]?\d{2}){4}$/,
@@ -49,7 +49,7 @@ async function submitPreFillClientInfo()
         var city = document.getElementById('laVille').value.trim();
         var country = document.getElementById('lePays').value.trim();
 
-        if (checkRegex('leNomBien', nameProperty, REGEX.nomBien, "Nom du bien invalide")) return;
+        if (!checkRegex('leNomBien', nameProperty, REGEX.nomBien, "Nom du bien invalide")) return;
 
         if (!checkRegex('leTelBien', phoneProperty, REGEX.telFR, "Téléphone invalide (ex: 06 12 34 56 78 ou +33 6 12 34 56 78)")) return;
 
