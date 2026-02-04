@@ -158,7 +158,7 @@
                                         </table>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary m-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Valider l'évaluation" onclick="Evaluer();">
+                                <button class="btn btn-primary m-3" onclick="../gestion/gestion_dossiers.php" data-bs-toggle="tooltip" data-bs-placement="top" title="Valider l'évaluation" onclick="Evaluer();">
                                     Valider
                                 </button>
                                 <button class="btn btn-primary m-3" data-bs-toggle="tooltip" data-bs-placement="top" title="Sauvegarder l'évaluation en cours " onclick="pointsTotal();">
