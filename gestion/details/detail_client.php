@@ -135,39 +135,13 @@
                             <form>
 
                                 <div class="form-floating mb-3">
-                                    <?php
-                                        require_once('../../includes/mariadb.php');
-                                        
-                                        $database = new Database();
-                                        $db = $database->getConnection();
-                                        
-                                        if (is_array($db)) {
-                                            echo "<p class='text-danger'>Erreur de connexion à la base de données</p>";
-                                        } else {
-                                            try {
-                                                $sql = "SELECT Utilisateur_ID, Utilisateur_Nom, Utilisateur_Prenom FROM utilisateurs ORDER BY Utilisateur_Nom ASC, Utilisateur_Prenom ASC";
-                                                $stmt = $db->prepare($sql);
-                                                $stmt->execute();
-                                                
-                                                echo '<select class="form-select" id="leClient" onchange="test()" ">';
-                                                echo '<option selected disabled>Choisir un client</option>';
-                                                
-                                                if ($stmt->rowCount() > 0) {
-                                                    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                                        $fullName = htmlspecialchars($row['Utilisateur_Nom'] . ' ' . $row['Utilisateur_Prenom']);
-                                                        echo '<option value="' . htmlspecialchars($row['Utilisateur_ID']) . '">' . $fullName . '</option>';
-                                                    }
-                                                } else {
-                                                    echo '<option disabled>Aucun client trouvé</option>';
-                                                }
-                                                
-                                                echo '</select>';
-                                            } catch(PDOException $e) {
-                                                echo "<p class='text-danger'>Erreur : " . $e->getMessage() . "</p>";
-                                            }
-                                        }
+                                    <input type="text" class="form-control" id="leNom" placeholder="nom du client" disabled>
+                                    <label for="floatingInput">Nom *</label>
+                                </div>
 
-                                    ?>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="leNom" placeholder="nom du client" disabled>
+                                    <label for="floatingInput">Prénom *</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
