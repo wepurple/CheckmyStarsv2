@@ -1,4 +1,6 @@
-var clientId;
+const currentUrl = window.location.search;
+var query = new URLSearchParams(currentUrl);
+var clientId = query.get('id');
 
 const REGEX = {
   nom: /^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,50}$/,
@@ -28,10 +30,6 @@ async function preFillClientInfo()
     var clientFirstName = document.getElementById("lePrenom");
     var clientCompany = document.getElementById("laSociete");
     var clientMail = document.getElementById("leMail");
-
-    const currentUrl = window.location.search;
-    var query = new URLSearchParams(currentUrl);
-    var clientId = query.get('id');
 
     var clientInformation = await getUserById(clientId);
 
