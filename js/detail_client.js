@@ -49,7 +49,7 @@ async function submitPreFillClientInfo()
         var city = document.getElementById('laVille').value.trim();
         var country = document.getElementById('lePays').value.trim();
 
-        if (!checkRegex('leNomBien', nameProperty, REGEX.nomBien, "Nom du bien invalide")) return;
+        if (checkRegex('leNomBien', nameProperty, REGEX.nomBien, "Nom du bien invalide")) return;
 
         if (!checkRegex('leTelBien', phoneProperty, REGEX.telFR, "Téléphone invalide (ex: 06 12 34 56 78 ou +33 6 12 34 56 78)")) return;
 
