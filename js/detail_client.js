@@ -49,21 +49,29 @@ async function submitPreFillClientInfo()
         var currentStar = document.getElementById("etoileActuel").value.trim();
         var targetStar = document.getElementById("etoileCible").value.trim();
 
-        var fullAddress = document.getElementById("laAdresseComplete").value.trim();
-        var complement = document.getElementById("leComplement").value.trim();
+        var streetNumber = document.getElementById('leNumRue').value.trim();
+        var streetName = document.getElementById('laAdresse').value.trim();
+        var complement = document.getElementById('leComplement').value.trim();
+        var postcode = document.getElementById('leCode').value.trim();
+        var city = document.getElementById('laVille').value.trim();
+        var country = document.getElementById('lePays').value.trim();
 
         const data = 
         {
-           client_id: clientId,
+            client_id: clientId,
 
-           nom_bien: nameProperty,
-           tel_bien: phoneProperty,
-           type_bien: typeProperty,
-           etoile_actuel: currentStar,
-           etoile_cible: targetStar,
+            nom_bien: nameProperty,
+            tel_bien: phoneProperty,
+            type_bien: typeProperty,
+            etoile_actuel: currentStar,
+            etoile_cible: targetStar,
 
-           adresse_bien: fullAddress,
-           complement_bien: complement
+            num_rue: streetNumber,
+            nom_rue: streetName,
+            complement: complement,
+            code_postal: postcode,
+            ville: city,
+            pays: country
         };
 
         console.log(data)
