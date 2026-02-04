@@ -40,6 +40,7 @@
             $requete->execute();
             if($requete->fetch(PDO::FETCH_ASSOC)){$inspecteur = true;}else{$inspecteur=false;}
 
+            //définition des valeurs dans la variable de session
             $_SESSION = array(
                 "ID"=>$result["Utilisateur_ID"],
                 "Nom"=>$result["Utilisateur_Nom"],

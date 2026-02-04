@@ -159,6 +159,15 @@ class User {
         return $query;
     }
 
+    public function getFirstLog($id){//renvoie un boolean indiquant s'il s'agit de la première connexion de l'utilisateur
+        $sql = "select first_log from utilisateurs where utilisateur_id = :id";
+
+        $query = $this->connexion->prepare($sql);
+        $query->bindParam(':id', $id);
+        $query->execute();
+        return $query;
+    }
+
     public function updateInfos($id, $nom, $prenom, $mail, $genre, $societe, $tel, $numRue, $nomRue, $complement, $codePostal, $ville, $pays){
         $sql = "select Update_User(:nom, :prenom, :mail, :genre, :societe, :tel, :numRue, :nomRue, :complement, :cp, :ville, :pays, :id, :role)";
 
