@@ -11,7 +11,6 @@
         <link rel="stylesheet" href="../../bootstrap 5.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="../../fontawesome-7.1.0/css/all.css">
         <script src="../../bootstrap 5.3/js/bootstrap.js"></script>
-        <!-- <script src="../../js/search_inspecteurs.js"></script> -->
         <link rel="icon" type="image/x-icon" href="../../assets/pictures/logosm.png">
     </head>
 
@@ -182,5 +181,7 @@
                     </div>                    
                 </div>
             </div>
+
+        <script src="../../js/detail_client.js"></script>
     </body>
 </html>
