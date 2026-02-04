@@ -33,7 +33,7 @@ async function preFillClientInfo()
 
     const clientInformation = await getUserById(clientId);
 
-    clientLastName.value.trim() = clientInformation.Utilisateur_Nom;
+    clientLastName.value = clientInformation.Utilisateur_Nom;
     clientFirstName.value.trim() = clientInformation.Utilisateur_Prenom;
     clientCompany.value.trim() = clientInformation.Societe_Nom;
     clientMail.value.trim() = clientInformation.Utilisateur_Mail;
