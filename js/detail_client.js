@@ -1,3 +1,25 @@
+const REGEX = {
+  nom: /^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,50}$/,
+  prenom: /^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,50}$/,
+
+  email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+  telFR: /^(?:(?:\+33)\s?|0)[1-9](?:[\s.-]?\d{2}){4}$/,
+
+  password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,64}$/,
+
+  numRue: /^(?:\d{1,5})(?:\s?(?:bis|ter|quater|[A-Za-z]))?$/i,
+  nomRue: /^[0-9A-Za-zÀ-ÖØ-öø-ÿ'’().,\-\/\s]{2,100}$/,
+  complement: /^[0-9A-Za-zÀ-ÖØ-öø-ÿ'’().,\-\/\s]{0,100}$/,
+  codePostal: /^\d{5}$/,
+  ville: /^[0-9A-Za-zÀ-ÖØ-öø-ÿ'’\-\/\s]{2,80}$/,
+  pays: /^[A-Za-zÀ-ÖØ-öø-ÿ'’\-\/\s]{2,60}$/,
+
+  civiliteValue: /^[1-3]$/,
+  roleId: /^[0-3]$/,
+  societeId: /^\d+$/
+};
+
+
 async function preFillClientInfo()
 {
     var clientLastName = document.getElementById("leNom");
@@ -30,7 +52,50 @@ async function getUserById(id) {
     return result;
 }
 
-function setupAdresseAutocomplete({ adresseCompleteId, numRueId, adresseId, codeId, villeId, paysId }) {
+function showToast(message, type = 'success') 
+{
+  const typeConfig = {
+    success: { bg: 'bg-success', icon: '<i class="fa-solid fa-check"></i>', title: 'Succès' },
+    error: { bg: 'bg-danger', icon: '<i class="fa-solid fa-bug"></i>', title: 'Erreur' },
+    warning: { bg: 'bg-warning', icon: '<i class="fa-solid fa-triangle-exclamation"></i>', title: 'Attention' },
+    info: { bg: 'bg-info', icon: '<i class="fa-solid fa-info"></i>', title: 'Information' }
+  };
+  
+  const config = typeConfig[type] || typeConfig['info'];
+  
+  // Créer l'élément toast
+  const toastHTML = `
+    <div class="toast align-items-center text-white ${config.bg} border-0" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="d-flex">
+        <div class="toast-body">
+          <strong>${config.icon}</strong> ${message}
+        </div>
+        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+    </div>
+  `;
+  
+  // Ajouter le toast au conteneur
+  const container = document.querySelector('.toast-container');
+  container.insertAdjacentHTML('beforeend', toastHTML);
+  
+  // Initialiser et afficher le toast
+  const toastElement = container.lastElementChild;
+  const toast = new bootstrap.Toast(toastElement, {
+    autohide: true,
+    delay: type === 'error' ? 5000 : 3000
+  });
+  
+  toast.show();
+  
+  // Supprimer le toast du DOM après fermeture
+  toastElement.addEventListener('hidden.bs.toast', () => {
+    toastElement.remove();
+  });
+}
+
+function setupAdresseAutocomplete({ adresseCompleteId, numRueId, adresseId, codeId, villeId, paysId }) 
+{
   const adresseCompleteInput = document.getElementById(adresseCompleteId);
   const numRueInput = document.getElementById(numRueId);
   const adresseInput = document.getElementById(adresseId);
@@ -189,11 +254,36 @@ function setupAdresseAutocomplete({ adresseCompleteId, numRueId, adresseId, code
   }
 }
 
-function markField(id, ok) {
+function markField(id, ok) 
+{
   const el = document.getElementById(id);
   if (!el) return;
   el.classList.toggle('is-invalid', !ok);
   el.classList.toggle('is-valid', ok);
+}
+
+function checkRegex(id, value, regex, msg) 
+{
+  const ok = regex.test(value);
+  markField(id, ok);
+  if (!ok) {
+    showToast(msg, "warning");
+    const el = document.getElementById(id);
+    if (el) el.focus();
+  }
+  return ok;
+}
+
+function checkRequired(id, value, msg) 
+{
+  const ok = value !== "";
+  markField(id, ok);
+  if (!ok) {
+    showToast(msg, "warning");
+    const el = document.getElementById(id);
+    if (el) el.focus();
+  }
+  return ok;
 }
 
 function checkRegex(id, value, regex, msg) {
@@ -218,7 +308,8 @@ function checkRequired(id, value, msg) {
   return ok;
 }
 
-function addressBlockTouched(v) {
+function addressBlockTouched(v) 
+{
   return [v.num_rue, v.nom_rue, v.complement, v.code_postal, v.ville, v.pays].some(x => (x || "").trim() !== "");
 }
 

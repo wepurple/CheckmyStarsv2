@@ -167,9 +167,15 @@
                                     <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
                                 </div>
 
-                                <div class="form-floating mb-3">
+                                <input type="hidden" id="leNumRue">
+                                <input type="hidden" id="laAdresse">
+                                <input type="hidden" id="leCode">
+                                <input type="hidden" id="laVille">
+                                <input type="hidden" id="lePays">
+
+                                <div class="col-md-12 form-floating mb-3">
                                     <input type="text" class="form-control" id="leComplement" placeholder="">
-                                    <label for="floatingInput">Complément d'adresse</label>
+                                    <label for="leComplement">Complément (bâtiment, étage...)</label>
                                 </div>
                             </form>
                         </div>
