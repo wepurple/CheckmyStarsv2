@@ -30,6 +30,8 @@ async function preFillClientInfo()
     clientFirstName.value = clientInformation.Utilisateur_Prenom;
     clientCompany.value = clientInformation.Societe_Nom;
     clientMail.value = clientInformation.Utilisateur_Mail;
+
+    console.log(clientInformation);
 }
 
 async function submitPreFillClientInfo() 
@@ -68,20 +70,21 @@ async function submitPreFillClientInfo()
 
         const data = 
         {
-            client_id: clientId,
-
-            nom_bien: nameProperty,
-            tel_bien: phoneProperty,
-            type_bien: typeProperty,
-            etoile_actuel: currentStar,
-            etoile_cible: targetStar,
-
             num_rue: streetNumber,
             nom_rue: streetName,
             complement: complement,
             code_postal: postcode,
             ville: city,
-            pays: country
+            pays: country,
+
+            BiensNom: nameProperty,
+            BiensTel: phoneProperty,
+            BiensEtoiles: currentStar,
+            BiensDonneurID: null,
+            BiensType: typeProperty,
+            BiensUser: clientId,
+            EtoileDossier: targetStar,
+            InspecteurID: null,
         };
 
         console.log(data)
