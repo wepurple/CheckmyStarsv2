@@ -336,4 +336,6 @@ document.addEventListener("DOMContentLoaded", () => {
         villeId: "laVille",
         paysId: "lePays"
     });
+
+    preFillClientInfo();
 });
