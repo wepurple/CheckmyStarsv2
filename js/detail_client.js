@@ -4,8 +4,6 @@ var clientId = query.get('id');
 
 var idUser;
 
-console.log(idUser);
-
 const REGEX = {
     nomBien: /(.|\s)*\S(.|\s)*/,
 
@@ -88,7 +86,7 @@ async function submitPreFillClientInfo()
             BiensType: typeProperty,
             BiensUser: clientId,
             EtoileDossier: targetStar,
-            InspecteurID: null,
+            InspecteurID: idUser,
         };
 
         console.log(data)

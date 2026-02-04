@@ -202,6 +202,28 @@
                                     </div>
 
                                     <div class="col-md-12 form-floating mb-3">
+                                        <select class="form-select" id="donneurOrdre" aria-label="Floating label select example">
+                                            <option value="0">Pas de donneur d'orde</option>
+                                            <?php
+                                                $sql = "SELECT U.Utilisateur_ID, U.Utilisateur_Nom, U.Utilisateur_Prenom FROM donneurordre D
+                                                        JOIN utilisateurs U ON 
+                                                            U.Utilisateur_ID = D.Donneur_ID;";
+
+                                                $stmt = $db->prepare($sql);
+
+                                                if ($stmt->rowCount() > 0) 
+                                                {
+                                                    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) 
+                                                    {
+                                                        echo '<option value="' . $row['Utilisateur_ID'] . '">' . $row['Utilisateur_Nom'] . ' ' . $row['Utilisateur_Prenom'] .'</option>';
+                                                    }
+                                                }
+                                            ?>
+                                        </select>
+                                        <label for="floatingSelect">Donneur d'ordre *</label>
+                                    </div>
+
+                                    <div class="col-md-12 form-floating mb-3">
                                         <input type="text" class="form-control" id="laAdresseComplete" placeholder="">
                                         <label for="laAdresseComplete">
                                             Adresse complète *
