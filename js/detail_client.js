@@ -11,10 +11,8 @@ async function preFillClientInfo()
     var clientInformation = await getUserById(clientId);
 
     clientLastName.innerText = clientInformation.Utilisateur_Nom;
-    clientFirstName = clientInformation.Utilisateur_Prenom;
-    clientCompany = clientInformation.Societe_Nom;
-
-    console.log(clientInformation);
+    clientFirstName.innerText = clientInformation.Utilisateur_Prenom;
+    clientCompany.innerText = clientInformation.Societe_Nom;
 }
 
 async function getUserById(id) {
