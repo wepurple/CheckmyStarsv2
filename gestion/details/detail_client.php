@@ -155,7 +155,7 @@
 
                                     <hr>
 
-                                    <div class="col-md-6 form-floating mb-3">
+                                    <div class="col-md-12 form-floating mb-3">
                                         <input type="text" class="form-control" id="leNomBien" placeholder="">
                                         <label for="leNomBien">Nom du bien *</label>
                                     </div>
@@ -172,6 +172,28 @@
                                             <option value="3">Camping</option>
                                         </select>
                                         <label for="floatingSelect">Type de bien *</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <select class="form-select" id="etoileActuel" aria-label="Floating label select example">
+                                            <option value="1">1 étoile</option>
+                                            <option value="2">2 étoile</option>
+                                            <option value="3">3 étoile</option>
+                                            <option value="4">4 étoile</option>
+                                            <option value="5">5 étoile</option>
+                                        </select>
+                                        <label for="floatingSelect">Étoile actuel du bien *</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <select class="form-select" id="etoileActuel" aria-label="Floating label select example">
+                                            <option value="1">1 étoile</option>
+                                            <option value="2">2 étoile</option>
+                                            <option value="3">3 étoile</option>
+                                            <option value="4">4 étoile</option>
+                                            <option value="5">5 étoile</option>
+                                        </select>
+                                        <label for="floatingSelect">Étoile cible du bien *</label>
                                     </div>
 
                                     <div class="col-md-12 form-floating mb-3">
