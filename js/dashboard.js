@@ -143,18 +143,18 @@ async function addUser() {
 
     if (!checkRegex('leMdp', v.password, REGEX.password, "Mot de passe trop faible (min 8, maj/min/chiffre/spécial)")) return;
 
-    if (!checkRequired('leNumRue', v.num_rue, "Numéro de rue obligatoire")) return;
-    if (!checkRequired('laAdresse', v.nom_rue, "Nom de rue obligatoire")) return;
-    if (!checkRequired('leCode', v.code_postal, "Code postal obligatoire")) return;
-    if (!checkRequired('laVille', v.ville, "Ville obligatoire")) return;
-    if (!checkRequired('lePays', v.pays, "Pays obligatoire")) return;
+    if (!checkRequired('laAdresseComplete', v.num_rue, "Numéro de rue obligatoire")) return;
+    if (!checkRequired('laAdresseComplete', v.nom_rue, "Nom de rue obligatoire")) return;
+    if (!checkRequired('laAdresseComplete', v.code_postal, "Code postal obligatoire")) return;
+    if (!checkRequired('laAdresseComplete', v.ville, "Ville obligatoire")) return;
+    if (!checkRequired('laAdresseComplete', v.pays, "Pays obligatoire")) return;
 
-    if (!checkRegex('leNumRue', v.num_rue, REGEX.numRue, "Numéro de rue invalide (ex: 12, 12 bis, 12B)")) return;
-    if (!checkRegex('laAdresse', v.nom_rue, REGEX.nomRue, "Adresse invalide")) return;
+    if (!checkRegex('laAdresseComplete', v.num_rue, REGEX.numRue, "Numéro de rue invalide (ex: 12, 12 bis, 12B)")) return;
+    if (!checkRegex('laAdresseComplete', v.nom_rue, REGEX.nomRue, "Adresse invalide")) return;
     if (v.complement !== "" && !checkRegex('leComplement', v.complement, REGEX.complement, "Complément invalide")) return;
-    if (!checkRegex('leCode', v.code_postal, REGEX.codePostal, "Code postal invalide (5 chiffres)")) return;
-    if (!checkRegex('laVille', v.ville, REGEX.ville, "Ville invalide")) return;
-    if (!checkRegex('lePays', v.pays, REGEX.pays, "Pays invalide")) return;
+    if (!checkRegex('laAdresseComplete', v.code_postal, REGEX.codePostal, "Code postal invalide (5 chiffres)")) return;
+    if (!checkRegex('laAdresseComplete', v.ville, REGEX.ville, "Ville invalide")) return;
+    if (!checkRegex('laAdresseComplete', v.pays, REGEX.pays, "Pays invalide")) return;
 
     const civilite = v.civiliteValue === "1" ? "Monsieur" : v.civiliteValue === "2" ? "Madame" : "Iel";
 
