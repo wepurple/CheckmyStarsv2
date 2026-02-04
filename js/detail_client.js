@@ -22,25 +22,18 @@ const REGEX = {
 
 async function preFillClientInfo()
 {
-    var clientLastName = document.getElementById("leNom").value.trim();
-    var clientFirstName = document.getElementById("lePrenom").value.trim();
-    var clientCompany = document.getElementById("laSociete").value.trim();
-    var clientMail = document.getElementById("leMail").value.trim();
+    const clientLastName = document.getElementById("leNom").value.trim();
+    const clientFirstName = document.getElementById("lePrenom").value.trim();
+    const clientCompany = document.getElementById("laSociete").value.trim();
+    const clientMail = document.getElementById("leMail").value.trim();
 
     const currentUrl = window.location.search;
-    var query = new URLSearchParams(currentUrl);
-    var clientId = query.get('id');
+    const query = new URLSearchParams(currentUrl);
+    const clientId = query.get('id');
 
-    var clientInformation = await getUserById(clientId);
-
-    clientLastName = clientInformation.Utilisateur_Nom;
-    clientFirstName = clientInformation.Utilisateur_Prenom;
-    clientCompany = clientInformation.Societe_Nom;
-    clientMail = clientInformation.Utilisateur_Mail;
+    const clientInformation = await getUserById(clientId);
 
     console.log(clientInformation);
-
-
 
     try
     {
@@ -50,6 +43,37 @@ async function preFillClientInfo()
     }
     catch(error)
     {
+        console.error("Erreur:", error);
+        showToast("Une erreur s'est produite : " + error.message, "error");
+    }
+
+    const mapping = 
+    {
+        leNom: 'Utilisateur_Nom',
+        lePrenom: 'Utilisateur_Prenom',
+        laSociete: 'Societe_Nom',
+        leMail: 'Utilisateur_Mail'
+    };
+
+    for (const [inputId, propName] of Object.entries(mapping)) 
+    {
+        const el = document.getElementById(inputId);
+        if (!el) continue;
+        const value = clientInformation && clientInformation[propName] ? String(clientInformation[propName]) : '';
+        el.value = value.trim();
+        el.classList.remove('is-invalid');
+        el.classList.add('is-valid');
+        setTimeout(() => el.classList.remove('is-valid'), 1500);
+    }
+
+    console.log(clientInformation);
+
+    try {
+        const data = 
+        {
+
+        };
+    } catch (error) {
         console.error("Erreur:", error);
         showToast("Une erreur s'est produite : " + error.message, "error");
     }
