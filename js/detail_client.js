@@ -1,15 +1,18 @@
-function preFillClientInfo()
+async function preFillClientInfo()
 {
-    var clientLastName = document.getElementById("leNom");
-    var clientFirstName = document.getElementById("leNom");
-    var clientCompany = document.getElementById("laSociete");
+    var clientLastName = document.getElementById("leNom").value;
+    var clientFirstName = document.getElementById("leNom").value;
+    var clientCompany = document.getElementById("laSociete").value;
 
     const currentUrl = window.location.search;
     var query = new URLSearchParams(currentUrl);
     var clientId = query.get('id');
 
-    var clientInformation = getUserById(clientId);
-    console.log(clientInformation);
+    var clientInformation = await getUserById(clientId);
+
+    clientLastName = clientInformation.Utilisateur_Nom
+    clientFirstName = clientInformation.Utilisateur_Prenom
+    clientCompany = clientInformation.Societe_Nom
 }
 
 async function getUserById(id) {
