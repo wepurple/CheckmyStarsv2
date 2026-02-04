@@ -24,7 +24,7 @@ if(isset($_SESSION['ID'])){//renvoie les informations relatives à un utilisateu
         $data = json_decode($_SESSION['ID']);
         $stmt = $user->afficherUtilisateur($data);
 
-            if($stmt->rowCount() > 0){
+        if($stmt->rowCount() > 0){
             $tableauClient = [];
             $tableauClient['utilisateur'] = [];
             while($row = $stmt->fetch(PDO::FETCH_ASSOC)){

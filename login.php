@@ -17,12 +17,12 @@
         $requete->execute();
 
         $result = $requete->fetch(PDO::FETCH_ASSOC);
-/*
-        var_dump($result);
-        var_dump($result["Utilisateur_Password"]);
-        var_dump(password_hash("pass123", PASSWORD_BCRYPT));
-        var_dump(password_verify($password, $result["Utilisateur_Password"]));
-        */
+
+        //var_dump($result);
+        //var_dump($result["Utilisateur_Password"]);
+        //var_dump(password_hash("pass123", PASSWORD_BCRYPT));
+        //var_dump(password_verify($password, $result["Utilisateur_Password"]));
+
 
         if ($result && password_verify($password, $result["Utilisateur_Password"])){
             //on va voir dans les tables .administrateurs et .inspecteurs si l'utilisateur détient les rôles concernés
@@ -40,6 +40,7 @@
             $requete->execute();
             if($requete->fetch(PDO::FETCH_ASSOC)){$inspecteur = true;}else{$inspecteur=false;}
 
+            //définition des valeurs dans la variable de session
             $_SESSION = array(
                 "ID"=>$result["Utilisateur_ID"],
                 "Nom"=>$result["Utilisateur_Nom"],
