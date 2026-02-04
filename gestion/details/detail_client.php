@@ -134,18 +134,18 @@
                             <form>
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leNom" placeholder="Nom du client" disabled>
-                                    <label for="floatingInput">Nom du client</label>
+                                    <input type="text" class="form-control" id="leNom" placeholder="" disabled>
+                                    <label for="floatingInput">Nom</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="lePrenom" placeholder="Prénom du client" disabled>
-                                    <label for="floatingInput">Prénom du client</label>
+                                    <input type="text" class="form-control" id="lePrenom" placeholder="" disabled>
+                                    <label for="floatingInput">Prénom</label>
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="laSociete" placeholder="nom de la Société" disabled>
-                                    <label for="floatingInput">nom de la Société</label>
+                                    <input type="text" class="form-control" id="laSociete" placeholder="" disabled>
+                                    <label for="floatingInput">Société</label>
                                 </div>
 
                                 <hr>
