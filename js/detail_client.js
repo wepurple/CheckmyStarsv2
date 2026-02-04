@@ -22,16 +22,21 @@ const REGEX = {
 
 async function preFillClientInfo()
 {
-    const clientLastName = document.getElementById("leNom").value.trim();
-    const clientFirstName = document.getElementById("lePrenom").value.trim();
-    const clientCompany = document.getElementById("laSociete").value.trim();
-    const clientMail = document.getElementById("leMail").value.trim();
+    const clientLastName = document.getElementById("leNom");
+    const clientFirstName = document.getElementById("lePrenom");
+    const clientCompany = document.getElementById("laSociete");
+    const clientMail = document.getElementById("leMail");
 
     const currentUrl = window.location.search;
     const query = new URLSearchParams(currentUrl);
     const clientId = query.get('id');
 
     const clientInformation = await getUserById(clientId);
+
+    clientLastName.value.trim() = clientInformation.Utilisateur_Nom;
+    clientFirstName.value.trim() = clientInformation.Utilisateur_Prenom;
+    clientCompany.value.trim() = clientInformation.Societe_Nom;
+    clientMail.value.trim() = clientInformation.Utilisateur_Mail;
 
     console.log(clientInformation);
 
@@ -43,37 +48,6 @@ async function preFillClientInfo()
     }
     catch(error)
     {
-        console.error("Erreur:", error);
-        showToast("Une erreur s'est produite : " + error.message, "error");
-    }
-
-    const mapping = 
-    {
-        leNom: 'Utilisateur_Nom',
-        lePrenom: 'Utilisateur_Prenom',
-        laSociete: 'Societe_Nom',
-        leMail: 'Utilisateur_Mail'
-    };
-
-    for (const [inputId, propName] of Object.entries(mapping)) 
-    {
-        const el = document.getElementById(inputId);
-        if (!el) continue;
-        const value = clientInformation && clientInformation[propName] ? String(clientInformation[propName]) : '';
-        el.value = value.trim();
-        el.classList.remove('is-invalid');
-        el.classList.add('is-valid');
-        setTimeout(() => el.classList.remove('is-valid'), 1500);
-    }
-
-    console.log(clientInformation);
-
-    try {
-        const data = 
-        {
-
-        };
-    } catch (error) {
         console.error("Erreur:", error);
         showToast("Une erreur s'est produite : " + error.message, "error");
     }
