@@ -3,15 +3,17 @@ var query = new URLSearchParams(currentUrl);
 var clientId = query.get('id');
 
 const REGEX = {
-  email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-  telFR: /^(?:(?:\+33)\s?|0)[1-9](?:[\s.-]?\d{2}){4}$/,
+    nomBien: /^$|\s+/,
 
-  numRue: /^(?:\d{1,5})(?:\s?(?:bis|ter|quater|[A-Za-z]))?$/i,
-  nomRue: /^[0-9A-Za-zÀ-ÖØ-öø-ÿ'’().,\-\/\s]{2,100}$/,
-  complement: /^[0-9A-Za-zÀ-ÖØ-öø-ÿ'’().,\-\/\s]{0,100}$/,
-  codePostal: /^\d{5}$/,
-  ville: /^[0-9A-Za-zÀ-ÖØ-öø-ÿ'’\-\/\s]{2,80}$/,
-  pays: /^[A-Za-zÀ-ÖØ-öø-ÿ'’\-\/\s]{2,60}$/,
+    email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    telFR: /^(?:(?:\+33)\s?|0)[1-9](?:[\s.-]?\d{2}){4}$/,
+
+    numRue: /^(?:\d{1,5})(?:\s?(?:bis|ter|quater|[A-Za-z]))?$/i,
+    nomRue: /^[0-9A-Za-zÀ-ÖØ-öø-ÿ'’().,\-\/\s]{2,100}$/,
+    complement: /^[0-9A-Za-zÀ-ÖØ-öø-ÿ'’().,\-\/\s]{0,100}$/,
+    codePostal: /^\d{5}$/,
+    ville: /^[0-9A-Za-zÀ-ÖØ-öø-ÿ'’\-\/\s]{2,80}$/,
+    pays: /^[A-Za-zÀ-ÖØ-öø-ÿ'’\-\/\s]{2,60}$/,
 };
 
 
@@ -46,6 +48,8 @@ async function submitPreFillClientInfo()
         var postcode = document.getElementById('leCode').value.trim();
         var city = document.getElementById('laVille').value.trim();
         var country = document.getElementById('lePays').value.trim();
+
+        if (!checkRegex('leNomBien', nameProperty, REGEX.nomBien, "Nom du bien invalide")) return;
 
         if (!checkRegex('leTelBien', phoneProperty, REGEX.telFR, "Téléphone invalide (ex: 06 12 34 56 78 ou +33 6 12 34 56 78)")) return;
 
