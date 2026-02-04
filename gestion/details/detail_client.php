@@ -11,7 +11,7 @@
         <link rel="stylesheet" href="../../bootstrap 5.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="../../fontawesome-7.1.0/css/all.css">
         <script src="../../bootstrap 5.3/js/bootstrap.js"></script>
-        <script src="../../js/search_inspecteurs.js"></script>
+        <!-- <script src="../../js/search_inspecteurs.js"></script> -->
         <link rel="icon" type="image/x-icon" href="../../assets/pictures/logosm.png">
     </head>
 
@@ -140,7 +140,7 @@
                                 </div>
 
                                 <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leNom" placeholder="Prénom du client" disabled>
+                                    <input type="text" class="form-control" id="lePrenom" placeholder="Prénom du client" disabled>
                                     <label for="floatingInput">Prénom</label>
                                 </div>
 
