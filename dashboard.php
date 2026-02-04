@@ -52,22 +52,24 @@
                 </div>
             </nav>
             <!-- Tableau -->
-            <table class="table table-bordered table-sm table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nom</th>
-                        <th>Société</th>
-                        <th>Téléphone</th>
-                        <th>Mail</th>
-                        <th>Nombre de dossiers</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody id="tabloBody">
-                    <!-- remplit par le js -->
-                </tbody>
-            </table>
+            <div class="table-responsive">
+                <table class="table table-bordered table-sm table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Société</th>
+                            <th>Téléphone</th>
+                            <th>Mail</th>
+                            <th>Nombre de dossiers</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabloBody">
+                        <!-- remplit par le js -->
+                    </tbody>
+                </table>
+            </div>
 
             <!-- Toast -->
             <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 11000;">
