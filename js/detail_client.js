@@ -43,11 +43,13 @@ async function submitPreFillClientInfo()
 {
     try
     {
-
+        var targetStar = document.getElementById("etoileCible").value.trim();
 
         const data = 
         {
-           clientId: clientId
+           client_id: clientId,
+           etoile_cible: targetStar
+
         };
 
         console.log(data)
