@@ -132,50 +132,51 @@
                         <!-- modal body -->
                         <div class="modal-body">
                             <form>
+                                <div class="row g-2">
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <input type="text" class="form-control" id="leNom" placeholder="" disabled>
+                                        <label for="floatingInput">Nom</label>
+                                    </div>
 
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="leNom" placeholder="" disabled>
-                                    <label for="floatingInput">Nom</label>
-                                </div>
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <input type="text" class="form-control" id="lePrenom" placeholder="" disabled>
+                                        <label for="floatingInput">Prénom</label>
+                                    </div>
 
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="lePrenom" placeholder="" disabled>
-                                    <label for="floatingInput">Prénom</label>
-                                </div>
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <input type="text" class="form-control" id="laSociete" placeholder="" disabled>
+                                        <label for="floatingInput">Société</label>
+                                    </div>
 
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="laSociete" placeholder="" disabled>
-                                    <label for="floatingInput">Société</label>
-                                </div>
+                                    <hr>
 
-                                <hr>
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <select class="form-select" id="typedebien" aria-label="Floating label select example">
+                                            <option value="1">Gite</option>
+                                            <option value="2">Hotel</option>
+                                            <option value="3">Camping</option>
+                                        </select>
+                                        <label for="floatingSelect">Type de bien *</label>
+                                    </div>
 
-                                <div class="form-floating mb-3">
-                                    <select class="form-select" id="typedebien" aria-label="Floating label select example">
-                                        <option value="1">Gite</option>
-                                        <option value="2">Hotel</option>
-                                        <option value="3">Camping</option>
-                                    </select>
-                                    <label for="floatingSelect">Type de bien</label>
-                                </div>
+                                    <div class="col-md-12 form-floating mb-3">
+                                        <input type="text" class="form-control" id="laAdresseComplete" placeholder="">
+                                        <label for="laAdresseComplete">
+                                            Adresse complète *
+                                        </label>
+                                        <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
+                                    </div>
 
-                                <div class="col-md-12 form-floating mb-3">
-                                    <input type="text" class="form-control" id="laAdresseComplete" placeholder="">
-                                    <label for="laAdresseComplete">
-                                        Adresse complète *
-                                    </label>
-                                    <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
-                                </div>
+                                    <input type="hidden" id="leNumRue">
+                                    <input type="hidden" id="laAdresse">
+                                    <input type="hidden" id="leCode">
+                                    <input type="hidden" id="laVille">
+                                    <input type="hidden" id="lePays">
 
-                                <input type="hidden" id="leNumRue">
-                                <input type="hidden" id="laAdresse">
-                                <input type="hidden" id="leCode">
-                                <input type="hidden" id="laVille">
-                                <input type="hidden" id="lePays">
-
-                                <div class="col-md-12 form-floating mb-3">
-                                    <input type="text" class="form-control" id="leComplement" placeholder="">
-                                    <label for="leComplement">Complément (bâtiment, étage...)</label>
+                                    <div class="col-md-12 form-floating mb-3">
+                                        <input type="text" class="form-control" id="leComplement" placeholder="">
+                                        <label for="leComplement">Complément (bâtiment, étage...)</label>
+                                    </div>
                                 </div>
                             </form>
                         </div>
