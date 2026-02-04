@@ -11,7 +11,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="fr" data-bs-theme="dark">
+<html lang="fr" data-bs-theme="light">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +25,7 @@
         <script src="js/profil.js"></script>
     </head>
 
-    <body class="bg-secondary">
+    <body class="">
         <?php
             require("./includes/navbar.php");
         ?>

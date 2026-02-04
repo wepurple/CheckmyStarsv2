@@ -22,13 +22,13 @@
         <title>Gestion clients - CheckMyStars</title>
 
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.min.css">
-        <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
+        <link rel="stylesheet" href="fontawesome-7.1.0/css/all.css">
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
         <script src="js/dashboard.js"></script>
         <link rel="icon" type="image/x-icon" href="assets/pictures/logosm.png">
     </head>
 
-    <body class="bg-secondary">
+    <body>
         <?php
             require_once "./includes/navbar.php";
         ?>
@@ -52,7 +52,7 @@
                 </div>
             </nav>
             <!-- Tableau -->
-            <table class="table table-dark table-sm table-striped table-hover">
+            <table class="table table-bordered table-sm table-striped table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
