@@ -13,7 +13,7 @@ function preFillClientInfo()
 }
 
 async function getUserById(id) {
-    const url = "../models/Read/users.php?IdPersonne=" + id;
+    const url = "../../models/Read/users.php?IdPersonne=" + id;
     const response = await fetch(url, {
         method: "GET",
         headers: {
