@@ -3,13 +3,8 @@ var query = new URLSearchParams(currentUrl);
 var clientId = query.get('id');
 
 const REGEX = {
-  nom: /^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,50}$/,
-  prenom: /^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,50}$/,
-
   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   telFR: /^(?:(?:\+33)\s?|0)[1-9](?:[\s.-]?\d{2}){4}$/,
-
-  password: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,64}$/,
 
   numRue: /^(?:\d{1,5})(?:\s?(?:bis|ter|quater|[A-Za-z]))?$/i,
   nomRue: /^[0-9A-Za-zÀ-ÖØ-öø-ÿ'’().,\-\/\s]{2,100}$/,
@@ -17,10 +12,6 @@ const REGEX = {
   codePostal: /^\d{5}$/,
   ville: /^[0-9A-Za-zÀ-ÖØ-öø-ÿ'’\-\/\s]{2,80}$/,
   pays: /^[A-Za-zÀ-ÖØ-öø-ÿ'’\-\/\s]{2,60}$/,
-
-  civiliteValue: /^[1-3]$/,
-  roleId: /^[0-3]$/,
-  societeId: /^\d+$/
 };
 
 
@@ -55,6 +46,21 @@ async function submitPreFillClientInfo()
         var postcode = document.getElementById('leCode').value.trim();
         var city = document.getElementById('laVille').value.trim();
         var country = document.getElementById('lePays').value.trim();
+
+        if (!checkRegex('leTelBien', phoneProperty, REGEX.telFR, "Téléphone invalide (ex: 06 12 34 56 78 ou +33 6 12 34 56 78)")) return;
+
+        if (!checkRequired('leNumRue', streetNumber, "Numéro de rue obligatoire")) return;
+        if (!checkRequired('laAdresse', streetName, "Nom de rue obligatoire")) return;
+        if (!checkRequired('leCode', postcode, "Code postal obligatoire")) return;
+        if (!checkRequired('laVille', city, "Ville obligatoire")) return;
+        if (!checkRequired('lePays', country, "Pays obligatoire")) return;
+
+        if (!checkRegex('leNumRue', streetNumber, REGEX.numRue, "Numéro de rue invalide (ex: 12, 12 bis, 12B)")) return;
+        if (!checkRegex('laAdresse', streetName, REGEX.nomRue, "Adresse invalide")) return;
+        if (complement !== "" && !checkRegex('leComplement', complement, REGEX.complement, "Complément invalide")) return;
+        if (!checkRegex('leCode', postcode, REGEX.codePostal, "Code postal invalide (5 chiffres)")) return;
+        if (!checkRegex('laVille', city, REGEX.ville, "Ville invalide")) return;
+        if (!checkRegex('lePays', country, REGEX.pays, "Pays invalide")) return;
 
         const data = 
         {
