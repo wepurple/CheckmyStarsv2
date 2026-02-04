@@ -2,6 +2,10 @@ const currentUrl = window.location.search;
 var query = new URLSearchParams(currentUrl);
 var clientId = query.get('id');
 
+var idUser;
+
+console.log(idUser);
+
 const REGEX = {
     nomBien: /(.|\s)*\S(.|\s)*/,
 

@@ -1,5 +1,9 @@
 <?php
     session_start();
+
+    if(isset($_SESSION['ID'])){
+        $inspecteurID = $_SESSION['ID'];
+    }
 ?>
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="dark">
@@ -11,6 +15,7 @@
         <link rel="stylesheet" href="../../bootstrap 5.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="../../fontawesome-7.1.0/css/all.css">
         <script src="../../bootstrap 5.3/js/bootstrap.js"></script>
+        <script type="text/javascript">var idUser=<?php echo json_encode($idUser); ?>;</script>
         <link rel="icon" type="image/x-icon" href="../../assets/pictures/logosm.png">
     </head>
 
