@@ -22,21 +22,21 @@ const REGEX = {
 
 async function preFillClientInfo()
 {
-    const clientLastName = document.getElementById("leNom");
-    const clientFirstName = document.getElementById("lePrenom");
-    const clientCompany = document.getElementById("laSociete");
-    const clientMail = document.getElementById("leMail");
+    var clientLastName = document.getElementById("leNom");
+    var clientFirstName = document.getElementById("lePrenom");
+    var clientCompany = document.getElementById("laSociete");
+    var clientMail = document.getElementById("leMail");
 
     const currentUrl = window.location.search;
-    const query = new URLSearchParams(currentUrl);
-    const clientId = query.get('id');
+    var query = new URLSearchParams(currentUrl);
+    var clientId = query.get('id');
 
-    const clientInformation = await getUserById(clientId);
+    var clientInformation = await getUserById(clientId);
 
     clientLastName.value = clientInformation.Utilisateur_Nom;
-    clientFirstName.value.trim() = clientInformation.Utilisateur_Prenom;
-    clientCompany.value.trim() = clientInformation.Societe_Nom;
-    clientMail.value.trim() = clientInformation.Utilisateur_Mail;
+    clientFirstName.value = clientInformation.Utilisateur_Prenom;
+    clientCompany.value = clientInformation.Societe_Nom;
+    clientMail.value = clientInformation.Utilisateur_Mail;
 
     console.log(clientInformation);
 
