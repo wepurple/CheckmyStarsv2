@@ -314,5 +314,14 @@ function addressBlockTouched(v)
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+    setupAdresseAutocomplete({
+        adresseCompleteId: "laAdresseComplete",
+        numRueId: "leNumRue",
+        adresseId: "laAdresse",
+        codeId: "leCode",
+        villeId: "laVille",
+        paysId: "lePays"
+    });
+
     preFillClientInfo()
 });
