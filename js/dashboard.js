@@ -1,3 +1,9 @@
+let seeModal = null;
+let editModal = null;
+let deleteUserId = null;
+let confirmModal = null;
+let societeModal = null;
+
 const REGEX = {
   nom: /^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,50}$/,
   prenom: /^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,50}$/,
@@ -594,6 +600,125 @@ function addCancel() {
     const addModal = bootstrap.Modal.getInstance(addModalElement);
     if (addModal) {
         addModal.hide();
+    }
+}
+
+function openSocieteModal() {
+    const addModalEl = document.getElementById('addModal');
+    if (addModalEl) {
+        const addModalInstance = bootstrap.Modal.getInstance(addModalEl);
+        if (addModalInstance) {
+            addModalInstance.hide();
+        }
+    }
+
+    const modalEl = document.getElementById('addSocieteModal');
+    if (!societeModal) {
+        societeModal = new bootstrap.Modal(modalEl);
+    }
+    societeModal.show();
+    document.getElementById('addSocieteForm').reset();
+}
+
+async function submitSociete() {
+  const v = {
+    nom: document.getElementById('societeNom').value.trim(),
+    mail: document.getElementById('societeMail').value.trim(),
+    tel: document.getElementById('societeTel').value.trim(),
+    num_rue: document.getElementById('societeNumRue').value.trim(),
+    nom_rue: document.getElementById('societeNomRue').value.trim(),
+    complement: document.getElementById('societeComplement').value.trim(),
+    code_postal: document.getElementById('societeCodePostal').value.trim(),
+    ville: document.getElementById('societeVille').value.trim(),
+    pays: document.getElementById('societePays').value.trim()
+  };
+
+  if (!checkRequired('societeNom', v.nom, "Nom société obligatoire")) return;
+  if (!checkRegex('societeNom', v.nom, REGEX.nomRue, "Nom société invalide")) return;
+
+  if (!v.num_rue || !v.nom_rue || !v.code_postal || !v.ville) {
+    showToast("Adresse incomplète - utilisez l'autocomplétion", "warning");
+    return;
+  }
+
+  const payload = {
+    num_rue: v.num_rue,
+    nom_rue: v.nom_rue,
+    complement: v.complement || null,
+    code_postal: v.code_postal,
+    ville: v.ville,
+    pays: v.pays,
+    societe_nom: v.nom,
+    societe_mail: v.mail || null,
+    societe_telephone: v.tel || null
+  };
+
+  try {
+    const response = await fetch('models/Create/company.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+
+  if (data.success) {
+    societeModal.hide();
+
+    await refreshSocietes();
+
+    const select = document.getElementById('laSociete');
+    if (data.new_societe_id) {
+        select.value = data.new_societe_id;
+    } else if (data.new_user_id) {
+        select.value = data.new_user_id;
+    }
+
+    const addModalEl = document.getElementById('addModal');
+    const addModal = new bootstrap.Modal(addModalEl);
+    addModal.show();
+    
+    showToast(`Société "${v.nom}" créée !`, "success");
+    } else {
+      showToast(data.error || "Erreur création société", "error");
+    }
+  } catch (error) {
+    console.error(error);
+    showToast("Erreur réseau", "error");
+  }
+}
+
+async function refreshSocietes() {
+    try {
+        const response = await fetch('models/Read/companies.php');
+        const companies = await response.json();
+        
+        const addSelect = document.getElementById('laSociete');
+        if (addSelect) {
+            const currentValue = addSelect.value;
+            addSelect.innerHTML = '<option value="">Sélectionner...</option><option value="new_company">Créer une nouvelle entreprise</option>';
+            
+            companies.forEach(company => {
+                const option = new Option(company.Societe_Nom, company.Societe_ID);
+                addSelect.appendChild(option);
+            });
+            
+            addSelect.value = currentValue;
+        }
+        
+        const editSelect = document.getElementById('editLaSociete');
+        if (editSelect) {
+            const currentEditValue = editSelect.value;
+            editSelect.innerHTML = '';
+            companies.forEach(company => {
+                const option = new Option(company.Societe_Nom, company.Societe_ID);
+                editSelect.appendChild(option);
+            });
+            editSelect.value = currentEditValue;
+        }
+        
+    } catch (error) {
+        console.error('Erreur refresh sociétés:', error);
     }
 }
 
