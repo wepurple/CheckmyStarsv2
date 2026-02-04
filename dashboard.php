@@ -28,7 +28,7 @@
         <link rel="icon" type="image/x-icon" href="assets/pictures/logosm.png">
     </head>
 
-    <body class="bg-secondary">
+    <body>
         <?php
             require_once "./includes/navbar.php";
         ?>
@@ -52,7 +52,7 @@
                 </div>
             </nav>
             <!-- Tableau -->
-            <table class="table table-dark table-sm table-striped table-hover">
+            <table class="table table-bordered table-sm table-striped table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -168,6 +168,57 @@
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="addCancel()">Annuler</button>
                             <button type="button" class="btn btn-success" onclick="addUser()">Créer</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal Créer Société -->
+            <div class="modal fade" id="addSocieteModal" tabindex="-1">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Créer une société</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="addSocieteForm">
+                        <div class="row g-3">
+                            <div class="col-md-6 form-floating">
+                                <input type="text" class="form-control" id="societeNom" placeholder="Nom société" required>
+                                <label for="societeNom">Nom société *</label>
+                            </div>
+                            <div class="col-md-6 form-floating">
+                                <input type="email" class="form-control" id="societeMail" placeholder="mail@societe.fr">
+                                <label for="societeMail">Email société</label>
+                            </div>
+                            <div class="col-12 form-floating">
+                                <input type="text" class="form-control" id="societeTel" placeholder="01 23 45 67 89">
+                                <label for="societeTel">Téléphone</label>
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Adresse complète *</label>
+                                <input type="text" class="form-control form-control-lg" id="societeAdresseComplete" placeholder="Tapez votre adresse...">
+                                <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
+                            </div>
+
+                            <input type="hidden" id="societeNumRue">
+                            <input type="hidden" id="societeNomRue">
+                            <input type="hidden" id="societeCodePostal">
+                            <input type="hidden" id="societeVille">
+                            <input type="hidden" id="societePays">
+
+                            <div class="col-md-6 form-floating">
+                                <input type="text" class="form-control" id="societeComplement" placeholder="Bât. A, 2ème étage">
+                                <label for="societeComplement">Complément d'adresse</label>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button type="button" class="btn btn-success" onclick="submitSociete()">Créer société</button>
+                    </div>
                     </div>
                 </div>
             </div>
