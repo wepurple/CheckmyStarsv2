@@ -1,7 +1,7 @@
 async function preFillClientInfo()
 {
     var clientLastName = document.getElementById("leNom");
-    var clientFirstName = document.getElementById("leNom");
+    var clientFirstName = document.getElementById("lePrenom");
     var clientCompany = document.getElementById("laSociete");
 
     const currentUrl = window.location.search;
