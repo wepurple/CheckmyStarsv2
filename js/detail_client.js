@@ -13,6 +13,8 @@ async function preFillClientInfo()
     clientLastName.innerText = clientInformation.Utilisateur_Nom;
     clientFirstName.innerText = clientInformation.Utilisateur_Prenom;
     clientCompany.innerText = clientInformation.Societe_Nom;
+
+    console.log(clientInformation);
 }
 
 async function getUserById(id) {
