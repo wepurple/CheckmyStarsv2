@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : ven. 30 jan. 2026 à 12:35
+-- Généré le : mer. 04 fév. 2026 à 12:11
 -- Version du serveur : 11.5.2-MariaDB
 -- Version de PHP : 8.3.14
 
@@ -494,7 +494,7 @@ CREATE TABLE IF NOT EXISTS `adressespostales` (
   `AdressePostale_Ville` varchar(256) DEFAULT NULL,
   `AdressePostale_Pays` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`AdressePostale_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `adressespostales`
@@ -507,12 +507,12 @@ INSERT INTO `adressespostales` (`AdressePostale_ID`, `AdressePostale_NumeroRue`,
 (4, '42', NULL, '33000', 'Cours de l’Intendance', 'Bordeaux', 'France'),
 (5, '8', 'Bât A', '59000', 'Rue Nationale', 'Lille', 'France'),
 (6, '17', NULL, '34000', 'Rue de la Loge', 'Montpellier', 'France'),
-(11, '14', 'bis', '45100', 'Rue des Bruyères', 'Orléans', 'France'),
+(11, '14', '', '45100', 'Rue des Bruyères', 'Orléans', 'France'),
 (12, '3', NULL, '45100', 'Rue du Portereau', 'Orléans', 'France'),
 (13, '88', NULL, '37000', 'Rue Nationale', 'Tours', 'France'),
 (14, '21', 'appt 12', '54000', 'Rue Saint-Dizier', 'Nancy', 'France'),
 (15, '6', NULL, '44000', 'Rue de Strasbourg', 'Nantes', 'France'),
-(16, '39', '', '75011', 'Rue Oberkampf', 'Paris', 'France'),
+(16, '1', '', '75018', 'Boulevard Haussman', 'Paris', 'France'),
 (17, '2', NULL, '69003', 'Rue de la Part-Dieu', 'Lyon', 'France'),
 (18, '77', 'Bât C', '35000', 'Rue de Saint-Malo', 'Rennes', 'France'),
 (19, '11', NULL, '67000', 'Rue des Grandes Arcades', 'Strasbourg', 'France'),
@@ -527,8 +527,7 @@ INSERT INTO `adressespostales` (`AdressePostale_ID`, `AdressePostale_NumeroRue`,
 (28, '15', NULL, '13200', 'Rue de la République', 'Arles', 'France'),
 (29, '22', NULL, '74200', 'Avenue du Léman', 'Thonon-les-Bains', 'France'),
 (30, '5', NULL, '20137', 'Route des Sanguinaires', 'Ajaccio', 'France'),
-(31, '14', NULL, '41600', 'Rue des Bruyères', 'Chaon', 'France'),
-(33, '14', NULL, '41600', 'Rue des Bruyères', 'Chaon', 'France');
+(37, '14', '', '41600', 'Rue des Bruyères', 'Chaon', 'France');
 
 -- --------------------------------------------------------
 
@@ -1040,14 +1039,14 @@ CREATE TABLE IF NOT EXISTS `criteres` (
   `Critere_statut` varchar(50) DEFAULT NULL,
   `Critere_points` int(11) DEFAULT NULL,
   PRIMARY KEY (`Critere_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=152 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `criteres`
 --
 
 INSERT INTO `criteres` (`Critere_ID`, `Critere_description`, `Critere_statut`, `Critere_points`) VALUES
-(1, 'Surface totale minimum (cuisine et coin cuisine compris) du logement meublé hors salle d\'eau et toilettes', 'O', 5),
+(1, 'Surface totale minimum (cuisine et coin cuisine compris) du logement meublé hors salle d\'eau et toilettes', 'X', 5),
 (2, 'Surface totale majorée', 'O', 2),
 (3, 'Prise de courant libre dans chaque pièce d\'habitation', 'X', 1),
 (4, 'Tous les éclairages du logement fonctionnent et sont en bon état', 'X', 3),
@@ -1203,7 +1202,7 @@ CREATE TABLE IF NOT EXISTS `devis` (
   PRIMARY KEY (`Devis_ID`),
   UNIQUE KEY `unique_devis_numero` (`Devis_Numero`),
   UNIQUE KEY `Dossier_ID` (`Dossier_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `devis`
@@ -1215,7 +1214,8 @@ INSERT INTO `devis` (`Devis_ID`, `Devis_DateAccepattion`, `Devis_montant`, `Devi
 (3, NULL, 300.00, 'D-2026-00003', '2026-01-18 11:30:00', 'DEVIS', 4, 0, NULL),
 (4, NULL, 220.00, 'D-2026-00004', '2026-01-22 17:45:00', 'DEVIS', 5, 0, NULL),
 (5, '2026-01-25 09:05:00', 890.00, 'D-2026-00005', '2026-01-25 08:40:00', 'DEVIS', 6, 1, '2026-01-25 09:06:00'),
-(6, NULL, 150.00, 'D-2026-00006', '2026-01-26 14:00:00', 'DEVIS', 8, 0, NULL);
+(6, NULL, 150.00, 'D-2026-00006', '2026-01-26 14:00:00', 'DEVIS', 8, 0, NULL),
+(7, NULL, 168.00, 'D-2026-00084', '2026-01-30 00:00:00', 'DEVIS', NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -1233,7 +1233,7 @@ CREATE TABLE IF NOT EXISTS `devis_client` (
   KEY `Devis_ID` (`Devis_ID`),
   KEY `idx_devis_client_utilisateur` (`Utilisateur_ID`),
   KEY `idx_devis_client_entreprise` (`Entreprise_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `devis_client`
@@ -1245,7 +1245,8 @@ INSERT INTO `devis_client` (`Client_ID`, `Devis_ID`, `Utilisateur_ID`, `Entrepri
 (3, 3, 7, NULL),
 (4, 4, 8, NULL),
 (5, 5, NULL, 3),
-(6, 6, 12, NULL);
+(6, 6, 12, NULL),
+(7, 7, 1, 4);
 
 -- --------------------------------------------------------
 
@@ -1264,7 +1265,7 @@ CREATE TABLE IF NOT EXISTS `devis_items` (
   `total` decimal(10,2) NOT NULL,
   PRIMARY KEY (`Item_ID`),
   KEY `Devis_ID` (`Devis_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `devis_items`
@@ -1276,7 +1277,8 @@ INSERT INTO `devis_items` (`Item_ID`, `Devis_ID`, `description`, `quantite`, `pr
 (3, 3, 'Visite de contrôle', 1.00, 250.00, 20.00, 300.00),
 (4, 4, 'Audit rapide (1h)', 2.00, 91.67, 20.00, 220.00),
 (5, 5, 'Audit complet + recommandations', 1.00, 741.67, 20.00, 890.00),
-(6, 6, 'Mise à jour dossier + photos', 1.00, 125.00, 20.00, 150.00);
+(6, 6, 'Mise à jour dossier + photos', 1.00, 125.00, 20.00, 150.00),
+(7, 7, 'Diagnostics + visite', 1.00, 140.00, 20.00, 168.00);
 
 -- --------------------------------------------------------
 
@@ -1297,7 +1299,7 @@ CREATE TABLE IF NOT EXISTS `document_counters` (
 --
 
 INSERT INTO `document_counters` (`type`, `year`, `last_number`) VALUES
-('DEVIS', '2026', 74),
+('DEVIS', '2026', 147),
 ('FACTURE', '2026', 6);
 
 -- --------------------------------------------------------
@@ -1671,7 +1673,7 @@ CREATE TABLE IF NOT EXISTS `societes` (
   UNIQUE KEY `uq_societe_nom` (`Societe_Nom`),
   KEY `Societe_Mail` (`Societe_Mail`),
   KEY `AdressePostale_ID` (`AdressePostale_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `societes`
@@ -1683,8 +1685,7 @@ INSERT INTO `societes` (`Societe_ID`, `Societe_Nom`, `Societe_Mail`, `Societe_Te
 (3, 'Orléans Inspection', 'orleans@inspection.fr', '0238543210', 11),
 (4, 'DedSec Conseil', 'hello@dedsec.fr', '0974001122', 2),
 (5, 'Gîtes de Loire', 'resa@gitesloire.fr', '0238123456', 12),
-(6, 'Camping & Co', 'support@campingco.fr', '0556008899', 4),
-(9, 'NTCSTestModal', 'test@gmail.com', '0769155622', 33);
+(6, 'Camping & Co', 'support@campingco.fr', '0556008899', 4);
 
 -- --------------------------------------------------------
 
@@ -1726,32 +1727,34 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   `Utilisateur_Signature` varchar(255) DEFAULT NULL,
   `AdressePostale_ID` int(11) NOT NULL,
   `Societe_ID` int(11) DEFAULT NULL,
+  `first_log` tinyint(1) NOT NULL DEFAULT 1,
+  `theme` enum('light','dark') NOT NULL DEFAULT 'light',
   PRIMARY KEY (`Utilisateur_ID`),
   UNIQUE KEY `unique_email` (`Utilisateur_Mail`),
   KEY `AdressePostale_ID` (`AdressePostale_ID`),
   KEY `fk_utilisateurs_societe` (`Societe_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `utilisateurs`
 --
 
-INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Prenom`, `Utilisateur_Civilite`, `Utilisateur_Password`, `Utilisateur_Mail`, `Utilisateur_Telephone`, `Utilisateur_Signature`, `AdressePostale_ID`, `Societe_ID`) VALUES
-(1, 'Dupont', 'Marie', 'Madame', '$2y$10$fDXKq5jEs7C5FiB5Nd/4FOItFogXRu.lR2fVDl94XcJvSSs6qrCdu', 'marie.dupont@checkmystars.fr', '0669696969', 'Marie Dupont – Administratrice', 16, 5),
-(3, 'Martin', 'Luc', 'Monsieur', '$2y$10$demoHashInsp1', 'luc.martin@inspection.fr', '0600000103', 'Luc Martin – Inspecteur', 17, 3),
-(4, 'Bernard', 'Julie', 'Madame', '$2y$10$demoHashInsp2', 'julie.bernard@inspection.fr', '0600000104', 'Julie Bernard – Inspectrice', 18, 3),
-(5, 'Bourdon', 'Angel', 'Monsieur', '$2y$10$demoHashProp1', 'angel.bourdon@gmail.com', '0670000005', NULL, 11, 5),
-(6, 'Paster', 'Michael', 'Monsieur', '$2y$10$demoHashProp2', 'michael.paster@gmail.com', '0670000006', NULL, 12, 5),
-(7, 'Lefevre', 'Camille', 'Madame', '$2y$10$demoHashProp3', 'camille.lefevre@gmail.com', '0670000007', NULL, 13, 5),
-(8, 'Moreau', 'Nina', 'Madame', '$2y$10$demoHashProp4', 'nina.moreau@gmail.com', '0670000008', NULL, 14, 5),
-(9, 'Petit', 'Hugo', 'Monsieur', '$2y$10$demoHashProp5', 'hugo.petit@gmail.com', '0670000009', NULL, 15, 6),
-(10, 'Roux', 'Sarah', 'Madame', '$2y$10$demoHashProp6', 'sarah.roux@gmail.com', '0670000010', NULL, 20, 6),
-(11, 'Garcia', 'Enzo', 'Monsieur', '$2y$10$demoHashProp7', 'enzo.garcia@gmail.com', '0670000011', NULL, 6, 6),
-(12, 'Fournier', 'Lina', 'Madame', '$2y$10$demoHashProp8', 'lina.fournier@gmail.com', '0670000012', NULL, 5, 5),
-(13, 'Durand', 'Paul', 'Monsieur', '$2y$10$demoHashDO1', 'paul.durand@audithotel.fr', '0611000013', 'Paul Durand – Donneur d’ordre', 1, 2),
-(14, 'Robert', 'Chloé', 'Madame', '$2y$10$demoHashDO2', 'chloe.robert@audithotel.fr', '0611000014', 'Chloé Robert – Donneur d’ordre', 2, 2),
-(15, 'Faure', 'Thomas', 'Monsieur', '$2y$10$demoHashDO3', 'thomas.faure@dedsec.fr', '0611000015', 'Thomas Faure – Donneur d’ordre', 4, 4),
-(16, 'Masson', 'Emma', 'Madame', '$2y$10$demoHashDO4', 'emma.masson@dedsec.fr', '0611000016', 'Emma Masson – Donneur d’ordre', 3, 4);
+INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Prenom`, `Utilisateur_Civilite`, `Utilisateur_Password`, `Utilisateur_Mail`, `Utilisateur_Telephone`, `Utilisateur_Signature`, `AdressePostale_ID`, `Societe_ID`, `first_log`, `theme`) VALUES
+(1, 'Dupont', 'Marie', 'Madame', '$2y$10$fDXKq5jEs7C5FiB5Nd/4FOItFogXRu.lR2fVDl94XcJvSSs6qrCdu', 'marie.dupont@checkmystars.fr', '0669696969', 'Marie Dupont – Administratrice', 16, 5, 0, 'light'),
+(3, 'Martin', 'Luc', 'Monsieur', '$2y$10$zCMi/F3mcnfmOS80JOgGnONsms3wQamqOQIvzRw33e7RD5ElakiUW', 'luc.martin@inspection.fr', '0600000103', 'Luc Martin – Inspecteur', 17, 3, 0, 'light'),
+(4, 'Bernard', 'Julie', 'Madame', '$2y$10$demoHashInsp2', 'julie.bernard@inspection.fr', '0600000104', 'Julie Bernard – Inspectrice', 18, 3, 0, 'light'),
+(5, 'Bourdon', 'Angel', 'Monsieur', '$2y$10$demoHashProp1', 'angel.bourdon@gmail.com', '0670000005', NULL, 11, 5, 0, 'light'),
+(6, 'Paster', 'Michael', 'Monsieur', '$2y$10$demoHashProp2', 'michael.paster@gmail.com', '0670000006', NULL, 12, 5, 0, 'light'),
+(7, 'Lefevre', 'Camille', 'Madame', '$2y$10$demoHashProp3', 'camille.lefevre@gmail.com', '0670000007', NULL, 13, 5, 0, 'light'),
+(8, 'Moreau', 'Nina', 'Madame', '$2y$10$demoHashProp4', 'nina.moreau@gmail.com', '0670000008', NULL, 14, 5, 0, 'light'),
+(9, 'Petit', 'Hugo', 'Monsieur', '$2y$10$demoHashProp5', 'hugo.petit@gmail.com', '0670000009', NULL, 15, 6, 0, 'light'),
+(10, 'Roux', 'Sarah', 'Madame', '$2y$10$demoHashProp6', 'sarah.roux@gmail.com', '0670000010', NULL, 20, 6, 0, 'light'),
+(11, 'Garcia', 'Enzo', 'Monsieur', '$2y$10$demoHashProp7', 'enzo.garcia@gmail.com', '0670000011', NULL, 6, 6, 0, 'light'),
+(12, 'Fournier', 'Lina', 'Madame', '$2y$10$demoHashProp8', 'lina.fournier@gmail.com', '0670000012', NULL, 5, 5, 0, 'light'),
+(13, 'Durand', 'Paul', 'Monsieur', '$2y$10$demoHashDO1', 'paul.durand@audithotel.fr', '0611000013', 'Paul Durand – Donneur d’ordre', 1, 2, 0, 'light'),
+(14, 'Robert', 'Chloé', 'Madame', '$2y$10$demoHashDO2', 'chloe.robert@audithotel.fr', '0611000014', 'Chloé Robert – Donneur d’ordre', 2, 2, 0, 'light'),
+(15, 'Faure', 'Thomas', 'Monsieur', '$2y$10$demoHashDO3', 'thomas.faure@dedsec.fr', '0611000015', 'Thomas Faure – Donneur d’ordre', 4, 4, 0, 'light'),
+(16, 'Masson', 'Emma', 'Madame', '$2y$10$demoHashDO4', 'emma.masson@dedsec.fr', '0611000016', 'Emma Masson – Donneur d’ordre', 3, 4, 0, 'light');
 
 --
 -- Contraintes pour les tables déchargées

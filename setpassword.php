@@ -19,7 +19,7 @@
 
         <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.css">
         <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
-        <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
+        <link rel="icon" type="image/x-icon" href="assets/pictures/logosm.png">
         
         <script src="bootstrap 5.3/js/bootstrap.js"></script>
         <script src="js/profil.js"></script>
