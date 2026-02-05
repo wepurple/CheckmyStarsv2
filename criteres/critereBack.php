@@ -17,14 +17,13 @@ include("../includes/mariadb.php");
 $database = new Database();
 $db = $database->getConnection();
 
-function getNumberCriteriaByStar(PDO $pdo, int $star): int
 {
     $sql = "
-        SELECT COUNT(DISTINCT co.CritereID) AS nb_criteres
-        FROM listescriteresetoiles lce
+        SELECT COUNT(DISTINCT co.Critere_ID) AS nb_criteres
+        FROM listescriteres_etoiles lce
         LEFT JOIN contient co
-            ON co.ListesCriteresID = lce.ListesCriteresID
-        WHERE lce.typehebergementid = 2
+            ON co.ListesCriteres_ID = lce.ListesCriteres_ID
+        WHERE lce.type_hebergement_id = 2
           AND lce.etoile = :star
     ";
 
@@ -40,8 +39,8 @@ function getNumberEstablishmentByStar(PDO $pdo, int $star): int
     $sql = "
         SELECT COUNT(*) AS nb
         FROM biens
-        WHERE TypeHebergementID = 2
-          AND BienEtoileActuelle = :star
+        WHERE TypeHebergement_ID = 2
+          AND Bien_Etoile_Actuelle = :star
     ";
 
     $stmt = $pdo->prepare($sql);
@@ -54,15 +53,15 @@ function getNumberEstablishmentByStar(PDO $pdo, int $star): int
 function getNumberCriteriaByStatusAndStar(PDO $pdo, int $star, string $status): int
 {
     $sql = "
-        SELECT COUNT(DISTINCT c.CritereID) AS nb
-        FROM listescriteresetoiles lce
+        SELECT COUNT(DISTINCT c.Critere_ID) AS nb
+        FROM listescriteres_etoiles lce
         JOIN contient co
-          ON co.ListesCriteresID = lce.ListesCriteresID
+          ON co.ListesCriteres_ID = lce.ListesCriteres_ID
         JOIN criteres c
-          ON c.CritereID = co.CritereID
-        WHERE lce.typehebergementid = 2
+          ON c.Critere_ID = co.Critere_ID
+        WHERE lce.type_hebergement_id = 2
           AND lce.etoile = :star
-          AND c.Criterestatut = :status
+          AND c.Critere_statut = :status
     ";
 
     $stmt = $pdo->prepare($sql);
