@@ -22,8 +22,8 @@ foreach ($selection as $selection) {
         $selection['Checkbox'],
         $selection['Commentaire'],
         $selection['Dossier_ID']
-    ])
-};
+    ]);
+}
 
 echo json_encode(["status" => "success"]);
 
