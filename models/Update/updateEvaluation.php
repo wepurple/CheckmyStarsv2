@@ -18,6 +18,13 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
+$Dossier_ID = $_POST['Dossier_ID'] ?? null;
+$textarea = $_POST['Commentaire'] ?? null;
+$Critere_ID = $_POST['Critere_ID'] ?? null;
+$Value = $_POST['Value'] ?? null;
+
+echo "Dossier_ID: $Dossier_ID, Critere_ID: $Critere_ID, Value: $Value, Commentaire: $textarea";
+
 try {
     $Dossier_ID = $_POST['Dossier_ID'] ?? null;
     $textarea = $_POST['Commentaire'] ?? null;
