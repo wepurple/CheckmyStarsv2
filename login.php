@@ -51,7 +51,8 @@
                 ),
                 "Telephone"=>$result['Utilisateur_Telephone'],
                 "Email"=>$result['Utilisateur_Mail'],
-                "Civilite"=>$result['Utilisateur_Civilite']
+                "Civilite"=>$result['Utilisateur_Civilite'],
+                "Theme"=>$result['theme']
             );
 
             if($result["first_log"] == 1){
