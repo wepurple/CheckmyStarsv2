@@ -44,7 +44,7 @@
                     </a>
 
                     <div class="bg-white rounded-pill shadow-sm px-4 py-2 border">
-                        <span class="fw-medium text-secondary">
+                        <span id="Dossier_ID" class="fw-medium text-secondary">
                             Dossier en cours : <span class="text-dark fw-bold"><?php echo $dossier_numero; ?></span>
                         </span>
                     </div>

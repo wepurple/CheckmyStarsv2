@@ -1,6 +1,7 @@
 let i = 0;
 let allData = [];
 let etoiles = null;
+let Dossier_ID = document.getElementById('Dossier_ID').textContent;
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -56,7 +57,7 @@ function displayData(data) {
     data.forEach(critere => {
         const row = tbody.insertRow();
         row.innerHTML = `
-            <td>${critere.Critere_ID}</td>
+            <td id="critere-${i}">${critere.Critere_ID}</td>
             <td>
                 <div class="d-flex align-items-center gap-2">
                     <span class="flex-grow-1">
@@ -169,6 +170,7 @@ let points_ONC = 0;
 let total = 0;
 
 function Evaluer() {
+    console.log('Dossier ID : ', Dossier_ID);
     points_X = 0;
     points_O = 0;
     points_NA = 0;
@@ -184,10 +186,18 @@ function Evaluer() {
         const status = document.getElementById(`statut-${j}`);
         const points = Number(document.getElementById(`points-${j}`).textContent);
         const textarea = document.getElementById(`textarea-${j}`).value;
+        const critere_ID = document.getElementById(`critere-${j}`).textContent;
+        console.log('Critere ID ', j, ': ', critere_ID);
         console.log('Checkbox ', j, ': ', checkbox.checked);
         console.log('statut ', j, ': ', status.textContent);
         console.log('points ', j, ': ', points);
-        console.log('Element trouvé: ', j , ': ', textarea);       
+        console.log('Element trouvé: ', j , ': ', textarea);
+
+            //const formData = new FormData();
+            //formData.append("Value", checkbox.checked);
+            //formData.append("Critere_ID" , critere_ID)
+            //formData.append("Commentaire", textarea);
+            //formData.append("Dossier_ID", Dossier_ID);
 
         if (status.textContent === "O") {
             points_O_Max += points;
