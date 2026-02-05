@@ -279,6 +279,8 @@ async function valider(){//s'execute après avoir pressé le bouton valider dans
     }
     if(verif){//si toutes les vérifications sont ok, on envoie le formulaire
         const url = 'models/Update/updateUser.php'
+        // Récupère les valeurs actuelles côté serveur si certains champs d'adresse sont vides
+        const existing = await getInfos();
         const data = {
             nom: document.getElementById(ids[0]).value,
             prenom: document.getElementById(ids[1]).value,
@@ -286,12 +288,12 @@ async function valider(){//s'execute après avoir pressé le bouton valider dans
             mail: document.getElementById(ids[3]).value,
             tel: document.getElementById(ids[4]).value,
             societe: document.getElementById(ids[5]).value,
-            numRue: document.getElementById("leNumRue").value,
-            nomRue: document.getElementById("laAdresse").value,
-            complement: document.getElementById(ids[7]).value,
-            cp: document.getElementById("leCode").value,
-            ville: document.getElementById("laVille").value,
-            pays: document.getElementById("lePays").value
+            numRue: document.getElementById("leNumRue").value || existing.AdressePostale_NumeroRue || "",
+            nomRue: document.getElementById("laAdresse").value || existing.AdressePostale_NomRue || "",
+            complement: document.getElementById(ids[7]).value || existing.AdressePostale_Complement || "",
+            cp: document.getElementById("leCode").value || existing.AdressePostale_CodePostal || "",
+            ville: document.getElementById("laVille").value || existing.AdressePostale_Ville || "",
+            pays: document.getElementById("lePays").value || existing.AdressePostale_Pays || ""
         }
         const response = await fetch(url, {
             method: 'POST',

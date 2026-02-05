@@ -27,7 +27,7 @@ require_once(__DIR__ . '/../includes/mariadb.php');
     <link rel="stylesheet" href="../bootstrap 5.3/css/facture.css">
     <link rel="icon" type="image/x-icon" href="../assets/pictures/logosm.png">
 </head>
-<body class="bg-light">
+<body class="bg-<?= $_SESSION['Theme'] ?>">
      <?php
             require_once("../includes/navbar.php");
         ?>
