@@ -205,19 +205,21 @@
                                         <select class="form-select" id="donneurOrdre" aria-label="Floating label select example">
                                             <option value="0">Pas de donneur d'orde</option>
                                             <?php
-                                                $sql = "SELECT U.Utilisateur_ID, U.Utilisateur_Nom, U.Utilisateur_Prenom FROM donneurordre D
-                                                        JOIN utilisateurs U ON 
-                                                            U.Utilisateur_ID = D.Donneur_ID;";
+                                                try {
+                                                    $sql = "SELECT U.Utilisateur_ID, U.Utilisateur_Nom, U.Utilisateur_Prenom
+                                                            FROM donneurordre D
+                                                            JOIN utilisateurs U ON U.Utilisateur_ID = D.Donneur_ID";
 
-                                                $stmt = $db->prepare($sql);
+                                                    $stmt = $db->prepare($sql);
+                                                    $stmt->execute();
 
-                                                if ($stmt->rowCount() > 0) 
-                                                {
-                                                    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) 
-                                                    {
-                                                        var_dump($row);
-                                                        echo '<option value="' . $row['Utilisateur_ID'] . '">' . $row['Utilisateur_Nom'] . ' ' . $row['Utilisateur_Prenom'] .'</option>';
+                                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                                        echo '<option value="' . htmlspecialchars($row['Utilisateur_ID']) . '">'
+                                                            . htmlspecialchars($row['Utilisateur_Nom']) . ' ' . htmlspecialchars($row['Utilisateur_Prenom'])
+                                                            . '</option>';
                                                     }
+                                                } catch (PDOException $e) {
+                                                    echo '<option value="0">Erreur: ' . htmlspecialchars($e->getMessage()) . '</option>';
                                                 }
                                             ?>
                                         </select>
