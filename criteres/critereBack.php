@@ -106,6 +106,7 @@ $starColors = [
                         $criteriaX = getNumberCriteriaByStatusAndStar($db, $x, 'X');
                         $criteriaO = getNumberCriteriaByStatusAndStar($db, $x, 'O');
                         $criteriaNA = getNumberCriteriaByStatusAndStar($db, $x, 'NA');
+                        $criteriaXONC = getNumberCriteriaByStatusAndStar($db, $x, 'X ONC');
                         $establishments = getNumberEstablishmentByStar($db, $x);
                         $color = $starColors[$x];
                     ?>
@@ -143,6 +144,9 @@ $starColors = [
                                         </span>
                                         <span class="badge bg-warning text-dark fs-6 py-2 px-3">
                                             <i class="fas fa-minus-circle"></i> <?= $criteriaNA ?> NA
+                                        </span>
+                                        <span class="badge bg-info text-dark fs-6 py-2 px-3">
+                                            <i class="fas fa-minus-circle"></i> <?= $criteriaXONC ?> X ONC
                                         </span>
                                     </div>
 
