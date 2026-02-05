@@ -123,7 +123,6 @@
                     <div class="input-group mb-1">
                         <span class="input-group-text">Adresse complète *</span>
                         <input type="text" class="form-control" id="laAdresseComplete" placeholder="" disabled>
-                        <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
                     </div>
 
                     <input type="hidden" id="leNumRue">
