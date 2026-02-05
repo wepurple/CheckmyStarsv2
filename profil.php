@@ -121,10 +121,8 @@
                     <h2>Mon adresse</h2>
 
                     <div class="input-group mb-1">
-                        <input type="text" class="form-control" id="laAdresseComplete" placeholder="">
-                        <label for="laAdresseComplete">
-                            Adresse complète *
-                        </label>
+                        <span class="input-group-text">Adresse complète *</span>
+                        <input type="text" class="form-control" id="laAdresseComplete" placeholder="" disabled>
                         <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
                     </div>
 
