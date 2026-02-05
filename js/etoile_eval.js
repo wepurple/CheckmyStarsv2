@@ -187,7 +187,7 @@ function Evaluer() {
         console.log('Checkbox ', j, ': ', checkbox.checked);
         console.log('statut ', j, ': ', status.textContent);
         console.log('points ', j, ': ', points);
-        console.log('textarea ', j, ': ', textarea)
+        console.log('textarea ', j, ': ', textarea.textContent)
         if (status.textContent === "O") {
             points_O_Max += points;
         }
