@@ -83,6 +83,8 @@ function setupAdresseAutocomplete({ adresseCompleteId, numRueId, adresseId, code
   const suggestionsDiv = document.createElement('div');
   suggestionsDiv.className = 'autocomplete-suggestions';
   suggestionsDiv.style.cssText = `
+    margin-top: 7%;
+    margin-left: 30.5%;
     position: absolute;
     z-index: 9999;
     background: #2b3035;
