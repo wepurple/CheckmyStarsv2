@@ -199,7 +199,7 @@ function Evaluer() {
             Dossier_ID: Dossier_ID,
             Critere_ID: critere_ID,
             Checkbox: checkbox.checked,
-            Commentaire: textarea
+            Commentaire: textarea.value
         });
         
         if (status.textContent === "O") {
