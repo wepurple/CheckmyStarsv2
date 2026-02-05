@@ -69,7 +69,7 @@ function displayData(data) {
             <td>
                 <input type="checkbox" id="checkbox-${i}" name="checkbox">
             </td>
-            <td id="textarea-${i}"><textarea></textarea></td>
+            <td ><textarea id="textarea-${i}"></textarea></td>
         `;
         
         i = i + 1;
@@ -183,11 +183,12 @@ function Evaluer() {
         const checkbox = document.getElementById(`checkbox-${j}`);
         const status = document.getElementById(`statut-${j}`);
         const points = Number(document.getElementById(`points-${j}`).textContent);
-        const textarea = document.getElementById(`textarea-${j}`);
+        const textarea = document.getElementById(`textarea-${j}`).value;
         console.log('Checkbox ', j, ': ', checkbox.checked);
         console.log('statut ', j, ': ', status.textContent);
         console.log('points ', j, ': ', points);
-        console.log('textarea ', j, ': ', textarea);
+        console.log('Element trouvé: ', j , ': ', textarea);       
+
         if (status.textContent === "O") {
             points_O_Max += points;
         }
