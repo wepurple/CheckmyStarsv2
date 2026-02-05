@@ -5,7 +5,9 @@ const ids = [
     "mail",
     "tel",
     "societe",
-    "laAdresseComplete"
+    "laAdresseComplete",
+    "complement"
+
 ]
 const facultatif = [//liste des champs facultatifs du formulaire, à remplir avec des champs contenus dans la liste ids
     "complement"
@@ -280,12 +282,12 @@ async function valider(){//s'execute après avoir pressé le bouton valider dans
             mail: document.getElementById(ids[3]).value,
             tel: document.getElementById(ids[4]).value,
             societe: document.getElementById(ids[5]).value,
-            numRue: document.getElementById(ids[6]).value,
-            nomRue: document.getElementById(ids[7]).value,
-            complement: document.getElementById(ids[8]).value,
-            cp: document.getElementById(ids[9]).value,
-            ville: document.getElementById(ids[10]).value,
-            pays: document.getElementById(ids[11]).value
+            numRue: document.getElementById("leNumRue").value,
+            nomRue: document.getElementById("laAdresse").value,
+            complement: document.getElementById(ids[7]).value,
+            cp: document.getElementById("leCode").value,
+            ville: document.getElementById("laVille").value,
+            pays: document.getElementById("lePays").value
         }
         const response = await fetch(url, {
             method: 'POST',
