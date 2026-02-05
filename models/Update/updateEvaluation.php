@@ -46,14 +46,12 @@ try {
         }
         $stmt->bindParam(':Dossier_ID', $Dossier_ID, PDO::PARAM_INT);
         $stmt->execute();
-        header('Content-Type: application/json');
-        echo json_encode(['success' => true, 'message' => 'Évaluation mise à jour avec succès']);
+        
 
     } catch (Exception $e) {
         // Annuler la transaction en cas d'erreur
         $db->rollBack();
         throw $e;
-    }
 
 } catch (Exception $e) {
     header("Content-Type : application/json");
