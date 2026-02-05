@@ -36,7 +36,7 @@
     <body class="bg-secondary">
     <?php require("../includes/navbar.php"); ?>
         
-        <div>
+        <div class="container-fluid p-3">
             <div>
                 <div class="d-flex align-items-center gap-3 p-3">
                     <a href="../front_dossier.php?id=<?php echo $id; ?>" class="btn btn-light rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 45px; height: 45px;">
