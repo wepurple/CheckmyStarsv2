@@ -183,7 +183,7 @@ function Evaluer() {
         const checkbox = document.getElementById(`checkbox-${j}`);
         const status = document.getElementById(`statut-${j}`);
         const points = Number(document.getElementById(`points-${j}`).textContent);
-        const textarea = document.getElementById(`textarea-${j}`).value;
+        const textarea = document.getElementById(`textarea-${j}`).textContent;
         console.log('Checkbox ', j, ': ', checkbox.checked);
         console.log('statut ', j, ': ', status.textContent);
         console.log('points ', j, ': ', points);
