@@ -33,7 +33,7 @@
         <script src="../bootstrap 5.3/js/bootstrap.js"></script>
         <script src="../js/etoile_eval.js"></script>
     </head>
-    <body class="bg-secondary">
+    <body data-id="<?php echo $id; ?>" class="bg-secondary">
     <?php require("../includes/navbar.php"); ?>
         
         <div>
@@ -44,7 +44,7 @@
                     </a>
 
                     <div class="bg-white rounded-pill shadow-sm px-4 py-2 border">
-                        <span id="Dossier_ID" class="fw-medium text-secondary">
+                        <span class="fw-medium text-secondary">
                             Dossier en cours : <span class="text-dark fw-bold"><?php echo $dossier_numero; ?></span>
                         </span>
                     </div>
