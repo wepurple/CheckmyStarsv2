@@ -111,9 +111,6 @@ async function submitPreFillClientInfo()
         if (addModal) addModal.hide();
         clearValidationClasses('addForm');
         document.getElementById('addForm').reset();
-        const list = await getInfos();
-        console.log(list);
-        remplirTab(list);
         showToast("Dossier créé avec succès !", "success");
       } else {
         showToast("Erreur lors de la création : " + result.error, "error");
