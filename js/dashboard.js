@@ -1,3 +1,9 @@
+let seeModal = null;
+let editModal = null;
+let deleteUserId = null;
+let confirmModal = null;
+let societeModal = null;
+
 const REGEX = {
   nom: /^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,50}$/,
   prenom: /^[A-Za-zÀ-ÖØ-öø-ÿ'’ -]{2,50}$/,
@@ -137,18 +143,18 @@ async function addUser() {
 
     if (!checkRegex('leMdp', v.password, REGEX.password, "Mot de passe trop faible (min 8, maj/min/chiffre/spécial)")) return;
 
-    if (!checkRequired('leNumRue', v.num_rue, "Numéro de rue obligatoire")) return;
-    if (!checkRequired('laAdresse', v.nom_rue, "Nom de rue obligatoire")) return;
-    if (!checkRequired('leCode', v.code_postal, "Code postal obligatoire")) return;
-    if (!checkRequired('laVille', v.ville, "Ville obligatoire")) return;
-    if (!checkRequired('lePays', v.pays, "Pays obligatoire")) return;
+    if (!checkRequired('laAdresseComplete', v.num_rue, "Numéro de rue obligatoire")) return;
+    if (!checkRequired('laAdresseComplete', v.nom_rue, "Nom de rue obligatoire")) return;
+    if (!checkRequired('laAdresseComplete', v.code_postal, "Code postal obligatoire")) return;
+    if (!checkRequired('laAdresseComplete', v.ville, "Ville obligatoire")) return;
+    if (!checkRequired('laAdresseComplete', v.pays, "Pays obligatoire")) return;
 
-    if (!checkRegex('leNumRue', v.num_rue, REGEX.numRue, "Numéro de rue invalide (ex: 12, 12 bis, 12B)")) return;
-    if (!checkRegex('laAdresse', v.nom_rue, REGEX.nomRue, "Adresse invalide")) return;
+    if (!checkRegex('laAdresseComplete', v.num_rue, REGEX.numRue, "Numéro de rue invalide (ex: 12, 12 bis, 12B)")) return;
+    if (!checkRegex('laAdresseComplete', v.nom_rue, REGEX.nomRue, "Adresse invalide")) return;
     if (v.complement !== "" && !checkRegex('leComplement', v.complement, REGEX.complement, "Complément invalide")) return;
-    if (!checkRegex('leCode', v.code_postal, REGEX.codePostal, "Code postal invalide (5 chiffres)")) return;
-    if (!checkRegex('laVille', v.ville, REGEX.ville, "Ville invalide")) return;
-    if (!checkRegex('lePays', v.pays, REGEX.pays, "Pays invalide")) return;
+    if (!checkRegex('laAdresseComplete', v.code_postal, REGEX.codePostal, "Code postal invalide (5 chiffres)")) return;
+    if (!checkRegex('laAdresseComplete', v.ville, REGEX.ville, "Ville invalide")) return;
+    if (!checkRegex('laAdresseComplete', v.pays, REGEX.pays, "Pays invalide")) return;
 
     const civilite = v.civiliteValue === "1" ? "Monsieur" : v.civiliteValue === "2" ? "Madame" : "Iel";
 
@@ -169,7 +175,7 @@ async function addUser() {
       pays: v.pays
     };
 
-    const response = await fetch("../models/Create/users.php", {
+    const response = await fetch("../checkmystars/models/Create/users.php", {
       method: "POST",
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify(data)
@@ -182,7 +188,9 @@ async function addUser() {
       if (addModal) addModal.hide();
       clearValidationClasses('addForm');
       document.getElementById('addForm').reset();
-      await loadTable();
+      const list = await getInfos();
+      console.log(list);
+      remplirTab(list);
       showToast("Utilisateur créé avec succès !", "success");
     } else {
       showToast("Erreur lors de la création : " + result.error, "error");
@@ -585,10 +593,173 @@ async function refreshSocietes() {
     }
 }
 
+function addCancel() {
+    clearValidationClasses('addForm');
+    document.getElementById('addForm').reset();
+    const addModalElement = document.getElementById('addModal');
+    const addModal = bootstrap.Modal.getInstance(addModalElement);
+    if (addModal) {
+        addModal.hide();
+    }
+}
+
+function openSocieteModal() {
+    const addModalEl = document.getElementById('addModal');
+    if (addModalEl) {
+        const addModalInstance = bootstrap.Modal.getInstance(addModalEl);
+        if (addModalInstance) {
+            addModalInstance.hide();
+        }
+    }
+
+    const modalEl = document.getElementById('addSocieteModal');
+    if (!societeModal) {
+        societeModal = new bootstrap.Modal(modalEl);
+    }
+    societeModal.show();
+    document.getElementById('addSocieteForm').reset();
+}
+
+async function submitSociete() {
+  const v = {
+    nom: document.getElementById('societeNom').value.trim(),
+    mail: document.getElementById('societeMail').value.trim(),
+    tel: document.getElementById('societeTel').value.trim(),
+    num_rue: document.getElementById('societeNumRue').value.trim(),
+    nom_rue: document.getElementById('societeNomRue').value.trim(),
+    complement: document.getElementById('societeComplement').value.trim(),
+    code_postal: document.getElementById('societeCodePostal').value.trim(),
+    ville: document.getElementById('societeVille').value.trim(),
+    pays: document.getElementById('societePays').value.trim()
+  };
+
+  if (!checkRequired('societeNom', v.nom, "Nom société obligatoire")) return;
+  if (!checkRegex('societeNom', v.nom, REGEX.nomRue, "Nom société invalide")) return;
+
+  if (!v.num_rue || !v.nom_rue || !v.code_postal || !v.ville) {
+    showToast("Adresse incomplète - utilisez l'autocomplétion", "warning");
+    return;
+  }
+
+  const payload = {
+    num_rue: v.num_rue,
+    nom_rue: v.nom_rue,
+    complement: v.complement || null,
+    code_postal: v.code_postal,
+    ville: v.ville,
+    pays: v.pays,
+    societe_nom: v.nom,
+    societe_mail: v.mail || null,
+    societe_telephone: v.tel || null
+  };
+
+  try {
+    const response = await fetch('models/Create/company.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await response.json();
+
+  if (data.success) {
+    societeModal.hide();
+
+    await refreshSocietes();
+
+    const select = document.getElementById('laSociete');
+    if (data.new_societe_id) {
+        select.value = data.new_societe_id;
+    } else if (data.new_user_id) {
+        select.value = data.new_user_id;
+    }
+
+    const addModalEl = document.getElementById('addModal');
+    const addModal = new bootstrap.Modal(addModalEl);
+    addModal.show();
+    
+    showToast(`Société "${v.nom}" créée !`, "success");
+    } else {
+      showToast(data.error || "Erreur création société", "error");
+    }
+  } catch (error) {
+    console.error(error);
+    showToast("Erreur réseau", "error");
+  }
+}
+
+async function refreshSocietes() {
+    try {
+        const response = await fetch('models/Read/companies.php');
+        const companies = await response.json();
+        
+        const addSelect = document.getElementById('laSociete');
+        if (addSelect) {
+            const currentValue = addSelect.value;
+            addSelect.innerHTML = '<option value="">Sélectionner...</option><option value="new_company">Créer une nouvelle entreprise</option>';
+            
+            companies.forEach(company => {
+                const option = new Option(company.Societe_Nom, company.Societe_ID);
+                addSelect.appendChild(option);
+            });
+            
+            addSelect.value = currentValue;
+        }
+        
+        const editSelect = document.getElementById('editLaSociete');
+        if (editSelect) {
+            const currentEditValue = editSelect.value;
+            editSelect.innerHTML = '';
+            companies.forEach(company => {
+                const option = new Option(company.Societe_Nom, company.Societe_ID);
+                editSelect.appendChild(option);
+            });
+            editSelect.value = currentEditValue;
+        }
+        
+    } catch (error) {
+        console.error('Erreur refresh sociétés:', error);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", async function () {
   //quand la page est chargée
   const list = await getInfos();
   console.log(list);
   remplirTab(list);
   //remplissage du tablo
+
+  setupAdresseAutocomplete({
+    adresseCompleteId: "laAdresseComplete",
+    numRueId: "leNumRue",
+    adresseId: "laAdresse",
+    codeId: "leCode",
+    villeId: "laVille",
+    paysId: "lePays"
+  });
+
+  setupAdresseAutocomplete({
+    adresseCompleteId: "editLaAdresseComplete",
+    numRueId: "editLeNumRue",
+    adresseId: "editLaAdresse",
+    codeId: "editLeCode",
+    villeId: "editLaVille",
+    paysId: "editLePays"
+  });
+
+  setupAdresseAutocomplete({
+    adresseCompleteId: "societeAdresseComplete",
+    numRueId: "societeNumRue",
+    adresseId: "societeNomRue",
+    codeId: "societeCodePostal",
+    villeId: "societeVille",
+    paysId: "societePays"
+  });
+
+  document.getElementById('laSociete').addEventListener('change', function () {
+    if (this.value === 'new_company') {
+        this.value = '';
+        openSocieteModal();
+    }
+  });
 });

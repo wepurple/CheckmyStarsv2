@@ -55,7 +55,23 @@ function login() {
                         toastList[0].show()
                     } else {//si l'identification réussit
                         console.log("Connexion réussie !!")
-                        window.location.href = "./dashboard";
+                        //on vérifie si c'est la première fois que l'utilisateur se connecte avec son compte
+                        
+                        const requete = new XMLHttpRequest()
+                        requete.open("GET", "models/Read/getFirstLog.php", true)
+                        requete.send()
+                        requete.onreadystatechange = function(){
+                            if(requete.readyState === 4 && requete.status === 200){
+                                result = JSON.parse(requete.responseText)[0]["first_log"]
+                                console.log(result)
+                                if(result == 1){
+                                    window.location.href = "./setpassword";
+                                }else{
+                                    window.location.href = "./dashboard";
+                                }
+                            }
+                        }
+
                     }
                 }
             }

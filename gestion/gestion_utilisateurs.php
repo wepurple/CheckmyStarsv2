@@ -19,7 +19,7 @@
 }
 ?>
 <!DOCTYPE html>
-<html lang="fr" data-bs-theme="dark">
+<html lang="fr" data-bs-theme="<?= $_SESSION['Theme'] ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -37,7 +37,7 @@
         }
     </style>
 </head>
-<body class="bg-secondary">
+<body>
     <?php require("../includes/navbar.php"); ?>
 
     <div class="container-fluid py-4">
@@ -116,7 +116,7 @@
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table table-hover table-striped mb-0" id="usersTable">
-                                <thead class="table-dark sticky-top">
+                                <thead class="table-dark">
                                     <tr>
                                         <th class="text-center"><small>ID</small></th>
                                         <th><small>Nom</small></th>
@@ -288,22 +288,22 @@
                 <form id="addSocieteForm">
                 <div class="row g-3">
                     <div class="col-md-6 form-floating">
-                    <input type="text" class="form-control" id="societeNom" placeholder="Nom société" required>
-                    <label for="societeNom">Nom société *</label>
+                        <input type="text" class="form-control" id="societeNom" placeholder="Nom société" required>
+                        <label for="societeNom">Nom société *</label>
                     </div>
                     <div class="col-md-6 form-floating">
-                    <input type="email" class="form-control" id="societeMail" placeholder="mail@societe.fr">
-                    <label for="societeMail">Email société</label>
+                        <input type="email" class="form-control" id="societeMail" placeholder="mail@societe.fr">
+                        <label for="societeMail">Email société</label>
                     </div>
                     <div class="col-12 form-floating">
-                    <input type="text" class="form-control" id="societeTel" placeholder="01 23 45 67 89">
-                    <label for="societeTel">Téléphone</label>
+                        <input type="text" class="form-control" id="societeTel" placeholder="01 23 45 67 89">
+                        <label for="societeTel">Téléphone</label>
                     </div>
 
                     <div class="col-12">
-                    <label class="form-label">Adresse complète</label>
-                    <input type="text" class="form-control form-control-lg" id="societeAdresseComplete" placeholder="Tapez votre adresse...">
-                    <small class="text-muted">API officielle France</small>
+                        <label class="form-label">Adresse complète *</label>
+                        <input type="text" class="form-control form-control-lg" id="societeAdresseComplete" placeholder="Tapez votre adresse...">
+                        <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
                     </div>
 
                     <input type="hidden" id="societeNumRue">
@@ -313,8 +313,8 @@
                     <input type="hidden" id="societePays">
 
                     <div class="col-md-6 form-floating">
-                    <input type="text" class="form-control" id="societeComplement" placeholder="Bât. A, 2ème étage">
-                    <label for="societeComplement">Complément d'adresse</label>
+                        <input type="text" class="form-control" id="societeComplement" placeholder="Bât. A, 2ème étage">
+                        <label for="societeComplement">Complément d'adresse</label>
                     </div>
                 </div>
                 </form>

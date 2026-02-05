@@ -1,7 +1,10 @@
 let i = 0;
 let allData = [];
 let etoiles = null;
-
+const currentUrl = window.location.search;
+var query = new URLSearchParams(currentUrl);
+var Dossier_ID = query.get('id');
+let tableau = [];
 
 document.addEventListener('DOMContentLoaded', function() {
     let liste = document.getElementById('selectEtoiles');
@@ -56,7 +59,7 @@ function displayData(data) {
     data.forEach(critere => {
         const row = tbody.insertRow();
         row.innerHTML = `
-            <td>${critere.Critere_ID}</td>
+            <td id="critere-${i}">${critere.Critere_ID}</td>
             <td>
                 <div class="d-flex align-items-center gap-2">
                     <span class="flex-grow-1">
@@ -69,7 +72,7 @@ function displayData(data) {
             <td>
                 <input type="checkbox" id="checkbox-${i}" name="checkbox">
             </td>
-            <td id="textarea-${i}"><textarea></textarea></td>
+            <td ><textarea id="textarea-${i}"></textarea></td>
         `;
         
         i = i + 1;
@@ -169,6 +172,7 @@ let points_ONC = 0;
 let total = 0;
 
 function Evaluer() {
+    console.log('Dossier ID : ', Dossier_ID);
     points_X = 0;
     points_O = 0;
     points_NA = 0;
@@ -183,9 +187,21 @@ function Evaluer() {
         const checkbox = document.getElementById(`checkbox-${j}`);
         const status = document.getElementById(`statut-${j}`);
         const points = Number(document.getElementById(`points-${j}`).textContent);
+        const textarea = document.getElementById(`textarea-${j}`).value;
+        const critere_ID = document.getElementById(`critere-${j}`).textContent;
+        console.log('Critere ID ', j, ': ', critere_ID);
         console.log('Checkbox ', j, ': ', checkbox.checked);
         console.log('statut ', j, ': ', status.textContent);
         console.log('points ', j, ': ', points);
+        console.log('Element trouvé: ', j , ': ', textarea);
+
+        tableau.push({
+            Dossier_ID: Dossier_ID,
+            Critere_ID: critere_ID,
+            Checkbox: checkbox.checked,
+            Commentaire: textarea,
+        });
+        
         if (status.textContent === "O") {
             points_O_Max += points;
         }
@@ -229,6 +245,23 @@ function Evaluer() {
         result = "Évaluation valide.";
     }
 
+    fetch('../models/Update/updateEvaluation.php', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(selection)
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log('Réponse du serveur : ', result);
+        alert(result.message);
+    })
+    .catch(error => {
+        console.error('Erreur lors de la requête : ', error);
+    });
+
+
     console.log('Points O :', points_O);
     console.log('Points X :', points_X);
     console.log('Points NA :', points_NA);
@@ -238,6 +271,7 @@ function Evaluer() {
     console.log('Points Max X :', points_X_Max);
     console.log('Points Max NA :', points_NA_Max);
     console.log('Points Max ONC :', points_XONC_Max);
+    console.log("Tableau envoyé : ", tableau);
 }
 
 

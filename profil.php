@@ -1,5 +1,6 @@
 <?php
     session_start();
+    var_dump($_SESSION);
 
     //Si on tente d'accéder à la page via l'url sans être connecté, on se fait dégager avant de charger la page
     if(!isset($_SESSION['Role'])){
@@ -11,7 +12,7 @@
 ?>
 
 <!DOCTYPE html>
-<html lang="fr" data-bs-theme="dark">
+<html lang="fr" data-bs-theme="<?= $_SESSION['Theme'] ?>">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,7 +26,7 @@
         <script src="js/profil.js"></script>
     </head>
 
-    <body class="bg-secondary">
+    <body class="">
         <?php
             require("./includes/navbar.php");
         ?>
@@ -120,7 +121,23 @@
                     <h2>Mon adresse</h2>
 
                     <div class="input-group mb-1">
+                        <span class="input-group-text">Adresse complète *</span>
+                        <input type="text" class="form-control" id="laAdresseComplete" placeholder="" disabled>
+                    </div>
 
+                    <input type="hidden" id="leNumRue">
+                    <input type="hidden" id="laAdresse">
+                    <input type="hidden" id="leCode">
+                    <input type="hidden" id="laVille">
+                    <input type="hidden" id="lePays">
+
+                    <div class="input-group mb-1">
+                        <span class="input-group-text">Complément d'adresse</span>
+                        <input id="complement" type="text" class="form-control" placeholder="ex: Bis" disabled>
+                    </div>
+
+                    <!--
+                    <div class="input-group mb-1">
                         <span class="input-group-text">Numéro de rue *</span>
                         <input id="numRue" type="text" class="form-control" placeholder="ex: 18" disabled>
                     </div>
@@ -130,10 +147,7 @@
                         <input id="nomRue" type="text" class="form-control" placeholder="ex: Boulevard Haussmann" disabled>
                     </div>
 
-                    <div class="input-group mb-1">
-                        <span class="input-group-text">Complément d'adresse</span>
-                        <input id="complement" type="text" class="form-control" placeholder="ex: Bis" disabled>
-                    </div>
+                    
 
                     <div class="input-group mb-1">
                         <span class="input-group-text">Code Postal *</span>
@@ -149,7 +163,7 @@
                         <span class="input-group-text">Pays *</span>
                         <input id="pays" type="text" class="form-control" placeholder="ex: France" disabled>
                     </div>
-
+                -->
                 </div>
 
             </div>

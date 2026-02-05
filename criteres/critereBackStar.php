@@ -9,7 +9,7 @@ if(!isset($_SESSION['Role']) || !$_SESSION['Role']['Administrateur']){
 $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
 ?>
 <!DOCTYPE html>
-<html lang="fr" data-bs-theme="dark">
+<html lang="fr" data-bs-theme="<?= $_SESSION['Theme'] ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +26,7 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
         }
     </style>
 </head>
-<body class="bg-secondary">
+<body>
     <?php require("../includes/navbar.php"); ?>
 
     <div class="container-fluid py-4">
@@ -41,7 +41,7 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
                 </div>
 
                 <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#addModal">
-                    <i class="fas fa-plus-circle"></i> Ajouter un critère !
+                    <i class="fas fa-plus-circle"></i> Ajouter un critère
                 </button>
             </div>
         </div>
@@ -105,7 +105,7 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table table-hover table-striped mb-0" id="criteriaTable">
-                                <thead class="table-dark sticky-top">
+                                <thead class="table-dark">
                                     <tr>
                                         <th class="text-center">
                                             <small>Id</small>
