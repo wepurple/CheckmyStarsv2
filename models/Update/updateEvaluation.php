@@ -51,7 +51,7 @@ try {
     } catch (Exception $e) {
         // Annuler la transaction en cas d'erreur
         $db->rollBack();
-        throw $e;
+        throw $e; }
 
 } catch (Exception $e) {
     header("Content-Type : application/json");
