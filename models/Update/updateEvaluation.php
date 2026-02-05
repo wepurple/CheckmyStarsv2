@@ -23,7 +23,7 @@ foreach ($selection as $selection) {
         $selection['Commentaire'],
         $selection['Dossier_ID']
     ])
-}
+};
 
 echo json_encode(["status" => "success"]);
 
