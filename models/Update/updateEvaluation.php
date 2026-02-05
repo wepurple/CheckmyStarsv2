@@ -16,7 +16,7 @@ $selection = json_decode($json, true);
 $db = (new Database())->getConnection();
 
 foreach ($selection as $selection) {
-    $stmt = $db->prepare("call Set_Evaluation(DEFAULT, :Critere_ID, :Value, :Commentaire, :Dossier_ID)");
+    $stmt = $db->prepare("call Set_Evaluation(:Critere_ID, :Value, :Commentaire, :Dossier_ID)");
     $stmt->execute([
         $selection['Critere_ID'],
         $selection['Checkbox'],
