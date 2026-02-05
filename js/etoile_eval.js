@@ -1,7 +1,8 @@
 let i = 0;
 let allData = [];
 let etoiles = null;
-let Dossier_ID = document.body.dataset.id;
+
+
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -170,6 +171,12 @@ let points_ONC = 0;
 let total = 0;
 
 function Evaluer() {
+    fetch('../criteres/critere_inspecteur_etoile.php')
+    .then(response => response.json())
+    .then(data => {
+        const id = data.id;
+        console.log('ID récupéré:', id);
+    })
     console.log('Dossier ID : ', Dossier_ID);
     points_X = 0;
     points_O = 0;
