@@ -1,6 +1,15 @@
 <?php
 session_start();
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+echo "Début du script<br>";
+
+var_dump($_POST);
+
+echo "<br>Script terminé";
+
 // Vérification de l'authentification
 if(!isset($_SESSION['Role']) || !$_SESSION['Role']['Administrateur']){
     header('Content-Type: application/json');
@@ -17,13 +26,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'message' => 'Méthode non autorisée']);
     exit;
 }
-
-$Dossier_ID = $_POST['Dossier_ID'] ?? null;
-$textarea = $_POST['Commentaire'] ?? null;
-$Critere_ID = $_POST['Critere_ID'] ?? null;
-$Value = $_POST['Value'] ?? null;
-
-echo "Dossier_ID: $Dossier_ID, Critere_ID: $Critere_ID, Value: $Value, Commentaire: $textarea";
 
 try {
     $Dossier_ID = $_POST['Dossier_ID'] ?? null;
