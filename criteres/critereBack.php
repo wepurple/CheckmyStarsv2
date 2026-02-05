@@ -17,6 +17,7 @@ include("../includes/mariadb.php");
 $database = new Database();
 $db = $database->getConnection();
 
+function getNumberCriteriaByStar(PDO $pdo, int $star): int
 {
     $sql = "
         SELECT COUNT(DISTINCT co.Critere_ID) AS nb_criteres
@@ -27,7 +28,7 @@ $db = $database->getConnection();
           AND lce.etoile = :star
     ";
 
-    $stmt = $db->prepare($sql);
+    $stmt = $pdo->prepare($sql);
     $stmt->execute(['star' => $star]);
 
     $result = $stmt->fetchColumn();
