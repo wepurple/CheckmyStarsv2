@@ -111,8 +111,8 @@ async function submitPreFillClientInfo()
         if (addModal) addModal.hide();
         clearValidationClasses('addForm');
         document.getElementById('addForm').reset();
-        showToast("Dossier créé avec succès !", "success");
         window.location.reload();
+        showToast("Dossier créé avec succès !", "success");
       } else {
         showToast("Erreur lors de la création : " + result.error, "error");
       }
