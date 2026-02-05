@@ -245,8 +245,6 @@ function Evaluer() {
         result = "Évaluation valide.";
     }
 
-    const selection = recupererSelection();
-
     fetch('../models/Update/updateEvaluation.php', {
         method: 'POST',
         headers: {
