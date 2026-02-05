@@ -53,6 +53,13 @@ async function submitPreFillClientInfo()
         var city = document.getElementById('laVille').value.trim();
         var country = document.getElementById('lePays').value.trim();
 
+        var orderingParty = document.getElementById('donneurOrdre').value.trim(); // Donneur d'ordre
+
+        if (orderingParty == 0)
+        {
+          orderingParty = null;
+        }
+
         if (!checkRegex('leNomBien', nameProperty, REGEX.nomBien, "Nom du bien invalide")) return;
 
         if (!checkRegex('leTelBien', phoneProperty, REGEX.telFR, "Téléphone invalide (ex: 06 12 34 56 78 ou +33 6 12 34 56 78)")) return;
@@ -82,7 +89,7 @@ async function submitPreFillClientInfo()
             BiensNom: nameProperty,
             BiensTel: phoneProperty,
             BiensEtoiles: currentStar,
-            BiensDonneurID: null,
+            BiensDonneurID: orderingParty,
             BiensType: typeProperty,
             BiensUser: clientId,
             EtoileDossier: targetStar,
