@@ -28,12 +28,12 @@ try
     $stmt = $db->prepare("CALL Create_Dossier(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
     $stmt->execute([
-        $data['num_rue'] ?? null,
-        $data['nom_rue'] ?? null,
-        $data['complement'] ?? null,
-        $data['code_postal'] ?? null,
-        $data['ville'] ?? null,
-        $data['pays'] ?? null,
+        $data['NumRue'] ?? null,
+        $data['NomRue'] ?? null,
+        $data['Comp'] ?? null,
+        $data['CP'] ?? null,
+        $data['Ville'] ?? null,
+        $data['Pays'] ?? null,
 
         $data['BiensNom'] ?? null,
         $data['BiensTel'] ?? null,
@@ -52,19 +52,13 @@ try
 
     echo json_encode([
         'success' => true,
-        'message' => 'Utilisateur créé avec succès',
-        'new_user_id' => $result['new_user_id'] ?? null
+        'message' => 'Dossier créé avec succès',
     ]);
 
 } 
 catch (Exception $e) 
 {
-    error_log("Erreur création utilisateur: " . $e->getMessage());
-
-    $errorMsg = $e->getMessage();
-    if (str_contains($errorMsg, 'Duplicate entry') && str_contains($errorMsg, 'Utilisateur_Mail')) {
-        $errorMsg = "Un utilisateur avec cet email existe déjà";
-    }
+    error_log("Erreur création Dossier: " . $e->getMessage());
 
     http_response_code(400);
     echo json_encode(['success' => false, 'error' => $errorMsg]);

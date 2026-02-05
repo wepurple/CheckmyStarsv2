@@ -79,12 +79,12 @@ async function submitPreFillClientInfo()
 
         const data =
         {
-          num_rue: streetNumber,
-          nom_rue: streetName,
-          complement: complement,
-          code_postal: postcode,
-          ville: city,
-          pays: country,
+          NumRue: streetNumber,
+          NomRue: streetName,
+          Comp: complement,
+          CP: postcode,
+          Ville: city,
+          Pays: country,
 
           BiensNom: nameProperty,
           BiensTel: phoneProperty,
