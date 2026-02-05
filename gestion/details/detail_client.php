@@ -24,102 +24,111 @@
             require_once "../../includes/navbar.php";
         ?>
 
-            <div class="container-fluid p-3">
+            <div class="container-fluid mt-3">
             
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    <i class="fas fa-plus"></i> Ajouter un dossier
-                </button>
-                <button type="button" class="btn btn-danger" onclick="location.href='/checkmystars/dashboard.php'" > 
-                    <i class="fas fa-arrow-left"></i> Retour au tableau de bord 
-                </button>
-                
-                <div class="input-group" style="width: 400px;">
-                    <span class="input-group-text">Rechercher par</span>
-                        <select class="form-select" id="type">
-                            <option selected value = "1">ID</option>
-                            <option value="2">Nom</option>
-                            <option value="3">Société</option>
-                        </select>
-                        <input id="recherche" type="text" aria-label="Last name" class="form-control">
+                <div class="row mb-3">
+
+                    <div class="col">
+                        <button type="button" class="btn btn-danger" onclick="location.href='/checkmystars/dashboard.php'" > 
+                            <i class="fas fa-arrow-left"></i> Retour au tableau de bord 
+                        </button>
+
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i class="fas fa-plus"></i> Ajouter un dossier
+                        </button>
                     </div>
+
+                    <div class="d-flex align-items-end flex-column col">
+                        <div class="input-group" style="width: 400px;">
+                            <span class="input-group-text">Rechercher par</span>
+                            <select class="form-select" id="type">
+                                <option selected value = "1">ID</option>
+                                <option value="2">Nom</option>
+                                <option value="3">Société</option>
+                            </select>
+                            <input id="recherche" type="text" aria-label="Last name" class="form-control">
+                        </div>
+                    </div>
+
                 </div>
-            </nav>
-            <!-- Tableau -->
-            <table class="table table-sm table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>N° DOSSIER</th>
-                        <th>TYPE</th>
-                        <th>Nom</th>
-                        <th>Prénom</th>
-                        <th>ADRESSE HÉBERGEMENT</th>
-                        <th> Code Postal</th>
-                        <th> Ville</th>
-                        <th> Pays </th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    require_once '../../includes/mariadb.php';
-                    
-                    $database = new Database();
-                    $db = $database->getConnection();
-                    
-                    $utilisateurId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
+
+                <!-- Tableau -->
+                <table class="table table-sm table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>N° dossier</th>
+                            <th>Type</th>
+                            <th>Nom</th>
+                            <th>Prénom</th>
+                            <th>Adresse hébergement</th>
+                            <th> Code Postal</th>
+                            <th> Ville</th>
+                            <th> Pays </th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        require_once '../../includes/mariadb.php';
+                        
+                        $database = new Database();
+                        $db = $database->getConnection();
+                        
+                        $utilisateurId = filter_input(INPUT_GET, 'id', FILTER_SANITIZE_NUMBER_INT);
 
 
-                    if (is_array($db)) {
-                        echo "<tr><td colspan='10' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
-                    } elseif (empty($utilisateurId)) {
-                        echo "<tr><td colspan='10' class='text-center text-warning'>Aucun utilisateur sélectionné</td></tr>";
-                    } else {
-                        try {
-                            // Requête pour récupérer tous les dossiers
-                            $sql = "SELECT d.Dossier_ID,d.DOSSIER_NUMERO,t.TypeHebergement_Nom, u.Utilisateur_Nom,u.Utilisateur_Prenom, a.AdressePostale_NumeroRue, a.AdressePostale_NomRue,a.AdressePostale_CodePostal, a.AdressePostale_Ville, a.AdressePostale_Pays,d.status
-                            FROM dossiers AS d
-                            INNER JOIN utilisateurs AS u ON d.Proprietaire_ID = u.Utilisateur_ID
-                            INNER JOIN biens AS b ON b.Bien_ID = d.Bien_ID
-                            INNER JOIN adressespostales AS a ON a.AdressePostale_ID = b.AdressePostale_ID
-                            INNER JOIN typeshebergements AS t ON t.TypeHebergement_ID = b.TypeHebergement_ID
-                            WHERE d.Proprietaire_ID = :utilisateurId
-                            ORDER BY d.Dossier_ID DESC;";
-                            
-                            
-                            $stmt = $db->prepare($sql);
-                            $stmt->execute([':utilisateurId' => $utilisateurId]);
-                            
-                            if ($stmt->rowCount() > 0) {
-                                while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                     echo "<tr style='cursor: pointer;' onclick=\"window.location.href='../../front_dossier.php?id=" . urlencode($row['Dossier_ID']) . "'\">";
-                                    echo "<td>" . htmlspecialchars($row['Dossier_ID']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['DOSSIER_NUMERO']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['TypeHebergement_Nom']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['Utilisateur_Prenom']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['AdressePostale_NumeroRue']) . " " . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['AdressePostale_CodePostal']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['AdressePostale_Ville']) . "</td>";
-                                    echo "<td>" . htmlspecialchars($row['AdressePostale_Pays']) . "</td>";
-                                    
-                                    // Badge pour le statut (0 = En cours, 1 = Terminé)
-                                    $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
-                                    $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
-                                    echo "<td><span class='badge $statusClass'>$statusText</span></td>";
-                                    echo "</tr>";
+                        if (is_array($db)) {
+                            echo "<tr><td colspan='10' class='text-center text-danger'>Erreur de connexion à la base de données</td></tr>";
+                        } elseif (empty($utilisateurId)) {
+                            echo "<tr><td colspan='10' class='text-center text-warning'>Aucun utilisateur sélectionné</td></tr>";
+                        } else {
+                            try {
+                                // Requête pour récupérer tous les dossiers
+                                $sql = "SELECT d.Dossier_ID,d.DOSSIER_NUMERO,t.TypeHebergement_Nom, u.Utilisateur_Nom,u.Utilisateur_Prenom, a.AdressePostale_NumeroRue, a.AdressePostale_NomRue,a.AdressePostale_CodePostal, a.AdressePostale_Ville, a.AdressePostale_Pays,d.status
+                                FROM dossiers AS d
+                                INNER JOIN utilisateurs AS u ON d.Proprietaire_ID = u.Utilisateur_ID
+                                INNER JOIN biens AS b ON b.Bien_ID = d.Bien_ID
+                                INNER JOIN adressespostales AS a ON a.AdressePostale_ID = b.AdressePostale_ID
+                                INNER JOIN typeshebergements AS t ON t.TypeHebergement_ID = b.TypeHebergement_ID
+                                WHERE d.Proprietaire_ID = :utilisateurId
+                                ORDER BY d.Dossier_ID DESC;";
+                                
+                                
+                                $stmt = $db->prepare($sql);
+                                $stmt->execute([':utilisateurId' => $utilisateurId]);
+                                
+                                if ($stmt->rowCount() > 0) {
+                                    while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                        echo "<tr style='cursor: pointer;' onclick=\"window.location.href='../../front_dossier.php?id=" . urlencode($row['Dossier_ID']) . "'\">";
+                                        echo "<td>" . htmlspecialchars($row['Dossier_ID']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['DOSSIER_NUMERO']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['TypeHebergement_Nom']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['Utilisateur_Prenom']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['AdressePostale_NumeroRue']) . " " . htmlspecialchars($row['AdressePostale_NomRue']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['AdressePostale_CodePostal']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['AdressePostale_Ville']) . "</td>";
+                                        echo "<td>" . htmlspecialchars($row['AdressePostale_Pays']) . "</td>";
+                                        
+                                        // Badge pour le statut (0 = En cours, 1 = Terminé)
+                                        $statusText = $row['status'] == 1 ? 'Terminé' : 'En cours';
+                                        $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
+                                        echo "<td><span class='badge $statusClass'>$statusText</span></td>";
+                                        echo "</tr>";
+                                    }
+                                } else {
+                                    echo "<tr><td colspan='10' class='text-center'>Aucune donnée trouvée</td></tr>";
                                 }
-                            } else {
-                                echo "<tr><td colspan='10' class='text-center'>Aucune donnée trouvée</td></tr>";
+                            } catch(PDOException $e) {
+                                echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
                             }
-                        } catch(PDOException $e) {
-                            echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
                         }
-                    }
-                    ?>
-                </tbody>
-            </table>
+                        ?>
+                    </tbody>
+                </table>
+
+            </div>
 
             <!-- Toast -->
             <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 11000;">
