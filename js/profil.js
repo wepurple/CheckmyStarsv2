@@ -4,7 +4,8 @@ const ids = [
     "civilite",
     "mail",
     "tel",
-    "societe"
+    "societe",
+    "laAdresseComplete"
 ]
 const facultatif = [//liste des champs facultatifs du formulaire, à remplir avec des champs contenus dans la liste ids
     "complement"
