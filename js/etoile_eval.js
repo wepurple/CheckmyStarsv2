@@ -250,7 +250,7 @@ function Evaluer() {
         headers: {
             "Content-Type": "application/json"
         },
-        body: JSON.stringify(selection)
+        body: JSON.stringify(tableau)
     })
     .then(response => response.json())
     .then(result => {
