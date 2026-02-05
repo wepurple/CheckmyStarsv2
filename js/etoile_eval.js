@@ -203,15 +203,9 @@ function Evaluer() {
             method: "POST",
             body: formData
         })
-            .then(response => {
-                console.log("Status:", response.status); // Doit être 200
-                console.log("OK:", response.ok); // Doit être true
-                return response.text(); // ← Récupère la réponse en texte brut
-        })  
-        .then(text => {
-            console.log("Réponse brute:", text); // Voir ce que PHP renvoie vraiment
-            const data = JSON.parse(text); // Parser manuellement
-            console.log("Données:", data);
+        .then(response => response.json())
+        .then(data => {
+            console.log("Réponse du serveur: ", data);
         })
         .catch(error => {
             console.error("Erreur lors de l'envoi des données: ", error);
