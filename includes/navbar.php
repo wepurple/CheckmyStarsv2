@@ -1,4 +1,10 @@
-<nav class="sticky-top navbar navbar-expand-lg bg-dark nav-underline">
+<style>
+    /* couleur de la navbar*/
+    .navbar{
+        background: #00165e;
+    }
+</style>
+<nav class="sticky-top navbar navbar-expand-lg nav-underline">
 
     <div class="container-fluid">
 

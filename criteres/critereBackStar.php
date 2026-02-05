@@ -41,7 +41,7 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
                 </div>
 
                 <button type="button" class="btn btn-success btn-lg" data-bs-toggle="modal" data-bs-target="#addModal">
-                    <i class="fas fa-plus-circle"></i> Ajouter un critère !
+                    <i class="fas fa-plus-circle"></i> Ajouter un critère
                 </button>
             </div>
         </div>
@@ -105,7 +105,7 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table table-hover table-striped mb-0" id="criteriaTable">
-                                <thead class="table-dark sticky-top">
+                                <thead class="table-dark">
                                     <tr>
                                         <th class="text-center">
                                             <small>Id</small>

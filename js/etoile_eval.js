@@ -4,6 +4,7 @@ let etoiles = null;
 const currentUrl = window.location.search;
 var query = new URLSearchParams(currentUrl);
 var Dossier_ID = query.get('id');
+let tableau = [];
 
 document.addEventListener('DOMContentLoaded', function() {
     let liste = document.getElementById('selectEtoiles');
@@ -194,24 +195,13 @@ function Evaluer() {
         console.log('points ', j, ': ', points);
         console.log('Element trouvé: ', j , ': ', textarea);
 
-        const formData = new FormData();
-        formData.append("Value", checkbox.checked);
-        formData.append("Critere_ID" , critere_ID)
-        formData.append("Commentaire", textarea);
-        formData.append("Dossier_ID", Dossier_ID);
-        fetch("../models/Update/updateEvaluation.php", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            console.log("Réponse du serveur: ", data);
-        })
-        .catch(error => {
-            console.error("Erreur lors de l'envoi des données: ", error);
+        tableau.push({
+            Dossier_ID: Dossier_ID,
+            Critere_ID: critere_ID,
+            Checkbox: checkbox.checked,
+            Commentaire: textarea,
         });
         
-
         if (status.textContent === "O") {
             points_O_Max += points;
         }
@@ -264,6 +254,7 @@ function Evaluer() {
     console.log('Points Max X :', points_X_Max);
     console.log('Points Max NA :', points_NA_Max);
     console.log('Points Max ONC :', points_XONC_Max);
+    console.log("Tableau envoyé : ", tableau);
 }
 
 
