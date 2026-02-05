@@ -77,23 +77,23 @@ async function submitPreFillClientInfo()
         if (!checkRegex('laAdresseComplete', city, REGEX.ville, "Ville invalide")) return;
         if (!checkRegex('laAdresseComplete', country, REGEX.pays, "Pays invalide")) return;
 
-        const data = 
+        const data =
         {
-            num_rue: streetNumber,
-            nom_rue: streetName,
-            complement: complement,
-            code_postal: postcode,
-            ville: city,
-            pays: country,
+          num_rue: streetNumber,
+          nom_rue: streetName,
+          complement: complement,
+          code_postal: postcode,
+          ville: city,
+          pays: country,
 
-            BiensNom: nameProperty,
-            BiensTel: phoneProperty,
-            BiensEtoiles: currentStar,
-            BiensDonneurID: orderingParty,
-            BiensType: typeProperty,
-            BiensUser: clientId,
-            EtoileDossier: targetStar,
-            InspecteurID: idUser,
+          BiensNom: nameProperty,
+          BiensTel: phoneProperty,
+          BiensEtoiles: currentStar,
+          BiensDonneurID: orderingParty,
+          BiensType: typeProperty,
+          BiensUser: clientId,
+          EtoileDossier: targetStar,
+          InspecteurID: idUser,
         };
 
         console.log(data)
