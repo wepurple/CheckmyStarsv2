@@ -5,12 +5,7 @@ const ids = [
     "mail",
     "tel",
     "societe",
-    "numRue",
-    "nomRue",
-    "complement",
-    "codePost",
-    "ville",
-    "pays"
+    "laAdresseComplete"
 ]
 const facultatif = [//liste des champs facultatifs du formulaire, à remplir avec des champs contenus dans la liste ids
     "complement"
@@ -51,10 +46,25 @@ async function getInfos() {//va chercher les infos relatives à la personne conn
 
 async function updateInfos(){
     const list = await getInfos()
-    //console.log(list)
+    console.log(list)
 
-    for (let i = 0 ; i<ids.length ; i++){        
-        document.getElementById(ids[i]).value = list[elements[i]]
+    /*const adresseComplete = [
+    list.AdressePostale_NumeroRue,
+    list.AdressePostale_NomRue,
+    list.AdressePostale_CodePostal,
+    list.AdressePostale_Ville
+    ].filter(Boolean).join(' ');*/
+
+    for (let i = 0 ; i<ids.length ; i++){
+        console.log(document.getElementById(ids[i]).value = list[elements[i]]);
+        if (ids[i] == 6)
+        {
+           document.getElementById(ids[i]).value = "test 1"
+        }
+        else
+        {
+            document.getElementById(ids[i]).value = list[elements[i]]
+        }
     }
 }
 
