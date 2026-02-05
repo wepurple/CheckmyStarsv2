@@ -97,6 +97,14 @@ async function submitPreFillClientInfo()
         };
 
         console.log(data)
+
+        const response = await fetch("../checkmystars/models/Create/folder.php", {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data)
+        });
+
+        console.log(response)
     }
     catch(error)
     {
