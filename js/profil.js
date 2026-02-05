@@ -48,7 +48,7 @@ async function getInfos() {//va chercher les infos relatives à la personne conn
 
 async function updateInfos(){
     const list = await getInfos()
-
+    console.log(list)
     const adresseComplete = [
     list.AdressePostale_NumeroRue,
     list.AdressePostale_NomRue,
@@ -60,6 +60,10 @@ async function updateInfos(){
         if (i == 6)
         {
            document.getElementById(ids[i]).value = adresseComplete;
+        }
+        else if (i == 7)
+        {
+            document.getElementById(ids[i]).value = list.AdressePostale_Complement;
         }
         else
         {
