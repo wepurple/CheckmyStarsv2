@@ -136,7 +136,7 @@
                         </div>
                         <!-- modal body -->
                         <div class="modal-body">
-                            <form>
+                            <form id="addForm">
                                 <div class="row g-2">
                                     <div class="col-md-6 form-floating mb-3">
                                         <input type="text" class="form-control" id="leNom" placeholder="" disabled>
