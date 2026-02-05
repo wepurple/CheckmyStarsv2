@@ -1,9 +1,9 @@
 let i = 0;
 let allData = [];
 let etoiles = null;
-
-
-
+const currentUrl = window.location.search;
+var query = new URLSearchParams(currentUrl);
+var Dossier_ID = query.get('id');
 
 document.addEventListener('DOMContentLoaded', function() {
     let liste = document.getElementById('selectEtoiles');
@@ -171,12 +171,6 @@ let points_ONC = 0;
 let total = 0;
 
 function Evaluer() {
-    fetch('../criteres/critere_inspecteur_etoile.php')
-    .then(response => response.json())
-    .then(data => {
-        const Dossier_ID = data.id;
-        console.log('ID récupéré:', Dossier_ID);
-    })
     console.log('Dossier ID : ', Dossier_ID);
     points_X = 0;
     points_O = 0;
