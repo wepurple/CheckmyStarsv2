@@ -121,7 +121,21 @@
                     <h2>Mon adresse</h2>
 
                     <div class="input-group mb-1">
+                        <input type="text" class="form-control" id="laAdresseComplete" placeholder="">
+                        <label for="laAdresseComplete">
+                            Adresse complète *
+                        </label>
+                        <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
+                    </div>
 
+                    <input type="hidden" id="leNumRue">
+                    <input type="hidden" id="laAdresse">
+                    <input type="hidden" id="leCode">
+                    <input type="hidden" id="laVille">
+                    <input type="hidden" id="lePays">
+
+                    <!--
+                    <div class="input-group mb-1">
                         <span class="input-group-text">Numéro de rue *</span>
                         <input id="numRue" type="text" class="form-control" placeholder="ex: 18" disabled>
                     </div>
@@ -150,7 +164,7 @@
                         <span class="input-group-text">Pays *</span>
                         <input id="pays" type="text" class="form-control" placeholder="ex: France" disabled>
                     </div>
-
+                -->
                 </div>
 
             </div>
