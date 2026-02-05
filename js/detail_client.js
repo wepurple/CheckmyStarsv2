@@ -126,6 +126,16 @@ async function submitPreFillClientInfo()
     }
 }
 
+function clearValidationClasses(formId) {
+  const form = document.getElementById(formId);
+  if (!form) return;
+  
+  const inputs = form.querySelectorAll('.is-valid, .is-invalid');
+  inputs.forEach(input => {
+    input.classList.remove('is-valid', 'is-invalid');
+  });
+}
+
 async function getUserById(id) {
     const url = "../../models/Read/users.php?IdPersonne=" + id;
     const response = await fetch(url, {
