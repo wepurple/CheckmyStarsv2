@@ -204,7 +204,6 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Critère créé avec succès !');
                 // Ferme la modal
                 const modalElement = document.getElementById('addModal');
                 const modal = bootstrap.Modal.getInstance(modalElement);
