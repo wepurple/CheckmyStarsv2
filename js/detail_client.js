@@ -40,77 +40,98 @@ async function submitPreFillClientInfo()
 {
     try
     {
-        var nameProperty = document.getElementById("leNomBien").value.trim();
-        var phoneProperty = document.getElementById("leTelBien").value.trim();
-        var typeProperty = document.getElementById("typeBien").value.trim();
-        var currentStar = document.getElementById("etoileActuel").value.trim();
-        var targetStar = document.getElementById("etoileCible").value.trim();
+      var nameProperty = document.getElementById("leNomBien").value.trim();
+      var phoneProperty = document.getElementById("leTelBien").value.trim();
+      var typeProperty = document.getElementById("typeBien").value.trim();
+      var currentStar = document.getElementById("etoileActuel").value.trim();
+      var targetStar = document.getElementById("etoileCible").value.trim();
 
-        var streetNumber = document.getElementById('leNumRue').value.trim();
-        var streetName = document.getElementById('laAdresse').value.trim();
-        var complement = document.getElementById('leComplement').value.trim();
-        var postcode = document.getElementById('leCode').value.trim();
-        var city = document.getElementById('laVille').value.trim();
-        var country = document.getElementById('lePays').value.trim();
+      var streetNumber = document.getElementById('leNumRue').value.trim();
+      var streetName = document.getElementById('laAdresse').value.trim();
+      var complement = document.getElementById('leComplement').value.trim();
+      var postcode = document.getElementById('leCode').value.trim();
+      var city = document.getElementById('laVille').value.trim();
+      var country = document.getElementById('lePays').value.trim();
 
-        var orderingParty = document.getElementById('donneurOrdre').value.trim(); // Donneur d'ordre
+      var orderingParty = document.getElementById('donneurOrdre').value.trim(); // Donneur d'ordre
 
-        if (orderingParty == 0)
-        {
-          orderingParty = null;
-        }
+      if (orderingParty == 0)
+      {
+        orderingParty = null;
+      }
 
-        if (!checkRegex('leNomBien', nameProperty, REGEX.nomBien, "Nom du bien invalide")) return;
+      if (!checkRegex('leNomBien', nameProperty, REGEX.nomBien, "Nom du bien invalide")) return;
 
-        if (!checkRegex('leTelBien', phoneProperty, REGEX.telFR, "Téléphone invalide (ex: 06 12 34 56 78 ou +33 6 12 34 56 78)")) return;
+      if (!checkRegex('leTelBien', phoneProperty, REGEX.telFR, "Téléphone invalide (ex: 06 12 34 56 78 ou +33 6 12 34 56 78)")) return;
 
-        if (!checkRequired('laAdresseComplete', streetNumber, "Numéro de rue obligatoire")) return;
-        if (!checkRequired('laAdresseComplete', streetName, "Nom de rue obligatoire")) return;
-        if (!checkRequired('laAdresseComplete', postcode, "Code postal obligatoire")) return;
-        if (!checkRequired('laAdresseComplete', city, "Ville obligatoire")) return;
-        if (!checkRequired('laAdresseComplete', country, "Pays obligatoire")) return;
+      if (!checkRequired('laAdresseComplete', streetNumber, "Numéro de rue obligatoire")) return;
+      if (!checkRequired('laAdresseComplete', streetName, "Nom de rue obligatoire")) return;
+      if (!checkRequired('laAdresseComplete', postcode, "Code postal obligatoire")) return;
+      if (!checkRequired('laAdresseComplete', city, "Ville obligatoire")) return;
+      if (!checkRequired('laAdresseComplete', country, "Pays obligatoire")) return;
 
-        if (!checkRegex('laAdresseComplete', streetNumber, REGEX.numRue, "Numéro de rue invalide (ex: 12, 12 bis, 12B)")) return;
-        if (!checkRegex('laAdresseComplete', streetName, REGEX.nomRue, "Adresse invalide")) return;
-        if (complement !== "" && !checkRegex('leComplement', complement, REGEX.complement, "Complément invalide")) return;
-        if (!checkRegex('laAdresseComplete', postcode, REGEX.codePostal, "Code postal invalide (5 chiffres)")) return;
-        if (!checkRegex('laAdresseComplete', city, REGEX.ville, "Ville invalide")) return;
-        if (!checkRegex('laAdresseComplete', country, REGEX.pays, "Pays invalide")) return;
+      if (!checkRegex('laAdresseComplete', streetNumber, REGEX.numRue, "Numéro de rue invalide (ex: 12, 12 bis, 12B)")) return;
+      if (!checkRegex('laAdresseComplete', streetName, REGEX.nomRue, "Adresse invalide")) return;
+      if (complement !== "" && !checkRegex('leComplement', complement, REGEX.complement, "Complément invalide")) return;
+      if (!checkRegex('laAdresseComplete', postcode, REGEX.codePostal, "Code postal invalide (5 chiffres)")) return;
+      if (!checkRegex('laAdresseComplete', city, REGEX.ville, "Ville invalide")) return;
+      if (!checkRegex('laAdresseComplete', country, REGEX.pays, "Pays invalide")) return;
 
-        const data =
-        {
-          NumRue: streetNumber,
-          NomRue: streetName,
-          Comp: complement,
-          CP: postcode,
-          Ville: city,
-          Pays: country,
+      const data =
+      {
+        NumRue: streetNumber,
+        NomRue: streetName,
+        Comp: complement,
+        CP: postcode,
+        Ville: city,
+        Pays: country,
 
-          BiensNom: nameProperty,
-          BiensTel: phoneProperty,
-          BiensEtoiles: currentStar,
-          BiensDonneurID: orderingParty,
-          BiensType: typeProperty,
-          BiensUser: clientId,
-          EtoileDossier: targetStar,
-          InspecteurID: idUser,
-        };
+        BiensNom: nameProperty,
+        BiensTel: phoneProperty,
+        BiensEtoiles: currentStar,
+        BiensDonneurID: orderingParty,
+        BiensType: typeProperty,
+        BiensUser: clientId,
+        EtoileDossier: targetStar,
+        InspecteurID: idUser,
+      };
 
-        console.log(data)
+      console.log(data)
 
-        const response = await fetch("../../models/Create/folder.php", {
-          method: "POST",
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(data)
-        });
+      const response = await fetch("../../models/Create/folder.php", {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      });
 
-        console.log(response)
+      const result = await response.json();
+      if (result.success) {
+        const addModalElement = document.getElementById('exampleModal');
+        const addModal = bootstrap.Modal.getInstance(addModalElement);
+        if (addModal) addModal.hide();
+        clearValidationClasses('addForm');
+        document.getElementById('addForm').reset();
+        window.location.reload();
+        showToast("Dossier créé avec succès !", "success");
+      } else {
+        showToast("Erreur lors de la création : " + result.error, "error");
+      }
     }
     catch(error)
     {
-        console.error("Erreur:", error);
-        showToast("Une erreur s'est produite : " + error.message, "error");
+      console.error("Erreur:", error);
+      showToast("Une erreur s'est produite : " + error.message, "error");
     }
+}
+
+function clearValidationClasses(formId) {
+  const form = document.getElementById(formId);
+  if (!form) return;
+  
+  const inputs = form.querySelectorAll('.is-valid, .is-invalid');
+  inputs.forEach(input => {
+    input.classList.remove('is-valid', 'is-invalid');
+  });
 }
 
 async function getUserById(id) {
