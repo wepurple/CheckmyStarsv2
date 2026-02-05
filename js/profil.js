@@ -451,6 +451,23 @@ document.addEventListener("DOMContentLoaded", async function() {//quand la page 
     }
     });
 
+    document.getElementById("theme").addEventListener("change", async function() {//s'execute lorsque l'utilisateur choisit un nouveau theme
+        document.getElementById('html').removeAttribute('data-bs-theme')
+        document.getElementById('html').setAttribute('data-bs-theme', document.getElementById('theme').value)
+
+        const url = 'models/update/updateTheme.php'
+        const data = {
+            theme: document.getElementById("theme").value,
+        }
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+    });
+
 
     //remplissage du select de l'entreprise
     listCompanies = new XMLHttpRequest()
