@@ -1,7 +1,7 @@
 let i = 0;
 let allData = [];
 let etoiles = null;
-let Dossier_ID = document.getElementById('Dossier_ID').value;
+let Dossier_ID = document.getElementById('Dossier_ID');
 
 
 document.addEventListener('DOMContentLoaded', function() {
