@@ -957,7 +957,7 @@ async function submitSociete() {
 
 async function refreshSocietes() {
     try {
-        const response = await fetch('models/Read/companies.php');
+        const response = await fetch('../models/Read/companies.php');
         const companies = await response.json();
         
         const addSelect = document.getElementById('laSociete');
