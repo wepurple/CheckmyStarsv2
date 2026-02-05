@@ -17,3 +17,50 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'message' => 'Méthode non autorisée']);
     exit;
 }
+
+try {
+    $Dossier_ID = $_POST['Dossier_ID'] ?? null;
+    $textarea = $_POST['Commentaire'] ?? null;
+    $Critere_ID = $_POST['Critere_ID'] ?? null;
+    $Value = $_POST['Value'] ?? null;
+
+    if (empty($Dossier_ID) || empty($Critere_ID)) {
+        throw new Exception('Données manquantes');
+    }
+
+    $database = new Database();
+    $db = $database->getConnection();
+
+    $sql = "call Set_Evaluation(:Value, :Critere_ID, :Commentaire, :Dossier_ID,";
+
+    $stmt = $db->prepare($sql);
+
+    $stmt->bindParam(':Value', $Value, PDO::PARAM_BOOL);
+    $stmt->bindParam(':Critere_ID', $Critere_ID, PDO::PARAM_INT);
+    if (empty($textarea)) {
+        $stmt->bindValue(':Commentaire', null, PDO::PARAM_NULL);
+    }
+    else {
+        $stmt->bindParam(':Commentaire', $textarea, PDO::PARAM_STR);
+    }
+    $stmt->bindParam(':Dossier_ID', $Dossier_ID, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        header("Content-Type : application/json");
+        echo json_encode([
+            "success" => true,
+            "message" => "Evaluation mise a jour avec succès",
+            "id" => $Dossier_ID
+        ]);
+    }
+    else {
+        throw new Exception('Erreur lors de la mise à jour de l évaluation');
+    }
+} catch (Exception $e) {
+    header("Content-Type : application/json");
+    echo json_encode([
+        "success" => false,
+        "message" => "Erreur lors de la mise à jour de l évaluation"
+    ]);
+}
+?>
