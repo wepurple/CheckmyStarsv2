@@ -4,6 +4,7 @@ let etoiles = null;
 const currentUrl = window.location.search;
 var query = new URLSearchParams(currentUrl);
 var Dossier_ID = query.get('id');
+let tableau = [];
 
 document.addEventListener('DOMContentLoaded', function() {
     let liste = document.getElementById('selectEtoiles');
