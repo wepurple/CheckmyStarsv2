@@ -2,7 +2,8 @@
 
 session_start();
 
-if(isset($_SESSION['ID'])){//renvoie les informations relatives à un utilisateur à partir de l'id stocké dans la variable de session
+//renvoie un boolean indiquant si l'utilisateur se connecte pour la premire fois
+if(isset($_SESSION['ID'])){
     header("Access-Control-Allow-Origin: *");
     header("Content-Type: application/json; charset=UTF-8");
     header("Access-Control-Allow-Methods: GET");
