@@ -48,18 +48,18 @@ async function updateInfos(){
     const list = await getInfos()
     console.log(list)
 
-    /*const adresseComplete = [
+    const adresseComplete = [
     list.AdressePostale_NumeroRue,
     list.AdressePostale_NomRue,
     list.AdressePostale_CodePostal,
     list.AdressePostale_Ville
-    ].filter(Boolean).join(' ');*/
+    ].filter(Boolean).join(' ');
 
     for (let i = 0 ; i<ids.length ; i++){
         console.log(document.getElementById(ids[i]).value = list[elements[i]]);
         if (i == 6)
         {
-           document.getElementById(ids[i]).value = "test 1"
+           document.getElementById(ids[i]).value = adresseComplete;
         }
         else
         {
