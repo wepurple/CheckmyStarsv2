@@ -1,9 +1,9 @@
 let i = 0;
 let allData = [];
 let etoiles = null;
-
-
-
+const currentUrl = window.location.search;
+var query = new URLSearchParams(currentUrl);
+var Dossier_ID = query.get('id');
 
 document.addEventListener('DOMContentLoaded', function() {
     let liste = document.getElementById('selectEtoiles');
