@@ -215,6 +215,7 @@
                                                 {
                                                     while($row = $stmt->fetch(PDO::FETCH_ASSOC)) 
                                                     {
+                                                        var_dump($row);
                                                         echo '<option value="' . $row['Utilisateur_ID'] . '">' . $row['Utilisateur_Nom'] . ' ' . $row['Utilisateur_Prenom'] .'</option>';
                                                     }
                                                 }
