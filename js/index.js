@@ -65,7 +65,7 @@ function login() {
                                 result = JSON.parse(requete.responseText)[0]["first_log"]
                                 console.log(result)
                                 if(result == 1){
-                                    window.location.href = "./setpassword.php";
+                                    window.location.href = "./setpassword";
                                 }else{
                                     window.location.href = "./dashboard";
                                 }
