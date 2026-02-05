@@ -14,6 +14,11 @@ body {
   padding: 5% 3% 3%;
   align-items: center;
 }
+
+p {
+  color: #000000
+}
+
 h2 {
   color: white;
   text-transform: capitalize;
