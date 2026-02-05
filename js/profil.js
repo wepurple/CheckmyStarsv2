@@ -57,7 +57,7 @@ async function updateInfos(){
 
     for (let i = 0 ; i<ids.length ; i++){
         console.log(document.getElementById(ids[i]).value = list[elements[i]]);
-        if (ids[i] == 6)
+        if (i == 6)
         {
            document.getElementById(ids[i]).value = "test 1"
         }
