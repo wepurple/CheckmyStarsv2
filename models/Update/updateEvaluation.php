@@ -30,32 +30,28 @@ try {
 
     $database = new Database();
     $db = $database->getConnection();
+    
+    try {
+        $sql = "call Set_Evaluation(:Value, :Critere_ID, :Commentaire, :Dossier_ID,";
 
-    $sql = "call Set_Evaluation(:Value, :Critere_ID, :Commentaire, :Dossier_ID,";
+        $stmt = $db->prepare($sql);
 
-    $stmt = $db->prepare($sql);
+        $stmt->bindParam(':Value', $Value, PDO::PARAM_BOOL);
+        $stmt->bindParam(':Critere_ID', $Critere_ID, PDO::PARAM_INT);
+        if (empty($textarea)) {
+            $stmt->bindValue(':Commentaire', null, PDO::PARAM_NULL);
+        }
+        else {
+            $stmt->bindParam(':Commentaire', $textarea, PDO::PARAM_STR);
+        }
+        $stmt->bindParam(':Dossier_ID', $Dossier_ID, PDO::PARAM_INT);
+        $stmt->execute();
+        
+    } catch (Exception $e) {
+        // Annuler la transaction en cas d'erreur
+        $db->rollBack();
+        throw $e;
 
-    $stmt->bindParam(':Value', $Value, PDO::PARAM_BOOL);
-    $stmt->bindParam(':Critere_ID', $Critere_ID, PDO::PARAM_INT);
-    if (empty($textarea)) {
-        $stmt->bindValue(':Commentaire', null, PDO::PARAM_NULL);
-    }
-    else {
-        $stmt->bindParam(':Commentaire', $textarea, PDO::PARAM_STR);
-    }
-    $stmt->bindParam(':Dossier_ID', $Dossier_ID, PDO::PARAM_INT);
-
-    if ($stmt->execute()) {
-        header("Content-Type : application/json");
-        echo json_encode([
-            "success" => true,
-            "message" => "Evaluation mise a jour avec succès",
-            "id" => $Dossier_ID
-        ]);
-    }
-    else {
-        throw new Exception('Erreur lors de la mise à jour de l évaluation');
-    }
 } catch (Exception $e) {
     header("Content-Type : application/json");
     echo json_encode([
