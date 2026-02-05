@@ -27,7 +27,7 @@ $db = $database->getConnection();
           AND lce.etoile = :star
     ";
 
-    $stmt = $pdo->prepare($sql);
+    $stmt = $db->prepare($sql);
     $stmt->execute(['star' => $star]);
 
     $result = $stmt->fetchColumn();
