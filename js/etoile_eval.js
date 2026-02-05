@@ -69,7 +69,7 @@ function displayData(data) {
             <td>
                 <input type="checkbox" id="checkbox-${i}" name="checkbox">
             </td>
-            <td id="textarea-${i}"><textarea></textarea></td>
+            <td ><textarea id="textarea-${i}"></textarea></td>
         `;
         
         i = i + 1;
