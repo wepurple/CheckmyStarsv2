@@ -131,6 +131,11 @@
                     <input type="hidden" id="laVille">
                     <input type="hidden" id="lePays">
 
+                    <div class="input-group mb-1">
+                        <span class="input-group-text">Complément d'adresse</span>
+                        <input id="complement" type="text" class="form-control" placeholder="ex: Bis" disabled>
+                    </div>
+
                     <!--
                     <div class="input-group mb-1">
                         <span class="input-group-text">Numéro de rue *</span>
@@ -142,10 +147,7 @@
                         <input id="nomRue" type="text" class="form-control" placeholder="ex: Boulevard Haussmann" disabled>
                     </div>
 
-                    <div class="input-group mb-1">
-                        <span class="input-group-text">Complément d'adresse</span>
-                        <input id="complement" type="text" class="form-control" placeholder="ex: Bis" disabled>
-                    </div>
+                    
 
                     <div class="input-group mb-1">
                         <span class="input-group-text">Code Postal *</span>
