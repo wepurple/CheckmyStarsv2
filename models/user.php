@@ -168,6 +168,16 @@ class User {
         return $query;
     }
 
+    public function updateTheme($id, $theme){//change le thème préféré de l'utilisateur
+        $sql = "update utilisateurs set theme = :new where utilisateur_id = :id";
+
+        $query = $this->connexion->prepare($sql);
+        $query->bindParam(':id', $id);
+        $query->bindParam(':new', $theme);
+        $query->execute();
+        return $query;
+    }
+
     public function updateInfos($id, $nom, $prenom, $mail, $genre, $societe, $tel, $numRue, $nomRue, $complement, $codePostal, $ville, $pays){
         $sql = "select Update_User(:nom, :prenom, :mail, :genre, :societe, :tel, :numRue, :nomRue, :complement, :cp, :ville, :pays, :id, :role)";
 
