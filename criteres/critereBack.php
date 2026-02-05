@@ -19,19 +19,10 @@ $db = $database->getConnection();
 
 function getNumberCriteriaByStar(PDO $pdo, int $star): int
 {
-    $sql = "
-        SELECT COUNT(DISTINCT co.Critere_ID) AS nb_criteres
-        FROM listescriteres_etoiles lce
-        LEFT JOIN contient co
-            ON co.ListesCriteres_ID = lce.ListesCriteres_ID
-        WHERE lce.type_hebergement_id = 2
-          AND lce.etoile = :star
-    ";
-
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute(['star' => $star]);
-
+    $sql = "SELECT COUNT(*) FROM criteres";
+    $stmt = $pdo->query($sql);
     $result = $stmt->fetchColumn();
+    
     return ($result === false) ? 0 : (int)$result;
 }
 
@@ -56,8 +47,10 @@ function getNumberCriteriaByStatusAndStar(PDO $pdo, int $star, string $status): 
     $sql = "
         SELECT COUNT(DISTINCT c.Critere_ID) AS nb
         FROM listescriteres_etoiles lce
-        JOIN contient co ON co.ListesCriteres_ID = lce.ListesCriteres_ID
-        JOIN criteres c ON c.Critere_ID = co.Critere_ID
+        JOIN contient co
+          ON co.ListesCriteres_ID = lce.ListesCriteres_ID
+        JOIN criteres c
+          ON c.Critere_ID = co.Critere_ID
         WHERE lce.type_hebergement_id = 2
           AND lce.etoile = :star
           AND c.Critere_statut = :status
