@@ -16,7 +16,7 @@ $json = file_get_contents('php://input');
 $selection = json_decode($json, true);
 
 foreach ($selection as $selection) {
-    $stmt = $sql->prepare("call Set_Evaluation(:Critere_ID, :Value, :Commentaire, :Dossier_ID)");
+    $stmt = $this->connexion->prepare("call Set_Evaluation(:Critere_ID, :Value, :Commentaire, :Dossier_ID)");
     $stmt->execute([
         $selection['Critere_ID'],
         $selection['Checkbox'],
