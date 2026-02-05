@@ -54,7 +54,7 @@ async function updateInfos(){
     //console.log(list)
 
     for (let i = 0 ; i<ids.length ; i++){
-        console.log(document.getElementById(ids[i]).value);
+        console.log(document.getElementById(ids[i]).value = list[elements[i]]);
         document.getElementById(ids[i]).value = list[elements[i]]
     }
 }
