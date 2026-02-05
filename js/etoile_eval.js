@@ -183,18 +183,12 @@ function Evaluer() {
         const checkbox = document.getElementById(`checkbox-${j}`);
         const status = document.getElementById(`statut-${j}`);
         const points = Number(document.getElementById(`points-${j}`).textContent);
-        const textarea = document.getElementById(`textarea-${j}`);
+        const textarea = document.getElementById(`textarea-${j}`).value;
         console.log('Checkbox ', j, ': ', checkbox.checked);
         console.log('statut ', j, ': ', status.textContent);
         console.log('points ', j, ': ', points);
-        console.log('Element trouvé: ', j , ': ', textarea);
+        console.log('Element trouvé: ', j , ': ', textarea);       
 
-        if (textarea) {
-            console.log("Contenu textarea ", j, ": ", textarea.value);        
-        }
-        else {
-            console.log(" Aucune valeur dans textArea ", j);
-        }
         if (status.textContent === "O") {
             points_O_Max += points;
         }
