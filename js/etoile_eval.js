@@ -174,8 +174,8 @@ function Evaluer() {
     fetch('../criteres/critere_inspecteur_etoile.php')
     .then(response => response.json())
     .then(data => {
-        const id = data.id;
-        console.log('ID récupéré:', id);
+        const Dossier_ID = data.id;
+        console.log('ID récupéré:', Dossier_ID);
     })
     console.log('Dossier ID : ', Dossier_ID);
     points_X = 0;
