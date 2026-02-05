@@ -46,11 +46,19 @@ async function getInfos() {//va chercher les infos relatives à la personne conn
 
 async function updateInfos(){
     const list = await getInfos()
-    //console.log(list)
+    console.log(list)
 
     for (let i = 0 ; i<ids.length ; i++){
         console.log(document.getElementById(ids[i]).value = list[elements[i]]);
-        document.getElementById(ids[i]).value = list[elements[i]]
+
+        if (document.getElementById(ids[i]) == 6)
+        {
+            
+        }
+        else
+        {
+            document.getElementById(ids[i]).value = list[elements[i]]
+        }
     }
 }
 
