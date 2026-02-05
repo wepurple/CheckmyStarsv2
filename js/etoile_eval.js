@@ -171,12 +171,6 @@ let points_ONC = 0;
 let total = 0;
 
 function Evaluer() {
-    fetch('../criteres/critere_inspecteur_etoile.php')
-    .then(response => response.json())
-    .then(data => {
-        const Dossier_ID = data.id;
-        console.log('ID récupéré:', Dossier_ID);
-    })
     console.log('Dossier ID : ', Dossier_ID);
     points_X = 0;
     points_O = 0;

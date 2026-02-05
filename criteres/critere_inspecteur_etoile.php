@@ -33,7 +33,7 @@
         <script src="../bootstrap 5.3/js/bootstrap.js"></script>
         <script src="../js/etoile_eval.js"></script>
     </head>
-    <body data-id="<?php echo $id; ?>" class="bg-secondary">
+    <body class="bg-secondary">
     <?php require("../includes/navbar.php"); ?>
         
         <div>
