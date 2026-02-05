@@ -2,6 +2,8 @@ const currentUrl = window.location.search;
 var query = new URLSearchParams(currentUrl);
 var clientId = query.get('id');
 
+var idUser;
+
 const REGEX = {
     nomBien: /(.|\s)*\S(.|\s)*/,
 
@@ -30,6 +32,8 @@ async function preFillClientInfo()
     clientFirstName.value = clientInformation.Utilisateur_Prenom;
     clientCompany.value = clientInformation.Societe_Nom;
     clientMail.value = clientInformation.Utilisateur_Mail;
+
+    console.log(clientInformation);
 }
 
 async function submitPreFillClientInfo() 
@@ -49,6 +53,13 @@ async function submitPreFillClientInfo()
         var city = document.getElementById('laVille').value.trim();
         var country = document.getElementById('lePays').value.trim();
 
+        var orderingParty = document.getElementById('donneurOrdre').value.trim(); // Donneur d'ordre
+
+        if (orderingParty == 0)
+        {
+          orderingParty = null;
+        }
+
         if (!checkRegex('leNomBien', nameProperty, REGEX.nomBien, "Nom du bien invalide")) return;
 
         if (!checkRegex('leTelBien', phoneProperty, REGEX.telFR, "Téléphone invalide (ex: 06 12 34 56 78 ou +33 6 12 34 56 78)")) return;
@@ -66,25 +77,34 @@ async function submitPreFillClientInfo()
         if (!checkRegex('laAdresseComplete', city, REGEX.ville, "Ville invalide")) return;
         if (!checkRegex('laAdresseComplete', country, REGEX.pays, "Pays invalide")) return;
 
-        const data = 
+        const data =
         {
-            client_id: clientId,
+          NumRue: streetNumber,
+          NomRue: streetName,
+          Comp: complement,
+          CP: postcode,
+          Ville: city,
+          Pays: country,
 
-            nom_bien: nameProperty,
-            tel_bien: phoneProperty,
-            type_bien: typeProperty,
-            etoile_actuel: currentStar,
-            etoile_cible: targetStar,
-
-            num_rue: streetNumber,
-            nom_rue: streetName,
-            complement: complement,
-            code_postal: postcode,
-            ville: city,
-            pays: country
+          BiensNom: nameProperty,
+          BiensTel: phoneProperty,
+          BiensEtoiles: currentStar,
+          BiensDonneurID: orderingParty,
+          BiensType: typeProperty,
+          BiensUser: clientId,
+          EtoileDossier: targetStar,
+          InspecteurID: idUser,
         };
 
         console.log(data)
+
+        const response = await fetch("../../models/Create/folder.php", {
+          method: "POST",
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data)
+        });
+
+        console.log(response)
     }
     catch(error)
     {

@@ -1,5 +1,9 @@
 <?php
     session_start();
+
+    if(isset($_SESSION['ID'])){
+        $inspecteurID = $_SESSION['ID'];
+    }
 ?>
 <!DOCTYPE html>
 <html lang="fr" data-bs-theme="dark">
@@ -11,6 +15,7 @@
         <link rel="stylesheet" href="../../bootstrap 5.3/css/bootstrap.min.css">
         <link rel="stylesheet" href="../../fontawesome-7.1.0/css/all.css">
         <script src="../../bootstrap 5.3/js/bootstrap.js"></script>
+        <script type="text/javascript">var idUser=<?php echo json_encode($inspecteurID); ?>;</script>
         <link rel="icon" type="image/x-icon" href="../../assets/pictures/logosm.png">
     </head>
 
@@ -194,6 +199,31 @@
                                             <option value="5">5 étoile</option>
                                         </select>
                                         <label for="floatingSelect">Étoile cible du bien *</label>
+                                    </div>
+
+                                    <div class="col-md-12 form-floating mb-3">
+                                        <select class="form-select" id="donneurOrdre" aria-label="Floating label select example">
+                                            <option value="0">Pas de donneur d'orde</option>
+                                            <?php
+                                                try {
+                                                    $sql = "SELECT U.Utilisateur_ID, U.Utilisateur_Nom, U.Utilisateur_Prenom
+                                                            FROM donneurordre D
+                                                            JOIN utilisateurs U ON U.Utilisateur_ID = D.Donneur_ID";
+
+                                                    $stmt = $db->prepare($sql);
+                                                    $stmt->execute();
+
+                                                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                                                        echo '<option value="' . htmlspecialchars($row['Utilisateur_ID']) . '">'
+                                                            . htmlspecialchars($row['Utilisateur_Nom']) . ' ' . htmlspecialchars($row['Utilisateur_Prenom'])
+                                                            . '</option>';
+                                                    }
+                                                } catch (PDOException $e) {
+                                                    echo '<option value="0">Erreur: ' . htmlspecialchars($e->getMessage()) . '</option>';
+                                                }
+                                            ?>
+                                        </select>
+                                        <label for="floatingSelect">Donneur d'ordre *</label>
                                     </div>
 
                                     <div class="col-md-12 form-floating mb-3">

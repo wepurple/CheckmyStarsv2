@@ -54,6 +54,13 @@
                 "Civilite"=>$result['Utilisateur_Civilite']
             );
 
+            if($result["first_log"] == 1){
+                $first_log=true;
+            }else{
+                $first_log=false;
+            }
+            $_SESSION = array_merge($_SESSION, array("first_log"=>$first_log));
+
             echo(json_encode(true));
         }else{
             echo(json_encode(false));

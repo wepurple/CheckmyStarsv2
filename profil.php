@@ -1,5 +1,6 @@
 <?php
     session_start();
+    var_dump($_SESSION);
 
     //Si on tente d'accéder à la page via l'url sans être connecté, on se fait dégager avant de charger la page
     if(!isset($_SESSION['Role'])){
