@@ -112,14 +112,15 @@ async function submitPreFillClientInfo()
         clearValidationClasses('addForm');
         document.getElementById('addForm').reset();
         showToast("Dossier créé avec succès !", "success");
+        window.location.reload();
       } else {
         showToast("Erreur lors de la création : " + result.error, "error");
       }
     }
     catch(error)
     {
-        console.error("Erreur:", error);
-        showToast("Une erreur s'est produite : " + error.message, "error");
+      console.error("Erreur:", error);
+      showToast("Une erreur s'est produite : " + error.message, "error");
     }
 }
 
