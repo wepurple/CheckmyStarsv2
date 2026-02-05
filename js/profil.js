@@ -63,7 +63,7 @@ async function updateInfos(){
         }
         else if (i == 7)
         {
-            document.getElementById(ids[i]).value = adresseComplete;
+            document.getElementById(ids[i]).value = list.AdressePostale_Complement;
         }
         else
         {
