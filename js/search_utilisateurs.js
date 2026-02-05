@@ -921,7 +921,7 @@ async function submitSociete() {
   };
 
   try {
-    const response = await fetch('models/Create/company.php', {
+    const response = await fetch('../models/Create/company.php', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json;charset=utf-8' },
       body: JSON.stringify(payload)
@@ -957,7 +957,7 @@ async function submitSociete() {
 
 async function refreshSocietes() {
     try {
-        const response = await fetch('models/Read/companies.php');
+        const response = await fetch('../models/Read/companies.php');
         const companies = await response.json();
         
         const addSelect = document.getElementById('laSociete');

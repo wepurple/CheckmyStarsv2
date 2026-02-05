@@ -245,6 +245,23 @@ function Evaluer() {
         result = "Évaluation valide.";
     }
 
+    fetch('../models/Update/updateEvaluation.php', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(tableau)
+    })
+    .then(response => response.json())
+    .then(result => {
+        console.log('Réponse du serveur : ', result);
+        alert(result.message);
+    })
+    .catch(error => {
+        console.error('Erreur lors de la requête : ', error);
+    });
+
+
     console.log('Points O :', points_O);
     console.log('Points X :', points_X);
     console.log('Points NA :', points_NA);
