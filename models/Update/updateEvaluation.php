@@ -1,15 +1,6 @@
 <?php
 session_start();
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
-echo "Début du script<br>";
-
-var_dump($_POST);
-
-echo "<br>Script terminé";
-
 // Vérification de l'authentification
 if(!isset($_SESSION['Role']) || !$_SESSION['Role']['Administrateur']){
     header('Content-Type: application/json');

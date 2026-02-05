@@ -9,7 +9,7 @@ if(!isset($_SESSION['Role']) || !$_SESSION['Role']['Administrateur']){
 $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
 ?>
 <!DOCTYPE html>
-<html lang="fr" data-bs-theme="dark">
+<html lang="fr" data-bs-theme="<?= $_SESSION['Theme'] ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,7 +26,7 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
         }
     </style>
 </head>
-<body class="bg-secondary">
+<body>
     <?php require("../includes/navbar.php"); ?>
 
     <div class="container-fluid py-4">

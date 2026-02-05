@@ -81,7 +81,7 @@ $starColors = [
 ?>
 
 <!DOCTYPE html>
-<html lang="fr" data-bs-theme="dark">
+<html lang="fr" data-bs-theme="<?= $_SESSION['Theme'] ?>">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -94,7 +94,7 @@ $starColors = [
         <link rel="icon" type="image/x-icon" href="../assets/pictures/logosm.png">
     </head>
 
-    <body class="bg-secondary">
+    <body>
         <?php require("../includes/navbar.php"); ?>
 
         <div class="container-fluid py-4 px-3">

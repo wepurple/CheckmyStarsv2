@@ -6,7 +6,7 @@
     }
 ?>
 <!DOCTYPE html>
-<html lang="fr" data-bs-theme="dark">
+<html lang="fr" data-bs-theme="<?= $_SESSION['Theme'] ?>">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,7 +19,7 @@
         <link rel="icon" type="image/x-icon" href="../../assets/pictures/logosm.png">
     </head>
 
-    <body class="bg-secondary">
+    <body>
         <?php
             require_once "../../includes/navbar.php";
         ?>
@@ -46,7 +46,7 @@
                 </div>
             </nav>
             <!-- Tableau -->
-            <table class="table table-dark table-sm table-striped table-hover">
+            <table class="table table-sm table-striped table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
