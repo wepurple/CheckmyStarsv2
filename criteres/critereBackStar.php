@@ -105,7 +105,7 @@ $star = isset($_GET['star']) ? (int)$_GET['star'] : 1;
                     <div class="card-body p-0">
                         <div class="table-responsive">
                             <table class="table table-hover table-striped mb-0" id="criteriaTable">
-                                <thead class="table-dark sticky-top">
+                                <thead class="table-dark">
                                     <tr>
                                         <th class="text-center">
                                             <small>Id</small>
