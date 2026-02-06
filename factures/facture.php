@@ -346,7 +346,7 @@ require_once(__DIR__ . '/../includes/mariadb.php');
                                                 $stmt = $db->prepare($sql);
                                                 $stmt->execute();
                                                 
-                                                echo '<select class="form-control" id="client_nom_devis" onchange="loadClientData()">';
+                                                echo '<select class="form-control" id="client_nom_devis" onchange="loadClientData(); loadClientDossiers();">';
                                                 echo '<option selected disabled>Choisir un client</option>';
                                                 
                                                 if ($stmt->rowCount() > 0) {
@@ -367,7 +367,13 @@ require_once(__DIR__ . '/../includes/mariadb.php');
                                     ?>
                                                         </div>
                                                         <div class="col-md-12 mb-2">
-                                                            <label class="form-label">Adresse</label>
+                                                            <label class="form-label">N° DOSSIER</label>
+                                                            <select class="form-control" id="dossier_numero_devis" disabled>
+                                                                <option selected>Sélectionnez d'abord un client</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-md-12 mb-2">
+                                                            <label class="form-label"></label>Adresse</label>
                                                             <input type="text" class="form-control" id="client_adresse_devis" value="15 Avenue des Roses">
                                                         </div>
                                                         <div class="col-md-6 mb-2">

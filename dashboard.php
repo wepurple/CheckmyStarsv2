@@ -37,7 +37,7 @@
             
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addModal">
-                    <i class="fas fa-user-plus"></i> Ajouter un utilisateur
+                    <i class="fas fa-user-plus"></i> Ajouter un client
                 </button>
                 
                 <div class="input-group" style="width: 400px;">
