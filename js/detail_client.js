@@ -428,7 +428,6 @@ document.addEventListener("DOMContentLoaded", () => {
         {
           showToast("L'étoile actuelle ne peut pas être la même que l'étoile cible.", "warning");
           markField("etoileActuel", false);
-          currentStar.value = currentStar.dataset.prev || "";
           return;
         }
         markField("etoileActuel", true);
@@ -441,7 +440,6 @@ document.addEventListener("DOMContentLoaded", () => {
         {
           showToast("L'étoile cible ne peut pas être la même que l'étoile actuelle.", "warning");
           markField("etoileCible", false);
-          targetStar.value = targetStar.dataset.prev || "";
           return;
         }
         markField("etoileCible", true);
