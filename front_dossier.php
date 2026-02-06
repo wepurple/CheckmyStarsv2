@@ -42,7 +42,7 @@
 
     // Gestion de l'Upload
     if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['new_image'])) {
-        $target_dir = __DIR__ . "/assets/img/";
+        $target_dir = __DIR__ . "/img/";
         $filename = time() . "_" . basename($_FILES['new_image']['name']);
         $target_path = $target_dir . $filename;
 
