@@ -475,3 +475,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     preFillClientInfo();
 });
+
+alert("ok");
