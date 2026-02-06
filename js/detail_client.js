@@ -1,3 +1,4 @@
+console.log("ok");
 const currentUrl = window.location.search;
 var query = new URLSearchParams(currentUrl);
 var clientId = query.get('id');
@@ -475,5 +476,3 @@ document.addEventListener("DOMContentLoaded", () => {
 
     preFillClientInfo();
 });
-
-alert("ok");
