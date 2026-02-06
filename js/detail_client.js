@@ -408,10 +408,8 @@ function openOderingParty()
     }
 
     const modalEl = document.getElementById('addModalDonneur');
-    if (!societeModal) {
-        societeModal = new bootstrap.Modal(modalEl);
-    }
-    societeModal.show();
+
+    modalEl.show();
     document.getElementById('addForm').reset();
 }
 
