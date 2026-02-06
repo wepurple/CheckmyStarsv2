@@ -414,10 +414,12 @@ document.addEventListener("DOMContentLoaded", () => {
       currentStar.addEventListener("focus", () => 
       {
         currentStar.dataset.prev = currentStar.value || "";
+        markField("etoileActuel", true);
       });
       targetStar.addEventListener("focus", () => 
       {
         targetStar.dataset.prev = targetStar.value || "";
+        markField("etoileActuel", true);
       });
 
       currentStar.addEventListener("change", function() 
