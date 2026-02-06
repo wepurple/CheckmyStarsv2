@@ -1430,9 +1430,68 @@ async function loadClientData() {
   }
 }
 
+/**
+ * Charge les dossiers d'un client sélectionné
+ */
+async function loadClientDossiers() {
+  const select = document.getElementById("client_nom_devis");
+  const dossierSelect = document.getElementById("dossier_numero_devis");
+
+  if (!select || !select.value || !dossierSelect) {
+    console.warn("Client ou dropdown dossier non trouvé");
+    return;
+  }
+
+  // Récupérer l'ID utilisateur depuis l'attribut data-id
+  const utilisateurId =
+    select.options[select.selectedIndex]?.getAttribute("data-id");
+
+  if (!utilisateurId) {
+    console.warn("ID utilisateur non trouvé");
+    dossierSelect.disabled = true;
+    dossierSelect.innerHTML =
+      "<option selected>Sélectionnez d'abord un client</option>";
+    return;
+  }
+
+  try {
+    const response = await fetch(
+      `../models/api/get_dossiers_by_client.php?client_id=${encodeURIComponent(utilisateurId)}`,
+    );
+
+    if (!response.ok) throw new Error("Erreur chargement dossiers");
+
+    const dossiers = await response.json();
+
+    // Réinitialiser la dropdown
+    dossierSelect.innerHTML =
+      '<option value="" selected disabled>Choisir un dossier</option>';
+
+    if (dossiers.length > 0) {
+      dossiers.forEach((dossier) => {
+        const option = document.createElement("option");
+        option.value = dossier.Dossier_ID;
+        option.textContent = dossier.Dossier_Numero;
+        dossierSelect.appendChild(option);
+      });
+      dossierSelect.disabled = false;
+    } else {
+      dossierSelect.innerHTML =
+        "<option selected disabled>Aucun dossier trouvé pour ce client</option>";
+      dossierSelect.disabled = true;
+    }
+  } catch (error) {
+    console.error("Erreur loadClientDossiers:", error);
+    dossierSelect.innerHTML =
+      "<option selected disabled>Erreur de chargement</option>";
+    dossierSelect.disabled = true;
+  }
+}
+
 window.loadEntreprisesList = loadEntreprisesList;
 window.loadEntrepriseData = loadEntrepriseData;
 window.loadClientData = loadClientData;
+window.loadClientDossiers = loadClientDossiers;
 
 // Exposer les fonctions de facture
 window.convertDevisToFacture = convertDevisToFacture;
