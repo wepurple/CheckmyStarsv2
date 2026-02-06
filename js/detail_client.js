@@ -398,6 +398,8 @@ function addressBlockTouched(v)
 
 function openOderingParty()
 {
+  document.activeElement.blur();
+  
   const addModalEl = document.getElementById('exampleModal');
   if (addModalEl) {
       const addModalInstance = bootstrap.Modal.getInstance(addModalEl);
