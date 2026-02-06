@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : ven. 06 fév. 2026 à 14:12
+-- Généré le : ven. 06 fév. 2026 à 15:37
 -- Version du serveur : 11.5.2-MariaDB
 -- Version de PHP : 8.3.14
 
@@ -496,11 +496,15 @@ END$$
 
 DROP PROCEDURE IF EXISTS `Update_Password`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Update_Password` (IN `identifiant` INT, IN `mdp` VARCHAR(255))   BEGIN
+	
+    DECLARE nb_mdp INT;
+    DECLARE last_mdp DATETIME;
+    
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         ROLLBACK;
         SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Erreur lors de la création de l''utilisateur';
+            SET MESSAGE_TEXT = 'Erreur lors de la modification du mpd';
     END;
 
     START TRANSACTION;
@@ -512,7 +516,39 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Update_Password` (IN `identifiant` 
     update utilisateurs
     set first_log = 0
     WHERE utilisateur_id = identifiant;
-
+    
+    SELECT COUNT(utilisateur_id)
+    INTO nb_mdp
+    FROM old_passwords
+    where utilisateur_id = 1;
+	
+    SELECT MIN(date_password)
+    into last_mdp
+    FROM old_passwords
+    WHERE utilisateur_id = identifiant;
+    
+    IF nb_mdp >= 5 THEN
+    	DELETE FROM old_passwords
+        WHERE date_password = last_mdp;
+        
+        INSERT INTO old_passwords (
+        	utilisateur_id,
+            password_hash,
+            date_password
+        )
+        VALUES (identifiant, mdp, NOW());
+        
+    ELSE
+    
+    	INSERT INTO old_passwords (
+        	utilisateur_id,
+            password_hash,
+            date_password
+        )
+        VALUES (identifiant, mdp, NOW());
+    
+    END IF;
+    
     COMMIT;
 END$$
 
@@ -661,7 +697,7 @@ CREATE TABLE IF NOT EXISTS `adressespostales` (
   `AdressePostale_Ville` varchar(256) DEFAULT NULL,
   `AdressePostale_Pays` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`AdressePostale_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `adressespostales`
@@ -1465,14 +1501,14 @@ CREATE TABLE IF NOT EXISTS `criteres` (
   `Critere_statut` varchar(50) DEFAULT NULL,
   `Critere_points` int(11) DEFAULT NULL,
   PRIMARY KEY (`Critere_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=174 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `criteres`
 --
 
 INSERT INTO `criteres` (`Critere_ID`, `Critere_description`, `Critere_statut`, `Critere_points`) VALUES
-(1, 'Surface totale minimum (cuisine et coin cuisine compris) du logement meublé hors salle d\'eau et toilettes', 'X', 5),
+(1, 'Surface totale minimum (cuisine et coin cuisine compris) du logement meublé hors salle d\'eau et toilettess', 'X', 5),
 (2, 'Surface totale majorée', 'O', 5),
 (3, 'Prise de courant libre dans chaque pièce d\'habitation', 'X', 1),
 (4, 'Tous les éclairages du logement fonctionnent et sont en bon état', 'X', 3),
@@ -1723,7 +1759,7 @@ CREATE TABLE IF NOT EXISTS `document_counters` (
 --
 
 INSERT INTO `document_counters` (`type`, `year`, `last_number`) VALUES
-('DEVIS', '2026', 316),
+('DEVIS', '2026', 328),
 ('FACTURE', '2026', 6);
 
 -- --------------------------------------------------------
@@ -1857,7 +1893,16 @@ CREATE TABLE IF NOT EXISTS `evaluations` (
   PRIMARY KEY (`Evaluation_ID`),
   KEY `Critere_ID` (`Critere_ID`),
   KEY `Dossier_ID` (`Dossier_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1045 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1057 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Déchargement des données de la table `evaluations`
+--
+
+INSERT INTO `evaluations` (`Evaluation_ID`, `Critere_ID`, `Value`, `Commentaire`, `Dossier_ID`, `Date`) VALUES
+(1054, 1, 1, '', 14, '2026-02-06'),
+(1055, 1, 1, '', 14, '2026-02-06'),
+(1056, 1, 1, '', 14, '2026-02-06');
 
 -- --------------------------------------------------------
 
@@ -2003,7 +2048,7 @@ CREATE TABLE IF NOT EXISTS `listescriteres_etoiles` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_liste_etoile` (`ListesCriteres_ID`,`etoile`),
   KEY `type_hebergement_id` (`type_hebergement_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `listescriteres_etoiles`
@@ -2046,8 +2091,6 @@ CREATE TABLE IF NOT EXISTS `old_passwords` (
 --
 
 INSERT INTO `old_passwords` (`utilisateur_id`, `password_hash`, `date_password`) VALUES
-(1, '$2y$10$GpaE9s093seFbknKgKLUi.SGvtdM3klLlGljuVyWOX8Maog/jPft6', '2026-02-06 14:23:35'),
-(1, '$2y$10$GpaE9s093seFbknKgKLUi.SGvtdM3klLlGljuVyWOX8Maog/jPft6', '2026-02-06 14:23:36'),
 (1, '$2y$10$GpaE9s093seFbknKgKLUi.SGvtdM3klLlGljuVyWOX8Maog/jPft6', '2026-02-06 14:23:37'),
 (1, '$2y$10$GpaE9s093seFbknKgKLUi.SGvtdM3klLlGljuVyWOX8Maog/jPft6', '2026-02-06 14:23:39'),
 (1, '$2y$10$GpaE9s093seFbknKgKLUi.SGvtdM3klLlGljuVyWOX8Maog/jPft6', '2026-02-06 14:23:40'),
@@ -2060,7 +2103,9 @@ INSERT INTO `old_passwords` (`utilisateur_id`, `password_hash`, `date_password`)
 (5, '\"$2y$10$fDXKq5jEs7C5FiB5Nd/4FOItFogXRu.lR2fVDl94XcJvSSs6qrCdu\"', '2026-02-06 14:24:12'),
 (5, '\"$2y$10$fDXKq5jEs7C5FiB5Nd/4FOItFogXRu.lR2fVDl94XcJvSSs6qrCdu\"', '2026-02-06 14:24:16'),
 (5, '\"$2y$10$fDXKq5jEs7C5FiB5Nd/4FOItFogXRu.lR2fVDl94XcJvSSs6qrCdu\"', '2026-02-06 14:24:19'),
-(5, '\"$2y$10$fDXKq5jEs7C5FiB5Nd/4FOItFogXRu.lR2fVDl94XcJvSSs6qrCdu\"', '2026-02-06 14:24:22');
+(5, '\"$2y$10$fDXKq5jEs7C5FiB5Nd/4FOItFogXRu.lR2fVDl94XcJvSSs6qrCdu\"', '2026-02-06 14:24:22'),
+(1, '$2y$10$.7BSnrykdGe1OVTLpeVfe.ydwPrvv5xfdiyo1zUqqsZ2ozscdMMiK', '2026-02-06 16:34:47'),
+(1, '$2y$10$iTj.NkihSKsl8g8Lp5YVQOpTMG/Re.LBHlrD/sndArR4n/otleT8a', '2026-02-06 16:35:45');
 
 -- --------------------------------------------------------
 
@@ -2075,7 +2120,7 @@ CREATE TABLE IF NOT EXISTS `photos` (
   `Bien_ID` int(11) NOT NULL,
   PRIMARY KEY (`Photo_ID`),
   KEY `Bien_ID` (`Bien_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `photos`
@@ -2083,7 +2128,8 @@ CREATE TABLE IF NOT EXISTS `photos` (
 
 INSERT INTO `photos` (`Photo_ID`, `Photo_Lien`, `Bien_ID`) VALUES
 (2, './img/hotel_lumiere_2.jpg', 1),
-(100, './img/hotel_lumiere_3.jpg', 1);
+(100, './img/hotel_lumiere_3.jpg', 1),
+(105, 'C:\\wamp64\\www\\CheckMyStars/assets/img/1770391905_chambre_1.jpg', 135);
 
 -- --------------------------------------------------------
 
@@ -2190,14 +2236,14 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   UNIQUE KEY `unique_email` (`Utilisateur_Mail`),
   KEY `AdressePostale_ID` (`AdressePostale_ID`),
   KEY `fk_utilisateurs_societe` (`Societe_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `utilisateurs`
 --
 
 INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Prenom`, `Utilisateur_Civilite`, `Utilisateur_Password`, `Utilisateur_Mail`, `Utilisateur_Telephone`, `Utilisateur_Signature`, `AdressePostale_ID`, `Societe_ID`, `first_log`, `theme`) VALUES
-(1, 'Dupont', 'Marie', 'Madame', '$2y$10$M7qAamfXL0x420jCMWqTmuCIwMZXk7eijlCuhIqBCBUEAAj/7kvNK', 'marie.dupont@checkmystars.fr', '0669696969', 'Marie Dupont – Administratrice', 16, 5, 0, 'dark'),
+(1, 'Dupont', 'Marie', 'Madame', '$2y$10$iTj.NkihSKsl8g8Lp5YVQOpTMG/Re.LBHlrD/sndArR4n/otleT8a', 'marie.dupont@checkmystars.fr', '0669696969', 'Marie Dupont – Administratrice', 16, 5, 0, 'dark'),
 (3, 'Martin', 'Luc', 'Monsieur', '$2y$10$zCMi/F3mcnfmOS80JOgGnONsms3wQamqOQIvzRw33e7RD5ElakiUW', 'luc.martin@inspection.fr', '0600000103', 'Luc Martin – Inspecteur', 17, 3, 0, 'light'),
 (4, 'Bernard', 'Julie', 'Madame', '$2y$10$demoHashInsp2', 'julie.bernard@inspection.fr', '0600000104', 'Julie Bernard – Inspectrice', 18, 3, 0, 'light'),
 (5, 'Bourdon', 'Angel', 'Monsieur', '$2y$10$demoHashProp1', 'angel.bourdon@gmail.com', '0670000005', NULL, 11, 5, 0, 'light'),
