@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="../../fontawesome-7.1.0/css/all.css">
         <script src="../../bootstrap 5.3/js/bootstrap.js"></script>
         <script type="text/javascript">
-            var idUser = <?= isset($inspecteurID) ? json_encode($inspecteurID) : 'null' ?>;
+            console.log("ok");
         </script>   
         <link rel="icon" type="image/x-icon" href="../../assets/pictures/logosm.png">
     </head>
