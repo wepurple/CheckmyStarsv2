@@ -408,15 +408,13 @@ function openOderingParty()
       }
   }
 
-    const modalEl = document.getElementById('addModalDonneur');
-    if (modalEl) {
-        const addModalInstance2 = bootstrap.Modal.getInstance(modalEl);
-        if (addModalInstance2) {
-            addModalInstance2.show();
-        }
-    }
+  const modalEl = document.getElementById('addModalDonneur');
+  if (modalEl) {
+      const addModalDonneur = new bootstrap.Modal(modalEl);
+      addModalDonneur.show();
+  }
 
-    document.getElementById('addForm').reset();
+  document.getElementById('addForm').reset();
 }
 
 document.addEventListener("DOMContentLoaded", () => {
