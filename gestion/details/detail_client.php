@@ -190,6 +190,7 @@
 
                                     <div class="col-md-6 form-floating mb-3">
                                         <select class="form-select" id="etoileActuel" aria-label="Floating label select example">
+                                            <option value="0">Aucune etoile</option>
                                             <option value="1">1 étoile</option>
                                             <option value="2">2 étoile</option>
                                             <option value="3">3 étoile</option>
