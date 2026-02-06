@@ -408,6 +408,11 @@ function addressBlockTouched(v)
   return [v.num_rue, v.nom_rue, v.complement, v.code_postal, v.ville, v.pays].some(x => (x || "").trim() !== "");
 }
 
+function starSelectedCheck()
+{
+
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     setupAdresseAutocomplete({
         adresseCompleteId: "laAdresseComplete",
@@ -416,6 +421,22 @@ document.addEventListener("DOMContentLoaded", () => {
         codeId: "leCode",
         villeId: "laVille",
         paysId: "lePays"
+    });
+
+    var currentStar = document.getElementById("etoileActuel");
+    var targetStar = document.getElementById("etoileCible");
+
+    currentStar.addEventListener("change", function() 
+    {
+      if(activities.value == "0")
+      {
+        console.log("ok");
+      }
+    });
+
+    targetStar.addEventListener("change", function() 
+    {
+
     });
 
     preFillClientInfo();
