@@ -407,7 +407,7 @@ function openOderingParty()
         }
     }
 
-    const modalEl = document.getElementById('addModal');
+    const modalEl = document.getElementById('addModalDonneur');
     if (!societeModal) {
         societeModal = new bootstrap.Modal(modalEl);
     }
