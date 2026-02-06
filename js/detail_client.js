@@ -428,7 +428,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     currentStar.addEventListener("change", function() 
     {
-      if(activities.value == "0")
+      if(currentStar.value == "0")
       {
         console.log("ok");
       }
