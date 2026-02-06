@@ -144,32 +144,26 @@
                     <div header class="header">
                         <h5 class="modal-title">Informations</h5>
                         <div class="modal-body">
-                            <p>
-                                <?php
-                                    $database = new Database();
-                                    $db = $database->getConnection();
+                            <div class="p-2"> <?php
+                                try {
+                                    $sql = "CALL Get_Adresse_Dossier(:id);";
+                                    $stmt_addr = $db->prepare($sql);
+                                    $stmt_addr->execute(['id' => $dossier_id]);
 
-                                    try {
-                                        $sql = "CALL Get_Adresse_Dossier($dossier_id);";
-                                        $stmt = $db->prepare($sql);
-                                        $stmt->execute();
-
-                                        if ($stmt->rowCount() > 0) {
-                                            while($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                                echo "<td>" . htmlspecialchars($row['AdressePostale_NumeroRue'] ?? '') . " " . htmlspecialchars($row['AdressePostale_NomRue'] ?? '') . "</td>" . " " . htmlspecialchars($row['AdressePostale_Complement'] ?? '') . "</td>" . "</br>" ;
-                                                echo "<td>" . htmlspecialchars($row['AdressePostale_Pays'] ?? '') . "</td>" . "</br>";
-                                                echo "<td>" . htmlspecialchars($row['AdressePostale_Ville'] ?? '') . "</td>" . "</br>" ;
-                                                echo "<td>" . htmlspecialchars($row['AdressePostale_CodePostal'] ?? '') . "</td>" . "</br>" ;
-                                            }
-                                        } else {
-                                            echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
-                                        }
-                                    
-                                    } catch(PDOException $e) {
-                                        echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
-                                    };
+                                    if ($row = $stmt_addr->fetch(PDO::FETCH_ASSOC)) {
+                                        echo "<p class='mb-1'><strong>Rue :</strong> " . htmlspecialchars($row['AdressePostale_NumeroRue'] ?? '') . " " . htmlspecialchars($row['AdressePostale_NomRue'] ?? '') . "</p>";
+                                        if(!empty($row['AdressePostale_Complement'])) echo "<p class='text-muted small'>" . htmlspecialchars($row['AdressePostale_Complement']) . "</p>";
+                                        echo "<p class='mb-1'><strong>Ville :</strong> " . htmlspecialchars($row['AdressePostale_CodePostal'] ?? '') . " " . htmlspecialchars($row['AdressePostale_Ville'] ?? '') . "</p>";
+                                        echo "<p><strong>Pays :</strong> " . htmlspecialchars($row['AdressePostale_Pays'] ?? 'France') . "</p>";
+                                    } else {
+                                        echo "<div class='alert alert-warning'>Aucune adresse trouvée.</div>";
+                                    }
+                                    $stmt_addr->closeCursor();
+                                } catch(PDOException $e) {
+                                    echo "<span class='text-danger'>Erreur : " . $e->getMessage() . "</span>";
+                                }
                                 ?>
-                            </p>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -186,36 +180,29 @@
                     <div header class="header">
                         <h5 class="modal-title">Informations</h5>
                         <div class="modal-body">
-                            <p>
-                                <?php
-                                    $database = new Database();
-                                    $db = $database->getConnection();
+                        <?php
+                        try {
+                            $sql_etat = "CALL Get_Dossier_Etat(:id);";
+                            $stmt_etat = $db->prepare($sql_etat);
+                            $stmt_etat->execute(['id' => $dossier_id]);
 
-                                    try {
-                                        $sql = "CALL Get_Dossier_Etat($dossier_id);";
-                                        $stmt = $db->prepare($sql);
-                                        $stmt->execute();
-
-                                        if ($stmt->rowCount() > 0) {
-                                            while($row = $stmt->fetch(PDO::FETCH_ASSOC)) { 
-                                                $statusText = $row['status'] == 1 ?  'terminé' : 'en cours';
-                                                $statusClass = $row['status'] == 1 ? 'bg-success' : 'bg-warning text-dark';
-                                                echo "<h5> Le dossier est actuellement : </h5><td><span class='badge $statusClass'>$statusText</span></td></br>";
-                                                echo "</br> <h5> Assigné à : </h5>";
-                                                echo "<td>" . htmlspecialchars($row['Utilisateur_Nom']) . "</td>"  . " " ;
-                                                echo "<td>" . htmlspecialchars($row['Utilisateur_Prenom']) . "</td>" . "</br>";
-                                                echo "<td>" . htmlspecialchars($row['Utilisateur_Mail']) . "</td>" . "</br>";
-                                                echo "<td>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</td>" . "</br>";
-                                            }
-                                        } else {
-                                            echo "<tr><td colspan='7' class='text-center'>Aucune donnée trouvée</td></tr>";
-                                        }
-                                    
-                                    } catch(PDOException $e) {
-                                        echo "<tr><td colspan='7' class='text-center text-danger'>Erreur : " . $e->getMessage() . "</td></tr>";
-                                    };
-                                ?>
-                            </p>
+                            if ($row = $stmt_etat->fetch(PDO::FETCH_ASSOC)) { 
+                                $statusText = ($row['status'] == 1) ? 'Terminé' : 'En cours';
+                                $statusClass = ($row['status'] == 1) ? 'bg-success' : 'bg-warning text-dark';
+                                
+                                echo "<div class='mb-3'><h5>Statut :</h5> <span class='badge $statusClass fs-6'>$statusText</span></div>";
+                                echo "<hr><h5>Inspecteur assigné :</h5>";
+                                echo "<ul class='list-unstyled'>";
+                                echo "<li><i class='fa-solid fa-user me-2'></i>" . htmlspecialchars($row['Utilisateur_Nom'] . " " . $row['Utilisateur_Prenom']) . "</li>";
+                                echo "<li><i class='fa-solid fa-envelope me-2'></i>" . htmlspecialchars($row['Utilisateur_Mail']) . "</li>";
+                                echo "<li><i class='fa-solid fa-phone me-2'></i>" . htmlspecialchars($row['Utilisateur_Telephone']) . "</li>";
+                                echo "</ul>";
+                            }
+                            $stmt_etat->closeCursor();
+                        } catch(PDOException $e) {
+                            echo "<div class='text-danger'>Erreur : " . $e->getMessage() . "</div>";
+                        }
+                        ?>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -279,7 +266,7 @@
                         <img id="previewDeleteImg" src="" class="img-thumbnail mb-3" style="max-height: 150px;">
                     </div>
                     <div class="modal-footer">
-                        <form id="deletePhotoForm" method="POST" action="delete_photo.php">
+                        <form id="deletePhotoForm" method="POST" action="./models/Delete/delete_photo.php">
                             <input type="hidden" name="photo_id" id="deletePhotoId">
                             <input type="hidden" name="dossier_id" value="<?php echo $dossier_id; ?>">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
@@ -306,6 +293,5 @@
                 </div>
             </div>
         </div>
-        
     </body>
 </html>
