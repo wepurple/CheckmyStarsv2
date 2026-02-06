@@ -149,14 +149,37 @@ class User {
         return $query;
     }
 
-    public function editPassword($id, $newPassword){//remplace le mdp de la personne        
-        $sql = "CALL update_password(:identifiant, :newMdp)";
+    public function editPassword($id, $newPassword){//remplace le mdp de la personne  
+    
+        //on va d'abord vérifier que le nouveau mot de passe est différent des précédents
+        $sql = "select password_hash from old_passwords where utilisateur_id = :id";
 
         $query = $this->connexion->prepare($sql);
-        $query->bindParam(':identifiant', $id);
-        $query->bindParam(':newMdp', $newPassword);
+        $query->bindParam(':id', $id);
         $query->execute();
-        return $query;
+
+        //on vérifie si aucun des anciens hash de l'utilisateur ne correspond au nouveau mdp
+        $verif = true;
+        while($i = $query->fetch(PDO::FETCH_ASSOC)){
+            if(password_verify($newPassword, $i['password_hash'])){
+                $verif = false;
+            }
+        }
+        if($verif){//si le nouveau mot de passe est original
+            $sql = "CALL update_password(:identifiant, :newMdp)";
+
+            $hash = password_hash($newPassword, PASSWORD_DEFAULT);
+
+            $query = $this->connexion->prepare($sql);
+            $query->bindParam(':identifiant', $id);
+            $query->bindParam(':newMdp', $hash);
+            $query->execute();
+
+            return $query;
+        }else{
+            return false;
+        }
+
     }
 
     public function getFirstLog($id){//renvoie un boolean indiquant s'il s'agit de la première connexion de l'utilisateur

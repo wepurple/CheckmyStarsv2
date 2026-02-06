@@ -34,15 +34,29 @@ try{
                 $regex = "/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{12,}$/";
 
                 if(isset($data->new) && isset($data->old)){
+                    $newPassword = strip_tags(htmlspecialchars($data->new));
                     if(password_verify($data->old, $result[0]["pwd"])){
-                        if(preg_match($regex, $data->new)){
-                            $user->editPassword($id, password_hash($data->new, PASSWORD_DEFAULT));
-                            http_response_code(200);
-                            echo json_encode(["response" => "Mot de passe modifié avec succès"]);
+
+                        if(preg_match($regex, $data->new)){//si le nouveau mot de passe respecte la regex
+                            try{
+                                $requete_result = $user->editPassword($id, $newPassword);
+                                if($requete_result){
+                                    http_response_code(200);
+                                    echo json_encode(["response" => "Mot de passe modifié avec succès"]);
+                                }else{
+                                    http_response_code(400);
+                                    echo json_encode(["response" => "Le mot de passe doit être différent des 5 précédents"]);
+                                }
+                            }catch(Exception $e){
+                                http_response_code(400);
+                                echo json_encode(["response" => "Erreur MariaDB".$e]);
+                            }
+
                         }else{//si le mot de passe ne respecte pas le regex
                             http_response_code(403);
                             echo json_encode(["response" => "Nouveau mot de passe trop faible"]);
                         }
+
                     }else{//si l'ancien mot de passe n'est pas valide
                         http_response_code(401);
                         echo json_encode(["response" => "Ancien mot de passe incorrect"]);

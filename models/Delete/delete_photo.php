@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('./includes/mariadb.php');
+require_once('./../../includes/mariadb.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['photo_id'])) {
     $database = new Database();
