@@ -310,7 +310,7 @@
                                             <option value="">Sélectionner...</option>
                                             <option value="new_company">Créer une nouvelle entreprise</option>
                                             <?php
-                                            $companies = getAllCompany($db);
+                                            //$companies = getAllCompany($db);
                                             while ($row = $companies->fetch()) {
                                                 echo '<option value="' . $row['Societe_ID'] . '">' . htmlspecialchars($row['Societe_Nom']) . '</option>';
                                             }
