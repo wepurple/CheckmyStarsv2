@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : ven. 06 fév. 2026 à 14:12
+-- Généré le : ven. 06 fév. 2026 à 15:42
 -- Version du serveur : 11.5.2-MariaDB
 -- Version de PHP : 8.3.14
 
@@ -496,11 +496,15 @@ END$$
 
 DROP PROCEDURE IF EXISTS `Update_Password`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Update_Password` (IN `identifiant` INT, IN `mdp` VARCHAR(255))   BEGIN
+	
+    DECLARE nb_mdp INT;
+    DECLARE last_mdp DATETIME;
+    
     DECLARE EXIT HANDLER FOR SQLEXCEPTION
     BEGIN
         ROLLBACK;
         SIGNAL SQLSTATE '45000'
-            SET MESSAGE_TEXT = 'Erreur lors de la création de l''utilisateur';
+            SET MESSAGE_TEXT = 'Erreur lors de la modification du mpd';
     END;
 
     START TRANSACTION;
@@ -512,7 +516,39 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Update_Password` (IN `identifiant` 
     update utilisateurs
     set first_log = 0
     WHERE utilisateur_id = identifiant;
-
+    
+    SELECT COUNT(utilisateur_id)
+    INTO nb_mdp
+    FROM old_passwords
+    where utilisateur_id = 1;
+	
+    SELECT MIN(date_password)
+    into last_mdp
+    FROM old_passwords
+    WHERE utilisateur_id = identifiant;
+    
+    IF nb_mdp >= 5 THEN
+    	DELETE FROM old_passwords
+        WHERE date_password = last_mdp;
+        
+        INSERT INTO old_passwords (
+        	utilisateur_id,
+            password_hash,
+            date_password
+        )
+        VALUES (identifiant, mdp, NOW());
+        
+    ELSE
+    
+    	INSERT INTO old_passwords (
+        	utilisateur_id,
+            password_hash,
+            date_password
+        )
+        VALUES (identifiant, mdp, NOW());
+    
+    END IF;
+    
     COMMIT;
 END$$
 
@@ -661,7 +697,7 @@ CREATE TABLE IF NOT EXISTS `adressespostales` (
   `AdressePostale_Ville` varchar(256) DEFAULT NULL,
   `AdressePostale_Pays` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`AdressePostale_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=81 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `adressespostales`
@@ -1465,14 +1501,14 @@ CREATE TABLE IF NOT EXISTS `criteres` (
   `Critere_statut` varchar(50) DEFAULT NULL,
   `Critere_points` int(11) DEFAULT NULL,
   PRIMARY KEY (`Critere_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=174 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=183 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `criteres`
 --
 
 INSERT INTO `criteres` (`Critere_ID`, `Critere_description`, `Critere_statut`, `Critere_points`) VALUES
-(1, 'Surface totale minimum (cuisine et coin cuisine compris) du logement meublé hors salle d\'eau et toilettes', 'X', 5),
+(1, 'Surface totale minimum (cuisine et coin cuisine compris) du logement meublé hors salle d\'eau et toilettess', 'X', 5),
 (2, 'Surface totale majorée', 'O', 5),
 (3, 'Prise de courant libre dans chaque pièce d\'habitation', 'X', 1),
 (4, 'Tous les éclairages du logement fonctionnent et sont en bon état', 'X', 3),
@@ -1723,7 +1759,7 @@ CREATE TABLE IF NOT EXISTS `document_counters` (
 --
 
 INSERT INTO `document_counters` (`type`, `year`, `last_number`) VALUES
-('DEVIS', '2026', 316),
+('DEVIS', '2026', 328),
 ('FACTURE', '2026', 6);
 
 -- --------------------------------------------------------
@@ -1857,7 +1893,251 @@ CREATE TABLE IF NOT EXISTS `evaluations` (
   PRIMARY KEY (`Evaluation_ID`),
   KEY `Critere_ID` (`Critere_ID`),
   KEY `Dossier_ID` (`Dossier_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=1045 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1317 DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+--
+-- Déchargement des données de la table `evaluations`
+--
+
+INSERT INTO `evaluations` (`Evaluation_ID`, `Critere_ID`, `Value`, `Commentaire`, `Dossier_ID`, `Date`) VALUES
+(1079, 23, 1, '', 5, '2026-02-06'),
+(1080, 24, 1, '', 5, '2026-02-06'),
+(1081, 25, 1, '', 5, '2026-02-06'),
+(1082, 26, 1, '', 5, '2026-02-06'),
+(1083, 27, 1, '', 5, '2026-02-06'),
+(1084, 28, 1, '', 5, '2026-02-06'),
+(1085, 29, 1, '', 5, '2026-02-06'),
+(1086, 30, 1, '', 5, '2026-02-06'),
+(1087, 31, 1, '', 5, '2026-02-06'),
+(1088, 32, 1, '', 5, '2026-02-06'),
+(1089, 33, 1, '', 5, '2026-02-06'),
+(1090, 34, 1, '', 5, '2026-02-06'),
+(1091, 35, 1, '', 5, '2026-02-06'),
+(1092, 36, 1, '', 5, '2026-02-06'),
+(1093, 37, 1, '', 5, '2026-02-06'),
+(1094, 38, 1, '', 5, '2026-02-06'),
+(1095, 39, 1, '', 5, '2026-02-06'),
+(1096, 40, 1, '', 5, '2026-02-06'),
+(1097, 41, 1, '', 5, '2026-02-06'),
+(1098, 42, 1, '', 5, '2026-02-06'),
+(1099, 46, 1, '', 5, '2026-02-06'),
+(1100, 47, 1, '', 5, '2026-02-06'),
+(1101, 48, 1, '', 5, '2026-02-06'),
+(1102, 49, 1, '', 5, '2026-02-06'),
+(1103, 50, 1, '', 5, '2026-02-06'),
+(1104, 51, 1, '', 5, '2026-02-06'),
+(1105, 52, 1, '', 5, '2026-02-06'),
+(1106, 53, 1, '', 5, '2026-02-06'),
+(1107, 54, 1, '', 5, '2026-02-06'),
+(1108, 55, 1, '', 5, '2026-02-06'),
+(1109, 56, 1, '', 5, '2026-02-06'),
+(1110, 57, 1, '', 5, '2026-02-06'),
+(1111, 58, 1, '', 5, '2026-02-06'),
+(1112, 59, 1, '', 5, '2026-02-06'),
+(1113, 60, 1, '', 5, '2026-02-06'),
+(1114, 61, 1, '', 5, '2026-02-06'),
+(1115, 62, 1, '', 5, '2026-02-06'),
+(1116, 63, 1, '', 5, '2026-02-06'),
+(1117, 64, 1, '', 5, '2026-02-06'),
+(1118, 65, 1, '', 5, '2026-02-06'),
+(1119, 66, 1, '', 5, '2026-02-06'),
+(1120, 67, 1, '', 5, '2026-02-06'),
+(1121, 68, 1, '', 5, '2026-02-06'),
+(1122, 69, 1, '', 5, '2026-02-06'),
+(1123, 70, 1, '', 5, '2026-02-06'),
+(1124, 71, 1, '', 5, '2026-02-06'),
+(1125, 72, 1, '', 5, '2026-02-06'),
+(1126, 73, 1, '', 5, '2026-02-06'),
+(1127, 74, 1, '', 5, '2026-02-06'),
+(1128, 75, 1, '', 5, '2026-02-06'),
+(1129, 76, 1, '', 5, '2026-02-06'),
+(1130, 77, 1, '', 5, '2026-02-06'),
+(1131, 78, 1, '', 5, '2026-02-06'),
+(1132, 79, 1, '', 5, '2026-02-06'),
+(1133, 80, 1, '', 5, '2026-02-06'),
+(1134, 81, 1, '', 5, '2026-02-06'),
+(1135, 82, 1, '', 5, '2026-02-06'),
+(1136, 83, 1, '', 5, '2026-02-06'),
+(1137, 84, 1, '', 5, '2026-02-06'),
+(1138, 85, 1, '', 5, '2026-02-06'),
+(1139, 86, 1, '', 5, '2026-02-06'),
+(1140, 87, 1, '', 5, '2026-02-06'),
+(1141, 88, 1, '', 5, '2026-02-06'),
+(1142, 89, 1, '', 5, '2026-02-06'),
+(1143, 90, 1, '', 5, '2026-02-06'),
+(1144, 91, 1, '', 5, '2026-02-06'),
+(1145, 92, 1, '', 5, '2026-02-06'),
+(1146, 93, 1, '', 5, '2026-02-06'),
+(1147, 94, 1, '', 5, '2026-02-06'),
+(1148, 95, 1, '', 5, '2026-02-06'),
+(1149, 96, 1, '', 5, '2026-02-06'),
+(1150, 97, 1, '', 5, '2026-02-06'),
+(1151, 98, 1, '', 5, '2026-02-06'),
+(1152, 99, 1, '', 5, '2026-02-06'),
+(1153, 100, 1, '', 5, '2026-02-06'),
+(1154, 101, 1, '', 5, '2026-02-06'),
+(1155, 102, 1, '', 5, '2026-02-06'),
+(1156, 103, 1, '', 5, '2026-02-06'),
+(1157, 104, 1, '', 5, '2026-02-06'),
+(1158, 105, 1, '', 5, '2026-02-06'),
+(1159, 106, 1, '', 5, '2026-02-06'),
+(1160, 107, 1, '', 5, '2026-02-06'),
+(1161, 108, 1, '', 5, '2026-02-06'),
+(1162, 109, 1, '', 5, '2026-02-06'),
+(1163, 110, 1, '', 5, '2026-02-06'),
+(1164, 111, 1, '', 5, '2026-02-06'),
+(1165, 112, 1, '', 5, '2026-02-06'),
+(1166, 113, 1, '', 5, '2026-02-06'),
+(1167, 114, 1, '', 5, '2026-02-06'),
+(1168, 115, 1, '', 5, '2026-02-06'),
+(1169, 116, 1, '', 5, '2026-02-06'),
+(1170, 117, 1, '', 5, '2026-02-06'),
+(1171, 118, 1, '', 5, '2026-02-06'),
+(1172, 119, 1, '', 5, '2026-02-06'),
+(1173, 120, 1, '', 5, '2026-02-06'),
+(1174, 121, 1, '', 5, '2026-02-06'),
+(1175, 122, 1, '', 5, '2026-02-06'),
+(1176, 123, 1, '', 5, '2026-02-06'),
+(1177, 124, 1, '', 5, '2026-02-06'),
+(1178, 125, 1, '', 5, '2026-02-06'),
+(1179, 126, 1, '', 5, '2026-02-06'),
+(1180, 127, 1, '', 5, '2026-02-06'),
+(1181, 128, 1, '', 5, '2026-02-06'),
+(1182, 129, 1, '', 5, '2026-02-06'),
+(1183, 130, 1, '', 5, '2026-02-06'),
+(1184, 131, 1, '', 5, '2026-02-06'),
+(1185, 132, 1, '', 5, '2026-02-06'),
+(1186, 133, 1, '', 5, '2026-02-06'),
+(1187, 1, 1, 'ca marche en vla', 5, '2026-02-06'),
+(1188, 2, 1, '', 5, '2026-02-06'),
+(1189, 3, 1, '', 5, '2026-02-06'),
+(1190, 4, 1, '', 5, '2026-02-06'),
+(1191, 5, 1, '', 5, '2026-02-06'),
+(1192, 6, 1, '', 5, '2026-02-06'),
+(1193, 7, 1, '', 5, '2026-02-06'),
+(1194, 8, 1, '', 5, '2026-02-06'),
+(1195, 9, 1, '', 5, '2026-02-06'),
+(1196, 10, 1, '', 5, '2026-02-06'),
+(1197, 11, 1, '', 5, '2026-02-06'),
+(1198, 12, 1, '', 5, '2026-02-06'),
+(1199, 13, 1, '', 5, '2026-02-06'),
+(1200, 14, 1, '', 5, '2026-02-06'),
+(1201, 15, 1, '', 5, '2026-02-06'),
+(1202, 16, 1, '', 5, '2026-02-06'),
+(1203, 17, 1, '', 5, '2026-02-06'),
+(1204, 18, 1, '', 5, '2026-02-06'),
+(1205, 19, 1, '', 5, '2026-02-06'),
+(1206, 20, 1, '', 5, '2026-02-06'),
+(1207, 21, 1, '', 5, '2026-02-06'),
+(1208, 22, 1, '', 5, '2026-02-06'),
+(1209, 23, 1, '', 5, '2026-02-06'),
+(1210, 24, 1, '', 5, '2026-02-06'),
+(1211, 25, 1, '', 5, '2026-02-06'),
+(1212, 26, 1, '', 5, '2026-02-06'),
+(1213, 27, 1, '', 5, '2026-02-06'),
+(1214, 28, 1, '', 5, '2026-02-06'),
+(1215, 29, 1, '', 5, '2026-02-06'),
+(1216, 30, 1, '', 5, '2026-02-06'),
+(1217, 31, 1, '', 5, '2026-02-06'),
+(1218, 32, 1, '', 5, '2026-02-06'),
+(1219, 33, 1, '', 5, '2026-02-06'),
+(1220, 34, 1, '', 5, '2026-02-06'),
+(1221, 35, 1, '', 5, '2026-02-06'),
+(1222, 36, 1, '', 5, '2026-02-06'),
+(1223, 37, 1, '', 5, '2026-02-06'),
+(1224, 38, 1, '', 5, '2026-02-06'),
+(1225, 39, 1, '', 5, '2026-02-06'),
+(1226, 40, 1, '', 5, '2026-02-06'),
+(1227, 41, 1, '', 5, '2026-02-06'),
+(1228, 42, 1, '', 5, '2026-02-06'),
+(1229, 46, 1, '', 5, '2026-02-06'),
+(1230, 47, 1, '', 5, '2026-02-06'),
+(1231, 48, 1, '', 5, '2026-02-06'),
+(1232, 49, 1, '', 5, '2026-02-06'),
+(1233, 50, 1, '', 5, '2026-02-06'),
+(1234, 51, 1, '', 5, '2026-02-06'),
+(1235, 52, 1, '', 5, '2026-02-06'),
+(1236, 53, 1, '', 5, '2026-02-06'),
+(1237, 54, 1, '', 5, '2026-02-06'),
+(1238, 55, 1, '', 5, '2026-02-06'),
+(1239, 56, 1, '', 5, '2026-02-06'),
+(1240, 57, 1, '', 5, '2026-02-06'),
+(1241, 58, 1, '', 5, '2026-02-06'),
+(1242, 59, 1, '', 5, '2026-02-06'),
+(1243, 60, 1, '', 5, '2026-02-06'),
+(1244, 61, 1, '', 5, '2026-02-06'),
+(1245, 62, 1, '', 5, '2026-02-06'),
+(1246, 63, 1, '', 5, '2026-02-06'),
+(1247, 64, 1, '', 5, '2026-02-06'),
+(1248, 65, 1, '', 5, '2026-02-06'),
+(1249, 66, 1, '', 5, '2026-02-06'),
+(1250, 67, 1, '', 5, '2026-02-06'),
+(1251, 68, 1, '', 5, '2026-02-06'),
+(1252, 69, 1, '', 5, '2026-02-06'),
+(1253, 70, 1, '', 5, '2026-02-06'),
+(1254, 71, 1, '', 5, '2026-02-06'),
+(1255, 72, 1, '', 5, '2026-02-06'),
+(1256, 73, 1, '', 5, '2026-02-06'),
+(1257, 74, 1, '', 5, '2026-02-06'),
+(1258, 75, 1, '', 5, '2026-02-06'),
+(1259, 76, 1, '', 5, '2026-02-06'),
+(1260, 77, 1, '', 5, '2026-02-06'),
+(1261, 78, 1, '', 5, '2026-02-06'),
+(1262, 79, 1, '', 5, '2026-02-06'),
+(1263, 80, 1, '', 5, '2026-02-06'),
+(1264, 81, 1, '', 5, '2026-02-06'),
+(1265, 82, 1, '', 5, '2026-02-06'),
+(1266, 83, 1, '', 5, '2026-02-06'),
+(1267, 84, 1, '', 5, '2026-02-06'),
+(1268, 85, 1, '', 5, '2026-02-06'),
+(1269, 86, 1, '', 5, '2026-02-06'),
+(1270, 87, 1, '', 5, '2026-02-06'),
+(1271, 88, 1, '', 5, '2026-02-06'),
+(1272, 89, 1, '', 5, '2026-02-06'),
+(1273, 90, 1, '', 5, '2026-02-06'),
+(1274, 91, 1, '', 5, '2026-02-06'),
+(1275, 92, 1, '', 5, '2026-02-06'),
+(1276, 93, 1, '', 5, '2026-02-06'),
+(1277, 94, 1, '', 5, '2026-02-06'),
+(1278, 95, 1, '', 5, '2026-02-06'),
+(1279, 96, 1, '', 5, '2026-02-06'),
+(1280, 97, 1, '', 5, '2026-02-06'),
+(1281, 98, 1, '', 5, '2026-02-06'),
+(1282, 99, 1, '', 5, '2026-02-06'),
+(1283, 100, 1, '', 5, '2026-02-06'),
+(1284, 101, 1, '', 5, '2026-02-06'),
+(1285, 102, 1, '', 5, '2026-02-06'),
+(1286, 103, 1, '', 5, '2026-02-06'),
+(1287, 104, 1, '', 5, '2026-02-06'),
+(1288, 105, 1, '', 5, '2026-02-06'),
+(1289, 106, 1, '', 5, '2026-02-06'),
+(1290, 107, 1, '', 5, '2026-02-06'),
+(1291, 108, 1, '', 5, '2026-02-06'),
+(1292, 109, 1, '', 5, '2026-02-06'),
+(1293, 110, 1, '', 5, '2026-02-06'),
+(1294, 111, 1, '', 5, '2026-02-06'),
+(1295, 112, 1, '', 5, '2026-02-06'),
+(1296, 113, 1, '', 5, '2026-02-06'),
+(1297, 114, 1, '', 5, '2026-02-06'),
+(1298, 115, 1, '', 5, '2026-02-06'),
+(1299, 116, 1, '', 5, '2026-02-06'),
+(1300, 117, 1, '', 5, '2026-02-06'),
+(1301, 118, 1, '', 5, '2026-02-06'),
+(1302, 119, 1, '', 5, '2026-02-06'),
+(1303, 120, 1, '', 5, '2026-02-06'),
+(1304, 121, 1, '', 5, '2026-02-06'),
+(1305, 122, 1, '', 5, '2026-02-06'),
+(1306, 123, 1, '', 5, '2026-02-06'),
+(1307, 124, 1, '', 5, '2026-02-06'),
+(1308, 125, 1, '', 5, '2026-02-06'),
+(1309, 126, 1, '', 5, '2026-02-06'),
+(1310, 127, 1, '', 5, '2026-02-06'),
+(1311, 128, 1, '', 5, '2026-02-06'),
+(1312, 129, 1, '', 5, '2026-02-06'),
+(1313, 130, 1, '', 5, '2026-02-06'),
+(1314, 131, 1, '', 5, '2026-02-06'),
+(1315, 132, 1, '', 5, '2026-02-06'),
+(1316, 133, 1, '', 5, '2026-02-06');
 
 -- --------------------------------------------------------
 
@@ -2003,7 +2283,7 @@ CREATE TABLE IF NOT EXISTS `listescriteres_etoiles` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `unique_liste_etoile` (`ListesCriteres_ID`,`etoile`),
   KEY `type_hebergement_id` (`type_hebergement_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=17 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `listescriteres_etoiles`
@@ -2046,8 +2326,6 @@ CREATE TABLE IF NOT EXISTS `old_passwords` (
 --
 
 INSERT INTO `old_passwords` (`utilisateur_id`, `password_hash`, `date_password`) VALUES
-(1, '$2y$10$GpaE9s093seFbknKgKLUi.SGvtdM3klLlGljuVyWOX8Maog/jPft6', '2026-02-06 14:23:35'),
-(1, '$2y$10$GpaE9s093seFbknKgKLUi.SGvtdM3klLlGljuVyWOX8Maog/jPft6', '2026-02-06 14:23:36'),
 (1, '$2y$10$GpaE9s093seFbknKgKLUi.SGvtdM3klLlGljuVyWOX8Maog/jPft6', '2026-02-06 14:23:37'),
 (1, '$2y$10$GpaE9s093seFbknKgKLUi.SGvtdM3klLlGljuVyWOX8Maog/jPft6', '2026-02-06 14:23:39'),
 (1, '$2y$10$GpaE9s093seFbknKgKLUi.SGvtdM3klLlGljuVyWOX8Maog/jPft6', '2026-02-06 14:23:40'),
@@ -2060,7 +2338,9 @@ INSERT INTO `old_passwords` (`utilisateur_id`, `password_hash`, `date_password`)
 (5, '\"$2y$10$fDXKq5jEs7C5FiB5Nd/4FOItFogXRu.lR2fVDl94XcJvSSs6qrCdu\"', '2026-02-06 14:24:12'),
 (5, '\"$2y$10$fDXKq5jEs7C5FiB5Nd/4FOItFogXRu.lR2fVDl94XcJvSSs6qrCdu\"', '2026-02-06 14:24:16'),
 (5, '\"$2y$10$fDXKq5jEs7C5FiB5Nd/4FOItFogXRu.lR2fVDl94XcJvSSs6qrCdu\"', '2026-02-06 14:24:19'),
-(5, '\"$2y$10$fDXKq5jEs7C5FiB5Nd/4FOItFogXRu.lR2fVDl94XcJvSSs6qrCdu\"', '2026-02-06 14:24:22');
+(5, '\"$2y$10$fDXKq5jEs7C5FiB5Nd/4FOItFogXRu.lR2fVDl94XcJvSSs6qrCdu\"', '2026-02-06 14:24:22'),
+(1, '$2y$10$.7BSnrykdGe1OVTLpeVfe.ydwPrvv5xfdiyo1zUqqsZ2ozscdMMiK', '2026-02-06 16:34:47'),
+(1, '$2y$10$iTj.NkihSKsl8g8Lp5YVQOpTMG/Re.LBHlrD/sndArR4n/otleT8a', '2026-02-06 16:35:45');
 
 -- --------------------------------------------------------
 
@@ -2075,7 +2355,7 @@ CREATE TABLE IF NOT EXISTS `photos` (
   `Bien_ID` int(11) NOT NULL,
   PRIMARY KEY (`Photo_ID`),
   KEY `Bien_ID` (`Bien_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=105 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=106 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `photos`
@@ -2083,7 +2363,8 @@ CREATE TABLE IF NOT EXISTS `photos` (
 
 INSERT INTO `photos` (`Photo_ID`, `Photo_Lien`, `Bien_ID`) VALUES
 (2, './img/hotel_lumiere_2.jpg', 1),
-(100, './img/hotel_lumiere_3.jpg', 1);
+(100, './img/hotel_lumiere_3.jpg', 1),
+(105, 'C:\\wamp64\\www\\CheckMyStars/assets/img/1770391905_chambre_1.jpg', 135);
 
 -- --------------------------------------------------------
 
@@ -2190,14 +2471,14 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   UNIQUE KEY `unique_email` (`Utilisateur_Mail`),
   KEY `AdressePostale_ID` (`AdressePostale_ID`),
   KEY `fk_utilisateurs_societe` (`Societe_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `utilisateurs`
 --
 
 INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Prenom`, `Utilisateur_Civilite`, `Utilisateur_Password`, `Utilisateur_Mail`, `Utilisateur_Telephone`, `Utilisateur_Signature`, `AdressePostale_ID`, `Societe_ID`, `first_log`, `theme`) VALUES
-(1, 'Dupont', 'Marie', 'Madame', '$2y$10$M7qAamfXL0x420jCMWqTmuCIwMZXk7eijlCuhIqBCBUEAAj/7kvNK', 'marie.dupont@checkmystars.fr', '0669696969', 'Marie Dupont – Administratrice', 16, 5, 0, 'dark'),
+(1, 'Dupont', 'Marie', 'Madame', '$2y$10$iTj.NkihSKsl8g8Lp5YVQOpTMG/Re.LBHlrD/sndArR4n/otleT8a', 'marie.dupont@checkmystars.fr', '0669696969', 'Marie Dupont – Administratrice', 16, 5, 0, 'dark'),
 (3, 'Martin', 'Luc', 'Monsieur', '$2y$10$zCMi/F3mcnfmOS80JOgGnONsms3wQamqOQIvzRw33e7RD5ElakiUW', 'luc.martin@inspection.fr', '0600000103', 'Luc Martin – Inspecteur', 17, 3, 0, 'light'),
 (4, 'Bernard', 'Julie', 'Madame', '$2y$10$demoHashInsp2', 'julie.bernard@inspection.fr', '0600000104', 'Julie Bernard – Inspectrice', 18, 3, 0, 'light'),
 (5, 'Bourdon', 'Angel', 'Monsieur', '$2y$10$demoHashProp1', 'angel.bourdon@gmail.com', '0670000005', NULL, 11, 5, 0, 'light'),
