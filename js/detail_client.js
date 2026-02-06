@@ -369,18 +369,6 @@ function checkRegex(id, value, regex, msg)
   return ok;
 }
 
-function checkRequired(id, value, msg) 
-{
-  const ok = value !== "";
-  markField(id, ok);
-  if (!ok) {
-    showToast(msg, "warning");
-    const el = document.getElementById(id);
-    if (el) el.focus();
-  }
-  return ok;
-}
-
 function checkRegex(id, value, regex, msg) {
   const ok = regex.test(value);
   markField(id, ok);
@@ -408,11 +396,6 @@ function addressBlockTouched(v)
   return [v.num_rue, v.nom_rue, v.complement, v.code_postal, v.ville, v.pays].some(x => (x || "").trim() !== "");
 }
 
-function starSelectedCheck()
-{
-
-}
-
 document.addEventListener("DOMContentLoaded", () => {
     setupAdresseAutocomplete({
         adresseCompleteId: "laAdresseComplete",
@@ -426,18 +409,43 @@ document.addEventListener("DOMContentLoaded", () => {
     var currentStar = document.getElementById("etoileActuel");
     var targetStar = document.getElementById("etoileCible");
 
-    currentStar.addEventListener("change", function() 
+    if (currentStar && targetStar) 
     {
-      if(currentStar.value == "0")
+      currentStar.addEventListener("focus", () => 
       {
-        console.log("ok");
-      }
-    });
+        currentStar.dataset.prev = currentStar.value || "";
+      });
+      targetStar.addEventListener("focus", () => 
+      {
+        targetStar.dataset.prev = targetStar.value || "";
+      });
 
-    targetStar.addEventListener("change", function() 
-    {
+      currentStar.addEventListener("change", function() 
+      {
+        if (currentStar.value === targetStar.value) 
+        {
+          showToast("L'étoile actuelle ne peut pas être la même que l'étoile cible.", "warning");
+          markField("etoileActuel", false);
+          currentStar.value = currentStar.dataset.prev || "";
+          return;
+        }
+        markField("etoileActuel", true);
+        currentStar.dataset.prev = currentStar.value;
+      });
 
-    });
+      targetStar.addEventListener("change", function() 
+      {
+        if (targetStar.value === currentStar.value) 
+        {
+          showToast("L'étoile cible ne peut pas être la même que l'étoile actuelle.", "warning");
+          markField("etoileCible", false);
+          targetStar.value = targetStar.dataset.prev || "";
+          return;
+        }
+        markField("etoileCible", true);
+        targetStar.dataset.prev = targetStar.value;
+      });
+    }
 
     preFillClientInfo();
 });
