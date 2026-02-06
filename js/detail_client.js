@@ -1,4 +1,3 @@
-console.log("ok");
 const currentUrl = window.location.search;
 var query = new URLSearchParams(currentUrl);
 var clientId = query.get('id');
@@ -411,7 +410,7 @@ function openOderingParty()
     if (modalEl) {
         const addModalInstance2 = bootstrap.Modal.getInstance(modalEl);
         if (addModalInstance2) {
-            addModalInstance2.hide();
+            addModalInstance2.show();
         }
     }
 
