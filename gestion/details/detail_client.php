@@ -214,6 +214,7 @@
                                     <div class="col-md-12 form-floating mb-3">
                                         <select class="form-select" id="donneurOrdre" aria-label="Floating label select example">
                                             <option value="0">Pas de donneur d'orde</option>
+                                            <option value="1">Crée un donneur d'ordre</option>
                                             <?php
                                                 try {
                                                     $sql = "SELECT U.Utilisateur_ID, U.Utilisateur_Nom, U.Utilisateur_Prenom
