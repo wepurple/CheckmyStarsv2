@@ -1455,19 +1455,27 @@ async function loadClientDossiers() {
   }
 
   try {
+    console.log("Chargement des dossiers pour client ID:", utilisateurId);
     const response = await fetch(
       `../models/api/get_dossiers_by_client.php?client_id=${encodeURIComponent(utilisateurId)}`,
     );
 
-    if (!response.ok) throw new Error("Erreur chargement dossiers");
+    console.log("Réponse API status:", response.status);
+    if (!response.ok) {
+      throw new Error(`Erreur HTTP ${response.status}: ${response.statusText}`);
+    }
 
-    const dossiers = await response.json();
+    const text = await response.text();
+    console.log("Réponse brute:", text);
+
+    const dossiers = JSON.parse(text);
+    console.log("Dossiers reçus:", dossiers);
 
     // Réinitialiser la dropdown
     dossierSelect.innerHTML =
       '<option value="" selected disabled>Choisir un dossier</option>';
 
-    if (dossiers.length > 0) {
+    if (Array.isArray(dossiers) && dossiers.length > 0) {
       dossiers.forEach((dossier) => {
         const option = document.createElement("option");
         option.value = dossier.Dossier_ID;
@@ -1482,6 +1490,7 @@ async function loadClientDossiers() {
     }
   } catch (error) {
     console.error("Erreur loadClientDossiers:", error);
+    alert("Erreur: " + error.message);
     dossierSelect.innerHTML =
       "<option selected disabled>Erreur de chargement</option>";
     dossierSelect.disabled = true;

@@ -31,7 +31,7 @@ try {
     // Requête pour récupérer les dossiers du client
     $sql = "SELECT Dossier_ID, Dossier_Numero 
             FROM dossiers 
-            WHERE Utilisateur_ID = :client_id 
+            WHERE Proprietaire_ID = :client_id 
             ORDER BY Dossier_Numero DESC";
     
     $stmt = $db->prepare($sql);
