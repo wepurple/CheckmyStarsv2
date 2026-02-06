@@ -39,15 +39,12 @@ document.addEventListener("DOMContentLoaded", function() {
                             </div>
                         </div>`;
                 } else {
-                    let cleanPath = item.Photo_Lien.replace('./', '').replace('img/', '');
-                    let finalSrc = `./assets/img/${cleanPath}`;
-
                     finalHtml += `
                         <div class="col-12 text-center">
                             <div class="card bg-dark border-secondary shadow-sm mx-auto custom-carousel-card">
-                                <img src="${finalSrc}" class="card-img-top img-large" 
+                                <img src="./assets/img/${item.Photo_Lien}" class="card-img-top img-large" 
                                      style="cursor:zoom-in; object-fit: cover; height: 300px;"
-                                     onclick="handleOpenLightbox('${finalSrc}', '${item.Photo_ID}')"
+                                     onclick="handleOpenLightbox('${item.Photo_Lien}', '${item.Photo_ID}')"
                                      alt="Photo">
                             </div>
                         </div>`;
