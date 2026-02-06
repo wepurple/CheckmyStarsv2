@@ -337,11 +337,11 @@
                                         <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
                                     </div>
 
-                                    <input type="hidden" id="leNumRue">
-                                    <input type="hidden" id="laAdresse">
-                                    <input type="hidden" id="leCode">
-                                    <input type="hidden" id="laVille">
-                                    <input type="hidden" id="lePays">
+                                    <input type="hidden" id="leNumRueDonneur">
+                                    <input type="hidden" id="laAdresseDonneur">
+                                    <input type="hidden" id="leCodeDonneur">
+                                    <input type="hidden" id="laVilleDonneur">
+                                    <input type="hidden" id="lePaysDonneur">
 
                                     <div class="col-md-12 form-floating mb-3">
                                         <input type="text" class="form-control" id="leComplementDonneur" placeholder="">
