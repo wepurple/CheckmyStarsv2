@@ -35,7 +35,7 @@
     </head>
     <body class="bg-secondary">
     <?php require("../includes/navbar.php"); ?>
-        
+    
         <div class="container-fluid p-3">
             <div>
                 <div class="d-flex align-items-center gap-3 p-3">
@@ -48,7 +48,7 @@
                             Dossier en cours : <span class="text-dark fw-bold"><?php echo $dossier_numero; ?></span>
                         </span>
                     </div>
-
+                    
                     <div class="bg-white rounded-pill shadow-sm d-flex align-items-center ps-4 pe-2 py-1 border">
                         <span class="me-3 fw-medium text-dark">Sélectionner le nombre d'étoile :</span>
                         
