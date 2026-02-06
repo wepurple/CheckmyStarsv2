@@ -279,7 +279,7 @@
                         </div>
 
                         <div class="modal-body">
-                            <form id="addForm">
+                            <form id="addFormDonneur">
                                 <div class="row g-2">
                                     <div class="col-md-6 form-floating mb-3">
                                         <input type="text" class="form-control" id="leNomDonneur" placeholder="">
