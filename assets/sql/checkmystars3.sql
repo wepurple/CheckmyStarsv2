@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3307
--- Généré le : mer. 04 fév. 2026 à 12:11
+-- Généré le : ven. 06 fév. 2026 à 11:58
 -- Version du serveur : 11.5.2-MariaDB
 -- Version de PHP : 8.3.14
 
@@ -27,8 +27,18 @@ DELIMITER $$
 --
 DROP PROCEDURE IF EXISTS `Create_company`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Create_company` (IN `NumRue` VARCHAR(50), IN `NomRue` VARCHAR(100), IN `Comp` VARCHAR(20), IN `CP` VARCHAR(10), IN `Ville` VARCHAR(100), IN `Pays` VARCHAR(100), IN `Societe_Nom` VARCHAR(150), IN `Societe_Mail` VARCHAR(150), IN `Societe_Telephone` VARCHAR(10))   BEGIN
-    DECLARE v_adresse_id INT;
+	DECLARE v_adresse_id INT;
     DECLARE v_societes_id INT;
+    
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+    	ROLLBACK;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erreur lors de la création de l\'utilisateur';
+	END;
+
+	START TRANSACTION;
+    
+    
     
         INSERT INTO adressespostales (
         AdressePostale_NumeroRue,
@@ -56,13 +66,121 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Create_company` (IN `NumRue` VARCHA
     
     SET v_societes_id = LAST_INSERT_ID();
     
+	COMMIT;
+
+END$$
+
+DROP PROCEDURE IF EXISTS `Create_Dossier`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Create_Dossier` (IN `NumRue` VARCHAR(50), IN `NomRue` VARCHAR(100), IN `Comp` VARCHAR(50), IN `CP` VARCHAR(10), IN `Ville` VARCHAR(50), IN `Pays` VARCHAR(50), IN `BiensNom` VARCHAR(50), IN `BiensTel` VARCHAR(12), IN `BiensEtoiles` INT, IN `BiensDonneurID` INT, IN `BiensType` INT, IN `BiensUser` INT, IN `EtoileDossier` INT, IN `InspecteurID` INT)   BEGIN
+	-- tt les var que jaurais besoin pour faire des test/ avoir la clé primaire pour une autre table
+	DECLARE v_adresse_id INT;
+    DECLARE v_biens_id INT;
+    DECLARE v_dos_num VARCHAR(20);
+    DECLARE v_last_id INT;
+    DECLARE v_last_year INT;
+    DECLARE v_current_year INT;
+    DECLARE v_step VARCHAR(50);
+
+    
+	-- debut de la trans en le vla
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+    	ROLLBACK;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = v_step;
+	END;
+
+	START TRANSACTION;
+    
+    -- creation addr pos
+    SET v_step = 'erreur a la partie INSERT adressespostales';
+    INSERT INTO adressespostales (
+            AdressePostale_NumeroRue,
+            AdressePostale_NomRue,
+            AdressePostale_Complement,
+            AdressePostale_CodePostal,
+            AdressePostale_Ville,
+            AdressePostale_Pays
+    )
+    VALUES (
+        NumRue, NomRue, Comp, CP, Ville, Pays
+    );
+    
+    -- ici je recupere l'id de l'adresse que je viens de creer
+    SET v_adresse_id = LAST_INSERT_ID();
+    
+    -- creation du bien
+    SET v_step = 'erreur a la partie INSERT biens';
+    INSERT INTO biens(
+    		Biens_Nom,
+        	Bien_Telephone,
+        	Bien_DateEnregistrement,
+        	Bien_Etoile_Actuelle,
+        	Donneur_ID,
+        	AdressePostale_ID,
+        	TypeHebergement_ID,
+        	Utilisateur_ID
+    )
+    VALUES (
+        BiensNom, BiensTel, CURDATE(), BiensEtoiles, BiensDonneurID, v_adresse_id, BiensType, BiensUser
+    );
+    
+    -- ici je recupere l'id du bien que je viens de creer
+    SET v_biens_id = LAST_INSERT_ID();
+    
+    -- je chope la date
+    SET v_current_year = YEAR(CURDATE());
+    
+    -- en gros ici je fais le num du dossier, repart de 1 si nouvelle année
+    SELECT CAST(SUBSTRING_INDEX(MAX(Dossier_Numero), '-', -1) AS UNSIGNED), YEAR(MAX(Dossier_Date))
+    INTO v_last_id, v_last_year
+    FROM dossiers;
+    	
+    IF v_last_year IS NULL OR v_last_year <> v_current_year THEN
+    	SET v_dos_num = CONCAT('DOS-', v_current_year, '-001');
+    ELSE
+    	SET v_dos_num = CONCAT(
+            	'DOS-',
+                v_current_year,
+                '-',
+                LPAD(v_last_id + 1, 3, '0')
+        );
+    END IF;
+    
+    -- creation du dossier
+	SET v_step = 'erreur a la partie INSERT dossiers';
+    INSERT INTO dossiers(
+    	Dossier_Numero,
+        Dossier_Date,
+        Dossier_Etoile_Cible,
+        Inspecteur_Id,
+        status,
+        Bien_ID,
+        Proprietaire_ID
+    )
+    VALUES (
+    	v_dos_num, NOW(), EtoileDossier, InspecteurID, 0, v_biens_id, BiensUser
+    );
+    
+    
+    COMMIT;
+    
 END$$
 
 DROP PROCEDURE IF EXISTS `Create_User`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Create_User` (IN `NumRue` VARCHAR(50), IN `NomRue` VARCHAR(100), IN `Comp` VARCHAR(20), IN `CP` VARCHAR(10), IN `Ville` VARCHAR(50), IN `Pays` VARCHAR(50), IN `Nom` VARCHAR(50), IN `Prenom` VARCHAR(50), IN `Civilite` ENUM('Monsieur','Madame','Iel'), IN `MDP` VARCHAR(255), IN `Mail` VARCHAR(100), IN `Telephone` VARCHAR(50), IN `Signature` VARCHAR(100), IN `Societe` INT(100), IN `Role` INT)   BEGIN
     DECLARE v_adresse_id INT;
     DECLARE v_utilisateur_id INT;
+	
+    -- debut de la trans en le vla
+    
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+    	ROLLBACK;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erreur lors de la création de l\'utilisateur';
+	END;
 
+	START TRANSACTION;
+    
     INSERT INTO adressespostales (
         AdressePostale_NumeroRue,
         AdressePostale_NomRue,
@@ -105,6 +223,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Create_User` (IN `NumRue` VARCHAR(5
         INSERT INTO proprietaires (Utilisateur_ID) VALUES (v_utilisateur_id);
     END IF;
 
+	COMMIT;
 
 END$$
 
@@ -198,6 +317,19 @@ JOIN adressespostales a
 	ON a.AdressePostale_ID = u.AdressePostale_ID
 WHERE u.Utilisateur_ID = ID$$
 
+DROP PROCEDURE IF EXISTS `Get_All_Inspectors`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_All_Inspectors` ()   BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+    	ROLLBACK;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erreur lors de la récuperation des inspecteurs';
+	END;
+    
+    SELECT * FROM inspecteurs;
+    
+    COMMIT;
+END$$
+
 DROP PROCEDURE IF EXISTS `Get_Companies`$$
 CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_Companies` ()   SELECT * FROM societes$$
 
@@ -270,6 +402,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_User` ()   SELECT
     u.Utilisateur_Mail,
     u.Utilisateur_Signature,
     u.Utilisateur_Telephone,
+	u.theme,
     s.Societe_ID,
     s.Societe_Nom,
     a.AdressePostale_NumeroRue,
@@ -312,6 +445,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `Get_User_ID` (IN `ID` INT)   SELECT
     u.Utilisateur_Mail,
     u.Utilisateur_Signature,
     u.Utilisateur_Telephone,
+    u.theme,
     s.Societe_ID, 
     s.Societe_Nom,
     a.AdressePostale_NumeroRue,
@@ -351,8 +485,48 @@ LEFT JOIN donneurordre don
     ON don.Donneur_ID = u.Utilisateur_ID
 WHERE u.Utilisateur_ID = ID$$
 
+DROP PROCEDURE IF EXISTS `Set_Evaluation`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Set_Evaluation` (IN `Critere_evaluation` INT(255), IN `Valeur_evaluation` BOOLEAN, IN `Commentaire_evaluation` VARCHAR(255), IN `Dossier_evaluation` INT(255))   BEGIN
+	
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+    	ROLLBACK;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Erreur lors de la création de l\'évalutation';
+	END;
+    
+    START TRANSACTION;
+    
+	INSERT INTO evaluations 
+	VALUES (DEFAULT, Critere_evaluation, Valeur_evaluation, Commentaire_evaluation, Dossier_evaluation);
+    
+    COMMIT;
+    
+END$$
+
 DROP PROCEDURE IF EXISTS `Update_Password`$$
-CREATE DEFINER=`root`@`localhost` PROCEDURE `Update_Password` (IN `identifiant` INT, IN `mdp` VARCHAR(255))   update utilisateurs set utilisateur_password = mdp where utilisateur_id = identifiant$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Update_Password` (IN `identifiant` INT, IN `mdp` VARCHAR(255))   BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION
+    BEGIN
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Erreur lors de la création de l''utilisateur';
+    END;
+
+    START TRANSACTION;
+
+    UPDATE utilisateurs
+    SET utilisateur_password = mdp
+    WHERE utilisateur_id = identifiant;
+    
+    update utilisateurs
+    set first_log = 0
+    WHERE utilisateur_id = identifiant;
+
+    COMMIT;
+END$$
+
+DROP PROCEDURE IF EXISTS `Update_Theme`$$
+CREATE DEFINER=`root`@`localhost` PROCEDURE `Update_Theme` (IN `ID` INT, IN `Theme` ENUM('light','dark'))   update utilisateurs set theme = Theme where utilisateur_id = ID$$
 
 --
 -- Fonctions
@@ -462,7 +636,9 @@ CREATE TABLE IF NOT EXISTS `administrateurs` (
 --
 
 INSERT INTO `administrateurs` (`Utilisateur_ID`) VALUES
-(1);
+(1),
+(23),
+(24);
 
 -- --------------------------------------------------------
 
@@ -494,7 +670,7 @@ CREATE TABLE IF NOT EXISTS `adressespostales` (
   `AdressePostale_Ville` varchar(256) DEFAULT NULL,
   `AdressePostale_Pays` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`AdressePostale_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=73 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `adressespostales`
@@ -512,7 +688,7 @@ INSERT INTO `adressespostales` (`AdressePostale_ID`, `AdressePostale_NumeroRue`,
 (13, '88', NULL, '37000', 'Rue Nationale', 'Tours', 'France'),
 (14, '21', 'appt 12', '54000', 'Rue Saint-Dizier', 'Nancy', 'France'),
 (15, '6', NULL, '44000', 'Rue de Strasbourg', 'Nantes', 'France'),
-(16, '1', '', '75018', 'Boulevard Haussman', 'Paris', 'France'),
+(16, '8', '', '28190', 'Rue Jean Bouvart', 'Saint-Luperce', 'France'),
 (17, '2', NULL, '69003', 'Rue de la Part-Dieu', 'Lyon', 'France'),
 (18, '77', 'Bât C', '35000', 'Rue de Saint-Malo', 'Rennes', 'France'),
 (19, '11', NULL, '67000', 'Rue des Grandes Arcades', 'Strasbourg', 'France'),
@@ -527,7 +703,20 @@ INSERT INTO `adressespostales` (`AdressePostale_ID`, `AdressePostale_NumeroRue`,
 (28, '15', NULL, '13200', 'Rue de la République', 'Arles', 'France'),
 (29, '22', NULL, '74200', 'Avenue du Léman', 'Thonon-les-Bains', 'France'),
 (30, '5', NULL, '20137', 'Route des Sanguinaires', 'Ajaccio', 'France'),
-(37, '14', '', '41600', 'Rue des Bruyères', 'Chaon', 'France');
+(37, '14', '', '41600', 'Rue des Bruyères', 'Chaon', 'France'),
+(40, '14', '', '41600', 'Rue des Bruyères', 'Chaon', 'France'),
+(41, '67', '', '46100', 'rue des bruyere', 'Chaon', 'France'),
+(49, '12', '', '45100', 'Rue de Louis', 'Orléans', 'France'),
+(53, '12', 'bis', '45100', 'Rue de Louis', 'Orléans', 'France'),
+(56, '12', 'bis', '45100', 'Rue de Louis', 'Orléans', 'France'),
+(62, '67', 'bis', '41600', 'test temp', 'chaon', 'France'),
+(66, '14', '', '41600', 'Rue des Bruyères', 'Chaon', 'France'),
+(67, '14', '', '41600', 'Rue des Bruyères', 'Chaon', 'France'),
+(68, '14', '', '41600', 'Rue des Bruyères', 'Chaon', 'France'),
+(69, '14', '', '41600', 'Rue des Bruyères', 'Chaon', 'France'),
+(70, '4', 'n 358', '45100', 'Rue des Pivoines', 'Orléans', 'France'),
+(71, '14', 'bis', '67130', 'Rue', 'Wisches', 'France'),
+(72, '14', '', '67130', 'Rue', 'Wisches', 'France');
 
 -- --------------------------------------------------------
 
@@ -551,7 +740,7 @@ CREATE TABLE IF NOT EXISTS `biens` (
   KEY `AdressePostale_ID` (`AdressePostale_ID`),
   KEY `TypeHebergement_ID` (`TypeHebergement_ID`),
   KEY `Utilisateur_ID_1` (`Utilisateur_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=110 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `biens`
@@ -567,7 +756,14 @@ INSERT INTO `biens` (`Bien_ID`, `Biens_Nom`, `Bien_Telephone`, `Bien_DateEnregis
 (106, 'H?tel des Arts', '0141112233', '2025-03-05', 0, 15, 26, 1, 11),
 (107, 'G?te Loire & Nature', '0238008899', '2025-03-11', 4, 16, 28, 2, 12),
 (108, 'Camping du L?man', '0450001122', '2025-03-19', 1, 15, 29, 3, 6),
-(109, 'H?tel Sanguinaires', '0495006677', '2025-04-02', 3, 13, 30, 1, 8);
+(109, 'H?tel Sanguinaires', '0495006677', '2025-04-02', 3, 13, 30, 1, 8),
+(112, 'Gite de magnifique trence', '0273568145', '2026-02-04', 2, 13, 49, 2, 21),
+(115, 'Gite de magnifique terence', '0273568145', '2026-02-04', 2, 13, 53, 2, 21),
+(118, 'Gite de magnifique terence', '0273568145', '2026-02-04', 2, 13, 56, 2, 21),
+(127, 'Le gite de angel', '0769155622', '2026-02-05', 2, 13, 66, 1, 21),
+(128, 'Le gite de angel', '0769155622', '2026-02-05', 4, 13, 67, 1, 21),
+(129, 'Le gite de angel', '0769155622', '2026-02-05', 2, 13, 68, 1, 21),
+(130, 'Le gite de angel', '0769155622', '2026-02-05', 4, NULL, 69, 1, 21);
 
 -- --------------------------------------------------------
 
@@ -620,411 +816,647 @@ CREATE TABLE IF NOT EXISTS `contient` (
 --
 
 INSERT INTO `contient` (`Critere_ID`, `Photo_ID`, `ListesCriteres_ID`) VALUES
-(2, 2, 4),
-(1, 100, 6),
-(1, 100, 7),
-(1, 100, 8),
-(1, 100, 11),
-(1, 100, 12),
-(2, 100, 6),
-(2, 100, 7),
-(2, 100, 8),
-(2, 100, 11),
-(2, 100, 12),
-(3, 100, 6),
-(3, 100, 7),
-(3, 100, 8),
-(3, 100, 11),
-(3, 100, 12),
-(4, 100, 6),
-(4, 100, 7),
-(4, 100, 8),
-(4, 100, 11),
-(4, 100, 12),
-(5, 100, 6),
-(5, 100, 7),
-(5, 100, 8),
-(5, 100, 11),
-(5, 100, 12),
-(6, 100, 6),
-(6, 100, 7),
-(6, 100, 8),
-(6, 100, 11),
-(6, 100, 12),
-(7, 100, 6),
-(7, 100, 7),
-(7, 100, 8),
-(7, 100, 11),
-(7, 100, 12),
-(8, 100, 6),
-(8, 100, 7),
-(8, 100, 8),
-(8, 100, 11),
-(8, 100, 12),
-(9, 100, 6),
-(9, 100, 7),
-(9, 100, 8),
-(9, 100, 11),
-(9, 100, 12),
-(10, 100, 6),
-(10, 100, 7),
-(10, 100, 8),
-(10, 100, 11),
-(10, 100, 12),
-(11, 100, 6),
-(11, 100, 7),
-(11, 100, 8),
-(11, 100, 11),
-(11, 100, 12),
-(12, 100, 6),
-(12, 100, 7),
-(12, 100, 8),
-(12, 100, 11),
-(12, 100, 12),
-(13, 100, 6),
-(13, 100, 7),
-(13, 100, 8),
-(13, 100, 11),
-(13, 100, 12),
-(14, 100, 6),
-(14, 100, 7),
-(14, 100, 8),
-(14, 100, 11),
-(14, 100, 12),
-(15, 100, 6),
-(15, 100, 7),
-(15, 100, 8),
-(15, 100, 11),
-(15, 100, 12),
-(16, 100, 6),
-(16, 100, 7),
-(16, 100, 8),
-(16, 100, 11),
-(16, 100, 12),
-(17, 100, 6),
-(17, 100, 7),
-(17, 100, 8),
-(17, 100, 11),
-(17, 100, 12),
-(18, 100, 6),
-(18, 100, 7),
-(18, 100, 8),
-(18, 100, 11),
-(18, 100, 12),
-(19, 100, 6),
-(19, 100, 7),
-(19, 100, 8),
-(19, 100, 11),
-(19, 100, 12),
-(20, 100, 6),
-(20, 100, 7),
-(20, 100, 8),
-(20, 100, 11),
-(20, 100, 12),
-(21, 100, 6),
-(21, 100, 7),
-(21, 100, 8),
-(21, 100, 11),
-(21, 100, 12),
-(22, 100, 6),
-(22, 100, 7),
-(22, 100, 8),
-(22, 100, 11),
-(22, 100, 12),
-(23, 100, 6),
-(23, 100, 7),
-(23, 100, 8),
-(23, 100, 11),
-(23, 100, 12),
-(24, 100, 6),
-(24, 100, 7),
-(24, 100, 8),
-(24, 100, 11),
-(24, 100, 12),
-(25, 100, 6),
-(25, 100, 7),
-(25, 100, 8),
-(25, 100, 11),
-(25, 100, 12),
-(26, 100, 6),
-(26, 100, 7),
-(26, 100, 8),
-(26, 100, 11),
-(26, 100, 12),
-(27, 100, 6),
-(27, 100, 7),
-(27, 100, 8),
-(27, 100, 11),
-(27, 100, 12),
-(28, 100, 6),
-(28, 100, 7),
-(28, 100, 8),
-(28, 100, 11),
-(28, 100, 12),
-(29, 100, 6),
-(29, 100, 7),
-(29, 100, 8),
-(29, 100, 11),
-(29, 100, 12),
-(30, 100, 6),
-(30, 100, 7),
-(30, 100, 8),
-(30, 100, 11),
-(30, 100, 12),
-(31, 100, 6),
-(31, 100, 7),
-(31, 100, 8),
-(31, 100, 11),
-(31, 100, 12),
-(32, 100, 6),
-(32, 100, 7),
-(32, 100, 8),
-(32, 100, 11),
-(32, 100, 12),
-(33, 100, 6),
-(33, 100, 7),
-(33, 100, 8),
-(33, 100, 11),
-(33, 100, 12),
-(34, 100, 6),
-(34, 100, 7),
-(34, 100, 8),
-(34, 100, 11),
-(34, 100, 12),
-(35, 100, 6),
-(35, 100, 7),
-(35, 100, 8),
-(35, 100, 11),
-(35, 100, 12),
-(36, 100, 6),
-(36, 100, 7),
-(36, 100, 8),
-(36, 100, 11),
-(36, 100, 12),
-(37, 100, 6),
-(37, 100, 7),
-(37, 100, 8),
-(37, 100, 11),
-(37, 100, 12),
-(38, 100, 6),
-(38, 100, 7),
-(38, 100, 8),
-(38, 100, 11),
-(38, 100, 12),
-(39, 100, 6),
-(39, 100, 7),
-(39, 100, 8),
-(39, 100, 11),
-(39, 100, 12),
-(41, 100, 7),
-(41, 100, 8),
-(41, 100, 11),
-(41, 100, 12),
-(42, 100, 7),
-(42, 100, 8),
-(42, 100, 11),
-(42, 100, 12),
-(43, 100, 7),
-(43, 100, 8),
-(43, 100, 11),
-(43, 100, 12),
-(44, 100, 7),
-(44, 100, 8),
-(44, 100, 11),
-(44, 100, 12),
-(45, 100, 7),
-(45, 100, 8),
-(45, 100, 11),
-(45, 100, 12),
-(46, 100, 7),
-(46, 100, 8),
-(46, 100, 11),
-(46, 100, 12),
-(47, 100, 7),
-(47, 100, 8),
-(47, 100, 11),
-(47, 100, 12),
-(48, 100, 7),
-(48, 100, 8),
-(48, 100, 11),
-(48, 100, 12),
-(49, 100, 7),
-(49, 100, 8),
-(49, 100, 11),
-(49, 100, 12),
-(50, 100, 7),
-(50, 100, 8),
-(50, 100, 11),
-(50, 100, 12),
-(51, 100, 7),
-(51, 100, 8),
-(51, 100, 11),
-(51, 100, 12),
-(52, 100, 7),
-(52, 100, 8),
-(52, 100, 11),
-(52, 100, 12),
-(53, 100, 7),
-(53, 100, 8),
-(53, 100, 11),
-(53, 100, 12),
-(54, 100, 7),
-(54, 100, 8),
-(54, 100, 11),
-(54, 100, 12),
-(55, 100, 7),
-(55, 100, 8),
-(55, 100, 11),
-(55, 100, 12),
-(56, 100, 7),
-(56, 100, 8),
-(56, 100, 11),
-(56, 100, 12),
-(57, 100, 7),
-(57, 100, 8),
-(57, 100, 11),
-(57, 100, 12),
-(58, 100, 7),
-(58, 100, 8),
-(58, 100, 11),
-(58, 100, 12),
-(59, 100, 7),
-(59, 100, 8),
-(59, 100, 11),
-(59, 100, 12),
-(60, 100, 7),
-(60, 100, 8),
-(60, 100, 11),
-(60, 100, 12),
-(61, 100, 7),
-(61, 100, 8),
-(61, 100, 11),
-(61, 100, 12),
-(62, 100, 7),
-(62, 100, 8),
-(62, 100, 11),
-(62, 100, 12),
-(63, 100, 7),
-(63, 100, 8),
-(63, 100, 11),
-(63, 100, 12),
-(64, 100, 7),
-(64, 100, 8),
-(64, 100, 11),
-(64, 100, 12),
-(65, 100, 7),
-(65, 100, 8),
-(65, 100, 11),
-(65, 100, 12),
-(66, 100, 7),
-(66, 100, 8),
-(66, 100, 11),
-(66, 100, 12),
-(67, 100, 7),
-(67, 100, 8),
-(67, 100, 11),
-(67, 100, 12),
-(68, 100, 7),
-(68, 100, 8),
-(68, 100, 11),
-(68, 100, 12),
-(69, 100, 7),
-(69, 100, 8),
-(69, 100, 11),
-(69, 100, 12),
-(70, 100, 7),
-(70, 100, 8),
-(70, 100, 11),
-(70, 100, 12),
-(71, 100, 8),
-(71, 100, 11),
-(71, 100, 12),
-(72, 100, 8),
-(72, 100, 11),
-(72, 100, 12),
-(73, 100, 8),
-(73, 100, 11),
-(73, 100, 12),
-(74, 100, 8),
-(74, 100, 11),
-(74, 100, 12),
-(75, 100, 8),
-(75, 100, 11),
-(75, 100, 12),
-(76, 100, 8),
-(76, 100, 11),
-(76, 100, 12),
-(77, 100, 8),
-(77, 100, 11),
-(77, 100, 12),
-(78, 100, 8),
-(78, 100, 11),
-(78, 100, 12),
-(79, 100, 8),
-(79, 100, 11),
-(79, 100, 12),
-(80, 100, 8),
-(80, 100, 11),
-(80, 100, 12),
-(81, 100, 8),
-(81, 100, 12),
-(82, 100, 8),
-(82, 100, 12),
-(83, 100, 8),
-(83, 100, 12),
-(84, 100, 8),
-(84, 100, 12),
-(85, 100, 8),
-(85, 100, 12),
-(86, 100, 8),
-(86, 100, 12),
-(87, 100, 8),
-(87, 100, 12),
-(88, 100, 8),
-(88, 100, 12),
-(89, 100, 8),
-(89, 100, 12),
-(90, 100, 8),
-(90, 100, 12),
-(91, 100, 8),
-(91, 100, 12),
-(92, 100, 8),
-(92, 100, 12),
-(93, 100, 8),
-(93, 100, 12),
-(94, 100, 8),
-(94, 100, 12),
-(95, 100, 8),
-(95, 100, 12),
-(96, 100, 12),
-(97, 100, 12),
-(98, 100, 12),
-(99, 100, 12),
-(100, 100, 12),
-(101, 100, 12),
-(102, 100, 12),
-(103, 100, 12),
-(104, 100, 12),
-(105, 100, 12),
-(106, 100, 12),
-(107, 100, 12),
-(108, 100, 12),
-(109, 100, 12),
-(110, 100, 12),
-(111, 100, 12),
-(112, 100, 12),
-(113, 100, 12),
-(114, 100, 12),
-(115, 100, 12),
-(116, 100, 12),
-(117, 100, 12),
-(118, 100, 12),
-(119, 100, 12),
-(120, 100, 12),
-(150, 100, 2),
-(150, 100, 6),
-(151, 100, 2),
-(151, 100, 6);
+(1, 100, 1),
+(1, 100, 2),
+(1, 100, 3),
+(1, 100, 4),
+(1, 100, 5),
+(2, 100, 1),
+(2, 100, 2),
+(2, 100, 3),
+(2, 100, 4),
+(2, 100, 5),
+(3, 100, 1),
+(3, 100, 2),
+(3, 100, 3),
+(3, 100, 4),
+(3, 100, 5),
+(4, 100, 1),
+(4, 100, 2),
+(4, 100, 3),
+(4, 100, 4),
+(4, 100, 5),
+(5, 100, 1),
+(5, 100, 2),
+(5, 100, 3),
+(5, 100, 4),
+(5, 100, 5),
+(6, 100, 1),
+(6, 100, 2),
+(6, 100, 3),
+(6, 100, 4),
+(6, 100, 5),
+(7, 100, 1),
+(7, 100, 2),
+(7, 100, 3),
+(7, 100, 4),
+(7, 100, 5),
+(8, 100, 1),
+(8, 100, 2),
+(8, 100, 3),
+(8, 100, 4),
+(8, 100, 5),
+(9, 100, 1),
+(9, 100, 2),
+(9, 100, 3),
+(9, 100, 4),
+(9, 100, 5),
+(10, 100, 1),
+(10, 100, 2),
+(10, 100, 3),
+(10, 100, 4),
+(10, 100, 5),
+(11, 100, 1),
+(11, 100, 2),
+(11, 100, 3),
+(11, 100, 4),
+(11, 100, 5),
+(12, 100, 1),
+(12, 100, 2),
+(12, 100, 3),
+(12, 100, 4),
+(12, 100, 5),
+(13, 100, 1),
+(13, 100, 2),
+(13, 100, 3),
+(13, 100, 4),
+(13, 100, 5),
+(14, 100, 1),
+(14, 100, 2),
+(14, 100, 3),
+(14, 100, 4),
+(14, 100, 5),
+(15, 100, 1),
+(15, 100, 2),
+(15, 100, 3),
+(15, 100, 4),
+(15, 100, 5),
+(16, 100, 1),
+(16, 100, 2),
+(16, 100, 3),
+(16, 100, 4),
+(16, 100, 5),
+(17, 100, 1),
+(17, 100, 2),
+(17, 100, 3),
+(17, 100, 4),
+(17, 100, 5),
+(18, 100, 1),
+(18, 100, 2),
+(18, 100, 3),
+(18, 100, 4),
+(18, 100, 5),
+(19, 100, 1),
+(19, 100, 2),
+(19, 100, 3),
+(19, 100, 4),
+(19, 100, 5),
+(20, 100, 1),
+(20, 100, 2),
+(20, 100, 3),
+(20, 100, 4),
+(20, 100, 5),
+(21, 100, 1),
+(21, 100, 2),
+(21, 100, 3),
+(21, 100, 4),
+(21, 100, 5),
+(22, 100, 1),
+(22, 100, 2),
+(22, 100, 3),
+(22, 100, 4),
+(22, 100, 5),
+(23, 100, 1),
+(23, 100, 2),
+(24, 100, 1),
+(24, 100, 2),
+(24, 100, 3),
+(24, 100, 4),
+(24, 100, 5),
+(25, 100, 1),
+(25, 100, 2),
+(25, 100, 3),
+(25, 100, 4),
+(25, 100, 5),
+(26, 100, 1),
+(26, 100, 2),
+(26, 100, 3),
+(26, 100, 4),
+(26, 100, 5),
+(27, 100, 1),
+(27, 100, 2),
+(27, 100, 3),
+(27, 100, 4),
+(27, 100, 5),
+(28, 100, 1),
+(28, 100, 2),
+(28, 100, 3),
+(28, 100, 4),
+(28, 100, 5),
+(29, 100, 1),
+(29, 100, 2),
+(29, 100, 3),
+(29, 100, 4),
+(29, 100, 5),
+(30, 100, 1),
+(30, 100, 2),
+(30, 100, 3),
+(30, 100, 4),
+(30, 100, 5),
+(31, 100, 1),
+(31, 100, 2),
+(31, 100, 3),
+(31, 100, 4),
+(31, 100, 5),
+(32, 100, 1),
+(32, 100, 2),
+(32, 100, 3),
+(32, 100, 4),
+(32, 100, 5),
+(33, 100, 1),
+(33, 100, 2),
+(33, 100, 3),
+(33, 100, 4),
+(33, 100, 5),
+(34, 100, 1),
+(34, 100, 2),
+(34, 100, 3),
+(34, 100, 4),
+(34, 100, 5),
+(35, 100, 1),
+(35, 100, 2),
+(35, 100, 3),
+(35, 100, 4),
+(35, 100, 5),
+(36, 100, 1),
+(36, 100, 2),
+(36, 100, 3),
+(36, 100, 4),
+(36, 100, 5),
+(37, 100, 1),
+(37, 100, 2),
+(37, 100, 3),
+(37, 100, 4),
+(37, 100, 5),
+(38, 100, 1),
+(38, 100, 2),
+(38, 100, 3),
+(38, 100, 4),
+(38, 100, 5),
+(39, 100, 1),
+(39, 100, 2),
+(39, 100, 3),
+(40, 100, 1),
+(40, 100, 2),
+(40, 100, 3),
+(40, 100, 4),
+(40, 100, 5),
+(41, 100, 1),
+(41, 100, 2),
+(41, 100, 3),
+(41, 100, 4),
+(42, 100, 1),
+(42, 100, 2),
+(42, 100, 3),
+(42, 100, 4),
+(42, 100, 5),
+(46, 100, 1),
+(46, 100, 2),
+(46, 100, 3),
+(46, 100, 4),
+(46, 100, 5),
+(47, 100, 1),
+(47, 100, 2),
+(47, 100, 3),
+(47, 100, 4),
+(47, 100, 5),
+(48, 100, 1),
+(48, 100, 2),
+(48, 100, 3),
+(48, 100, 4),
+(48, 100, 5),
+(49, 100, 1),
+(49, 100, 2),
+(49, 100, 3),
+(49, 100, 4),
+(49, 100, 5),
+(50, 100, 1),
+(50, 100, 2),
+(50, 100, 3),
+(50, 100, 4),
+(50, 100, 5),
+(51, 100, 1),
+(51, 100, 2),
+(51, 100, 3),
+(51, 100, 4),
+(51, 100, 5),
+(52, 100, 1),
+(52, 100, 2),
+(52, 100, 3),
+(52, 100, 4),
+(52, 100, 5),
+(53, 100, 1),
+(53, 100, 2),
+(53, 100, 3),
+(53, 100, 4),
+(53, 100, 5),
+(54, 100, 1),
+(54, 100, 2),
+(54, 100, 3),
+(54, 100, 4),
+(54, 100, 5),
+(55, 100, 1),
+(55, 100, 2),
+(55, 100, 3),
+(55, 100, 4),
+(55, 100, 5),
+(56, 100, 1),
+(56, 100, 2),
+(56, 100, 3),
+(56, 100, 4),
+(56, 100, 5),
+(57, 100, 1),
+(57, 100, 2),
+(57, 100, 3),
+(57, 100, 4),
+(57, 100, 5),
+(58, 100, 1),
+(58, 100, 2),
+(58, 100, 3),
+(58, 100, 4),
+(58, 100, 5),
+(59, 100, 1),
+(59, 100, 2),
+(59, 100, 3),
+(59, 100, 4),
+(59, 100, 5),
+(60, 100, 1),
+(60, 100, 2),
+(60, 100, 3),
+(60, 100, 4),
+(60, 100, 5),
+(61, 100, 1),
+(61, 100, 2),
+(61, 100, 3),
+(61, 100, 4),
+(61, 100, 5),
+(62, 100, 1),
+(62, 100, 2),
+(62, 100, 3),
+(62, 100, 4),
+(62, 100, 5),
+(63, 100, 1),
+(63, 100, 2),
+(63, 100, 3),
+(63, 100, 4),
+(63, 100, 5),
+(64, 100, 1),
+(64, 100, 2),
+(64, 100, 3),
+(64, 100, 4),
+(64, 100, 5),
+(65, 100, 1),
+(65, 100, 2),
+(65, 100, 3),
+(65, 100, 4),
+(65, 100, 5),
+(66, 100, 1),
+(66, 100, 2),
+(66, 100, 3),
+(66, 100, 4),
+(66, 100, 5),
+(67, 100, 1),
+(67, 100, 2),
+(67, 100, 3),
+(67, 100, 4),
+(67, 100, 5),
+(68, 100, 1),
+(68, 100, 2),
+(68, 100, 3),
+(68, 100, 4),
+(68, 100, 5),
+(69, 100, 1),
+(69, 100, 2),
+(69, 100, 3),
+(69, 100, 4),
+(69, 100, 5),
+(70, 100, 1),
+(70, 100, 2),
+(70, 100, 3),
+(70, 100, 4),
+(70, 100, 5),
+(71, 100, 1),
+(71, 100, 2),
+(71, 100, 3),
+(71, 100, 4),
+(71, 100, 5),
+(72, 100, 1),
+(72, 100, 2),
+(72, 100, 3),
+(72, 100, 4),
+(72, 100, 5),
+(73, 100, 1),
+(73, 100, 2),
+(73, 100, 3),
+(73, 100, 4),
+(73, 100, 5),
+(74, 100, 1),
+(74, 100, 2),
+(74, 100, 3),
+(74, 100, 4),
+(74, 100, 5),
+(75, 100, 1),
+(75, 100, 2),
+(75, 100, 3),
+(75, 100, 4),
+(75, 100, 5),
+(76, 100, 1),
+(76, 100, 2),
+(76, 100, 3),
+(76, 100, 4),
+(76, 100, 5),
+(77, 100, 1),
+(77, 100, 2),
+(78, 100, 1),
+(78, 100, 2),
+(78, 100, 3),
+(78, 100, 4),
+(78, 100, 5),
+(79, 100, 1),
+(79, 100, 2),
+(79, 100, 3),
+(79, 100, 4),
+(79, 100, 5),
+(80, 100, 1),
+(80, 100, 2),
+(80, 100, 3),
+(80, 100, 4),
+(80, 100, 5),
+(81, 100, 1),
+(81, 100, 2),
+(81, 100, 3),
+(81, 100, 4),
+(81, 100, 5),
+(82, 100, 1),
+(82, 100, 2),
+(82, 100, 3),
+(82, 100, 4),
+(82, 100, 5),
+(83, 100, 1),
+(83, 100, 2),
+(83, 100, 3),
+(83, 100, 4),
+(83, 100, 5),
+(84, 100, 1),
+(84, 100, 2),
+(84, 100, 3),
+(84, 100, 4),
+(84, 100, 5),
+(85, 100, 1),
+(85, 100, 2),
+(85, 100, 3),
+(85, 100, 4),
+(85, 100, 5),
+(86, 100, 1),
+(86, 100, 2),
+(86, 100, 3),
+(86, 100, 4),
+(86, 100, 5),
+(87, 100, 1),
+(87, 100, 2),
+(87, 100, 3),
+(87, 100, 4),
+(87, 100, 5),
+(88, 100, 1),
+(88, 100, 2),
+(88, 100, 3),
+(88, 100, 4),
+(88, 100, 5),
+(89, 100, 1),
+(89, 100, 2),
+(89, 100, 3),
+(89, 100, 4),
+(89, 100, 5),
+(90, 100, 1),
+(90, 100, 2),
+(90, 100, 3),
+(90, 100, 4),
+(90, 100, 5),
+(91, 100, 1),
+(91, 100, 2),
+(91, 100, 3),
+(91, 100, 4),
+(91, 100, 5),
+(92, 100, 1),
+(92, 100, 2),
+(92, 100, 3),
+(92, 100, 4),
+(92, 100, 5),
+(93, 100, 1),
+(93, 100, 2),
+(93, 100, 3),
+(93, 100, 4),
+(93, 100, 5),
+(94, 100, 1),
+(94, 100, 2),
+(94, 100, 3),
+(94, 100, 4),
+(94, 100, 5),
+(95, 100, 1),
+(95, 100, 2),
+(95, 100, 3),
+(95, 100, 4),
+(95, 100, 5),
+(96, 100, 1),
+(96, 100, 2),
+(96, 100, 3),
+(96, 100, 4),
+(96, 100, 5),
+(97, 100, 1),
+(97, 100, 2),
+(97, 100, 3),
+(97, 100, 4),
+(97, 100, 5),
+(98, 100, 1),
+(98, 100, 2),
+(98, 100, 3),
+(98, 100, 4),
+(98, 100, 5),
+(99, 100, 1),
+(99, 100, 2),
+(99, 100, 3),
+(99, 100, 4),
+(99, 100, 5),
+(100, 100, 1),
+(100, 100, 2),
+(100, 100, 3),
+(100, 100, 4),
+(100, 100, 5),
+(101, 100, 1),
+(101, 100, 2),
+(101, 100, 3),
+(101, 100, 4),
+(101, 100, 5),
+(102, 100, 1),
+(102, 100, 2),
+(102, 100, 3),
+(102, 100, 4),
+(102, 100, 5),
+(103, 100, 1),
+(103, 100, 2),
+(103, 100, 3),
+(103, 100, 4),
+(103, 100, 5),
+(104, 100, 1),
+(104, 100, 2),
+(104, 100, 3),
+(104, 100, 4),
+(104, 100, 5),
+(105, 100, 1),
+(105, 100, 2),
+(105, 100, 3),
+(105, 100, 4),
+(105, 100, 5),
+(106, 100, 1),
+(106, 100, 2),
+(106, 100, 3),
+(106, 100, 4),
+(106, 100, 5),
+(107, 100, 1),
+(107, 100, 2),
+(107, 100, 3),
+(107, 100, 4),
+(107, 100, 5),
+(108, 100, 1),
+(108, 100, 2),
+(108, 100, 3),
+(108, 100, 4),
+(108, 100, 5),
+(109, 100, 1),
+(109, 100, 2),
+(109, 100, 3),
+(109, 100, 4),
+(109, 100, 5),
+(110, 100, 1),
+(110, 100, 2),
+(110, 100, 3),
+(110, 100, 4),
+(110, 100, 5),
+(111, 100, 1),
+(111, 100, 2),
+(111, 100, 3),
+(111, 100, 4),
+(111, 100, 5),
+(112, 100, 1),
+(112, 100, 2),
+(112, 100, 3),
+(112, 100, 4),
+(112, 100, 5),
+(113, 100, 1),
+(113, 100, 2),
+(113, 100, 3),
+(113, 100, 4),
+(113, 100, 5),
+(114, 100, 1),
+(114, 100, 2),
+(114, 100, 3),
+(114, 100, 4),
+(114, 100, 5),
+(115, 100, 1),
+(115, 100, 2),
+(115, 100, 3),
+(115, 100, 4),
+(115, 100, 5),
+(116, 100, 1),
+(116, 100, 2),
+(116, 100, 3),
+(116, 100, 4),
+(116, 100, 5),
+(117, 100, 1),
+(117, 100, 2),
+(117, 100, 3),
+(117, 100, 4),
+(117, 100, 5),
+(118, 100, 1),
+(118, 100, 2),
+(118, 100, 3),
+(118, 100, 4),
+(118, 100, 5),
+(119, 100, 1),
+(119, 100, 2),
+(119, 100, 3),
+(119, 100, 4),
+(119, 100, 5),
+(120, 100, 1),
+(120, 100, 2),
+(120, 100, 3),
+(120, 100, 4),
+(120, 100, 5),
+(121, 100, 1),
+(121, 100, 2),
+(121, 100, 3),
+(121, 100, 4),
+(121, 100, 5),
+(122, 100, 1),
+(122, 100, 2),
+(122, 100, 3),
+(122, 100, 4),
+(122, 100, 5),
+(123, 100, 1),
+(123, 100, 2),
+(123, 100, 3),
+(123, 100, 4),
+(123, 100, 5),
+(124, 100, 1),
+(124, 100, 2),
+(124, 100, 3),
+(124, 100, 4),
+(124, 100, 5),
+(125, 100, 1),
+(125, 100, 2),
+(125, 100, 3),
+(125, 100, 4),
+(125, 100, 5),
+(126, 100, 1),
+(126, 100, 2),
+(126, 100, 3),
+(126, 100, 4),
+(126, 100, 5),
+(127, 100, 1),
+(127, 100, 2),
+(127, 100, 3),
+(127, 100, 4),
+(127, 100, 5),
+(128, 100, 1),
+(128, 100, 2),
+(128, 100, 3),
+(128, 100, 4),
+(128, 100, 5),
+(129, 100, 1),
+(129, 100, 2),
+(129, 100, 3),
+(129, 100, 4),
+(129, 100, 5),
+(130, 100, 1),
+(130, 100, 2),
+(130, 100, 3),
+(130, 100, 4),
+(130, 100, 5),
+(131, 100, 1),
+(131, 100, 2),
+(131, 100, 3),
+(131, 100, 4),
+(131, 100, 5),
+(132, 100, 1),
+(132, 100, 2),
+(132, 100, 3),
+(132, 100, 4),
+(132, 100, 5),
+(133, 100, 1),
+(133, 100, 2),
+(133, 100, 3),
+(133, 100, 4),
+(133, 100, 5);
 
 -- --------------------------------------------------------
 
@@ -1039,7 +1471,7 @@ CREATE TABLE IF NOT EXISTS `criteres` (
   `Critere_statut` varchar(50) DEFAULT NULL,
   `Critere_points` int(11) DEFAULT NULL,
   PRIMARY KEY (`Critere_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=153 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=163 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `criteres`
@@ -1047,84 +1479,85 @@ CREATE TABLE IF NOT EXISTS `criteres` (
 
 INSERT INTO `criteres` (`Critere_ID`, `Critere_description`, `Critere_statut`, `Critere_points`) VALUES
 (1, 'Surface totale minimum (cuisine et coin cuisine compris) du logement meublé hors salle d\'eau et toilettes', 'X', 5),
-(2, 'Surface totale majorée', 'O', 2),
+(2, 'Surface totale majorée', 'O', 5),
 (3, 'Prise de courant libre dans chaque pièce d\'habitation', 'X', 1),
 (4, 'Tous les éclairages du logement fonctionnent et sont en bon état', 'X', 3),
 (5, 'Mise à disposition d\'un téléphone privatif à l\'intérieur du logement', 'O', 1),
-(6, 'Accès internet par un réseau local sans fil (WiFi)', 'X', 2),
+(6, 'Accès internet par un réseau local sans fil (WiFi)', 'O', 2),
 (7, 'Accès internet filaire avec câble fourni', 'O', 2),
-(8, 'Télévision à écran plat avec télécommande', 'X', 2),
+(8, 'Télévision à écran plat avec télécommande', 'O', 2),
 (9, 'Accès à des chaînes supplémentaires à l\'offre de la TNT', 'O', 2),
 (10, 'Possibilité d\'accéder à au moins deux chaînes internationales', 'O', 1),
-(11, 'Radio', 'X', 2),
+(11, 'Radio', 'O', 2),
 (12, 'Enceinte connectée', 'O', 1),
 (13, 'Mise à disposition d\'un système de lecture de vidéos', 'O', 2),
-(14, 'Occultation opaque dans chaque pièce comportant un couchage principal', 'X', 3),
+(14, 'Occultation opaque : extérieure ou intérieure dans chaque pièce comportant un couchage principal', 'X', 3),
 (15, 'Le logement est équipé de double vitrage', 'O', 3),
 (16, 'Existence d\'un système de chauffage en état de fonctionnement', 'X', 5),
-(17, 'Existence d\'un système de climatisation ou de rafraîchissement d\'air', 'O', 3),
-(18, 'Machine à laver le linge pour les logements de 4 personnes et plus', 'NA', 3),
-(19, 'Sèche-linge électrique pour les logements de 6 personnes et plus', 'NA', 2),
-(20, 'Étendoir ou séchoir à linge à l\'intérieur du logement', 'X', 2),
+(17, 'Existence d\'un système de climatisation et/ou de rafraîchissement d\'air en état de fonctionnement', 'O', 3),
+(18, 'Machine à laver le linge pour les logements de 4 personnes et plus', 'O', 3),
+(19, 'Sèche-linge électrique pour les logements de 6 personnes et plus', 'O', 2),
+(20, 'Etendoir ou séchoir à linge à l\'intérieur du logement', 'X', 2),
 (21, 'Ustensiles de ménage appropriés au logement', 'X', 3),
-(22, 'Fer et table à repasser', 'X', 2),
-(23, 'Placards ou éléments de rangement dans le logement', 'NA', 3),
-(24, 'Placards ou éléments de rangement dans chaque pièce d\'habitation', 'X', 3),
-(25, 'Présence d\'une table et d\'assises correspondant à la capacité d\'accueil', 'X', 4),
-(26, 'Présence d\'un canapé ou fauteuil(s) adapté(s)', 'X', 3),
+(22, 'Fer et table à repasser', 'O', 2),
+(23, 'Placards ou éléments de rangement dans le logement', 'X', 3),
+(24, 'Placards ou éléments de rangement dans chaque pièce d\'habitation', 'O', 3),
+(25, 'Présence d\'une table et d\'assises correspondant à la capacité d\'accueil du logement', 'X', 4),
+(26, 'Présence d\'un canapé ou fauteuil(s) adapté(s) à la capacité d\'accueil', 'X', 3),
 (27, 'Présence d\'une table basse', 'X', 1),
-(28, 'Respect des dimensions du ou des lits', 'X', 4),
-(29, 'Matelas haute densité ou épaisseur de qualité', 'O', 2),
-(30, 'Présence d\'oreillers en quantité suffisante', 'X', 2),
-(31, 'Deux couvertures ou une couette par lit', 'X', 2),
-(32, 'Matelas et oreillers protégés par alaises ou housses amovibles', 'X', 2),
-(33, 'Éclairage en tête de lit par personne avec interrupteur individuel', 'X', 2),
-(34, 'Commande de l\'éclairage central près du lit', 'O', 2),
-(35, 'Prise de courant libre située près du lit', 'O', 1),
-(36, 'Présence d\'une table de chevet par personne', 'X', 2),
-(37, 'Salle d\'eau privative intérieure', 'X', 2),
-(38, 'Salle d\'eau privative avec accès indépendant', 'X', 3),
-(39, 'Salle d\'eau équipée lavabo, douche et/ou baignoire', 'X', 3),
+(28, 'Respect des dimensions du (ou des) lit(s)', 'X', 4),
+(29, 'Matelas haute densité et/ou avec une épaisseur de qualité', 'O', 2),
+(30, 'Présence d\'oreiller(s) en quantité suffisante', 'X', 2),
+(31, 'Deux couvertures ou une couette par lit - couette obligatoire pour les catégories 3*, 4* et 5*', 'X', 2),
+(32, 'Matelas et oreillers protégés par des alaises ou des housses amovibles', 'X', 2),
+(33, 'Eclairage en-tête de lit par personne avec interrupteur individuel', 'X', 2),
+(34, 'Interrupteur ou système de commande de l\'éclairage central près du lit', 'O', 2),
+(35, 'Présence d\'une prise de courant libre située près du lit', 'O', 1),
+(36, 'Présence d\'une table de chevet par personne', 'O', 2),
+(37, 'Une salle d\'eau privative dans un espace clos et aéré intérieur au logement', 'X', 2),
+(38, 'Une salle d\'eau privative avec accès indépendant dans un espace intérieur au logement', 'X', 3),
+(39, 'Présence d\'une salle d\'eau ainsi équipée : lavabo avec eau chaude, douche et/ou baignoire', 'X', 3),
+(40, 'Présence d\'une salle d\'eau avec dimensions supérieures au standard', 'O', 2),
 (41, 'WC privatif intérieur au logement', 'X', 2),
 (42, 'WC privatif indépendant de la salle d\'eau', 'O', 2),
 (43, 'Deuxième salle d\'eau privative', 'NA', 5),
 (44, 'Salle d\'eau supplémentaire équipée', 'NA', 3),
 (45, 'WC privatif supplémentaire', 'NA', 2),
-(46, 'Deux points lumineux dont un sur le lavabo', 'X', 2),
-(47, 'Présence de produits d\'accueil', 'X', 3),
-(48, 'Prise de courant libre à proximité du miroir', 'X', 2),
+(46, 'Deux points lumineux dont un sur le lavabo', 'O', 2),
+(47, 'Présence de produits d\'accueil', 'O', 3),
+(48, 'Prise de courant libre à proximité du miroir', 'O', 2),
 (49, 'Patères ou porte-serviettes', 'X', 1),
 (50, 'Sèche-serviettes électrique', 'O', 2),
 (51, 'Miroir de salle de bain', 'X', 2),
 (52, 'Miroir en pied', 'O', 2),
 (53, 'Tablette ou étagère proche du miroir', 'X', 2),
-(54, 'Espaces de rangement supplémentaires', 'X', 2),
-(55, 'Sèche-cheveux électrique', 'X', 1),
+(54, 'Espaces de rangement supplémentaires', 'O', 2),
+(55, 'Sèche-cheveux électrique', 'O', 1),
 (56, 'Évier avec robinet mélangeur ou mitigeur', 'X', 3),
 (57, 'Nombre de foyers respectés', 'X', 3),
 (58, 'Plaque vitrocéramique, induction ou gaz', 'O', 2),
 (59, 'Four ou mini-four', 'X', 3),
-(60, 'Four à micro-ondes', 'X', 2),
+(60, 'Four à micro-ondes', 'O', 2),
 (61, 'Ventilation ou VMC', 'X', 4),
 (62, 'Hotte aspirante', 'O', 2),
 (63, 'Quantité suffisante de vaisselle par personne', 'X', 3),
 (64, 'Vaisselle supplémentaire par personne', 'O', 1),
 (65, 'Équipement minimum pour la préparation des repas', 'X', 3),
-(66, 'Au moins deux équipements de petit électroménager', 'X', 2),
+(66, 'Au moins deux équipements de petit électroménager', 'O', 2),
 (67, 'Autocuiseur, cuit-vapeur ou robot multifonction', 'O', 3),
 (68, 'Cafetière', 'X', 2),
 (69, 'Machine à expresso', 'O', 2),
-(70, 'Bouilloire', 'X', 1),
-(71, 'Grille-pain', 'X', 1),
-(72, 'Lave-vaisselle à partir de 2 personnes', 'NA', 2),
-(73, 'Lave-vaisselle 6 couverts ou plus', 'NA', 2),
+(70, 'Bouilloire', 'O', 1),
+(71, 'Grille-pain', 'O', 1),
+(72, 'Lave-vaisselle à partir de 2 personnes', 'O', 2),
+(73, 'Lave-vaisselle 6 couverts ou plus', 'O', 2),
 (74, 'Réfrigérateur avec compartiment conservateur', 'X', 4),
-(75, 'Congélateur ou compartiment congélateur', 'X', 2),
+(75, 'Congélateur ou compartiment congélateur', 'O', 2),
 (76, 'Poubelle fermée avec couvercle', 'X', 1),
-(77, 'Accès au 4ème étage sans ascenseur', 'NA', 4),
-(78, 'Accès au 3ème étage sans ascenseur', 'NA', 4),
+(77, 'Accès au 4ème étage sans ascenseur', 'X', 4),
+(78, 'Accès au 3ème étage sans ascenseur', 'O', 4),
 (79, 'Emplacements de stationnement à proximité', 'X', 4),
-(80, 'Emplacements privatifs', 'X', 3),
+(80, 'Emplacements privatifs', 'O', 3),
 (81, 'Garage ou abri couvert privatif', 'O', 2),
 (82, 'Balcon, loggia ou véranda', 'O', 2),
 (83, 'Terrasse ou jardin privé', 'O', 3),
@@ -1139,22 +1572,22 @@ INSERT INTO `criteres` (`Critere_ID`, `Critere_description`, `Critere_statut`, `
 (92, 'Vue paysagère', 'O', 2),
 (93, 'Accès immédiat à des activités', 'O', 3),
 (94, 'Accès immédiat aux commerces et transports', 'O', 3),
-(95, 'Sanitaires propres et en bon état', 'X ONC', 5),
-(96, 'Sols, murs et plafonds propres', 'ONC', 5),
-(97, 'Mobilier propre et en bon état', 'ONC', 5),
-(98, 'Literie propre et en bon état', 'ONC', 5),
-(99, 'Cuisine propre et équipements en bon état', 'ONC', 5),
+(95, 'Sanitaires propres et en bon état', 'X', 5),
+(96, 'Sols, murs et plafonds propres', 'X', 5),
+(97, 'Mobilier propre et en bon état', 'X', 5),
+(98, 'Literie propre et en bon état', 'X', 5),
+(99, 'Cuisine propre et équipements en bon état', 'X', 5),
 (100, 'Brochures touristiques multilingues', 'X', 3),
-(101, 'Livret d\'accueil', 'X', 2),
-(102, 'Accueil sur place', 'X', 3),
+(101, 'Livret d\'accueil', 'O', 2),
+(102, 'Accueil sur place', 'O', 3),
 (103, 'Cadeau de bienvenue', 'O', 2),
 (104, 'Boîte à clés ou système équivalent', 'O', 2),
 (105, 'Draps fournis systématiquement', 'X', 2),
 (106, 'Linge de toilette fourni', 'X', 2),
-(107, 'Linge de table', 'X', 2),
+(107, 'Linge de table', 'O', 2),
 (108, 'Lits faits à l\'arrivée', 'O', 2),
-(109, 'Matériel pour bébé sur demande', 'X', 2),
-(110, 'Service de ménage proposé', 'X', 2),
+(109, 'Matériel pour bébé sur demande', 'O', 2),
+(110, 'Service de ménage proposé', 'O', 2),
 (111, 'Produits d\'entretien', 'X', 2),
 (112, 'Adaptateurs électriques', 'O', 2),
 (113, 'Site internet dédié au logement', 'O', 2),
@@ -1177,10 +1610,7 @@ INSERT INTO `criteres` (`Critere_ID`, `Critere_description`, `Critere_statut`, `
 (130, 'Sensibilisation environnementale des clients', 'X', 2),
 (131, 'Produits d\'accueil écologiques', 'O', 2),
 (132, 'Produits d\'entretien écologiques', 'X', 1),
-(133, 'Obtention d\'un label environnemental', 'O', 3),
-(148, 'test', 'X', 5),
-(150, 'test', 'X', 5),
-(151, 'test', 'NA', 8);
+(133, 'Obtention d\'un label environnemental', 'O', 3);
 
 -- --------------------------------------------------------
 
@@ -1299,7 +1729,7 @@ CREATE TABLE IF NOT EXISTS `document_counters` (
 --
 
 INSERT INTO `document_counters` (`type`, `year`, `last_number`) VALUES
-('DEVIS', '2026', 147),
+('DEVIS', '2026', 272),
 ('FACTURE', '2026', 6);
 
 -- --------------------------------------------------------
@@ -1342,31 +1772,28 @@ CREATE TABLE IF NOT EXISTS `dossiers` (
   `status` tinyint(1) NOT NULL,
   `Bien_ID` int(11) DEFAULT NULL,
   `Proprietaire_ID` int(255) NOT NULL,
-  `Nb_Points_X` int(255) NOT NULL,
-  `Nb_Points_O` int(255) NOT NULL,
-  `Nb_Points_NA` int(255) NOT NULL,
-  `Nb_Points_ONC` int(255) NOT NULL,
   PRIMARY KEY (`Dossier_ID`),
   KEY `Utilisateur_ID` (`Inspecteur_Id`),
   KEY `fk_dossiers_bien` (`Bien_ID`),
   KEY `FK_Proprietaire_ID` (`Proprietaire_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 --
 -- Déchargement des données de la table `dossiers`
 --
 
-INSERT INTO `dossiers` (`Dossier_ID`, `Dossier_Numero`, `Dossier_Date`, `Dossier_Etoile_Cible`, `Inspecteur_Id`, `status`, `Bien_ID`, `Proprietaire_ID`, `Nb_Points_X`, `Nb_Points_O`, `Nb_Points_NA`, `Nb_Points_ONC`) VALUES
-(1, 'DOS-2025-001', '2025-02-10 14:00:00', 4, 3, 1, 1, 5, 78, 22, 10, 0),
-(2, 'DOS-2025-002', '2025-02-18 09:30:00', 3, 4, 0, 101, 6, 55, 18, 15, 5),
-(3, 'DOS-2025-003', '2025-02-25 11:00:00', 2, 3, 1, 102, 9, 44, 15, 22, 0),
-(4, 'DOS-2025-004', '2025-03-03 16:15:00', 5, 4, 0, 103, 7, 90, 28, 5, 0),
-(5, 'DOS-2025-005', '2025-03-10 10:00:00', 2, 3, 0, 104, 8, 40, 12, 30, 8),
-(6, 'DOS-2025-006', '2025-03-18 14:30:00', 3, 4, 1, 105, 10, 60, 20, 12, 0),
-(7, 'DOS-2025-007', '2025-03-25 09:00:00', 1, 3, 0, 106, 11, 22, 8, 40, 10),
-(8, 'DOS-2025-008', '2025-04-02 15:00:00', 4, 4, 0, 107, 12, 70, 25, 8, 0),
-(9, 'DOS-2025-009', '2025-04-12 13:45:00', 2, 3, 1, 108, 6, 35, 14, 25, 0),
-(10, 'DOS-2025-010', '2025-04-20 09:30:00', 3, 4, 0, 109, 8, 58, 20, 15, 2);
+INSERT INTO `dossiers` (`Dossier_ID`, `Dossier_Numero`, `Dossier_Date`, `Dossier_Etoile_Cible`, `Inspecteur_Id`, `status`, `Bien_ID`, `Proprietaire_ID`) VALUES
+(1, 'DOS-2025-001', '2025-02-10 14:00:00', 4, 3, 1, 1, 5),
+(2, 'DOS-2025-002', '2025-02-18 09:30:00', 3, 4, 0, 101, 6),
+(3, 'DOS-2025-003', '2025-02-25 11:00:00', 2, 3, 1, 102, 9),
+(4, 'DOS-2025-004', '2025-03-03 16:15:00', 5, 4, 0, 103, 7),
+(5, 'DOS-2025-005', '2025-03-10 10:00:00', 2, 3, 0, 104, 8),
+(6, 'DOS-2025-006', '2025-03-18 14:30:00', 3, 4, 1, 105, 10),
+(7, 'DOS-2025-007', '2025-03-25 09:00:00', 1, 3, 0, 106, 11),
+(8, 'DOS-2025-008', '2025-04-02 15:00:00', 4, 4, 0, 107, 12),
+(9, 'DOS-2025-009', '2025-04-12 13:45:00', 2, 3, 1, 108, 6),
+(10, 'DOS-2025-010', '2025-04-20 09:30:00', 3, 4, 0, 109, 8),
+(14, 'DOS-2026-001', '2026-02-04 17:14:00', 2, 3, 0, 118, 21);
 
 -- --------------------------------------------------------
 
@@ -1413,25 +1840,6 @@ INSERT INTO `entreprisefacturation` (`Entreprise_ID`, `Entreprise_Nom`, `Entrepr
 (2, 'Hôtel Lumière SA', '12 rue des Arts', '75002', 'Paris', 'France', 'compta@hotellumiere.fr', '0140101010', '552 123 999 00018', 'FR55 552123999', 1),
 (3, 'Groupe Loire Tourisme', '8 quai du Port', '44000', 'Nantes', 'France', 'accounting@loiretourisme.fr', '0240000000', '321 654 987 00021', 'FR12 321654987', 1),
 (4, 'CampingAzur', '2 avenue des Pins', '06000', 'Nice', 'France', 'finance@campingazur.fr', '0493000000', '789 111 222 00034', 'FR98 789111222', 1);
-
--- --------------------------------------------------------
-
---
--- Structure de la table `evaluations`
---
-
-DROP TABLE IF EXISTS `evaluations`;
-CREATE TABLE IF NOT EXISTS `evaluations` (
-  `Evaluation_ID` int(11) NOT NULL,
-  `Evaluation_Date` datetime DEFAULT NULL,
-  `Evaluation_Document` varchar(50) DEFAULT NULL,
-  `Evaluation_Résultat` varchar(50) DEFAULT NULL,
-  `Bien_ID` int(11) NOT NULL,
-  `ListesCriteres_ID` int(11) NOT NULL,
-  PRIMARY KEY (`Evaluation_ID`),
-  KEY `Bien_ID` (`Bien_ID`),
-  KEY `ListesCriteres_ID` (`ListesCriteres_ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=ascii COLLATE=ascii_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1559,14 +1967,7 @@ INSERT INTO `listescriteres` (`ListesCriteres_ID`) VALUES
 (2),
 (3),
 (4),
-(5),
-(6),
-(7),
-(8),
-(9),
-(10),
-(11),
-(12);
+(5);
 
 -- --------------------------------------------------------
 
@@ -1654,7 +2055,8 @@ INSERT INTO `proprietaires` (`Utilisateur_ID`) VALUES
 (9),
 (10),
 (11),
-(12);
+(12),
+(21);
 
 -- --------------------------------------------------------
 
@@ -1673,7 +2075,7 @@ CREATE TABLE IF NOT EXISTS `societes` (
   UNIQUE KEY `uq_societe_nom` (`Societe_Nom`),
   KEY `Societe_Mail` (`Societe_Mail`),
   KEY `AdressePostale_ID` (`AdressePostale_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Déchargement des données de la table `societes`
@@ -1685,7 +2087,8 @@ INSERT INTO `societes` (`Societe_ID`, `Societe_Nom`, `Societe_Mail`, `Societe_Te
 (3, 'Orléans Inspection', 'orleans@inspection.fr', '0238543210', 11),
 (4, 'DedSec Conseil', 'hello@dedsec.fr', '0974001122', 2),
 (5, 'Gîtes de Loire', 'resa@gitesloire.fr', '0238123456', 12),
-(6, 'Camping & Co', 'support@campingco.fr', '0556008899', 4);
+(6, 'Camping & Co', 'support@campingco.fr', '0556008899', 4),
+(12, 'Les gites martinant', 'temartinant@stpbb.org', '0781014861', 71);
 
 -- --------------------------------------------------------
 
@@ -1733,7 +2136,7 @@ CREATE TABLE IF NOT EXISTS `utilisateurs` (
   UNIQUE KEY `unique_email` (`Utilisateur_Mail`),
   KEY `AdressePostale_ID` (`AdressePostale_ID`),
   KEY `fk_utilisateurs_societe` (`Societe_ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Déchargement des données de la table `utilisateurs`
@@ -1754,7 +2157,10 @@ INSERT INTO `utilisateurs` (`Utilisateur_ID`, `Utilisateur_Nom`, `Utilisateur_Pr
 (13, 'Durand', 'Paul', 'Monsieur', '$2y$10$demoHashDO1', 'paul.durand@audithotel.fr', '0611000013', 'Paul Durand – Donneur d’ordre', 1, 2, 0, 'light'),
 (14, 'Robert', 'Chloé', 'Madame', '$2y$10$demoHashDO2', 'chloe.robert@audithotel.fr', '0611000014', 'Chloé Robert – Donneur d’ordre', 2, 2, 0, 'light'),
 (15, 'Faure', 'Thomas', 'Monsieur', '$2y$10$demoHashDO3', 'thomas.faure@dedsec.fr', '0611000015', 'Thomas Faure – Donneur d’ordre', 4, 4, 0, 'light'),
-(16, 'Masson', 'Emma', 'Madame', '$2y$10$demoHashDO4', 'emma.masson@dedsec.fr', '0611000016', 'Emma Masson – Donneur d’ordre', 3, 4, 0, 'light');
+(16, 'Masson', 'Emma', 'Madame', '$2y$10$demoHashDO4', 'emma.masson@dedsec.fr', '0611000016', 'Emma Masson – Donneur d’ordre', 3, 4, 0, 'light'),
+(21, 'Bourdon', 'Eric', 'Monsieur', '$2y$10$S.c3TxlDpszFVXJRd/gEK.BzCpyH2deyvC6/tQrABtJOyFp3RmvMC', 'Eric@gmail.com', '0769155622', NULL, 40, 1, 1, 'light'),
+(23, 'Jean', 'Clanche', 'Iel', '$2y$10$XxyKFhn57EEmASJeuPpwpu4qV9NYb940egj9NKQ/A79BgfCiqmggy', 'jean@clanche.ez', '0633333333', NULL, 70, 4, 0, 'light'),
+(24, 'Martinant', 'Térence', 'Monsieur', '$2y$10$epSrvw0GuhgQdFT3rtvWLOxDtq2Wo2CAJyRSkXlSy6VZ2sJBmbxHG', 'temartinant@stpbb.org', '0781014861', NULL, 72, 12, 0, 'dark');
 
 --
 -- Contraintes pour les tables déchargées
@@ -1846,13 +2252,6 @@ ALTER TABLE `effectue`
   ADD CONSTRAINT `effectue_ibfk_1` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `inspecteurs` (`Utilisateur_ID`),
   ADD CONSTRAINT `effectue_ibfk_2` FOREIGN KEY (`Evaluation_ID`) REFERENCES `evaluations` (`Evaluation_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `fk_effectue_user` FOREIGN KEY (`Utilisateur_ID`) REFERENCES `utilisateurs` (`Utilisateur_ID`) ON DELETE CASCADE;
-
---
--- Contraintes pour la table `evaluations`
---
-ALTER TABLE `evaluations`
-  ADD CONSTRAINT `evaluations_ibfk_1` FOREIGN KEY (`Bien_ID`) REFERENCES `biens` (`Bien_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `evaluations_ibfk_2` FOREIGN KEY (`ListesCriteres_ID`) REFERENCES `listescriteres` (`ListesCriteres_ID`);
 
 --
 -- Contraintes pour la table `factures_prixtotal`
