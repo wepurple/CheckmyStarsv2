@@ -400,18 +400,21 @@ function addressBlockTouched(v)
 function openOderingParty()
 {
   const addModalEl = document.getElementById('exampleModal');
-    if (addModalEl) {
-        const addModalInstance = bootstrap.Modal.getInstance(addModalEl);
-        if (addModalInstance) {
-            addModalInstance.hide();
+  if (addModalEl) {
+      const addModalInstance = bootstrap.Modal.getInstance(addModalEl);
+      if (addModalInstance) {
+          addModalInstance.hide();
+      }
+  }
+
+    const modalEl = document.getElementById('addModalDonneur');
+    if (modalEl) {
+        const addModalInstance2 = bootstrap.Modal.getInstance(modalEl);
+        if (addModalInstance2) {
+            addModalInstance2.hide();
         }
     }
 
-    const modalEl = document.getElementById('addModalDonneur');
-    if (!societeModal) {
-        societeModal = new bootstrap.Modal(modalEl);
-    }
-    societeModal.show();
     document.getElementById('addForm').reset();
 }
 
