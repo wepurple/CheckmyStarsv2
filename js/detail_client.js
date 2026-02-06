@@ -396,6 +396,24 @@ function addressBlockTouched(v)
   return [v.num_rue, v.nom_rue, v.complement, v.code_postal, v.ville, v.pays].some(x => (x || "").trim() !== "");
 }
 
+function openOderingParty()
+{
+  const addModalEl = document.getElementById('exampleModal');
+    if (addModalEl) {
+        const addModalInstance = bootstrap.Modal.getInstance(addModalEl);
+        if (addModalInstance) {
+            addModalInstance.hide();
+        }
+    }
+
+    const modalEl = document.getElementById('addModal');
+    if (!societeModal) {
+        societeModal = new bootstrap.Modal(modalEl);
+    }
+    societeModal.show();
+    document.getElementById('addForm').reset();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     setupAdresseAutocomplete({
         adresseCompleteId: "laAdresseComplete",
@@ -446,6 +464,14 @@ document.addEventListener("DOMContentLoaded", () => {
         targetStar.dataset.prev = targetStar.value;
       });
     }
+
+    document.getElementById('donneurOrdre').addEventListener('change', function () 
+    {
+      if (this.value === 'new_orderingParty') {
+          this.value = '';
+          openOderingParty();
+      }
+    });
 
     preFillClientInfo();
 });

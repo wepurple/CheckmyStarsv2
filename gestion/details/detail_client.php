@@ -214,7 +214,7 @@
                                     <div class="col-md-12 form-floating mb-3">
                                         <select class="form-select" id="donneurOrdre" aria-label="Floating label select example">
                                             <option value="0">Pas de donneur d'orde</option>
-                                            <option value="1">Crée un donneur d'ordre</option>
+                                            <option value="new_orderingParty">Crée un donneur d'ordre</option>
                                             <?php
                                                 try {
                                                     $sql = "SELECT U.Utilisateur_ID, U.Utilisateur_Nom, U.Utilisateur_Prenom
@@ -264,6 +264,106 @@
                             <button type="button" class="btn btn-success" id="btnAjouter" onclick="submitPreFillClientInfo()">Ajouter</button>
                         </div>
                     </div>                    
+                </div>
+            </div>
+
+            <!-- Modal ajout utilisateur -->
+            <div class="modal fade" tabindex="-1" id="addModal">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Ajouter un utilisateur</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="addCancel()"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form id="addForm">
+                                <div class="row g-2">
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <input type="text" class="form-control" id="leNom" placeholder="">
+                                        <label for="leNom">Nom *</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <input type="text" class="form-control" id="lePrenom" placeholder="">
+                                        <label for="lePrenom">Prénom *</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <select class="form-select" id="leGenre">
+                                            <option value="1">Monsieur</option>
+                                            <option value="2">Madame</option>
+                                            <option value="3">Iel</option>
+                                        </select>
+                                        <label for="leGenre">Civilité *</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <input type="email" class="form-control" id="leMail" placeholder="">
+                                        <label for="leMail">Mail *</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <select class="form-select" id="laSociete">
+                                            <option value="">Sélectionner...</option>
+                                            <option value="new_company">Créer une nouvelle entreprise</option>
+                                            <?php
+                                            $companies = getAllCompany($db);
+                                            while ($row = $companies->fetch()) {
+                                                echo '<option value="' . $row['Societe_ID'] . '">' . htmlspecialchars($row['Societe_Nom']) . '</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                        <label for="laSociete">Société *</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <select class="form-select" id="leRole">
+                                            <option value="0">Propriétaire</option>
+                                            <option value="1">Donneur d'ordre</option>
+                                            <option value="2">Inspecteur</option>
+                                            <option value="3">Administrateur</option>
+                                        </select>
+                                        <label for="leRole">Rôle *</label>
+                                    </div>
+
+                                    <div class="col-md-6 form-floating mb-3">
+                                        <input type="text" class="form-control" id="leTel" placeholder="">
+                                        <label for="leTel">Téléphone *</label>
+                                    </div>
+
+                                    <div class="col-md-12 form-floating mb-3">
+                                        <input type="text" class="form-control" id="laAdresseComplete" placeholder="">
+                                        <label for="laAdresseComplete">
+                                            Adresse complète *
+                                        </label>
+                                        <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
+                                    </div>
+
+                                    <input type="hidden" id="leNumRue">
+                                    <input type="hidden" id="laAdresse">
+                                    <input type="hidden" id="leCode">
+                                    <input type="hidden" id="laVille">
+                                    <input type="hidden" id="lePays">
+
+                                    <div class="col-md-12 form-floating mb-3">
+                                        <input type="text" class="form-control" id="leComplement" placeholder="">
+                                        <label for="leComplement">Complément (bâtiment, étage...)</label>
+                                    </div>
+
+                                    <div class="col-md-12 form-floating mb-3">
+                                        <input type="password" class="form-control" id="leMdp" placeholder="">
+                                        <label for="leMdp">Mot de passe *</label>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="addCancel()">Annuler</button>
+                            <button type="button" class="btn btn-success" onclick="addUser()">Créer</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
