@@ -282,56 +282,56 @@
                             <form id="addForm">
                                 <div class="row g-2">
                                     <div class="col-md-6 form-floating mb-3">
-                                        <input type="text" class="form-control" id="leNom" placeholder="">
-                                        <label for="leNom">Nom *</label>
+                                        <input type="text" class="form-control" id="leNomDonneur" placeholder="">
+                                        <label for="leNomDonneur">Nom *</label>
                                     </div>
 
                                     <div class="col-md-6 form-floating mb-3">
-                                        <input type="text" class="form-control" id="lePrenom" placeholder="">
-                                        <label for="lePrenom">Prénom *</label>
+                                        <input type="text" class="form-control" id="lePrenomDonneur" placeholder="">
+                                        <label for="lePrenomDonneur">Prénom *</label>
                                     </div>
 
                                     <div class="col-md-6 form-floating mb-3">
-                                        <select class="form-select" id="leGenre">
+                                        <select class="form-select" id="leGenreDonneur">
                                             <option value="1">Monsieur</option>
                                             <option value="2">Madame</option>
                                             <option value="3">Iel</option>
                                         </select>
-                                        <label for="leGenre">Civilité *</label>
+                                        <label for="leGenreDonneur">Civilité *</label>
                                     </div>
 
                                     <div class="col-md-6 form-floating mb-3">
-                                        <input type="email" class="form-control" id="leMail" placeholder="">
-                                        <label for="leMail">Mail *</label>
+                                        <input type="email" class="form-control" id="leMailDonneur" placeholder="">
+                                        <label for="leMailDonneur">Mail *</label>
                                     </div>
 
                                     <div class="col-md-6 form-floating mb-3">
-                                        <select class="form-select" id="laSociete">
+                                        <select class="form-select" id="laSocieteDonneur">
                                             <option value="">Sélectionner...</option>
                                             <option value="new_company">Créer une nouvelle entreprise</option>
                                             
                                         </select>
-                                        <label for="laSociete">Société *</label>
+                                        <label for="laSocieteDonneur">Société *</label>
                                     </div>
 
                                     <div class="col-md-6 form-floating mb-3">
-                                        <select class="form-select" id="leRole">
+                                        <select class="form-select" id="leRoleDonneur">
                                             <option value="0">Propriétaire</option>
                                             <option value="1">Donneur d'ordre</option>
                                             <option value="2">Inspecteur</option>
                                             <option value="3">Administrateur</option>
                                         </select>
-                                        <label for="leRole">Rôle *</label>
+                                        <label for="leRoleDonneur">Rôle *</label>
                                     </div>
 
                                     <div class="col-md-6 form-floating mb-3">
-                                        <input type="text" class="form-control" id="leTel" placeholder="">
-                                        <label for="leTel">Téléphone *</label>
+                                        <input type="text" class="form-control" id="leTelDonneur" placeholder="">
+                                        <label for="leTelDonneur">Téléphone *</label>
                                     </div>
 
                                     <div class="col-md-12 form-floating mb-3">
-                                        <input type="text" class="form-control" id="laAdresseComplete" placeholder="">
-                                        <label for="laAdresseComplete">
+                                        <input type="text" class="form-control" id="laAdresseCompleteDonneur" placeholder="">
+                                        <label for="laAdresseCompleteDonneur">
                                             Adresse complète *
                                         </label>
                                         <small class="text-muted">Ex: 8 Boulevard du Port, 95000 Cergy</small>
@@ -344,13 +344,13 @@
                                     <input type="hidden" id="lePays">
 
                                     <div class="col-md-12 form-floating mb-3">
-                                        <input type="text" class="form-control" id="leComplement" placeholder="">
-                                        <label for="leComplement">Complément (bâtiment, étage...)</label>
+                                        <input type="text" class="form-control" id="leComplementDonneur" placeholder="">
+                                        <label for="leComplementDonneur">Complément (bâtiment, étage...)</label>
                                     </div>
 
                                     <div class="col-md-12 form-floating mb-3">
-                                        <input type="password" class="form-control" id="leMdp" placeholder="">
-                                        <label for="leMdp">Mot de passe *</label>
+                                        <input type="password" class="form-control" id="leMdpDonneur" placeholder="">
+                                        <label for="leMdpDonneur">Mot de passe *</label>
                                     </div>
                                 </div>
                             </form>
