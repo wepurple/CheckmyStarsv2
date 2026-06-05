@@ -30,7 +30,7 @@ async function valider() {//clic sur le bouton de validation
         const test = await JSON.parse(responseText)
 
                 if (await state == 200){
-                    document.location.href="/checkmystars/dashboard";
+                    document.location.href="/Checkmystars/CheckMyStars/dashboard";
                 }else{
                     document.getElementById('toastText').textContent = test["response"]
                     leToast.show()

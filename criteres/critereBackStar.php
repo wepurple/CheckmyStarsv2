@@ -2,7 +2,7 @@
 session_start();
 
 if(!isset($_SESSION['Role']) || !$_SESSION['Role']['Administrateur']){
-    header('Location: deco.php');
+    header('Location: ../deco.php');
     die();
 }
 

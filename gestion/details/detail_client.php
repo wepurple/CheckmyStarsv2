@@ -31,7 +31,7 @@
                 <div class="row mb-3">
 
                     <div class="col">
-                        <button type="button" class="btn btn-danger" onclick="location.href='/checkmystars/dashboard.php'" > 
+                        <button type="button" class="btn btn-danger" onclick="location.href='/Checkmystars/CheckMyStars/dashboard'" > 
                             <i class="fas fa-arrow-left"></i> Retour au tableau de bord 
                         </button>
 

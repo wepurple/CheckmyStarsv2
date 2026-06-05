@@ -1,12 +1,12 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteBase /CheckMyStars/
+    RewriteBase /Checkmystars/CheckMyStars/
     
     # Ne pas réécrire si c'est un fichier réel
     RewriteCond %{REQUEST_FILENAME} !-f
     # Ne pas réécrire si c'est un répertoire réel
     RewriteCond %{REQUEST_FILENAME} !-d
     
-    # Réécrire les URLs sans extension .php
-    RewriteRule ^([a-zA-Z0-9_-]+)/?$ $1.php [QSA,L]
+    # Réécrire les URLs sans extension .php (supporte les sous-dossiers)
+    RewriteRule ^([a-zA-Z0-9_/-]+?)/?$ $1.php [QSA,L]
 </IfModule>

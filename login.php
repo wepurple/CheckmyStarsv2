@@ -1,10 +1,29 @@
 <?php
+    ini_set('display_errors', 0);
+    error_reporting(0);
+    ob_start();
+
     session_start();
+    ob_clean();
+
+    header("Content-Type: application/json; charset=UTF-8");
 
     include("includes/mariadb.php");
 
-    $login = trim(strip_tags($_POST['email']));
-    $password = $_POST['password'];
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(405);
+        echo json_encode(["response" => "La méthode n'est pas autorisée"]);
+        exit;
+    }
+
+    $login = trim(strip_tags($_POST['email'] ?? ''));
+    $password = $_POST['password'] ?? '';
+
+    if ($login === '' || $password === '') {
+        http_response_code(400);
+        echo json_encode(["response" => "Formulaire incomplet"]);
+        exit;
+    }
 
     $sql="select * from utilisateurs where utilisateur_mail = :login";
     $db = new Database();
@@ -55,19 +74,16 @@
                 "Theme"=>$result['theme']
             );
 
-            if($result["first_log"] == 1){
-                $first_log=true;
-            }else{
-                $first_log=false;
-            }
-            $_SESSION = array_merge($_SESSION, array("first_log"=>$first_log));
+            $first_log = ($result["first_log"] == 1);
+            $_SESSION = array_merge($_SESSION, array("first_log" => $first_log));
 
-            echo(json_encode(true));
+            echo json_encode(["success" => true, "first_log" => $first_log]);
         }else{
             echo(json_encode(false));
         }
     } else {
-        echo(json_encode($requete));
+        http_response_code(500);
+        echo json_encode(["0" => false, "1" => "Erreur de connexion à la base de données"]);
     }
 
 ?>

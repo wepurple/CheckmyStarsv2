@@ -1,90 +1,94 @@
-document.addEventListener("DOMContentLoaded", function() {//quand la page est chargée
-    //déclencheurs qui appuient sur le bouton une fois la touche entrée pressée
-    document.getElementById("password").addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
+document.addEventListener("DOMContentLoaded", function () {
+  //quand la page est chargée
+  //déclencheurs qui appuient sur le bouton une fois la touche entrée pressée
+  document
+    .getElementById("password")
+    .addEventListener("keypress", function (event) {
+      if (event.key === "Enter") {
         event.preventDefault();
         document.getElementById("valider").click();
-    }
+      }
     });
-    document.getElementById("email").addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
+  document
+    .getElementById("email")
+    .addEventListener("keypress", function (event) {
+      if (event.key === "Enter") {
         event.preventDefault();
         document.getElementById("valider").click();
-    }
+      }
     });
 });
 
-
-
-
 function login() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
 
-    //regex pour le mail
-    checkMail = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/.test(email)
+  //regex pour le mail
+  checkMail = /^((?!\.)[\w\-_.]*[^.])(@\w+)(\.\w+(\.\w+)?[^.\W])$/.test(email);
 
-    if (checkMail){
-        document.getElementById("email").classList.remove("is-invalid")
-        if(password!=""){
-            document.getElementById("password").classList.remove("is-invalid")
-            let post = new FormData()
-            post.append("email", email)
-            post.append("password", password)
+  if (checkMail) {
+    document.getElementById("email").classList.remove("is-invalid");
+    if (password != "") {
+      document.getElementById("password").classList.remove("is-invalid");
+      let post = new FormData();
+      post.append("email", email);
+      post.append("password", password);
 
-            const request = new XMLHttpRequest()
-            request.open("POST", `login.php`, true)
-            request.send(post)
-            request.onreadystatechange = function(){
-                if (request.readyState === 4 && request.status === 200){
-                    result = JSON.parse(request.responseText)
-                    
-                    //définition des toast en objets js en les récupérant sur la page   
-                    const toastElList = document.querySelectorAll('.toast')
-                    const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl))
+      const request = new XMLHttpRequest();
+      request.open("POST", `login.php`, true);
+      request.send(post);
+      request.onreadystatechange = function () {
+        if (request.readyState === 4 && request.status === 200) {
+          result = JSON.parse(request.responseText);
 
-                    if (!result){//si l'identification échoue
-                        document.getElementById('motif').textContent = "Identifiants Incorrects"
-                        document.getElementById('titreToast').textContent = "Échec de la connexion"
-                        toastList[0].show()
-                        document.getElementById('password').value = ""
-                        document.getElementById('password').focus()
-                    } else if(Object.keys(result)[0]=="0"){//si il y a une erreur sql
-                        document.getElementById('titreToast').textContent = "Échec MariaDB"
-                        document.getElementById('motif').textContent = result[1]
-                        toastList[0].show()
-                    } else {//si l'identification réussit
-                        console.log("Connexion réussie !!")
-                        //on vérifie si c'est la première fois que l'utilisateur se connecte avec son compte
-                        
-                        const requete = new XMLHttpRequest()
-                        requete.open("GET", "models/Read/getFirstLog.php", true)
-                        requete.send()
-                        requete.onreadystatechange = function(){
-                            if(requete.readyState === 4 && requete.status === 200){
-                                result = JSON.parse(requete.responseText)[0]["first_log"]
-                                console.log(result)
-                                if(result == 1){
-                                    window.location.href = "./setpassword";
-                                }else{
-                                    window.location.href = "./dashboard";
-                                }
-                            }
-                        }
+          //définition des toast en objets js en les récupérant sur la page
+          const toastElList = document.querySelectorAll(".toast");
+          const toastList = [...toastElList].map(
+            (toastEl) => new bootstrap.Toast(toastEl),
+          );
 
-                    }
-                }
+          if (!result || result === false) {
+            //si l'identification échoue
+            document.getElementById("motif").textContent =
+              "Identifiants Incorrects";
+            document.getElementById("titreToast").textContent =
+              "Échec de la connexion";
+            toastList[0].show();
+            document.getElementById("password").value = "";
+            document.getElementById("password").focus();
+          } else if (result["0"] !== undefined) {
+            //si il y a une erreur sql
+            document.getElementById("titreToast").textContent = "Échec MariaDB";
+            document.getElementById("motif").textContent = result[1];
+            toastList[0].show();
+          } else if (result.success) {
+            //si l'identification réussit
+            if (result.first_log) {
+              window.location.href = "./setpassword";
+            } else {
+              window.location.href = "./dashboard";
             }
-        } else {
-            document.getElementById("password").classList.add("is-invalid")
-            document.getElementById('password').focus()
+          }
         }
+      };
     } else {
-        if(!checkMail){
-            document.getElementById("email").classList.add("is-invalid")
-            document.getElementById('email').focus()
-        }
+      document.getElementById("password").classList.add("is-invalid");
+      document.getElementById("password").focus();
     }
+  } else {
+    if (!checkMail) {
+      document.getElementById("email").classList.add("is-invalid");
+      document.getElementById("email").focus();
+    }
+  }
+}
+
+function forgotPassword() {
+  window.location.href = "setpassword.php";
+}
+
+function targetPassword() {
+  forgotPassword();
 }
 
 //jsp cque c'est mais jle laisse au cas où (mort à l'IA btw)

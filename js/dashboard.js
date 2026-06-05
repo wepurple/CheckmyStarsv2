@@ -59,7 +59,7 @@ function remplirTab(liste) {
 
       tr.addEventListener("click", function () {
         window.location.href =
-          "../checkmystars/gestion/details/detail_client.php?id=" + liste[i]["Utilisateur_ID"];
+          "gestion/details/detail_client.php?id=" + liste[i]["Utilisateur_ID"];
       });
       tab.appendChild(tr);
       e = tab.lastElementChild;

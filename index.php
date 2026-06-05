@@ -8,8 +8,6 @@
   <link rel="stylesheet" href="bootstrap 5.3/css/bootstrap.css">
         <link rel="stylesheet" href="./fontawesome-7.1.0/css/all.css">
   <link rel="stylesheet" href="bootstrap 5.3/css/style.css">
-  <script src="bootstrap 5.3/js/bootstrap.js"></script>
-  <script src="js/index.js"></script>
   <link rel="icon" type="image/x-icon" href="pictures/logosm.png">
 </head>
 
@@ -46,7 +44,7 @@
 
       <form id="loginForm">
         <div class="form-floating mb-3">
-            <input autofocus type="email" class="form-control" id="email" name="email" placeholder="email" value="marie.dupont@checkmystars.fr" required>
+            <input autofocus type="email" class="form-control" id="email" name="email" placeholder="email" value="marie.dupont@mail.com" required>
             <label for="email">
                 <i class="fas fa-envelope me-2"></i>
                 Adresse email
@@ -74,5 +72,7 @@
 
   </div>
 
+  <script src="bootstrap 5.3/js/bootstrap.js"></script>
+  <script src="js/index.js"></script>
 </body>
 </html>
