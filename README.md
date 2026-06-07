@@ -1,5 +1,7 @@
 # CheckMyStars
 
+![Logo CheckMyStars](assets/pictures/logo.png)
+
 Application web de gestion d'inspections et d'evaluation de biens d'hebergement, realisee dans le cadre du BTS SIO option SLAM.
 
 Le projet permet de suivre le cycle complet d'une evaluation : gestion des utilisateurs et des societes, creation des dossiers, affectation d'inspecteurs, saisie des criteres de classement, suivi des devis/factures et generation de documents PDF.
@@ -27,6 +29,46 @@ Le projet a ete mene en equipe avec un suivi de type Kanban sur Trello. La captu
 - Generation de PDF via TCPDF.
 - Theme clair/sombre memorise par utilisateur.
 
+## Captures d'ecran
+
+Les captures ci-dessous servent de preuves visuelles pour illustrer les fonctionnalites citees dans la documentation et les croix du tableau de synthese. Elles sont stockees dans `docs/screenshots/` afin d'etre affichees directement sur GitHub.
+
+### Tableau Trello du projet
+
+Cette capture illustre l'organisation du travail en mode projet : taches a faire, taches en cours, taches terminees, ameliorations et repartition entre membres de l'equipe.
+
+![Tableau Trello CheckMyStars](docs/screenshots/trello-checkmystars.png)
+
+### Connexion a l'application
+
+Cette capture illustre l'acces securise a l'application avant l'ouverture des modules internes.
+
+![Connexion CheckMyStars](docs/screenshots/login.png)
+
+### Tableau de bord clients et societes
+
+Cette capture illustre la gestion des clients, des societes rattachees, du nombre de dossiers et du statut global.
+
+![Tableau de bord CheckMyStars](docs/screenshots/dashboard-clients.png)
+
+### Gestion des dossiers
+
+Cette capture illustre le suivi des dossiers d'evaluation, l'affichage selon le role utilisateur et l'acces au detail d'un dossier.
+
+![Gestion des dossiers CheckMyStars](docs/screenshots/gestion-dossiers.png)
+
+### Detail d'un dossier et evaluation
+
+Cette capture illustre la consultation d'un dossier, les photos du bien, l'adresse, le statut et l'acces a l'evaluation.
+
+![Detail dossier CheckMyStars](docs/screenshots/detail-dossier.png)
+
+### Devis, factures et generation PDF
+
+Cette capture illustre le module de generation des devis/factures, les lignes de prestation, les totaux et la conversion devis vers facture.
+
+![Module devis facture CheckMyStars](docs/screenshots/devis-factures.png)
+
 ## Technologies utilisees
 
 - PHP 7.4+ pour le backend.
@@ -51,7 +93,7 @@ Le projet a ete mene en equipe avec un suivi de type Kanban sur Trello. La captu
 ### Etapes
 
 ```bash
-git clone https://github.com/JeanClanche/CheckMyStars.git
+git clone https://github.com/wepurple/CheckmyStarsv2.git
 cd CheckMyStars
 composer install
 ```
@@ -258,7 +300,7 @@ Realisations associees :
 
 Preuves associees :
 
-- Capture du tableau Trello fournie avec le dossier.
+- Capture du tableau Trello : `docs/screenshots/trello-checkmystars.png`.
 - Historique Git du projet.
 - Organisation du code par modules fonctionnels.
 - Documentation technique `documentation.html`.
