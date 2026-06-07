@@ -1,17 +1,35 @@
 <?php
+ini_set('display_errors', 0);
+error_reporting(0);
+
 class Database {
-    private $host = "localhost";
     private $connexion;
-    private $dns = "mysql:host=localhost;port=3307;dbname=checkmystars3;charset=utf8mb4";
-    private $utilisateur = "root";
-    private $motDePasse = "password";
+    private $host;
+    private $port;
+    private $database;
+    private $utilisateur;
+    private $motDePasse;
+
+    public function __construct() {
+        $this->host = getenv('DB_HOST') ?: '127.0.0.1';
+        $this->port = getenv('DB_PORT') ?: '8889';
+        $this->database = getenv('DB_NAME') ?: 'checkmystars3';
+        $this->utilisateur = getenv('DB_USER') ?: 'root';
+        $this->motDePasse = getenv('DB_PASSWORD') ?: 'root';
+    }
 
     public function getConnection() {
         $this->connexion = null;
+        $dns = sprintf(
+            'mysql:host=%s;port=%s;dbname=%s;charset=utf8mb4',
+            $this->host,
+            $this->port,
+            $this->database
+        );
 
         try {
             $this->connexion = new PDO(
-                $this->dns,
+                $dns,
                 $this->utilisateur,
                 $this->motDePasse,
                 [

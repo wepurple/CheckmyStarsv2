@@ -2,6 +2,8 @@
 
 session_start();
 
+header("Content-Type: application/json; charset=UTF-8");
+
 //renvoie un boolean indiquant si l'utilisateur se connecte pour la premire fois
 if(isset($_SESSION['ID'])){
     header("Access-Control-Allow-Origin: *");
@@ -25,12 +27,16 @@ if(isset($_SESSION['ID'])){
 
             http_response_code(200);
             echo json_encode($result);
+        } else {
+            http_response_code(404);
+            echo json_encode(["message" => "Utilisateur introuvable"]);
         }
     } else {
         http_response_code(405);
         echo json_encode(["message" => "La méthode n'est pas autorisée"]);
     }
 }else{
-    header('deco.php');
+    http_response_code(401);
+    echo json_encode(["message" => "Session expirée"]);
     die();
 }
