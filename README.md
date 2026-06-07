@@ -29,46 +29,6 @@ Le projet a ete mene en equipe avec un suivi de type Kanban sur Trello. La captu
 - Generation de PDF via TCPDF.
 - Theme clair/sombre memorise par utilisateur.
 
-## Captures d'ecran
-
-Les captures ci-dessous servent de preuves visuelles pour illustrer les fonctionnalites citees dans la documentation et les croix du tableau de synthese. Elles sont stockees dans `docs/screenshots/` afin d'etre affichees directement sur GitHub.
-
-### Tableau Trello du projet
-
-Cette capture illustre l'organisation du travail en mode projet : taches a faire, taches en cours, taches terminees, ameliorations et repartition entre membres de l'equipe.
-
-![Tableau Trello CheckMyStars](docs/screenshots/trello-checkmystars.png)
-
-### Connexion a l'application
-
-Cette capture illustre l'acces securise a l'application avant l'ouverture des modules internes.
-
-![Connexion CheckMyStars](docs/screenshots/login.png)
-
-### Tableau de bord clients et societes
-
-Cette capture illustre la gestion des clients, des societes rattachees, du nombre de dossiers et du statut global.
-
-![Tableau de bord CheckMyStars](docs/screenshots/dashboard-clients.png)
-
-### Gestion des dossiers
-
-Cette capture illustre le suivi des dossiers d'evaluation, l'affichage selon le role utilisateur et l'acces au detail d'un dossier.
-
-![Gestion des dossiers CheckMyStars](docs/screenshots/gestion-dossiers.png)
-
-### Detail d'un dossier et evaluation
-
-Cette capture illustre la consultation d'un dossier, les photos du bien, l'adresse, le statut et l'acces a l'evaluation.
-
-![Detail dossier CheckMyStars](docs/screenshots/detail-dossier.png)
-
-### Devis, factures et generation PDF
-
-Cette capture illustre le module de generation des devis/factures, les lignes de prestation, les totaux et la conversion devis vers facture.
-
-![Module devis facture CheckMyStars](docs/screenshots/devis-factures.png)
-
 ## Technologies utilisees
 
 - PHP 7.4+ pour le backend.
@@ -258,6 +218,16 @@ Fichiers justificatifs :
 - `gestion/gestion_inspecteurs.php`
 - `gestion/gestion_dossiers.php`
 
+Preuves visuelles :
+
+La page de connexion montre que l'application n'expose pas directement les modules internes : l'utilisateur doit d'abord s'authentifier avant d'acceder au patrimoine applicatif.
+
+![Connexion CheckMyStars](docs/screenshots/login.png)
+
+La gestion des dossiers montre l'exploitation des ressources gerees par l'application : dossiers, proprietaires, biens, inspecteurs, statuts et suivi operationnel.
+
+![Gestion des dossiers CheckMyStars](docs/screenshots/gestion-dossiers.png)
+
 ### E - Developper la presence en ligne de l'organisation
 
 Cette competence est justifiee par le developpement d'une application web accessible depuis un navigateur, representant le service CheckMyStars et permettant aux utilisateurs de gerer l'activite de l'organisation.
@@ -285,6 +255,20 @@ Fichiers justificatifs :
 - `factures/generate_devis_pdf.php`
 - `factures/generate_facture_pdf.php`
 
+Preuves visuelles :
+
+Le tableau de bord montre une interface web exploitable par l'organisation pour consulter ses clients, leurs societes, le nombre de dossiers et leur statut.
+
+![Tableau de bord CheckMyStars](docs/screenshots/dashboard-clients.png)
+
+Le detail d'un dossier montre la mise en ligne d'un parcours metier complet autour d'un dossier d'evaluation : consultation, photos, adresse, statut et acces a l'evaluation.
+
+![Detail dossier CheckMyStars](docs/screenshots/detail-dossier.png)
+
+Le module devis/factures montre la production de documents professionnels depuis l'application web, avec previsualisation et actions de sauvegarde, conversion et telechargement.
+
+![Module devis facture CheckMyStars](docs/screenshots/devis-factures.png)
+
 ### F - Travailler en mode projet
 
 Cette competence est justifiee par l'organisation collective du travail, le suivi d'avancement et la repartition des taches.
@@ -305,6 +289,12 @@ Preuves associees :
 - Organisation du code par modules fonctionnels.
 - Documentation technique `documentation.html`.
 - Ce README pour la documentation GitHub.
+
+Preuve visuelle :
+
+La capture Trello montre le suivi Kanban du projet avec les colonnes de priorisation, les taches en cours, les taches terminees, les ameliorations et les membres associes aux cartes.
+
+![Tableau Trello CheckMyStars](docs/screenshots/trello-checkmystars.png)
 
 ## Correspondance entre taches Trello et code
 
